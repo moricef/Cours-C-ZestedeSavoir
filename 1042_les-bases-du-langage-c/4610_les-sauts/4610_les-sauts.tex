@@ -1,0 +1,268 @@
+\chapter{Les sauts}
+\label{les-sauts}
+
+Dans les chapitres précédents, nous avons vu comment modifier
+l'exécution de notre programme en fonction du résultat d'une ou
+plusieurs conditions. Ainsi, nous avons pu réaliser des tâches plus
+complexes que de simplement exécuter une suite d'instructions de
+manière linéaire.
+
+Cette exécution non linéaire est possible grâce à ce que l'on appel
+des \textbf{sauts}. Un saut correspond au passage d'un point à un
+autre d'un programme. Bien que cela vous ait été caché, sachez que
+vous en avez déjà rencontré ! En effet, une instruction \mybox{if}
+réalise par exemple un saut à votre insu.
+
+\begin{C}
+  if (/* Condition */) { /* Bloc */ }
+
+  /* Suite du programme */
+\end{C}
+
+Dans le cas où la condition est fausse, l'exécution du programme passe
+le bloc de l'instruction \mybox{if} et exécute ce qui suit. Autrement
+dit, il y a un \textbf{saut} jusqu'à la suite du bloc.
+
+Dans la même veine, une boucle \mybox{while} réalise également des
+sauts.
+
+\begin{C}
+  while (/* Condition */) { /* Bloc à répéter */ }
+
+  /* Suite du programme */
+\end{C}
+
+Dans cet exemple, si la condition est vraie, le bloc qui suit est
+exécuté puis il y a un saut pour revenir à l'évaluation de la
+condition.  Si en revanche elle est fausse, comme pour l'instruction
+\mybox{if}, il y a un saut au-delà du bloc d'instructions.
+
+Tous ces sauts sont cependant automatiques et vous sont cachés. Dans
+ce chapitre, nous allons voir comment réaliser manuellement des sauts
+à l'aide de trois instructions : \mybox{break}, \mybox{continue} et
+\mybox{goto}.
+
+\section{L'instruction break}
+\label{Linstruction-break}
+
+
+Nous avons déjà recontré l'instruction \mybox{break} lors de la
+présentation de l'instruction \mybox{switch}, cette dernière
+permettait de quitter le bloc d'un \mybox{switch} pour reprendre
+immédiatement après.  Cependant, l'instruction \mybox{break} peut
+également être utilisée au sein d'une boucle pour stopper son
+exécution (autrement dit pour effectuer un saut au-delà du bloc à
+répéter).
+
+\subsection{Exemple}
+\label{exemple-9}
+
+Le plus souvent, une instruction \mybox{break} est employée pour
+sortir d'une itération lorsqu'une condition (différente de celle
+contrôlant l'exécution de la boucle) est remplie. Par exemple, si nous
+souhaitons réaliser un programme qui détermine le plus petit diviseur
+commun de deux nombres, nous pouvons utiliser cette instruction comme
+suit.
+
+\begin{C}
+
+\end{C}
+
+\begin{C}
+  Entrez deux nombres : 112 567 le plus petit diviseur de 112 et 567
+  est 7
+
+  Entrez deux nombres : 13 17
+\end{C}
+
+Comme vous le voyez, la condition principale permet de progresser
+parmis les diviseurs possibles alors que la seconde détermine si la
+valeur courante de \mybox{i} est un diviseur commun. Si c'est le cas,
+l'exécution de la boucle est stoppée et le résultat affiché. Dans le
+cas où il n'y a aucun diviseur commun, la boucle s'arrête lorsque le
+plus petit des deux nombres est atteint.
+
+\section{L’instruction continue}
+\label{Linstruction-continue}
+
+L'instruction \mybox{continue} permet d'arrêter l'exécution de
+l'itération courante. Autrement dit, celle-ci vous permet de retourner
+(sauter) directement à l'évaluation de la condition.
+
+\subsubsection*{Exemple}
+\label{exemple-10}
+
+Afin d'améliorer un peu l'exemple précédent, nous pourrions passer les
+cas où le diviseur testé est un multiple de deux (puisque si un des
+deux nombres n'est pas divisible par deux, il ne peut pas l'être par
+quatre, par exemple).
+
+Ceci peut s'exprimer à l'aide de l'instruction \mybox{continue}.
+
+\begin{C}
+  #include <stdio.h>
+
+
+  int main(void) { int a; int b; int i; int min;
+
+    printf("Entrez deux nombres : "); scanf("%d %d", &a, &b);
+    min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i) { if (i != 2 && i % 2 == 0)
+      { printf("je passe %d\n", i);
+        continue; } if (a % i == 0 && b % i == 0)
+      { printf("le plus petit diviseur
+        de %d et %d est %d\n", a, b, i);
+        break; } }
+
+    return 0; }
+\end{C}
+
+\begin{C}
+  je passe 4 je passe 6 le plus petit diviseur de 112 et 567 est 7
+\end{C}
+
+\begin{infobox}
+  Dans le cas de la boucle \mybox{for}, l'exécution reprend à
+  l'évaluation de sa deuxième expression (ici \mybox{++i}) et non à
+  l'évaluation de la condition (qui a lieu juste après). Il serait en
+  effet mal venu que la variable \mybox{i} ne soit pas incrémentée
+  lors de l'utilisation de l'instruction \mybox{continue}.Notez bien
+  que les instructions \mybox{break} et \mybox{continue} n'affecte que
+  l'exécution de la boucle dans laquelle elles sont situées. Ainsi, si
+  vous utilisez l'instruction \mybox{break} dans une boucle imbriquée
+  dans une autre, vous sortirez de la première, mais pas de la
+  seconde.
+\end{infobox}
+
+\begin{C}
+  #include <stdio.h>
+
+
+  int main(void) { int i; int j;
+
+    for (i = 0 ; i <= 1000 ; ++i) { for (j = i ; j <= 1000 ; ++j) { if
+        (i * j == 1000) { printf ("%d * %d = 1000 \n", i, j);
+          break; /* Quitte la boucle courante, mais pas la
+          première. */ } } }
+
+    return 0; }
+\end{C}
+
+\begin{C}
+  1 * 1000 = 1000 2 * 500 = 1000 4 * 250 = 1000 5 * 200 = 1000 8 * 125
+  = 1000 10 * 100 = 1000 20 * 50 = 1000 25 * 40 = 1000
+\end{C}
+
+
+
+\section{L'instruction goto}
+\label{Linstruction-goto}
+
+Nous venons de voir qu'il était possible de réaliser des sauts à
+l'aide des instructions \mybox{break} et \mybox{continue}. Cependant,
+d'une part ces instructions sont confinées à une boucle ou à une
+instruction \mybox{switch} et, d'autre part, la destination du saut
+nous est imposée (la condition avec \mybox{continue}, la fin du bloc
+d'instructions avec \mybox{break}).
+
+L'instruction \mybox{goto} permet de sauter à un point précis du
+programme que nous aurons déterminé à l'avance. Pour ce faire, le
+langage C nous permet de marquer des instructions à l'aide
+d'étiquettes (\emph{labels} en anglais). Une étiquette n'est rien
+d'autre qu'un nom choisis par nos soins suivi du catactère
+\mybox{:}. Généralement, par soucis de lisibilité, les étiquettes sont
+placées en retrait des instructions qu'elles désignent.
+
+\section{Exemple}
+\label{exemple-11}
+
+Reprenons (encore) l'exemple du calcul du plus petit commun
+diviseur. Ce dernier aurait pu être écrit comme suit à l'aide d'une
+instruction \mybox{goto}.
+
+\begin{C}
+  #include <stdio.h>
+
+
+  int main(void) { int a; int b; int i; int min;
+
+    printf("Entrez deux nombres : "); scanf("%d %d", &a, &b);
+    min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i) { if (a % i == 0 && b % i == 0)
+      { goto trouve; } }
+
+    return 0; trouve: printf("le plus petit diviseur
+    de %d et %d est %d\n", a, b, i);
+    return 0; }
+\end{C}
+
+Comme vous le voyez, l'appel à la fonction \mybox{printf()} a été
+marqué avec une étiquette nommée \mybox{trouve}. Celle-ci est utilisée
+avec l'instruction \mybox{goto} pour spécifier que c'est à cet endroit
+que nous souhaitons nous rendre si un diviseur commun est trouvé. Vous
+remarquerez également que nous avons désormais deux instructions
+\mybox{return}, la première étant executée dans le cas où aucun
+diviseur commun n'est trouvé.
+
+\section{Le dessous des boucles}
+\label{le-dessous-des-boucles}
+
+Maintenant que vous savez cela, vous devriez être capable de réecrire
+n'importe quelle boucle à l'aide de cette instruction. En effet, une
+boucle ne consiste jamais qu'en deux sauts : un vers une condition et
+l'autre vers l'instruction qui suit le corps de la boucle. Ainsi, les
+deux codes suivants sont équivalents.
+
+\begin{C}
+  #include <stdio.h>
+
+
+  int main(void) { int i = 0;
+
+    while (i < 5) { printf("La variable i vaut %d\n", i);
+      i++; }
+
+    return 0; }
+\end{C}
+
+\begin{C}
+  #include <stdio.h>
+
+
+  int main(void) { int i = 0;
+
+
+    condition: if (i < 5) { printf("La variable i vaut %d\n", i);
+      i++; goto condition; }
+
+    return 0;
+
+  \end{C}
+
+  \section{Goto Hell ?}
+  \label{goto-hell}
+
+Bien qu'utile dans certaines circonstances, sachez que l'instruction
+  \mybox{goto} est fortement décriée, principalement pour deux raisons
+  :
+
+\begin{itemize}
+  \item mise à part dans des cas spécifiques, il est possible de
+    réaliser la même action de manière plus claire à l'aide de
+    structures de contrôles ;
+  \item l'utilisation de cette instruction peut amener votre code à
+    être plus difficilement lisible et, dans les pire cas, en faire un
+    \href{http://fr.wikipedia.org/wiki/Programmation_spaghetti}{code
+      spaghetti}.
+  \end{itemize}
+
+À vrai dire, elle est aujourd'hui surtout utilisée dans le cas de la
+gestion d'erreur, ce que nous verrons plus tard dans ce
+cours. Aussi, en attendant, nous vous conseillons d'éviter son
+utilisation.
+
+\hrulefill
+
+Dans le chapitre suivant, nous aborderons la notion de \textbf{fonction}.

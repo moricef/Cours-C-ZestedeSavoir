@@ -1,0 +1,362 @@
+\chapter{TP : une calculatrice basique}
+\label{TP-:-une-calculatrice-basique}
+
+Après tout ce que vous venez de découvrir, il est temps de faire une
+petit pause et de mettre en pratique vos nouveaux acquis. Pour ce faire,
+rien de tel qu'un exercice récapitulatif : réaliser une calculatrice
+basique.
+
+\section{Objectif}
+\label{objectif}
+
+Votre objectif sera de réaliser une calculatrice basique pouvant
+calculer une somme, une soustraction, une multiplication, une division,
+le reste d'une division entière, une puissance, une factorielle, le PGCD
+et le PPCD.
+
+Celle-ci attendra une entrée formatée suivant la
+\href{http://fr.wikipedia.org/wiki/Notation_polonaise_inverse}{notation
+polonaise inverse}. Autrement dit, les opérandes d'une opération seront
+entrés \emph{avant} l'opérateur, par exemple comme ceci pour la somme de
+quatre et cinq : \mybox{4\ 5\ +}.
+
+Elle devra également retenir le résultat de l'opération précédente et
+déduire l'utilisation de celui-ci en cas d'omission d'un opérande. Plus
+précisément, si l'utilisateur entre par exemple \mybox{5\ +}, vous
+devrez déduire que le premier opérande de la somme est le résultat de
+l'opération précédente (ou zéro s'il n'y en a pas encore eu).
+
+Chaque opération se verra attribuer un symbole ou une lettre, comme suit~:
+
+\begin{itemize}
+\item
+  addition : \mybox{+} ;
+\item
+  soustraction : \mybox{-} ;
+\item
+  multiplication : \mybox{*} ;
+\item
+  division : \mybox{/} ;
+\item
+  reste de la division entière : \mybox{\%} ;
+\item
+  puissance : \mybox{\^{}} ;
+\item
+  factorielle : \mybox{!} ;
+\item
+  PGCD : \mybox{g} ;
+\item
+  PPCD : \mybox{p}.
+\end{itemize}
+
+Le programme doit s'arrêter lorsque la lettre « q » est spécifiée comme
+opération (avec ou sans opérande).
+
+\section{Préparation}
+\label{preparation}
+
+\subsection{Précisions concernant scanf}
+\label{precisions-concernant-scanf}
+
+\begin{questionbox}
+Pourquoi utiliser la notation polonaise
+inverse et non l'écriture habituelle ?
+\end{questionbox}
+
+Parce qu'elle va vous permettre de bénéficier d'une caractéristique
+intéressante de la fonction \mybox{scanf()} : sa valeur de retour. Nous
+anticipons un peu sur les chapitres suivants, mais sachez que la
+fonction \mybox{scanf()} retourne une valeur entière qui correspond au
+nombre de conversions réussies. Une conversion est réussie si ce
+qu'entre l'utilisateur correspond à l'indicateur de conversion.
+
+Ainsi, si nous souhaitons récupérer un entier à l'aide de l'indicateur
+\mybox{d}, la conversion sera réussie si l'utilisateur entre un nombre
+(par exemple 2) alors qu'elle échouera s'il entre une lettre ou un signe
+de ponctuation.
+
+Grâce à cela, vous pourrez détecter facilement s'il manque ou non un
+opérande pour une opération.
+
+\begin{attentionbox}
+  Lorsqu'une conversion échoue, la
+fonction \mybox{scanf()} arrête son exécution. Aussi, s'il y avait
+d'autres conversions à effectuer après celle qui a avorté, elles ne
+seront pas réalisée
+\end{attentionbox}
+.
+
+\begin{C}
+double a;
+double b;
+char op;
+
+scanf("%lf %lf %c", &a, &b, &op);
+\end{C}
+
+Dans le code ci-dessus, si l'utilisateur entre \mybox{7\ *}, la
+fonction \mybox{scanf()} retournera 1 et n'aura lu que le nombre 7. Il
+sera nécessaire de l'appeler une seconde fois pour que le symbole
+\mybox{*} soit récupéré.
+
+\begin{infobox}
+Petit bémol tout de même : les
+symboles \mybox{+} et \mybox{-} sont considérés comme des débuts de
+nombre valables (puisque vous pouvez par exemple entrer -2). Dès lors,
+si vous souhaitez additionner ou soustraire un nombre au résultat de
+l'opération précédente, vous devrez doubler ce symbole. Pour ajouter
+cinq cela donnera donc : \mybox{5\ ++}. 
+\end{infobox}
+
+
+\subsection{Les puissances}
+\label{les-puissances}
+
+Pour élever une nombre à une puissance donnée (autrement dit, pour
+calculer \(x^y\)), nous allons avoir besoin d'une nouvelle partie de la
+bibliothèque standard dédiée aux fonctions mathématiques de base. Le
+fichier d'en-tête de la bibliothèque mathématique se nomme
+\mybox{\textless{}math.h\textgreater{}} et contient, entre autre, la
+déclaration de la fonction \mybox{pow()}.
+
+\begin{C}
+\enddouble pow(double x, double y);
+\end{C}
+
+Cette dernière prends deux arguments : la base et l'exposant.
+
+\begin{attentionbox}
+L'utilisation de la bibliothèque
+mathématique requiert d'ajouter l'option \mybox{-lm} lors de la
+compilation, par exemple comme ceci : \mybox{zcc\ -lm\ main.c}
+\end{attentionbox}
+
+
+\subsection{La factorielle}
+\label{la-factorielle}
+
+La factorielle d'un nombre est égal au produit des nombres entiers
+\emph{positifs et non nuls} inférieurs ou égaux à ce nombre. La
+factorielle de quatre équivaut donc à \mybox{1\ *\ 2\ *\ 3\ *\ 4}, donc
+vingt-quatre. Cette fonction n'est pas fournie par la bibliothèque
+standard, il vous faudra donc la programmer par vous-même (pareil pour
+le PGCD et le PPCD que nous avons vus dans les chapitres précédents).
+
+\begin{infobox}
+Par convention, la factorielle de
+zéro est égale à un.
+\end{infobox}
+
+
+\subsection{Exemple d'utilisation}
+\label{exemple-dutilisation}
+
+\begin{C}
+> 5 6 +
+11.000000
+> 4 *
+44.000000
+> 2 /
+22.000000
+> 5 2 %
+1.000000
+> 2 5 ^
+32.000000
+> 1 ++
+33.000000
+> 5 !
+120.000000
+\end{C}
+
+\section{Derniers conseils}
+\label{derniers-conseils}
+
+Nous vous conseillons de récupérer les nombres sous forme de
+\mybox{double}. Cependant, gardez bien à l'esprit que certaines
+opérations ne peuvent s'appliquer qu'à des entiers : le reste de la
+division entière, la factorielle, le PGCD et le PPCD. Il vous sera donc
+nécessaire d'effectuer des conversions.
+
+Également, notez bien que la factorielle ne s'applique qu'à \emph{un
+seul} opérande à l'inverse de toutes les autres opérations.
+
+Bien, vous avez à présent toutes les cartes en main : au travail !
+
+\section{Correction}
+\label{correction-13}
+
+Alors ? Pas trop secoué ?
+Bien, voyons à présent la correction.
+
+\begin{C}
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+unsigned long pgcd(unsigned long, unsigned long);
+unsigned long ppcd(unsigned long, unsigned long);
+unsigned long factorielle(unsigned long);
+
+
+unsigned long pgcd(unsigned long a, unsigned long b)
+{
+    unsigned long r = a % b;
+
+    while (r != 0)
+    {
+            a = b;
+            b = r;
+            r = a % b;
+    }
+
+    return b;
+}
+
+
+unsigned long ppcd(unsigned long a, unsigned long b)
+{
+    unsigned long i;
+    unsigned long min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i)
+        if (a % i == 0 && b % i == 0)
+            return i;
+
+    return 0;
+}
+
+
+unsigned long factorielle(unsigned long a)
+{
+    unsigned long i;
+    unsigned long r = 1;
+
+    for (i = 2; i <= a; ++i)
+        r *= i;
+
+    return r;
+}
+
+
+int
+main(void)
+{
+    double a;
+    double b;
+    double res = 0;
+    int n;
+    char op;
+
+    while (1)
+    {
+        printf("> ");
+        n = scanf("%lf %lf %c", &a, &b, &op);
+
+        if (n <= 1)
+        {
+            scanf("%c", &op);
+            b = a;
+            a = res;
+        }
+        if (op == 'q')
+            break;
+
+        switch (op)
+        {
+        case '+':
+            res = a + b;
+            break;
+
+        case '-':
+            res = a - b;
+            break;
+
+        case '*':
+            res = a * b;
+            break;
+
+        case '/':
+            res = a / b;
+            break;
+
+        case '%':
+            res = (unsigned long)a % (unsigned long)b;
+            break;
+
+        case '^':
+            res = pow(a, b);
+            break;
+
+        case '!':
+            res = factorielle((n == 0) ? a : b);
+            break;
+
+        case 'g':
+            res = pgcd(a, b);
+            break;
+
+        case 'p':
+            res = ppcd(a, b);
+            break;
+        }
+
+        printf("%lf\n", res);
+    }
+    return 0;
+}
+\end{C}
+
+Commençons par la fonction \mybox{main()}. Nous définissons plusieurs
+variables :
+
+\begin{itemize}
+\item
+  \mybox{a} et \mybox{b}, qui représentent les éventuels opérandes
+  fournis ;
+\item
+  \mybox{res}, qui correspond au résultat de la dernière opération
+  réalisée (ou zéro s'il n'y en a pas encore eu) ;
+\item
+  \mybox{n}, qui est utilisée pour retenir le retour de la fonction
+  \mybox{scanf()} ; et
+\item
+  \mybox{op}, qui retient l'opération demandée.
+\end{itemize}
+
+Ensuite, nous entrons dans une boucle infinie (la condition étant
+toujours vraie puisque valant un) où nous demandons à l'utilisateur
+d'entrer l'opération à réaliser et les éventuels opérandes. Nous
+vérifions ensuite si un seul opérande est fourni ou aucune (ce qui ce
+déduit, respectivement, d'un retour de la fonction \mybox{scanf()}
+valant un ou zéro). Si c'est le cas, nous appelons une seconde fois
+\mybox{scanf()} pour récupérer l'opérateur. Puis, la valeur de
+\mybox{a} est attribuée à \mybox{b} et la valeur de \mybox{res} à
+\mybox{a}.
+
+Si l'opérateur utilisé est \mybox{q}, alors nous quittons la boucle et
+par la même occasion le programme. Notez que nous n'avons pas pu
+effectuer cette vérification dans le corps de l'instruction
+\mybox{switch} qui suit puisque l'instruction \mybox{break} nous
+aurait fait quitter celui-ci et non la boucle.
+
+Enfin, nous réalisons l'opération demandée au sein de l'instruction
+\mybox{switch}, nous stockons le résultat dans la variable \mybox{res}
+et l'affichons. Remarquez que l'utilisation de conversions explicites
+n'a été nécessaire que pour le calcul du reste de la division entière.
+En effet, dans les autres cas (par exemple lors de l'affectation à la
+variable \mybox{res}), il y a des conversions implicites.
+
+\begin{infobox}
+ Nous avons utilisé le type \mybox{unsigned\ long} lors des calculs nécessitant des nombres entiers
+afin de disposer de la plus grande capacité possible et parce que
+l'usage de nombres négatifs n'a pas beaucoup d'intérêt dans ce cadre.
+Cependant, l'usage de nombres non signés n'est obligatoire que pour la
+fonction factorielle (puisque celle-ci n'opère que sur des nombres
+strictement positifs).
+\end{infobox}
+
+\hrulefill
+
+Ce chapitre nous aura permit de revoir la plupart
+des notions des chapitres précédents. Dans le chapitre suivant, nous
+verrons comment découper nos projets en plusieurs fichiers.

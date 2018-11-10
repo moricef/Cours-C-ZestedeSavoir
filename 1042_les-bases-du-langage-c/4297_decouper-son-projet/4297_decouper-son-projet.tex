@@ -1,0 +1,426 @@
+\chapter{Découper son projet}
+\label{decouper-son-projet }
+
+Ce chapitre est la suite directe de celui consacré aux fonctions : nous allons voir comment découper nos
+projets en plusieurs fichiers. En effet, même si l'on découpe bien son
+projet en fonctions, ce dernier est difficile à relire si tout est
+contenu dans le même fichier. Ce chapitre a donc pour but de vous
+apprendre à découper vos projets efficacement.
+
+\section{Portée et masquage}
+\label{portee-et-masquage}
+
+\subsection{La notion de portée}
+\label{la-notion-de-portee}
+
+Avant de voir comment diviser nos programmes en plusieurs fichiers, il
+est nécessaire de vous présenter une notion importante, celle de
+\textbf{portée}. La portée d'une variable ou d'une fonction est la
+partie du programme où cette dernière est utilisable. Il existe
+plusieurs types de portées, cependant nous n'en verrons que deux :
+
+\begin{itemize}
+\item
+  au niveau d'un bloc ;
+\item
+  au niveau d'un fichier.
+\end{itemize}
+
+\subsubsection{Au niveau d'un bloc}
+\label{au-niveau-dun-bloc}
+
+Une portée au niveau d'un bloc signifie qu'une variable n'est
+utilisable, visible que de sa déclaration jusqu'à la fin du bloc dans
+lequel elle est déclarée. Illustration.
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    {
+        int nombre = 3;
+        printf("%d\n", nombre);
+    }
+
+    /* Incorrect ! */
+    printf("%d\n", nombre);
+    return 0;
+}
+\end{C}
+
+Dans ce code, la variable \mybox{nombre} est déclarée dans un
+sous-bloc. Sa portée est donc limitée à ce dernier et elle ne peut pas
+être utilisée en dehors.
+
+\subsection{Au niveau d'un fichier}
+\label{au-niveau-dun-fichier}
+
+Une portée au niveau d'un fichier signifie qu'une variable n'est
+utilisable, visible, que de sa déclaration jusqu'à la fin du fichier
+dans lequel elle est déclarée. En fait, il s'agit de la portée des
+variables « globales » dont nous avons parlé dans le chapitre sur les
+fonctions.
+
+\begin{C}
+#include <stdio.h>
+
+int nombre = 3;
+
+int triple(void)
+{
+    return nombre * 3;
+}
+
+int main(void)
+{
+    nombre = triple();
+    printf("%d\n", nombre);
+    return 0;
+}
+\end{C}
+
+Dans ce code, la variable \mybox{nombre} a une portée au niveau du
+fichier et peut par conséquent être aussi bien utilisée dans la fonction
+\mybox{triple()} que dans la fonction \mybox{main()}.
+
+\section{La notion de masquage}
+\label{la-notion-de-masquage}
+
+En voyant les deux types de portées, vous vous êtes peut-être posé la
+question suivante : que se passe-t-il s'il existe plusieurs variables
+et/ou plusieurs fonctions de même nom ? \emph{Hé} bien, cela dépend de
+la portée de ces dernières. Si elles ont la même portée comme dans
+l'exemple ci-dessous, alors le compilateur sera incapable de déterminer
+à quelle variable ou à quelle fonction le nom fait référence et, dès
+lors, retournera une erreur.
+
+\begin{C}
+int main(void)
+{
+    int nombre = 10;
+    int nombre = 20;
+
+    return 0;
+}
+\end{C}
+
+En revanche, si elles ont des portées différentes, alors celle ayant la
+portée la plus faible sera privilégiée, on dit qu'elle \textbf{masque}
+celle(s) de portée plus élevée. Autrement dit, dans l'exemple qui suit,
+c'est la variable du bloc de la fonction \mybox{main()} qui sera
+affichée.
+
+\begin{C}
+#include <stdio.h>
+
+int nombre = 10;
+
+int main(void)
+{
+    int nombre = 20;
+
+    printf("%d\n", nombre);
+    return 0;
+}
+\end{C}
+
+Notez que nous disons : « celle(s) de portée plus élevée » car les
+variables déclarées dans un sous-bloc ont une portée plus faible que
+celle déclarée dans un bloc supérieur. Ainsi, le code ci-dessous est
+parfaitement valide et affichera 30.
+
+\begin{C}
+ #include <stdio.h>
+
+int nombre = 10;
+
+int main(void)
+{
+    int nombre = 20;
+
+    if (nombre == 20)
+    {
+        int nombre = 30;
+
+        printf("%d\n", nombre);
+    }
+
+    return 0;
+}
+\end{C}
+
+
+
+\section{Diviser pour mieux régner }
+\label{diviser-pour-mieux-régner }
+
+\subsection{Les fonctions}
+\label{les-fonctions-1}
+
+Dans l'extrait précédent, nous avions, entre autres, créé une fonction
+\mybox{triple()} que nous avons placée dans le même fichier que la
+fonction \mybox{main()}. Essayons à présent de les répartir dans deux
+fichiers distincts. Pour ce faire, il vous suffit de créer un second
+fichier avec l'extension « .c ». Dans notre cas, il s'agira de « main.c
+» et de « autre.c ».
+
+\begin{C}
+/* Fichier autre.c */
+
+int triple(int nombre)
+{
+    return nombre * 3;
+}
+
+\end{C}
+
+\begin{C}
+/* Fichier main.c */
+
+int main(void)
+{
+    int nombre = triple(3);
+    return 0;
+}
+\end{C}
+
+La compilation se réalise de la même manière qu'auparavant, si ce n'est
+qu'il vous est nécessaire de spécifier les deux noms de fichier :
+\mybox{zcc\ main.c\ autre.c}. À noter que vous pouvez également
+utiliser une forme raccourcie : \mybox{zcc\ *.c}, où \mybox{*.c}
+correspond à tous les fichiers portant l'extension « .c » du dossier
+courant.
+
+Si vous testez ce code, vous aurez droit à un bel avertissement de votre
+compilateur du type « \emph{implicit declaration of function
+`triple'} ». Quel est le problème ? Le problème est que la fonction
+\mybox{triple()} n'est pas déclarée dans le fichier \mybox{main.c} et
+que le compilateur ne la connaît donc pas lorsqu'il compile le fichier.
+Pour corriger cette situation, nous devons déclarer la fonction en
+signalant au compilateur que cette dernière se situe dans un autre
+fichier. Pour ce faire, nous allons inclure le prototype de la fonction
+\mybox{triple()} dans le fichier \mybox{main.c} en le précédant du
+mot-clé \mybox{extern}, qui signifie que la fonction est externe au
+fichier.
+
+\begin{C}
+/* Fichier autre.c */
+
+int triple(int nombre)
+{
+    return nombre * 3;
+
+\end{C}
+
+\begin{C}
+/* Fichier main.c */
+
+extern int triple(int nombre);
+
+int main(void)
+{
+    int nombre = triple(3);
+
+    return 0;
+}
+\end{C}
+
+En terme technique, on dit que la fonction \mybox{triple()} est
+\textbf{définie} dans le fichier « autre.c » (car c'est là que se situe
+le corps de la fonction) et qu'elle est \textbf{déclarée} dans le
+fichier « main.c ». Sachez qu'une fonction ne peut être définie
+qu'\emph{une seule et unique fois}.
+
+Pour information, notez que le mot-clé \mybox{extern} est facultatif
+devant un prototype (il est implicitement inséré par le compilateur).
+Nous vous conseillons cependant de l'utiliser, dans un soucis de clarté
+et de symétrie avec les déclarations de variables (voyez ci-dessous).
+
+\subsection{Les variables}
+\label{les-variables-2}
+
+La même méthode peut être appliquée aux variables, mais \emph{uniquement
+à celle ayant une portée au niveau d'un fichier}. Également, à l'inverse
+des fonctions, il est plus difficile de distinguer une définition d'une
+déclaration de variable (elles n'ont pas de corps comme les fonctions).
+La règle pour les différencier est qu'une déclaration sera précédée du
+mot-clé \mybox{extern} alors que la définition non. C'est à vous de
+voir dans quel fichier vous souhaitez définir la variable, mais elle ne
+peut être définie qu'\emph{une seule et unique fois}. Enfin, sachez que
+seule la définition peut comporter une initialisation. Ainsi, cet
+exemple est tout à fait valide.
+
+\begin{C}
+/* Fichier autre.c */
+
+int nombre = 10;    /* Une définition */
+extern int autre;   /* Une déclaration */
+\end{C}
+
+\begin{C}
+ /* Fichier main.c */
+extern int nombre;  /* Une déclaration */
+int autre = 10;     /* Une définition */
+\end{C}
+
+
+Alors que celui-ci, non.
+
+\begin{C}
+/* Fichier autre.c */
+
+int nombre = 10;    /* Il existe une autre définition */
+extern int autre = 10;  /* Une déclaration ne peut pas comprendre une initialisation */
+\end{C}
+
+\begin{C}
+/* Fichier main.c */
+
+int nombre = 20;    /* Il existe une autre définition */
+int autre = 10;     /* Une définition */
+\end{C}
+
+\section{On m'aurait donc menti ?}
+\label{on-maurait-donc-menti}
+
+Nous vous avons dit plus haut qu'il n'était possible de définir une
+variable ou une fonction qu'une seule fois, mais en fait, ce n'est pas
+tout à fait vrai
+\ldots{} Il est possible de rendre une variable (ayant
+une portée au niveau d'un fichier) ou une fonction locale à un fichier
+en précédant sa définition du mot-clé \mybox{static}. De cette manière,
+la variable ou la fonction est interne au fichier où elle est définie et
+n'entre pas en conflit avec les autres variables ou fonctions locales à
+d'autres fichiers. La contrepartie est que la variable ou la fonction ne
+peut être utilisée que dans le fichier où elle est définie (c'est assez
+logique). Ainsi, l'exemple suivant est tout à fait correct et affichera
+20.
+
+\begin{C}
+/* Fichier autre.c */
+static int nombre = 10;
+\end{C}
+
+\begin{C}
+/* Fichier main.c */
+#include <stdio.h>
+
+static int nombre = 20;
+
+int main(void)
+{
+    printf("%d\n", nombre);
+    return 0;
+}
+\end{C}
+
+\begin{erreurbox}
+Ne confondez pas l'utilisation du mot-clé
+\mybox{static} visant à modifier la classe de stockage d'une variable
+automatique avec celle permettant de limiter l'utilisation d'une
+variable globale à un seul fichier !
+\end{erreurbox}
+
+
+\section{Les fichiers d'en-têtes }
+\label{les-fichiers-den-têtes }
+
+Pour terminer ce chapitre,
+il ne nous reste plus qu'à voir les fichiers d'en-têtes.
+
+Jusqu'à présent, lorsque vous voulez utiliser une fonction ou une
+variable définie dans un autre fichier, vous insérez sa déclaration dans
+le fichier ciblé. Seulement voilà, si vous utilisez dix fichiers et que
+vous décidez un jour d'ajouter ou de supprimer une fonction ou une
+variable ou encore de modifier une déclaration, vous vous retrouvez
+Gros-Jean comme devant et vous êtes bon pour modifier les dix fichiers,
+ce qui n'est pas très pratique\ldots{}
+
+Pour résoudre ce problème, on utilise des fichiers d'en-têtes
+(d'extension « .h »). Ces derniers contiennent conventionnellement des
+déclarations de fonctions et de variables et sont inclus via la
+directive \mybox{\#include} dans les fichiers qui utilisent les
+fonctions et variables en question.
+
+\begin{infobox}
+ Les fichiers d'en-têtes n'ont pas
+besoin d'être spécifiés lors de la compilation, ils seront
+automatiquement inclus.
+\end{infobox}
+
+
+La structure d'un fichier d'en-tête est généralement de la forme
+suivante.
+
+\begin{C}
+#ifndef CONSTANTE_H
+#define CONSTANTE_H
+
+/* Les déclarations */
+
+#endif
+
+\end{C}
+
+Les directives du préprocesseur sont là pour éviter les inclusions
+multiples : vous devez les utiliser pour chacun de vos fichiers
+d'en-têtes. Vous pouvez remplacer \mybox{CONSTANTE} par ce que vous
+voulez, le plus simple et le plus fréquent étant le nom de votre
+fichier, par exemple \mybox{AUTRE\_H} si votre fichier se nomme «
+autre.h ». Voici un exemple d'utilisation de fichiers d'en-têtes.
+
+\begin{C}
+/* Fichier d'en-tête autre.h */
+
+#ifndef AUTRE_H
+#define AUTRE_H
+
+extern int triple(int nombre);
+
+#endif
+\end{C}
+
+\begin{C}
+/* Fichier source autre.c */
+
+#include "autre.h"
+
+int triple(int nombre)
+{
+    return nombre * 3;
+}
+\end{C}
+
+\begin{C}
+/* Fichier source main.c */
+
+#include "autre.h"
+
+int main(void)
+{
+    int nombre = triple(3);
+    return 0;
+
+\end{C}
+
+Plusieurs remarques à propos de ce code :
+
+\begin{itemize}
+\item
+  dans la directive d'inclusion, les fichiers d'en-têtes sont entre
+  guillemets et non entre crochets comme les fichiers d'en-têtes de la
+  bibliothèque standard ;
+\item
+  les fichiers sources et d'en-têtes correspondants portent le même nom
+  ;
+\item
+  nous vous conseillons d'inclure le fichier d'en-tête dans le fichier
+  source correspondant (dans mon cas « autre.h » dans « autre.c ») afin
+  d'éviter des problèmes de portée.
+\end{itemize}
+
+\hrulefill
+
+Dans le chapitre suivant, nous aborderons un point essentiel que
+nous verrons en deux temps : la gestion d'erreurs.

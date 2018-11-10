@@ -1,0 +1,75 @@
+\documentclass[11pt,a4paper,twoside,openright]{report}
+
+\input{preambule/preambule}
+
+\begin{document}
+%\frontmatter% début des pages liminaires
+\pagestyle{front}%style des entêtes pour cette partie
+\input{page-de-couverture/page-de-couverture}%on créé la couverture
+\newpage
+\thispagestyle{empty}%pour la page de garde toute blanche
+\null
+\newpage
+\input{page-de-couverture/page-de-titre}%no comment!
+\newpage
+\thispagestyle{empty}%pour la page de garde toute blanche
+\null
+\newpage
+\input{avant-propos/avant-propos}%no comment!
+\input{remerciements/remerciements}%no comment!
+\shorttableofcontents{Sommaire}{0}%sommaire avec uniquement les chapitres
+\addcontentsline{toc}{chapter}{Sommaire}%ajout du sommaire dans le sommaire!
+
+
+%\mainmatter% corps du document
+\pagestyle{main}%style des entêtes pour cette partie
+\input{1042_les-bases-du-langage-c/4275_introduction-a-la-programmation/4275_introduction-a-la-programmation}
+\input{1042_les-bases-du-langage-c/4621_rencontre-avec-le-c/4621_rencontre-avec-le-c}
+\input{1042_les-bases-du-langage-c/4286_les-variables/4286_les-variables}
+\input{1042_les-bases-du-langage-c/4287_manipulations-basiques-des-entreessorties/4287_manipulations-basiques-des-entreessorties}
+\input{1042_les-bases-du-langage-c/4535_les-operations-mathematiques/4535_les-operations-mathematiques}
+\input{1042_les-bases-du-langage-c/4611_tests-et-conditions/4611_tests-et-conditions}
+\input{1042_les-bases-du-langage-c/4294_les-selections/4294_les-selections}
+\input{1042_les-bases-du-langage-c/5023_tp-determiner-le-jour-de-la-semaine/5023_tp-determiner-le-jour-de-la-semaine}
+\input{1042_les-bases-du-langage-c/4295_les-boucles/4295_les-boucles}
+\input{1042_les-bases-du-langage-c/4610_les-sauts/4610_les-sauts}
+\input{1042_les-bases-du-langage-c/4296_les-fonctions/4296_les-fonctions}
+\input{1042_les-bases-du-langage-c/4299_tp-une-calculatrice-basique/4299_tp-une-calculatrice-basique}
+\input{1042_les-bases-du-langage-c/4297_decouper-son-projet/4297_decouper-son-projet}
+\input{1042_les-bases-du-langage-c/la-gestion-derreurs-1/la-gestion-derreurs-1}
+\input{1043_aggregats-memoire-et-fichiers/4277_les-pointeurs/4277_les-pointeurs}
+\input{1043_aggregats-memoire-et-fichiers/4279_structures/4279_structures}
+\input{1043_aggregats-memoire-et-fichiers/4281_les-tableaux/4281_les-tableaux}
+\input{1043_aggregats-memoire-et-fichiers/4283_les-chaines-de-caracteres/4283_les-chaines-de-caracteres}
+\input{1043_aggregats-memoire-et-fichiers/tp-len-tete-string-h/tp-len-tete-string-h}
+\input{1043_aggregats-memoire-et-fichiers/4285_lallocation-dynamique/4285_lallocation-dynamique}
+\input{1043_aggregats-memoire-et-fichiers/4911_les-fichiers/4911_les-fichiers}
+\input{1043_aggregats-memoire-et-fichiers/les-fichiers-2/les-fichiers-2}
+\input{1043_aggregats-memoire-et-fichiers/le-preprocesseur/le-preprocesseur}
+\input{1043_aggregats-memoire-et-fichiers/5147_tp-un-puissance-4/5147_tp-un-puissance-4}
+\input{1043_aggregats-memoire-et-fichiers/5155_la-gestion-derreur-2/5155_la-gestion-derreur-2}
+\input{notions-avancees/la-representation-des-types/la-representation-des-types}
+\input{notions-avancees/les-limites-des-types/les-limites-des-types}
+%\input{notions-avancees/manipulation-des-bits/manipulation-des-bits}
+%\input{notions-avancees/jeux-de-caracteres-et-encodages/jeux-de-caracteres-et-encodages}
+%\input{notions-avancees/les-enumerations/les-enumerations}
+%\input{notions-avancees/les-unions/les-unions}
+%\input{notions-avancees/les-definitions-de-type/les-definitions-de-type}
+%\input{notions-avancees/les-pointeurs-de-fonction/les-pointeurs-de-fonction}
+%\input{notions-avancees/les-fonctions-a-nombre-variable-darguments/les-fonctions-a-nombre-variable-darguments}
+%\input{notions-avancees/t-p-un-allocateur-statique-de-memoire/t-p-un-allocateur-statique-de-memoire}
+\cleardoublepage% le corps du document est terminé
+
+%\backmatter
+\printindex
+\addcontentsline{toc}{chapter}{Index}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{Table des figures}
+
+\listoftables
+\addcontentsline{toc}{chapter}{Liste des tableaux}
+
+\tableofcontents%table des matières plus complète
+\addcontentsline{toc}{chapter}{Table des matières}%ajout de la table des matières dans la table des matières !
+\end{document}

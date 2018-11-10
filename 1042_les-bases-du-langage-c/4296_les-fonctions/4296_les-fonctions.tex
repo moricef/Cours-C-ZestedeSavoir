@@ -1,0 +1,842 @@
+\chapter{Les fonctions}
+\label{les-fonctions}
+
+Nous avons découvert beaucoup de nouveautés dans les chapitres précédents et nos
+programmes commencent à grossir. C'est pourquoi il est important
+d'apprendre à les découper en \textbf{fonctions}.
+
+\section{Qu'est-ce qu'une fonction ?}
+\label{Qu-est-ce-qu-une-fonction-?}
+
+Le concept de fonction ne vous est pas inconnu : \mybox{printf()},
+\mybox{scanf()}, et \mybox{main()} sont des \textbf{fonctions}.
+
+\begin{questionbox}
+  Mais qu'est-ce qu'une fonction
+exactement et quel est leur rôle exactement ?
+\end{questionbox}
+
+
+Une fonction est :
+
+\begin{itemize}
+\item
+  une suite d'instructions ;
+\item
+  marquée à l'aide d'un nom (comme une variable finalement) ;
+\item
+  qui a vocation à être exécutée à plusieurs reprises ;
+\item
+  qui rassemble des instructions qui permettent d'effectuer une tâche
+  précise (comme afficher du texte à l'écran, calculer la racine carrée
+  d'un nombre, etc).
+\end{itemize}
+
+Pour mieux saisir leur intérêt, prenons un exemple concret.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int a;
+    int b;
+    int i;
+    int min;
+
+    printf("Entrez deux nombres : ");
+    scanf("%d %d", &a, &b);
+    min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i)
+    {
+        if (a % i == 0 && b % i == 0)
+        {
+            printf("Le plus petit diviseur de %d et %d est %d\n", a, b, i);
+            break;
+        }
+    }
+
+    return 0;
+}
+\end{C}
+
+Ce code, repris du chapitre précédent, permet de calculer le plus petit
+commun diviseur de deux nombres donnés. Imaginons à présent que nous
+souhaitions faire la même chose, mais avec deux paires de nombres. Le
+code ressemblerait alors à ceci.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int a;
+    int b;
+    int i;
+    int min;
+
+    printf("Entrez deux nombres : ");
+    scanf("%d %d", &a, &b);
+    min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i)
+    {
+        if (a % i == 0 && b % i == 0)
+        {
+            printf("Le plus petit diviseur de %d et %d est %d\n", a, b, i);
+            break;
+        }
+    }
+
+    printf("Entrez deux autres nombres : ");
+    scanf("%d %d", &a, &b);
+    min = (a < b) ? a : b;
+
+    for (i = 2; i <= min; ++i)
+    {
+        if (a % i == 0 && b % i == 0)
+        {
+            printf("Le plus petit diviseur de %d et %d est %d\n", a, b, i);
+            break;
+        }
+    }
+
+    return 0;
+}
+\end{C}
+
+Comme vous le voyez, ce n'est pas très pratique : nous devons recopier
+les instructions de calcul deux fois, ce qui est assez dommage et qui
+plus est source d'erreurs. C'est ici que les fonctions entre en jeu en
+nous permettant par exemple de rassembler les instructions dédiées au
+calcul du plus petit diviseur commun en un seul point que nous
+solliciterons autant de fois que nécessaire.
+
+\begin{infobox}
+  Oui, il est aussi possible d'utiliser
+une boucle pour éviter la répétition, mais l'exemple aurait été moins
+parlant.
+\end{infobox}
+
+\section{Définir et utiliser une fonction}
+\label{definir-et-utiliser-une-fonction}
+
+Pour définir une fonction, nous allons devoir donner quatre informations
+sur celle-ci :
+
+\begin{itemize}
+\item
+  son \textbf{nom} : les règles sont les mêmes que pour les variables ;
+\item
+  son \textbf{corps} (son contenu) : le bloc d'instructions à exécuter ;
+\item
+  son \textbf{type de retour} : le type du résultat de la fonction ;
+\item
+  d'éventuels \textbf{paramètres} : des valeurs reçues par la fonction
+  lors de l'appel.
+\end{itemize}
+
+La syntaxe est la suivante.
+
+\begin{C}
+type nom(paramètres)
+{
+     /* Corps de la fonction */
+}
+\end{C}
+
+Prenons un exemple en créant une fonction qui affiche « bonjour ! » à
+l'écran.
+
+\begin{C}
+#include <stdio.h>
+
+
+void bonjour(void)
+{
+    printf("Bonjour !\n");
+}
+
+
+int main(void)
+{
+    bonjour();
+    return 0;
+}
+\end{C}
+
+Comme vous le voyez, la fonction se nomme « bonjour » et est composée
+d'un appel à \mybox{printf()}. Reste les deux mots-clés \mybox{void} :
+
+\begin{itemize}
+\item
+  dans le cas du type de retour, il spécifie que la fonction ne retourne
+  rien ;
+\item
+  dans le cas des paramètres, il spécifie que la fonction n'en reçoit
+  aucun (cela se manifeste lors de l'appel : il n'y a rien entre les
+  parenthèses).
+\end{itemize}
+
+\subsection{Le type de retour}
+\label{le-type-de-retour}
+
+Le type de retour permet d'indiquer deux choses : si la fonction
+retourne une valeur et le type de cette valeur.
+
+\begin{C}
+#include <stdio.h>
+
+
+int deux(void)
+{
+    return 2;
+}
+
+
+int main(void)
+{
+    printf("Retour : %d\n", deux());
+    return 0;
+
+\end{C}
+
+\begin{C}
+Retour : 2
+\end{C}
+
+Dans l'exemple ci-dessus, la fonction \mybox{deux()} est définie comme
+retournant une valeur de type \mybox{int}. Vous retrouvez l'instruction
+\mybox{return}, une instruction de saut (comme \mybox{break},
+\mybox{continue} et \mybox{goto}). Ce \mybox{return} arrête
+l'exécution de la fonction courante et provoque un retour
+(techniquement, un saut) vers l'appel à cette fonction qui se voit alors
+attribuer la valeur de retour (s'il y en a une). Autrement dit, dans
+notre exemple, l'instruction \mybox{return\ 2} stoppe l'exécution de la
+fonction \mybox{deux()} et ramène l'exécution du programme à l'appel
+qui vaut désormais 2, ce qui donne finalement
+\mybox{printf("Retour\ :\ \%d\textbackslash{}n",\ 2)}
+
+\subsection{Les paramètres}
+\label{les-parametres}
+
+Un paramètre sert à fournir des informations à la fonction lors de son
+exécution. La fonction \mybox{printf()} par exemple récupère ce qu'elle
+doit afficher dans la console à l'aide de paramètres. Ceux-ci sont
+définis de la même manière que les variables si ce n'est que les
+définitions sont séparées par des virgules.
+
+\begin{C}
+type nom(type paramètres1, type paramètres2, ...)
+{
+    /* Corps de la fonction */
+}
+\end{C}
+
+\begin{infobox}
+  Vous pouvez utiliser un maximum de
+trente et un paramètres, toutefois nous vous conseillons de vous limiter
+à \emph{cinq} afin de conserver un code concis et lisible.
+\end{infobox}
+
+
+Maintenant que nous savons tout cela, nous pouvons réaliser une fonction
+qui calcul le plus petit commun diviseur entre deux nombres et ainsi
+simplifier l'exemple du dessus.
+
+\begin{C}
+#include <stdio.h>
+
+
+int ppcd(int a, int b)
+{
+    int min = (a < b) ? a : b;
+    int i;
+
+    for (i = 2; i <= min; ++i)
+        if (a % i == 0 && b % i == 0)
+            return i;
+
+    return 0;
+}
+
+
+int main(void)
+{
+    int a;
+    int b;
+    int resultat;
+
+    printf("Entrez deux nombres : ");
+    scanf("%d %d", &a, &b);
+    resultat = ppcd(a, b);
+
+    if (resultat != 0)
+        printf("Le plus petit diviseur de %d et %d est %d\n", a, b, resultat);
+
+    printf("Entrez deux autres nombres : ");
+    scanf("%d %d", &a, &b);
+    resultat = ppcd(a, b);
+
+    if (resultat != 0)
+        printf("Le plus petit diviseur de %d et %d est %d\n", a, b, resultat);
+
+    return 0;
+}
+\end{C}
+
+Plus simple et plus lisible, non ?
+
+\begin{infobox}
+ Remarquez la présence de deux
+instructions \mybox{return} dans la fonction \mybox{ppcd()}. La valeur
+zéro est retournée afin d'indiquer l'absence d'un diviseur commun.
+\end{infobox}
+
+
+\section{Les arguments et les paramètres}
+\label{les-arguments-et-les-parameres}
+
+À ce stade, il est important de préciser qu'un paramètre est propre à
+une fonction, il n'est \emph{pas} utilisable en dehors de celle-ci. Par
+exemple, la variable \mybox{a} de la fonction \mybox{ppcd()} n'a aucun
+rapport avec la variable \mybox{a} de la fonction \mybox{main()}.
+
+Voici un autre exemple plus explicite à ce sujet.
+
+\begin{C}
+#include <stdio.h>
+
+
+void fonction(int nombre)
+{
+    ++nombre;
+    printf("Variable nombre dans `fonction' : %d\n", nombre);
+}
+
+
+int main(void)
+{
+    int nombre = 5;
+
+    fonction(nombre);
+    printf("Variable nombre dans `main' : %d\n", nombre);
+    return 0;
+
+\end{C}
+
+\begin{C}
+Variable nombre dans `fonction' : 6
+Variable nombre dans `main' : 5
+\end{C}
+
+Comme vous le voyez, les deux variables \mybox{nombre} sont bel et bien
+distinctes. En fait, lors d'un appel de fonction, vous spécifiez des
+\textbf{arguments} à la fonction appelée. Ces arguments ne sont rien
+d'autres que des expressions dont les résultats seront ensuite affectés
+aux différents \textbf{paramètres} de la fonction.
+
+\begin{attentionbox}
+ Notez bien cette différence car elle
+est très importante : un argument est une \emph{expression} alors qu'un
+paramètre est une \emph{variable}.
+\end{attentionbox}
+
+
+Ainsi, la valeur de la variable \mybox{nombre} de la fonction
+\mybox{main()} est passée en argument à la fonction \mybox{fonction()}
+et est ensuite affectée au paramètre \mybox{nombre}. La variable
+\mybox{nombre} de la fonction \mybox{main()} n'est donc en rien
+modifiée.
+
+\section{Les prototypes}
+\label{les-prototypes}
+
+Jusqu'à présent, nous avons toujours défini notre fonction
+\emph{avant} la fonction \mybox{main()}. Cela paraît de prime abord
+logique (nous définissons la fonction avant de l'utiliser), cependant
+cela est surtout indispensable. En effet, si nous déplaçons la
+définition après la fonction \mybox{main()}, le compilateur se retrouve
+dans une situation délicate : il est face à un appel de fonction dont il
+ne sait rien (nombres d'arguments, type des arguments et type de
+retour). Que faire ? \emph{Hé} bien, il serait possible de stopper la
+compilation, mais ce n'est pas ce qui a été retenu, le compilateur va
+considérer que la fonction retourne une valeur de type \mybox{int} et
+qu'elle reçoit un nombre indéterminé d'arguments.
+
+Toutefois, si cette décision à l'avantage d'éviter un arrêt de la
+compilation, elle peut en revanche conduire à des problèmes lors de
+l'exécution si cette supposition du compilateur s'avère inadéquate. Or,
+il serait pratique de pouvoir définir les fonctions dans l'ordre que
+nous souhaitons sans se soucier de qui doit être défini avant qui.
+
+Pour résoudre ce problème, il est possible de \textbf{déclarer} une
+fonction à l'aide d'un \textbf{prototype}. Celui-ci permet de spécifier
+le type de retour de la fonction, son nombre d'arguments et leur type,
+mais ne comporte pas le corps de cette fonction. La syntaxe d'un
+prototype est la suivante.
+
+\begin{C}
+type nom(paramètres);
+\end{C}
+
+Ce qui donne par exemple ceci.
+
+\begin{C}
+#include <stdio.h>
+
+void bonjour(void);
+
+
+int main(void)
+{
+    bonjour();
+    return 0;
+}
+
+
+void bonjour(void)
+{
+    printf("Bonjour !\n");
+}
+\end{C}
+
+\begin{attentionbox}
+ Notez bien le point-virgule à la fin du
+prototype qui est obligatoire.
+\end{attentionbox}
+
+
+\begin{infobox}
+  Étant donné qu'un prototype ne
+comprends pas le corps de la fonction qu'il déclare, il n'est pas
+obligatoire de préciser le nom des paramètres de celles-ci. Ainsi, le
+prototype suivant est parfaitement correct. 
+\begin{C}
+int ppcd(int, int);
+\end{C}
+\end{infobox}
+
+\section{Variables globales et classes de stockage}
+\label{variables-globales-et-classes-de-stockage}
+
+
+\subsection{Les variables globales}
+\label{les-variables-globales}
+
+Il arrive parfois que l'utilisation de paramètres ne soit pas adaptée et
+que des fonctions soient amenées à travailler sur des données qui
+doivent leur être communes. Prenons un exemple simple : vous souhaitez
+compter le nombre d'appels de fonction réalisé durant l'exécution de
+votre programme. Ceci est impossible à réaliser, sauf à définir une
+variable dans la fonction \mybox{main()}, la passé en argument de
+chaque fonction et de faire en sorte que chaque fonction retourne sa
+valeur augmentée de un, ce qui est très peu pratique.
+
+À la place, il est possible de définir une variable dite «
+\textbf{globale} » qui sera utilisable par toutes les fonctions. Pour
+définir une variable globale, il vous suffit de définir une variable
+\emph{en dehors de tout bloc}, autrement dit en dehors de toute
+fonction.
+
+\begin{C}
+#include <stdio.h>
+
+void fonction(void);
+
+int appels = 0;
+
+
+void fonction(void)
+{
+    ++appels;
+}
+
+
+int main(void)
+{
+    fonction();
+    fonction();
+    printf("Ce programme a réalisé %d appel(s) de fonction\n", appels);
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+Ce programme a réalisé 2 appel(s) de fonction
+\end{C}
+
+Comme vous le voyez, nous avons simplement placé la définition de la
+variable \emph{appels} en dehors de toute fonction et \emph{avant} toute
+définition de fonction de sorte qu'elle soit partagée entres-elles.
+
+\begin{infobox}
+Le terme « global » est en fait un peu trompeur étant donné que la variable
+n'est pas globale au programme, mais tout simplement disponible pour toutes
+les fonctions du fichier dans lequel elle est située. Ce terme est utilisé
+en opposition aux paramètres et variables des fonctions qui sont dits
+« \textbf{locaux} ».
+\end{infobox}
+
+
+\begin{attentionbox}
+  N'utilisez les variables globales que
+lorsque cela vous paraît \emph{vraiment} nécessaire. Ces dernières étant
+utilisables dans un fichier entier (voire dans plusieurs, nous le
+verrons un peu plus tard), elles ont tendances à rendre la lecture du
+code plus difficile.
+\end{attentionbox}
+
+
+\section{Les classes de stockage}
+\label{les-classes-de-stockage}
+
+Les variables locales et les variables globales ont une autre différence
+de taille : leur \textbf{classe de stockage}. La classe de stockage
+détermine (entre autre) la \textbf{durée de vie} d'un objet,
+c'est-à-dire le temps durant lequel celui-ci existera en mémoire.
+
+\subsection{Classe de stockage automatique}
+\label{classe-de-stockage-automatique}
+
+Les variables locales sont par défaut de classe de stockage
+\textbf{automatique}. Cela signifie qu'elles sont allouées
+automatiquement à chaque fois que le bloc auquel elles appartiennent est
+exécuté et qu'elles sont détruites une fois son exécution terminée.
+
+\begin{C}
+int ppcd(int a, int b)
+{
+    int min = (a < b) ? a : b;
+    int i;
+
+    for (i = 2; i <= min; ++i)
+        if (a % i == 0 && b % i == 0)
+            return i;
+
+    return 0;
+}
+\end{C}
+
+Par exemple, à chaque fois que la fonction \mybox{ppcd()} est appelée,
+les variables \mybox{a}, \mybox{b}, \mybox{min} et \mybox{i} sont
+allouées en mémoires et détruites à la fin de l'exécution de la
+fonction.
+
+\subsection{Classe de stockage statique}
+\label{classe-de-stockage-statique}
+
+Les variables globales sont \emph{toujours} de classe de stockage
+\textbf{statique}. Ceci signifie qu'elles sont allouées au début de
+l'exécution du programme et sont détruites à la fin de l'exécution de
+celui-ci. En conséquence, elles conservent leur valeur tout au long de
+l'exécution du programme.
+
+Également, à l'inverse des autres variables, celles-ci sont initialisées
+à zéro si elles ne font pas l'objet d'une initialisation. L'exemple
+ci-dessous est donc correct et utilise deux variables valant zéro.
+
+\begin{C}
+#include <stdio.h>
+
+int a;
+double b;
+
+
+int main(void)
+{
+    printf("%d, %f\n", a, b);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+0, 0.000000
+\end{C}
+
+Petit bémol tout de même : étant donné que ces variables sont créées au
+début du programme, elles ne peuvent être initialisée qu'à l'aide de
+\emph{constantes}. La présence de variables au sein de l'expression
+d'initialisation est donc proscrite.
+
+\begin{C}
+#include <stdio.h>
+
+int a = 20; /* Correct */
+double b = a; /* Incorrect */
+
+
+int main(void)
+{
+    printf("%d, %f\n", a, b);
+    return 0;
+}
+\end{C}
+
+\subsection{Modification de la classe de stockage}
+\label{modification-de-la-classe-de-stockage}
+
+Il est possible de modifier la classe de stockage d'une variable
+automatique en précédant sa définition du mot-clé \mybox{static} afin
+d'en faire une variable statique.
+
+\begin{C}
+#include <stdio.h>
+
+
+int compteur(void)
+{
+    static int n;
+
+    return ++n;
+}
+
+
+int main(void)
+{
+    compteur();
+    printf("n = %d\n", compteur());
+    return 0;
+}
+
+\end{C}
+
+\mybox{text\ n\ =\ 2}
+
+\section{Exercices}
+\label{exercices-3}
+
+\subsection{Afficher un rectangle}
+\label{afficher-un-rectangle}
+
+Le premier exercice que nous vous proposons consiste à afficher un
+rectangle dans la console. Voici ce que devra donner l'exécution de
+votre programme.
+
+\begin{C}
+Donnez la longueur : 5
+Donnez la largeur : 3
+
+***
+***
+***
+***
+***
+\end{C}
+
+\subsection{Correction}
+\label{correction-10}
+
+\begin{C}
+ #include <stdio.h>
+
+void rectangle(int, int);
+
+
+int main(void)
+{
+    int longueur;
+    int largeur;
+
+    printf("Donnez la longueur : ");
+    scanf("%d", &longueur);
+    printf("Donnez la largeur : ");
+    scanf("%d", &largeur);
+    printf("\n");
+    rectangle(longueur, largeur);
+    return 0;
+}
+
+
+void rectangle(int longueur, int largeur)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < longueur; i++)
+    {
+        for (j = 0; j < largeur; j++)
+            printf("*");
+
+        printf("\n");
+    }
+}
+\end{C}
+
+\begin{infobox}
+  Vous pouvez aussi essayer d'afficher
+le rectangle dans l'autre sens
+\end{infobox}
+.
+
+\section{Afficher un triangle}
+\label{afficher-un-triangle}
+
+Même principe, mais cette fois-ci avec un triangle (rectangle). Le
+programme devra donner ceci.
+
+\begin{C}
+Donnez un nombre : 5
+
+*
+**
+***
+****
+*****
+\end{C}
+
+Bien entendu, la taille du triangle variera en fonction du nombre entré.
+
+\subsection{Correction}
+\label{correction-11}
+
+\begin{C}
+ #include <stdio.h>
+
+void triangle(int);
+
+
+int main(void)
+{
+    int nombre;
+
+    printf("Donnez un nombre : ");
+    scanf("%d", &nombre);
+    printf("\n");
+    triangle(nombre);
+    return 0;
+}
+
+void triangle(int nombre)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < nombre; i++)
+    {
+        for (j = 0; j <= i; j++)
+            printf("*");
+
+        printf("\n");
+    }
+}
+\end{C}
+
+\section{En petites coupures ?}
+\label{en-petites-coupures}
+
+Pour ce dernier exercice, vous allez devoir réaliser un programme qui
+reçoit en entrée une somme d'argent et donne en sortie la plus petite
+quantité de coupures nécessaires pour reconstituer cette somme.
+
+Pour cet exercice, vous utiliserez les coupures suivantes :
+
+\begin{itemize}
+\item
+  des billets de 100\texteuro{} ;
+\item
+  des billets de 50\texteuro{} ;
+\item
+  des billets de 20\texteuro{} ;
+\item
+  des billets de 10\texteuro{} ;
+\item
+  des billets de 5\texteuro{} ;
+\item
+  des pièces de 2\texteuro{} ;
+\item
+  des pièces de 1\texteuro{} ;
+\end{itemize}
+
+Ci dessous un exemple de ce que devra donner votre programme une fois
+terminé.
+
+\begin{C}
+Entrez une somme : 285
+2 billet(s) de 100.
+1 billet(s) de 50.
+1 billet(s) de 20.
+1 billet(s) de 10.
+1 billet(s) de 5.
+\end{C}
+
+\subsection{Correction}
+\label{correction-12}
+
+\begin{C}
+ #include <stdio.h>
+
+
+int coupure_inferieure(int valeur)
+{
+    switch (valeur)
+    {
+    case 100:
+        return 50;
+    
+    case 50:
+        return 20;
+    
+    case 20:
+        return 10;
+    
+    case 10:
+        return 5;
+    
+    case 5:
+        return 2;
+    
+    case 2:
+        return 1;
+    
+    default:
+        return 0;
+    }
+}
+
+
+void coupure(int somme)
+{
+    int valeur;
+    int nb_coupure;
+
+    valeur = 100;
+
+    while (valeur != 0)
+    {
+        nb_coupure = somme / valeur;
+        
+        if (nb_coupure > 0)
+        {
+            if (valeur >= 5)
+                printf("%d billet(s) de %d.\n", nb_coupure, valeur);
+            else
+                printf("%d pièce(s) de %d.\n", nb_coupure, valeur);
+
+            somme -= nb_coupure * valeur;
+        }
+
+        valeur = coupure_inferieure(valeur);
+    }
+}
+
+
+int main(void)
+{
+    int somme;
+
+    printf("Entrez une somme : ");
+    scanf("%d", &somme);
+    coupure(somme);
+    return 0;
+}
+\end{C}
+
+\hrulefill
+
+Le prochain chapitre sera l'occasion de mettre en
+pratique ce que nous venons de voir à l'aide d'un second TP.

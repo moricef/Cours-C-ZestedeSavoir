@@ -1,0 +1,2 @@
+ 
+pandoc  <(find . -name '*.md' -exec cat {} +) -o fichier.tex

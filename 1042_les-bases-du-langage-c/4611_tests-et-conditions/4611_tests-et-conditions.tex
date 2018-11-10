@@ -1,0 +1,334 @@
+\chapter{Tests et conditions}
+\label{tests-et-conditions}
+
+Jusqu'à présent, vous avez appris à écrire du texte, manipuler des nombres
+et interagir un tout petit peu avec l'utilisateur.
+
+En gros, pour le moment, un programme est quelque chose de sacrément
+simple et linéaire, ce dernier ne nous permettant que d'exécuter des
+instructions dans un ordre donné. Techniquement, une simple calculatrice
+peut en faire autant (voire plus). Cependant et heureusement, les
+langages de programmation actuels fournissent des moyens permettant de
+réaliser des tâches plus évoluées.
+
+Pour ce faire, diverses \textbf{structures de contrôle} ont été
+inventées. Celles-ci permettent de modifier le comportement d'un
+programme suivant la réalisation de différentes conditions. Ainsi, si
+une condition est vraie, le programme se comportera d'une telle façon et
+à l'inverse, si elle est fausse, le programme fera telle ou telle chose.
+
+Dans ce chapitre, nous allons voir comment rédiger des conditions à
+l'aide de deux catégories d'opérateurs :
+
+\begin{itemize}
+
+\item
+  les \textbf{opérateurs de comparaison}, qui comparent deux nombres ;
+\item
+  les \textbf{opérateurs logiques}, qui permettent de combiner plusieurs
+  conditions.
+\end{itemize}
+  
+\section{Les booléens}
+
+Comme les opérateurs que nous avons vu
+précédemment (\mybox{+}, \mybox{-}, \mybox{*}, etc), les opérateurs
+de comparaison et les opérateurs logiques donnent un résultat : « vrai »
+si la condition est vérifiée, et « faux » si la condition est fausse.
+Toutefois, comme vous le savez, notre ordinateur ne voit que des
+nombres. Aussi, il est nécessaire de représenter ces valeurs à l'aide de
+ceux-ci.
+
+Certains langages fournissent pour cela un type distinct pour stocker le
+résultat des opérations de comparaison et deux valeurs spécifiques :
+\mybox{true} (vrai) et \mybox{false} (faux). Néanmoins, dans les
+premières versions du langage C, ce type spécial n'existait
+pas\footnote{\footnotesize{Depuis la norme C99, le type \mybox{\_Bool} a été
+  introduit ainsi que l'en-tête \mybox{\textless{}stdbool.h\textgreater{}} qui fournit un synonyme
+  pour ce nouveau type : \mybox{bool}, et deux constantes entières
+  \mybox{true} (qui vaut 1) et \mybox{false} (qui vaut zéro).}}. Il a donc fallu
+ruser et trouver une solution pour représenter les valeurs « vrai » et «
+faux ». Pour cela, la méthode la plus simple a été privilégiée :
+utiliser directement des nombres pour représenter ces deux valeurs.
+Ainsi, le langage C impose que :
+
+\begin{itemize}
+\item
+  la valeur « faux » soit représentée par zéro ;
+\item
+  et que la valeur « vrai » soit représentée par tout sauf zéro.
+\end{itemize}
+
+Les opérateurs de comparaison et les opérateurs logiques suivent cette
+convention pour représenter leur résultat. Dès lors, une condition
+vaudra zéro si elle est fausse et un si elle est vraie.
+
+\section{Les opérateurs de comparaison}
+\label{les-operateurs-de-comparaison}
+
+  Le langage C fournit différents opérateurs qui permettent
+  d'effectuer des comparaisons entre des nombres. Ces opérateurs peuvent
+  s'appliquer aussi bien à des constantes qu'à des variables (ou un
+  mélange des deux). Ces derniers permettent donc par exemple de
+  vérifier si une variable est supérieure à une autre, si elles sont
+  égales, etc.
+
+\subsection{Comparaisons}
+\label{comparaisons}
+
+L'écriture de conditions est similaire aux écritures mathématiques que
+vous voyez en cours : l'opérateur est entre les deux expressions à
+comparer. Par exemple, dans le cas de l'opérateur
+\mybox{\textgreater{}} (« strictement supérieur à »), il est possible
+d'écrire des expressions du type \mybox{a\ \textgreater{}\ b}, qui
+vérifie si la variable \mybox{a} est strictement supérieure à la
+variable \mybox{b}.
+
+Le tableau ci-dessous reprend les différents opérateurs de comparaisons.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Opérateur} & \textbf{Signification}\tabularnewline\hline
+\rowcolor{gris-clair-tab}\== & Égalité\tabularnewline\hline
+!= & Inégalité\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textless{} & Strictement inférieur à\tabularnewline\hline
+\textless{}= & Inférieur ou égal à\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textgreater{} & Strictement supérieur à\tabularnewline\hline
+\textgreater{}= & Supérieur ou égal à\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+Ces opérateurs ne semblent pas très folichons. En effet, avec, nous ne
+pouvons faire que quelques tests basiques sur des nombres. Cependant,
+rappelez-vous : pour un ordinateur, tout n'est que nombre et comme pour
+le stockage des données (revoyez le début du chapitre sur les variables
+si cela ne vous dit rien) il est possible de ruser et d'exprimer toutes
+les conditions possibles avec ces opérateurs (cela vous paraîtra plus
+clair quand nous passerons aux exercices).
+
+\subsection{Résultat d'une comparaison}
+\label{resultat-dune-comparaison}
+
+Comme dit dans l'extrait plus haut, une opération de comparaison va
+donner zéro si elle est fausse et un si elle est vraie. Pour illustrer
+ceci, vérifions quels sont les résultats donnés par différentes
+comparaisons.
+
+\begin{C}
+int main(void)
+{
+    printf("10 == 20 vaut %d\n", 10 == 20);
+    printf("10 != 20 vaut %d\n", 10 != 20);
+    printf("10 < 20 vaut %d\n", 10 < 20);
+    printf("10 > 20 vaut %d\n", 10 > 20);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+10 == 20 vaut 0
+10 != 20 vaut 1
+10 < 20 vaut 1
+10 > 20 vaut 0
+\end{C}
+
+Le résultat confirme bien ce que nous avons dit ci-dessus.
+  
+\section{Les opérateurs logiques}
+\label{les-operateurs-logiques}
+
+Toutes ces comparaisons sont toutefois un peu faibles seules car il y a
+des choses qui ne sont pas possibles à vérifier en utilisant une seule
+comparaison. Par exemple, si un nombre est situé entre zéro et mille
+(inclus). Pour ce faire, il serait nécessaire de vérifier que celui-ci
+est supérieur ou égal à zéro \textbf{et} inférieur ou égal à mille.
+
+Il nous faudrait donc trouver un moyen de combiner plusieurs
+comparaisons entre elles pour résoudre ce problème. \emph{Hé} bien
+rassurez-vous, le langage C fournit de quoi associer plusieurs résultats
+de comparaisons : les \textbf{opérateurs logiques}.
+
+\subsection{Les opérateurs logiques de base}
+\label{les-operateurs-logiques-de-base}
+
+Il existe trois opérateurs logiques. L'opérateur « \textbf{et} »,
+l'opérateur « \textbf{ou} », et l'opérateur de \textbf{négation}. Les
+deux premiers permettent de combiner deux conditions alors que le
+troisième permet d'inverser le sens d'une condition.
+
+\subsubsection{L'opérateur « et »}
+\label{loperateur-et}
+
+L'opérateur « et » va manipuler deux conditions. Il va donner un si
+elles sont vraies, et zéro sinon.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Première condition} & \textbf{Seconde condition} & \textbf{Résultat de l'opérateur « et »}\tabularnewline\hline
+Fausse & Fausse & 0\tabularnewline\hline
+Fausse & Vraie & 0\tabularnewline\hline
+Vraie & Fausse & 0\tabularnewline\hline
+Vraie & Vraie & 1\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+
+Cet opérateur s'écrit \mybox{\&\&} et s'intercale entre les deux
+conditions à combiner. Si nous reprenons l'exemple vu plus haut, pour
+combiner les comparaisons \mybox{a\ \textgreater{}=\ 0} et
+\mybox{a\ \textless{}=\ 1000}, nous devons placer l'opérateur
+\mybox{\&\&} entre les deux, ce qui donne l'expression
+\mybox{a\ \textgreater{}=\ 0\ \&\&\ a\ \textless{}=\ 1000}.
+
+\subsubsection{L'opérateur « ou »}
+\label{loperateur-ou}
+
+L'opérateur « ou » fonctionne exactement comme l'opérateur « et », il
+prend deux conditions et les combine pour former un résultat. Cependant,
+l'opérateur « ou » vérifie que l'une des deux conditions (ou que les
+deux) est (sont) vraie(s).
+
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Première condition} & \textbf{Seconde condition} & \textbf{Résultat de l'opérateur « ou »}\tabularnewline\hline
+Fausse & Fausse & 0\tabularnewline\hline
+Fausse & Vraie & 1\tabularnewline\hline
+Vraie & Fausse & 1\tabularnewline\hline
+Vraie & Vraie & 1\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+Cet opérateur s'écrit \mybox{\textbar{}\textbar{}} et s'intercale entre
+les deux conditions à combiner. L'exemple suivant permet de déterminer
+si un nombre est divisible par trois ou par cinq (ou les deux) :
+\mybox{(a\ \%\ 3\ ==\ 0)\ \textbar{}\textbar{}\ (a\ \%\ 5\ ==\ 0)}.
+Notez que les parenthèses ont été placées par soucis de lisibilité.
+
+\subsubsection{L'opérateur de négation}
+\label{loperateur-de-negation}
+
+Cet opérateur est un peu spécial : il manipule une seule condition et en
+inverse le sens.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Condition} & \textbf{Résultat de l'opérateur de négation}\tabularnewline\hline
+Fausse & 1\tabularnewline\hline
+Vraie & 0\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+
+Cet opérateur se note \mybox{!}. Son utilité ? Simplifier certaines
+expressions. Par exemple, si nous voulons vérifier cette fois qu'un
+nombre \textbf{n'est pas} situé entre zéro et mille, nous pouvons
+utiliser la condition
+\mybox{a\ \textgreater{}=\ 0\ \&\&\ a\ \textless{}=\ 1000} et lui
+appliquer l'opérateur de négation, ce qui donne
+\mybox{!(a\ \textgreater{}=\ 0\ \&\&\ a\ \textless{}=\ 1000)}.
+
+\begin{attentionbox}
+ Faites bien attention à l'utilisation
+des parenthèses ! L'opérateur de négation s'applique à l'opérande le
+plus proche (sans parenthèses, il s'agirait de \mybox{a}). Veillez donc
+a bien entourer de parenthèses l'expression concernée par la négation.
+\end{attentionbox}
+
+\begin{infobox}
+Notez que pour cet exemple, il est parfaitement possible de se passer de cet opérateur à l'aide de
+l'expression \mybox{a\ \textless{}\ 0\ \textbar{}\textbar{}\ a\ \textgreater{}\ 1000}.
+Il est d'ailleurs souvent possible d'exprimer une condition de
+différentes manières.
+\end{infobox}
+
+\subsection{Évaluation en court-circuit}
+\label{evaluation-en-court-circuit}
+
+Les opérateurs \mybox{\&\&} et \mybox{\textbar{}\textbar{}} evaluent
+toujours la première condition avant la seconde. Cela paraît évident,
+mais ce n'est pas le cas dans tous les langages de programmation. Ce
+genre de détail permet à ces opérateurs de disposer d'un comportement
+assez intéressant : \textbf{l'évaluation en court-circuit}.
+
+De quoi s'agit-il ? Pour illustrer cette notion, reprenons l'exemple
+précédent : nous voulons vérifier si un nombre est compris entre zéro et
+mille, ce qui donne l'expression
+\mybox{a\ \textgreater{}=\ 0\ \&\&\ a\ \textless{}=\ 1000}. Si jamais
+\mybox{a} est inférieur à zéro, nous savons dès la vérification de la
+première condition qu'il n'est pas situé dans l'intervalle voulu. Il
+n'est donc pas nécessaire de vérifier la seconde. \emph{Hé} bien, c'est
+exactement ce qu'il se passe en langage C. Si le résultat de la première
+condition suffit pour déterminer le résultat de l'opérateur
+\mybox{\&\&} ou \mybox{\textbar{}\textbar{}}, \emph{alors la seconde
+condition n'est pas évaluée}. Voilà pourquoi l'on parle d'évaluation en
+court-circuit.
+
+Plus précisément, ce sera le cas pour l'opérateur \mybox{\&\&} si la
+première condition est fausse et pour l'opérateur
+\mybox{\textbar{}\textbar{}} si la première condition est vraie
+(relisez les tableaux précédents si cela ne vous semble pas évident).
+
+Ce genre de propriété peut-être utilisé efficacement pour éviter de
+faire certains calculs, en choisissant intelligemment quelle sera la
+première condition.
+
+\subsection{Combinaisons}
+\label{combinaisons}
+
+Bien sûr, il est possible de mélanger ces opérateurs pour créer des
+conditions plus complexes. Voici un exemple un peu plus long (et
+inutile, soit dit en passant :-° ).
+
+\begin{C}
+int a = 3;
+double b = 64.67;
+double c = 12.89;
+int d = 8;
+int e = -5;
+int f = 42;
+int r;
+
+r = ((a < b && b > 32) || (c < d + b || e == 0)) && (f > d);
+printf("La valeur logique est égale à : %d\n", r);
+\end{C}
+
+Ici, la variable \mybox{r} est égale à 1, la condition est donc vraie.
+
+\subsubsection{Parenthèses}
+\label{parentheses}
+
+En regardant le code écrit plus haut, vous avez surement remarqué la
+présence de plusieurs parenthèses. Celles-ci permettent d'enlever toute
+ambigüité dans les expressions créées avec des opérateurs logiques. En
+effet, comme pour les opérateurs mathématiques, les opérateurs logiques
+ont une priorité (revoyez le chapitre sur les opérations mathématiques
+si cela ne vous dit rien) qui fait que l'opérateur \mybox{\&\&} passe
+\emph{avant} l'opérateur \mybox{\textbar{}\textbar{}}. Ainsi, le
+premier code est équivalent au second car l'opérateur \mybox{\&\&} est
+évalué \emph{avant} l'opérateur \mybox{\textbar{}\textbar{}}.
+
+\begin{C}
+printf("%d\n", (a && b) || (c && d));
+\end{C}
+
+\begin{C}
+printf("%d\n", a && (b || c) && d );
+\end{C}
+
+Si vous souhaitez un autre résultat, il est nécessare d'ajouter des
+parenthèses pour modifier la priorité par défaut, par exemple comme
+ceci.
+
+\mybox{c\ printf("\%d\textbackslash{}n",\ a\ \&\&\ (b\ \textbar{}\textbar{}\ c)\ \&\&\ d\ );}Au
+prochain chapitre, nous allons combiner les conditions avec une seconde
+notion : les \textbf{sélections}.
+
+\hrulefill
+
+Au prochain chapitre, nous allons combiner les conditions avec une seconde notion : les sélections.

@@ -1,0 +1,625 @@
+\chapter{Les opérations mathématiques}
+
+Nous savons désormais déclarer,
+affecter et initialiser une variable, mais que diriez-vous d'apprendre à
+réaliser des opérations dessus ? Il est en effet possible de réaliser
+des calculs sur nos variables, comme les additionner, les diviser voire
+même des opérations plus complexes. C'est le but de cette sous-partie.
+Nous allons donc enfin transformer notre ordinateur en grosse calculette
+programmable !
+
+\section{Les opérations mathématiques de base}
+
+Jusqu'à présent, nous nous sommes contenté d'afficher
+  du texte et de manipuler très légèrement les variables. Voyons à
+  présent comment nous pouvons réaliser quelques opérations de base. Le
+  langage C nous permets d'en réaliser cinq :}.
+  
+  \begin{itemize}
+\item
+  l'addition (opérateur \mybox{+}) ;
+\item
+  la soustraction (opérateur \mybox{-}) ;
+\item
+  la multiplication (opérateur \mybox{*}) ;
+\item
+  la division (opérateur \mybox{/}) ;
+\item
+  le modulo (opérateur \mybox{\%}).
+\end{itemize}
+
+\begin{infobox}
+Le langage C fournit bien entendu
+d'autres fonctions mathématiques et d'autres opérateurs, mais il est
+encore trop tôt pour vous les présenter.
+\end{infobox}
+
+
+\section{Division et modulo}
+\label{division-et-modulo}
+
+Les quatre premières opérations vous sont connues depuis l'école
+primaire. Cependant, une chose importante doit être précisée concernant
+la division : quand les deux nombres manipulés sont des entiers, il
+s'agit d'une division entière. Autrement dit, le quotient sera un entier
+et il peut y avoir un reste. Par exemple, 15 ÷ 6, ne donnera pas 2,5
+(division réelle), mais un quotient de 2, avec un reste de 3.
+
+\begin{C}
+printf("15 / 6 = %d\n", 15 / 6);
+\end{C}
+
+\begin{C}
+15 / 6 = 2
+\end{C}
+
+Le modulo est un peu le complément de la division entière : au lieu de
+donner le quotient, il renvoie le reste d'une division euclidienne. Par
+exemple, le modulo de 15 par 6 est 3, car 15 = 2 × 6 + 3.
+
+\begin{C}
+printf("15 % 6 = %d\n", 15 % 6);
+\end{C}
+
+\begin{C}
+15 % 6 = 3
+\end{C}
+
+Avec des flottants, la division se comporte autrement et n'est pas une
+division avec reste. La division de deux flottants donnera un résultat «
+exact », avec potentiellement plusieurs chiffres après la virgule.
+
+\begin{C}
+printf("15 / 6 = %f\n", 15. / 6.);   /* En C, ce n’est pas la même chose que 15 / 6 */
+\end{C}
+
+\begin{C}
+15 / 6 = 2.500000
+\end{C}
+
+\section{Utilisation}
+\label{utilisation}
+
+Il est possible d'affecter le résultat d'une expression contenant des
+calculs à une variable, comme lorsque nous les utilisons comme argument
+de \mybox{printf()}.
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    int somme = 5 + 3;
+
+    printf("5 + 3 = %d\n", somme);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+5 + 3 = 8
+\end{C}
+
+Toute opération peut manipuler :
+
+\begin{itemize}
+\item
+  des constantes ;
+\item
+  des variables ;
+\item
+  les deux à la fois.
+\end{itemize}
+
+Voici un exemple avec des constantes.
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    printf("2 + 3 = %d\n", 2 + 3);
+    printf("8 - 12 = %d\n", 8 - 12);
+    printf("6 x 7 = %d\n", 6 * 7);
+    printf("11 % 4 = %d\n", 11 % 4);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+2 + 3 = 5
+8 - 12 = -4
+6 x 7 = 42
+11 % 4 = 3
+\end{C}
+
+Un autre avec des variables.
+
+\begin{C}
+int a = 5;
+int b = 3;
+int somme = a + b;
+
+printf("%d + %d = %d\n", a, b, somme);
+\end{C}
+
+\begin{C}
+5 + 3 = 8
+\end{C}
+
+Et enfin, un exemple qui mélange variables et constantes.
+
+\begin{C}
+int a = 5;
+int b = 65;
+
+printf("%d\n", b / a * 2 + 7 % 2);
+\end{C}
+
+\begin{C}
+27
+\end{C}
+
+\section{La priorité des opérateurs}
+\label{la-priorite-des-operateurs}
+
+Dans l'exemple précédent, nous avons utilisé plusieurs opérations dans
+une même ligne de code, une même expression. Dans ces cas là, faites
+attention à la \textbf{priorité des opérateurs} ! Comme en
+mathématiques, certains opérateurs passent avant d'autres : les
+opérateurs \mybox{* \textbackslash \%} ont une priorité supérieure par rapport aux
+opérateurs \mybox{+ -}.
+
+Dans le code ci-dessous, c'est \mybox{c * 4} qui sera exécuté
+d'abord, puis \mybox{b} sera ajouté au résultat. Faites donc attention
+sous peine d'avoir de mauvaises surprises. Dans le doute, ajoutez des
+parenthèses.
+
+\begin{C}
+c a = b + c * 4;}
+\end{C}
+
+\section{Les expressions}
+
+Il est possible de combiner opérateur, variables et constantes pour
+former des \textbf{expressions}, des lignes de code qui sont évaluées et
+produisent un résultat. Les lignes de code suivantes sont toutes des
+expressions.
+
+\begin{C}
+"Bonjour !"
+2 + 3
+10 > 2
+\end{C}
+
+Généralement, une expression ne peut être écrite seule et doit faire
+partie d'une \textbf{instruction}. La frontière entre instruction et
+expression est assez floue puisqu'une instruction peut être composée de
+nombreuses expressions. Le code ci-dessous est un exemple d'instruction
+qui est \emph{quasi} une expression (on parle
+d'\textbf{expression-instruction}).
+
+\begin{C}
+x = 2 + 3;
+\end{C}
+
+Nous donnons en effet un ordre à l'ordinateur (« affecte la valeur 2 + 3
+à \mybox{x} »), mais c'est aussi une expression qui produit la valeur 5
+comme résultat. Vous verrez qu'en C, la majorité des lignes de code sont
+des instructions-expressions. C'est ce qui est appellé la
+\textbf{programmation impérative}. C'est le choix des concepteurs du
+langage, mais ce n'est pas la seule possibilité (il en existe d'autres,
+mais ça ne nous concerne pas en tant qu'utilisateurs du C).
+
+\section{Type d'une expression}
+\label{type-dune-expression}
+
+Vous avez sans doute remarqué que nous avons utilisé directement des
+expressions (\mybox{2 + 3} par exemple) comme argument de la fonction
+\mybox{printf()}. Rien de bien surprenant me direz-vous\ldots{} À un
+détail près : quel indicateur de format doit-on utiliser ? Autrement
+dit, quel est le type d'une expression ? D'ailleurs, ont-elles un type ?
+
+\emph{Hé} bien, oui. Tout comme les variables, les expressions ont un
+type. Ce dernier dépend toutefois du type des éléments qui la compose.
+En l'occurrence, une constante entière comme \mybox{2} ou \mybox{3}
+est par défaut de type \mybox{int}. Le résultat d'une somme, par
+exemple, sera donc également de type \mybox{int}. Les constantes
+flottantes comme \mybox{5.} ou \mybox{78.0} sont, elles, de type
+\mybox{double} et le résultat d'une opération sera alors de type
+\mybox{double}.
+
+\begin{questionbox}
+D'accord, mais si j'additionne un
+\mybox{int} avec un \mybox{double}, cela me donne quoi ?
+\end{questionbox}
+
+Heureusement pour nous, la norme\footnote{Programming Language C,
+  X3J11/88-090, § 3.2.1.5, Usual arithmetic conversions.} a prévu ces
+différents cas et a fixé des règles :
+
+\begin{itemize}
+\item
+  si un opérande est de type \mybox{long double}, le résultat est de
+  type \mybox{long double} ; si non
+\item
+  si un opérande est de type \mybox{double}, le résultat est de type
+  \mybox{double} ; si non
+\item
+  si un opérande est de type \mybox{float}, le résultat est de type
+  \mybox{float} ; si non
+\item
+  si un opérande est de type \mybox{unsigned long}, le résultat est de
+  type \mybox{unsigned long}; si non
+\item
+  si un opérande est de type \mybox{long}, le résultat est de type
+  \mybox{long}; si non
+\item
+  si un opérande est de type \mybox{unsigned int}, le résultat est de
+  type \mybox{unsigned int}; si non
+\item
+  le résultat est de type \mybox{int}.
+\end{itemize}
+
+\subsection{Suffixes}
+\label{suffixes}
+
+\begin{questionbox}
+\emph{Heu}\ldots{} D'accord, mais vous
+venez de dire que les constantes entières étaient de type \mybox{int}
+et que les constantes flottantes étaient de type \mybox{double}. Du
+coup, je fais comment pour obtenir une constante d'un autre type ?
+\end{questionbox}
+
+À l'aide d'un suffixe. Celui-ci se place à la fin de la constante et
+permet de modifier son type. En voici la liste complète\footnote{\footnotesize{Pour le
+  type \mybox{long long} introduit en C99, le suffixe est \mybox{LL}
+  ou \mybox{ll}}}.
+
+
+\begin{table}[ht!]
+\centering
+ \begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Type} & \textbf{Suffixe}\tabularnewline\hline
+\rowcolor{gris-clair-tab}u ou U & \textbf{unsigned}\tabularnewline\hline
+l ou L & \textbf{long}\tabularnewline\hline
+\rowcolor{gris-clair-tab}f ou F & \textbf{float}\tabularnewline\hline
+l ou L & \textbf{long double}\tabularnewline\hline
+ \end{tabular}
+\end{table}
+
+\begin{infobox}
+Notez que les suffixes \mybox{L} (ou \mybox{l}) et \mybox{U} (ou \mybox{u}) peuvent être combinés.
+\end{infobox}
+
+  
+\subsection{Exemple}
+\label{exemple}
+
+Allez, un petit récapitulatif.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    /* long double + int = long double */
+    printf("78.56 + 5 = %Lf\n", 78.56L + 5);
+
+    /* long + double = double */
+    printf("5678 + 2.2 = %f\n", 5678L + 2.2);
+
+    /* long + unsigned long = unsigned long */
+    printf("2 + 5 = %lu\n", 2L + 5UL);
+
+    /* long + int = long */
+    printf("1 + 1 = %ld\n", 1L + 1);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+78.56 + 5 = 83.560000
+5678 + 2.2 = 5680.200000
+2 + 5 = 7
+1 + 1 = 2
+\end{C}
+
+\begin{infobox}
+Nous vous conseillons d'opter pour
+les lettres majuscules qui ont l'avantage d'être plus lisibles.
+\end{infobox}
+
+\section{Conversions de types}
+\label{conversions-de-types}
+
+La \textbf{conversion de type} est une opération qui consiste à changer
+le type de la valeur d'une expression. Ainsi, il vous est par exemple
+possible de convertir une valeur de type \mybox{float} en type
+\mybox{int}.
+
+\subsection{Perte d'informations}
+\label{perte-dinformations}
+
+Une perte d'informations survient quand le type d'une variable est
+converti vers un autre type ayant une capacité plus faible \emph{et} que
+celui-ci ne peut pas contenir la valeur d'origine. Si, par exemple, nous
+convertissons un \mybox{double} de cent chiffres en un \mybox{int}, il
+y a perte d'informations, car le type \mybox{int} ne peut pas contenir
+un nombre de cent chiffres. Retenez donc bien cette assertion : une
+conversion d'un type \(T\) vers un type \(S\) de plus faible capacité
+entraîne une perte d'informations (une perte de précision pour les
+nombres).
+
+Les conversions peuvent être vicieuses et doivent être manipulées avec
+précaution, au risque de tomber sur des valeurs fausses en cas de perte
+d'informations. Nous découvrirons d'ici quelques chapitres comment
+connaître la taille d'un type pour éviter ces pertes d'informations.
+
+\subsection{Deux types de conversions}
+\label{deux-types-de-conversions}
+
+Il existe deux types de conversions : les conversions explicites et les
+conversions implicites.
+
+\subsubsection*{Les conversions explicites}
+\label{les-conversions-explicites}
+
+Les \textbf{conversions explicites} sont des conversions demandées par
+le programmeur. Elles s'utilisent suivant ce modèle.
+
+\begin{C}
+(<Type>)<Expression>
+\end{C}
+
+Voici par exemple un code où nous demandons explicitement la conversion
+d'un \mybox{double} en \mybox{int}.
+
+\begin{C}
+int a;
+const double pi = 3.14;
+
+a = (int)pi;
+\end{C}
+
+La valeur de \mybox{pi} reste inchangée, elle vaudra toujours 3.14 dans
+la suite du programme. Par contre, \mybox{a} vaut maintenant 3, puisque
+la valeur de \mybox{pi} a été convertie en \mybox{int}.
+
+\subsubsection*{Conversions implicites}
+\label{conversions-implicites}
+
+Les \textbf{conversions implicites} sont des conversions spécifiées par
+la norme et réalisées automatiquement par le compilateur. En général,
+cela ne pose pas de problèmes et cela est même désirable. Par exemple,
+il y a toujours une conversion implicite dans le cadre d'une
+affectation.
+
+Ainsi, la conversion explicite du code précédent n'est en fait pas
+nécessaire.
+
+\begin{C}
+int a;
+const double pi = 3.14;
+
+/* Il y a conversion implicite du type double vers le type int. */
+a = pi;
+\end{C}
+
+\section{Sucre syntaxique }
+\label{sucre-syntaxique}
+
+Dans les expressions vues au-dessus, nous avons utilisé des affectations pour
+sauvegarder le résultat de l'opération dans une variable. Les
+expressions obtenues ainsi sont assez longues et on peut se demander
+s'il existe des moyens pour écrire moins de code. \emph{Hé} bien, le
+langage C fournit des écritures pour se simplifier la vie. Certains cas
+particuliers peuvent s'écrire avec des raccourcis, du « \textbf{sucre
+syntaxique} ».
+
+\section{Les opérateurs combinés}
+\label{les-operateurs-combines}
+
+Comment vous y prendriez-vous pour multiplier une variable par trois ?
+La solution qui devrait vous venir à l'esprit serait d'affecter à la
+variable son ancienne valeur multipliée par trois.
+
+\begin{C}
+int variable = 3;
+
+variable = variable * 3;
+printf("variable * 3 = %d\n", variable);
+\end{C}
+
+\begin{C}
+variable * 3 = 9
+\end{C}
+
+Ce qui est parfaitement correct. Cependant, cela implique de devoir
+écrire deux fois le nom de la variable, ce qui est quelques peu pénible
+et source d'erreurs. Aussi, il existe des opérateurs combinés qui
+réalisent une affectation et une opération en même temps.
+
+\begin{table}[ht!]
+\centering
+ \begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Opérateur combiné} & \textbf{Équivalent à}\tabularnewline\hline
+variable += nombre & variable = variable + nombre\tabularnewline\hline
+\rowcolor{gris-clair-tab}variable -= nombre & variable = variable - nombre\tabularnewline\hline
+variable *= nombre & variable = variable * nombre\tabularnewline\hline
+\rowcolor{gris-clair-tab}variable /= nombre & variable = variable / nombre\tabularnewline\hline
+variable \%= nombre & variable = variable \% nombre\tabularnewline\hline
+ \end{tabular}
+\end{table}
+
+
+Avec le code précédent, nous obtenons ceci.
+
+\begin{C}
+int variable = 3;
+
+variable *= 3;
+printf("variable * 3 = %d\n", variable);
+\end{C}
+
+\begin{C}
+variable * 3 = 9
+\end{C}
+
+\subsection{L'incrémentation et la décrémentation}
+\label{lincrementation-et-la-decrementation}
+
+L'\textbf{incrémentation} et la \textbf{décrémentation} sont deux
+opérations qui, respectivement, ajoute ou enlève une unité à une
+variable. Avec les opérateurs vu précédemment, cela se traduit par le
+code ci-dessous.
+
+\begin{C}
+variable += 1; /* Incrémentation */
+variable -= 1; /* Décrémentation */
+\end{C}
+
+Cependant, ces deux opérations étant très souvent utilisées, aussi elles
+ont droit chacune à un opérateur spécifique disponible sous deux formes
+:
+
+\begin{itemize}
+\item
+  une forme \textbf{préfixée} ;
+\item
+  une forme \textbf{suffixée}.
+\end{itemize}
+
+La forme préfixée s'écrit comme ceci.
+
+\begin{C}
+++variable; /* Incrémentation */
+--variable; /* Décrémentation */
+\end{C}
+
+La forme suffixée s'écrit comme cela.
+
+\begin{C}
+variable++; /* Incrémentation */
+variable--; /* Décrémentation */
+\end{C}
+
+Le résultat des deux paires d'opérateurs est le même : la variable
+\mybox{variable} est incrémentée ou décrémentée, \emph{à une différence
+près} : le résultat de l'opération.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Dans le cas de l'opérateur préfixé (\mybox{--variable} ou
+  \mybox{++variable}), le résultat sera la valeur de la variable
+  augmentée ou diminuée d'une unité.
+\item
+  Dans le cas de l'opérateur suffixé (\mybox{variable--} ou
+  \mybox{variable++}), le résultat sera la valeur de la variable.
+\end{enumerate}
+
+Illustration !
+
+\begin{C}
+ #include <stdio.h>
+
+int main(void)
+{
+    int x = 1;
+    int y = 1;
+    int a = x++;
+    int b = ++y;
+
+    printf("a = %d\n", a);
+    printf("b = %d\n", b);
+    printf("x = %d\n", x);
+    printf("y = %d\n", y);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+a = 1
+b = 2
+x = 2
+y = 2
+\end{C}
+
+Comme vous pouvez le constater, la valeur de l'expression \mybox{x++}
+est \mybox{1} alors que la valeur de l'expression \mybox{++y} est 2.
+Cela étant, dans les deux cas, les variables \mybox{x} et \mybox{y}
+ont bien été incrémentées.
+
+\section{Exercices}
+\label{exercices-1}
+
+Vous êtes prêts pour un exercice ?
+
+Essayez de réaliser une minicalculatrice qui :
+
+\begin{itemize}
+\item
+  dit « bonjour » ;
+\item
+  demande deux nombres entiers à l'utilisateur ;
+\item
+  les additionne, les soustrait, les multiplie et les divise (au
+  millième près) ;
+\item
+  dit « au revoir ».
+\end{itemize}
+
+Un exemple d'utilisation pourrait être celui-ci.
+
+\begin{C}
+Bonjour !
+Veuillez saisir le premier nombre : 4
+Veuillez saisir le deuxième nombre : 7
+Calculs :
+        4 + 7 = 11
+        4 - 7 = -3
+        4 * 7 = 28
+        4 / 7 = 0.571
+Au revoir !
+\end{C}
+
+Bien, vous avez maintenant toutes les cartes en main, donc : au boulot !
+:)
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+   int a;
+   int b;
+
+   printf("Bonjour !\n");
+
+   /* Nous demandons deux nombres à l'utilisateur */
+   printf("Veuillez saisir le premier nombre : ");
+   scanf("%d", &a);
+   printf("Veuillez saisir le deuxième nombre : ");
+   scanf("%d", &b);
+
+   /* Puis nous effectuons les calculs */
+   printf("Calculs :\n");
+   printf("\t%d + %d = %d\n", a, b, a + b);
+   printf("\t%d - %d = %d\n", a, b, a - b);
+   printf("\t%d * %d = %d\n", a, b, a * b);
+   printf("\t%d / %d = %.3f\n", a, b, a / (double)b);
+   printf("Au revoir !\n");
+   return 0; 
+}
+\end{C}
+
+Vous y êtes arrivé sans problèmes ? Bravo ! Dans le cas contraire, ne
+vous inquiétiez pas, ce n'est pas grave. Relisez bien tous les points
+qui ne vous semblent pas clairs et ça devrait aller mieux.
+
+\hrulefill
+
+Dans le chapitre suivant, nous nous pencherons sur les \textbf{conditions}.

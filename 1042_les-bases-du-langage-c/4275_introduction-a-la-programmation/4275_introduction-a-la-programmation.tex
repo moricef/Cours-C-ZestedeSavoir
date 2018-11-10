@@ -1,0 +1,456 @@
+\part{Les bases du langage C}
+\label{les-bases-du-langage-C}
+
+\chapter{Introduction à la programmation}
+\label{introduction-a-la-programmation}
+
+La programmation est un sujet qui fascine énormément. Si vous lisez ce
+cours, c’est que vous avez décidé de franchir le pas et de découvrir
+de quoi il s’agit.  Cependant, avant de commencer à apprendre quoi que
+ce soit sur le C et la programmation, il est d’abord nécessaire de
+découvrir en quoi la programmation consiste. En effet, pour le moment,
+vous ne savez pas réellement ce qu’est la programmation, ce que
+signifie « programmer » ou encore ce qui caractérise le langage C. Ce
+chapitre va donc consister en une introduction au monde de la
+programmation, et plus particulièrement au langage C.
+
+\section{Avant-propos}
+\label{avant-propos}
+
+\subsection{Esprit et but du tutoriel}
+\label{esprit-et-but-du-tutoriel}
+
+Ce cours a été écrit dans un seul but : vous enseigner le langage C de
+la manière la plus complète, la plus rigoureuse et la plus instructive
+possible. Pour ce faire, celui-ci combinera théorie, détails
+techniques et exercices pratiques. Dès lors, nous ne vous le cachons
+pas : cette approche va réclamer de votre part des \textbf{efforts},
+certains passages étant assez complexes.
+
+Nous avons choisi cette méthode d'apprentissage, car c'est celle que
+nous jugeons la plus profitable. Elle s'oppose à une autre, plus
+fréquente et plus superficielle, qui permet certes d'acquérir des
+connaissances rapidement, mais qui s'avère bien souvent peu payante
+sur le long terme.
+
+En effet, beaucoup de programmeurs débutants se retrouvent ainsi
+perdus lorsqu'ils sont jetés dans la jungle de la programmation à la
+fin d'un cours, ceux-ci manquant souvent de connaissances techniques,
+de (bonnes) pratique(s) et de rigueur.
+
+Ne soyez toutefois pas apeuré, notre objectif n'est pas de vous noyer
+d'informations ou de vous perdre avec des termes techniques. Nous vous
+précisons simplement que ce cours nécessite d'avoir les doigts sur le
+clavier et non dans le nez et que le début risque d'être un peu moins
+« \emph{cool} » que ce que vous pourrez trouver ailleurs. ;)
+
+\subsection{À qui est destiné ce cours ?}
+\label{a-qui-est-destinuxe-ce-cours}
+
+À n'importe quelle personne intéressée : que vous soyez un(e)
+programmeur(euse) expérimenté(e), un(e) total(e) débutant(e) ou que
+vous vouliez réviser certaines notions du C, vous êtes tous et toutes
+les bienvenus(es). Les explications seront les plus claires possibles
+afin de rendre la lecture accessible à tous.
+
+Toutefois, quelques qualités sont opportunes pour arriver au bout de
+ce cours :
+
+\begin{itemize}
+\item De la \textbf{motivation} : ce cours va présenter de nombreuses
+  notions, souvent théoriques, et qui sembleront parfois complexes. Il
+  vous faut donc être bien motivés pour profiter pleinement de cet
+  apprentissage.
+\item De la \textbf{logique} : apprendre la programmation, c'est aussi
+  être logique. Bien sûr, ce cours vous apprendra à mieux l'être, mais
+  il faut néanmoins savoir réfléchir par soi-même et ne pas compter
+  sur les autres pour faire le travail à sa place.
+\item De la \textbf{patience} : vous vous apprêtez à apprendre un
+  langage de programmation. Pour arriver à un sentiment de maîtrise,
+  il va vous falloir de la patience pour apprendre, comprendre, vous
+  entraîner, faire des erreurs et les corriger.
+\item De la \textbf{rigueur} : cette qualité, nous allons tenter de
+  vous l'inculquer à travers ce cours. Elle est très importante, car
+  c'est elle qui fera la différence entre un bon et un mauvais
+  programmeur.
+\item De la \textbf{curiosité} : n'hésitez pas à apporter des
+  modifications aux codes proposés et à sortir un peu des balises du
+  cours, cela ne vous sera que profitable.
+\item De la \textbf{passion} : le plus important pour suivre ce
+  tutoriel, c'est de prendre plaisir à programmer. Amusez-vous en
+  codant, c'est le meilleur moyen de progresser !
+\end{itemize}
+
+À noter qu'un niveau acceptable en anglais est un plus indéniable,
+beaucoup de cours, de forums et de documentations étant rédigés en
+anglais. Si ce n'est pas le cas, gardez ceci à l'esprit : en
+programmation, vous y serez confrontés tôt ou tard.
+
+Enfin, un dernier point au sujet des mathématiques : contrairement à
+la croyance populaire, un bon niveau en maths n'est absolument pas
+nécessaire pour faire de la programmation. Certes, cela peut vous
+aider en développant votre logique, mais si les mathématiques ne sont
+pas votre fort, vous pourrez suivre ce cours sans problèmes.
+
+\section{Aller plus loin}
+\label{aller-plus-loin}
+
+Un des concepts fondamentaux de l'apprentissage de notions
+informatiques sur Internet est le \emph{croisement des sources}. Il
+permet de voir la programmation sous un angle différent. Par exemple,
+quelques cours de
+\MYhref{http://c.developpez.com/cours/?page=lang-c}{Developpez}
+recourant à des approches différentes sont à votre entière
+disposition. N'hésitez pas non plus à lire des livres sur le C,
+notamment le
+\MYhref{http://en.wikipedia.org/wiki/The_C_Programming_Language}{K\&R},
+écrit par les auteurs du langage (une version traduite en français est
+disponible
+\MYhref{http://www.dunod.com/informatique-multimedia/developpement/cc/ouvrages-denseignement/le-langage-c}{aux
+  éditions Dunod}). C'est un livre qui pourra vous être utile.
+
+\section{La programmation, qu’est-ce que c’est ?}
+\label{la-programmation-quest-ce-que-cest}
+
+\begin{infobox}
+Dans cette section, nous nous
+      contenterons d'une présentation succinte qui est suffisante pour
+      vous permettre de poursuivre la lecture de ce cours. Toutefois,
+      si vous souhaitez un propos plus étayé, nous vous conseillons la
+      lecture du
+      \MYhref{https://zestedesavoir.com/tutoriels/531/les-bases-de-la-programmation/}{cours
+        d'introduction à la programmation} présent sur ce site.
+\end{infobox}
+
+La programmation est une branche de l'informatique qui sert à créer
+des \textbf{programmes}. Tout ce que vous possédez sur votre
+ordinateur est un programme : votre navigateur Internet (Internet
+Explorer, Firefox, Opera, etc.), votre système d'exploitation
+(Windows, GNU/Linux, Mac OS X, etc.) qui est un regroupement de
+plusieurs programmes appelés \textbf{logiciels}, votre lecteur MP3,
+votre logiciel de discussion instantanée, vos jeux vidéos, etc.
+
+\subsection{Les programmes expliqués en long, en large et en   travers}
+  \label{les-programmes-expliques-en-long-en-large-et-en-travers}
+
+Un programme est une séquence d'\textbf{instructions}, d'ordres,
+donnés à l'ordinateur afin qu'il exécute des actions. Ces instructions
+sont généralement assez basiques. On trouve ainsi des instructions
+d'addition, de multiplication, ou d'autres opérations mathématiques de
+base, qui font que notre ordinateur est une vraie machine à calculer.
+D'autres instructions plus complexes peuvent exister, comme des
+opérations permettant de comparer des valeurs, traiter des caractères,
+etc.
+
+Créer un programme, c'est tout simplement utiliser une suite
+d'instructions de base qui permettra de faire ce que l'on veut. Tous
+les programmes sont créés ainsi : votre lecteur MP3 donne des
+instructions à l'ordinateur pour écouter de la musique, le \emph{chat}
+donne des instructions pour discuter avec d'autres gens sur le réseau,
+le système d'exploitation donne des instructions pour dire à
+l'ordinateur comment utiliser le matériel, etc.
+
+\begin{infobox}
+Notez qu'il n'est pas possible
+    de créer des instructions. Ces dernières sont imprimées dans les
+    circuits de l'ordinateur ce qui fait qu'il ne peut en gérer qu'un
+    nombre précis et qu'il ne vous est donc pas loisible d'en
+    construire de nouvelles (sauf cas particuliers vraiment tordus).
+\end{infobox}
+
+Notre ordinateur contient un composant électronique particulier,
+spécialement conçu pour exécuter ces instructions : le
+\textbf{processeur}. Ce qu'il faut retenir, c'est que notre ordinateur
+contient un circuit, le processeur, qui permet d'effectuer de petits
+traitements de base qu'on appelle des instructions et qui sont la base
+de tout ce qu'on trouve sur un ordinateur.
+
+Les instructions sont stockées dans notre ordinateur sous la forme de
+chiffres binaires (appelés \emph{bits} en anglais), autrement dit sous
+forme de zéros ou de uns. Ainsi, nos instructions ne sont rien d'autre
+que des suites de zéros et de uns conservées dans notre ordinateur et
+que notre processeur va interpréter comme étant des ordres à exécuter.
+Ces suites de zéros et de uns sont difficilement compréhensibles pour
+nous, humains, et parler à l'ordinateur avec des zéros et des uns est
+très fastidieux et très long. Autant vous dire que créer des
+programmes de cette façon revient à se tirer une balle dans le pied.
+
+Pour vous donner un exemple, imaginez que vous deviez communiquer avec
+un étranger alors que vous ne connaissez pas sa langue. Communiquer
+avec un ordinateur reviendrait à devoir lui donner une suite de zéros
+et de uns, ce dernier étant incapable de comprendre autre chose. Ce
+langage s'appelle le \textbf{langage machine}.
+
+Une question doit certainement vous venir à l'esprit : comment
+communiquer avec notre processeur sans avoir à apprendre sa langue ?
+
+L'idéal serait de parler à notre processeur en français, en anglais,
+etc, mais disons-le clairement : notre technologie n'est pas
+suffisamment évoluée et nous avons dû trouver autre chose. La solution
+retenue a été de créer des langages de programmation plus évolués que
+le langage machine, plus faciles à apprendre et de fournir le
+traducteur qui va avec. Il s'agit de langages assez simplifiés,
+souvent proches des langages naturels et dans lesquels on peut écrire
+nos programmes beaucoup plus simplement qu'en utilisant le langage
+machine. Grâce à eux, il est possible d'écrire nos programmes sous
+forme de texte, sans avoir à se débrouiller avec des suites de zéros
+et de uns totalement incompréhensibles. Il existe de nombreux langages
+de programmation et l'un d'entre-eux est le \textbf{C}.
+
+Reste que notre processeur ne comprend pas ces langages évolués et
+n'en connaît qu'un seul : le sien. Aussi, pour utiliser un langage de
+programmation, il faut disposer d'un traducteur qui fera le lien entre
+celui-ci et le langage machine du processeur. Ainsi, il ne vous est
+plus nécessaire de connaître la langue de votre processeur. En
+informatique, ce traducteur est appelé un \textbf{compilateur}.
+
+Pour illustrer notre propos, voici un code écrit en C (que nous
+apprendrons à connaître).
+
+\begin{C}
+  #include <stdio.h>
+
+  int main(void) { printf("Salut !\n"); return 0; }
+\end{C}
+
+\clearpage
+
+Et le même en langage machine (plus précisémment pour un processeur de
+la famille x86-64).
+
+\begin{C}
+  01010101 01001000 10001001 11100101 10111111 00100100 00101100
+  01001000 00000000 10111000 00000000 00000000 00000000 00000000
+  11101000 10011101 00001011 00000000 00000000 10111000 00000000
+  00000000 00000000 00000000 01011101 11000011 01010011 01100001
+  01101100 01110101 01110100 00100000 00100001 00001010 00000000
+\end{C}
+
+Nous y gagnons tout de même au change, non ? :pMalgré tous ces
+langages de programmation disponibles nous allons, dans ce tutoriel,
+nous concentrer sur un seul d'entre-eux : le C. Avant de parler des
+caractéristiques de ce langage et des choix qui nous amènent à
+l'étudier dans ce cours, faisons un peu d'histoire.
+
+\section{Le langage C}
+\label{le-langage-C}
+
+\subsection{L'histoire du C}
+\label{lhistoire-du-c}
+
+Le langage C est né au début des années 1970 dans les laboratoires de
+la société AT\&T aux États-Unis. Son concepteur,
+\MYhref{http://fr.wikipedia.org/wiki/Dennis_Ritchie}{Dennis MacAlistair
+  Ritchie}, souhaitait améliorer un langage existant, le B, afin de
+lui adjoindre des nouveautés. En 1973, le C était pratiquement au
+point et il commença à être distribué l'année suivante. Son succès fut
+tel auprès des informaticiens qu'en 1989, l'ANSI, puis en 1990, l'ISO,
+décidèrent de le normaliser, c'est-à-dire d'établir des règles
+internationales et officielles pour ce langage. À l'heure actuelle, il
+existe trois normes : la norme ANSI C89 ou ISO C90, la norme ISO C99
+et la norme ISO C11.
+
+\emph{{[}AT\&T{]}: American Telephone and Telegraph Company
+}{[}ANSI{]}: American National Standards Institute *{[}ISO{]}:
+International Organization for Standardization
+
+\begin{infobox}
+Si vous voulez en savoir plus sur
+l'histoire du C, lisez donc
+\MYhref{http://c.developpez.com/cours/historique-langage-c/}{ce
+  tutoriel}.
+\end{infobox}
+
+\subsection{Pourquoi apprendre le C ?}
+\label{pourquoi-apprendre-le-c}
+
+C'est une très bonne question. :D Après tout, étant donné qu'il existe
+énormément de langages différents, il est légitime de se demander
+pourquoi choisir le C en particulier ? Il y a plusieurs raisons à
+cela.
+
+\begin{itemize}
+\item Sa \textbf{popularité} : le C fait partie des langages de
+  programmation les plus utilisés. Il possède une communauté très
+  importante, de nombreux cours et beaucoup de documentations. Vous
+  aurez donc toujours du monde pour vous aider. De plus, il existe un
+  grand nombre de programmes et de bibliothèques développés en C.
+\item Sa \textbf{rapidité} : le C est connu pour être un langage très
+  rapide, ce qui en fait un langage de choix pour tout programme où la
+  vitesse d'exécution est cruciale.
+\item Sa \textbf{simplicité} : le C est un langage minimaliste pourvu
+  de peu de concepts ce qui permet d'en faire le tour
+  \emph{relativement} rapidement et d'éviter un niveau d'abstraction
+  trop important.
+\item Sa \textbf{légèreté} : le C est léger, ce qui le rend utile pour
+  les programmes embarqués où la mémoire disponible est faible.
+\item Sa \textbf{portabilité} : cela signifie qu'un programme
+  développé en C peut être compilé pour fonctionner sur différentes
+  machines sans devoir changer ledit code.
+\end{itemize}
+
+Ce ne sont que quelques raisons, mais elles sont à notre goût
+suffisantes pour justifier l'apprentissage de ce langage. Bien
+entendu, le C comporte aussi sa part de défauts. On peut citer la
+tolérance aux comportements dangereux qui fait que le C demande de la
+rigueur pour ne pas tomber dans certains « pièges », un nombre plus
+restreint de concepts (c'est parfois un désavantage, car on est alors
+obligé de recoder certains mécanismes qui existent nativement dans
+d'autres langages), etc. D'ailleurs, si votre but est de développer
+rapidement des programmes amusants, sachez que le C n'est pas adapté
+pour cela et que nous vous conseillons, dans ce cas, de vous tourner
+vers d'autres langages, comme par exemple le
+\MYhref{https://zestedesavoir.com/tutoriels/799/apprendre-a-programmer-avec-python-3/}{Python}
+ou le
+\MYhref{https://zestedesavoir.com/tutoriels/634/une-introduction-a-ruby/}{Ruby}.
+
+Le C possède aussi une caractéristique qui est à la fois un avantage et
+un défaut : il s'agit d'un langage dit de « \textbf{bas niveau} ». Cela
+signifie qu'il permet de programmer en étant « proche de sa machine »,
+c'est-à-dire sans trop vous cacher son fonctionnement interne. Cette
+propriété est à double tranchant : d'un côté elle rend l'apprentissage
+plus difficile et augmente le risque d'erreurs ou de comportements
+dangereux, mais de l'autre elle vous laisse une grande liberté d'action
+et vous permet d'en apprendre plus sur le fonctionnement de votre
+machine. Cette notion de « bas niveau » est d'ailleurs à opposer aux
+langages dit de « \textbf{haut niveau} » qui permettent de programmer en
+faisant abstraction d'un certain nombre de choses. Le développement est
+rendu plus facile et plus rapide, mais en contrepartie, beaucoup de
+mécanisme interne sont cachés et ne sont pas accessibles au programmeur.
+Ces notions de haut et de bas niveau sont néanmoins à nuancer, car elles
+dépendent du langage utilisé et du point de vue du programmeur (par
+exemple, par rapport au langage machine, le C est un langage de haut
+niveau).
+
+Une petite note pour terminer : peut-être avez-vous entendu parler du
+\textbf{C++} ? Il s'agit d'un langage de programmation qui a été inventé
+dans les années 1980 par
+\MYhref{https://en.wikipedia.org/wiki/Bjarne_Stroustrup}{Bjarne
+Stroustrup}, un collègue de Dennis Ritchie, qui souhaitait rajouter des
+éléments au C. Bien qu'il fût très proche du C lors de sa création, le
+C++ est aujourd'hui un langage très différent du C et n'a pour ainsi
+dire plus de rapport avec lui (si ce n'est une certaine proximité au
+niveau d'une partie de sa syntaxe). Ceci est encore plus vrai en ce qui
+concerne la manière de programmer et de raisonner qui sont
+\emph{radicalement} différentes.
+
+Ne croyez toutefois pas, comme peut le laisser penser leur nom ou leur
+date de création, qu'il y a un langage meilleur que l'autre, ils sont
+simplement \emph{différents}. Si d'ailleurs votre but est d'apprendre le
+C++, nous vous encourageons à le faire. En effet, contrairement à ce qui
+est souvent dit ou lu, \emph{il n'y a pas besoin de connaitre le C pour
+apprendre le C++}.
+
+\section{La norme}
+\label{la-norme}
+
+Comme précisé plus haut, le C est un langage qui a été normalisé à trois
+reprises. Ces normes servent de référence à tous les programmeurs et les
+aident chaque fois qu'ils ont un doute ou une question en rapport avec
+le langage. Bien entendu, elle ne sont pas parfaites et ne répondent pas
+à toutes les questions, mais elles restent \emph{la} référence pour tout
+programmeur.
+
+Ces normes sont également indispensables pour les compilateurs. En
+effet, le respect de ces normes par les différents compilateurs permet
+qu'il n'y ait pas de différences d'interprétation d'un même code.
+Finalement, ces normes sont l'équivalent de nos règles d'orthographe, de
+grammaire et de conjugaison. Imaginez si chacun écrivait ou conjuguait à
+sa guise, ce serait un sacré bazar\ldots{}
+
+Dans ce cours, nous avons décidé de nous reposer sur la norme ANSI C89
+(ou ISO C90, c'est pareil). En effet, même s'il s'agit de la plus
+ancienne, elle nous permettra néanmoins de développer avec n'importe
+quel compilateur et sous n'importe quel système sans problèmes et sans
+nous poser de questions sur la présence ou non de telle ou telle
+fonctionnalité.
+
+Rassurez-vous néanmoins : le fait de nous baser sur la norme C89 ne
+signifie pas que vous allez découvrir une version obsolète du langage C.
+En effet, d'une part, ce que vous allez voir tout au long de ce cours
+est toujours valable au regard des normes plus récentes et, d'autre
+part, les changements induits par les autres normes sont le plus souvent
+mineurs et consistent pour ainsi dire tous en des \emph{ajouts} et non
+en des modifications. De ce fait, il vous sera aisé, une fois ce cours
+parcouru, de passer à une norme plus récente.
+
+\begin{infobox} Pour les curieux, voici
+    \MYhref{http://flash-gordon.me.uk/ansi.c.txt}{un lien} vers le
+    brouillon de cette norme. Cela signifie qu'il ne s'agit pas de la
+    version définitive et officielle, cependant il est largement
+    suffisant pour notre niveau et, surtout, il est gratuit (la norme
+    officielle coûtant \emph{très} cher :-° ). Notez que celui-ci est
+    rédigé en anglais
+\end{infobox}
+
+\section{L’algorithmique}
+\label{l-algorithmique}
+
+L'algorithmique est liée à la programmation et constitue même une
+branche à part des mathématiques.  Elle consiste à définir et établir
+des \textbf{algorithmes}.
+
+Un algorithme peut se définir comme étant une suite finie et
+non-ambiguë d'opérations permettant de résoudre un problème. En clair,
+il s'agit de calculs qui prennent plusieurs paramètres et fournissent
+un résultat.  Les algorithmes ne sont pas limités à l'informatique,
+ils existaient même avant son apparition ; prenez les recettes de
+cuisine par exemple, ou des instructions de montage d'un meuble ou
+d'un Lego, ce sont des algorithmes.
+
+L'intérêt principal des algorithmes est qu'ils sont très utiles
+lorsqu'ils sont en relation avec des ordinateurs. En effet, ces
+derniers peuvent exécuter des milliards d'instructions à la seconde,
+ce qui les rend bien plus rapides qu'un humain. Illustrons : imaginez
+que vous deviez trier une liste de dix nombres dans l'ordre
+croissant. C'est assez facile et faisable en quelques secondes. Et
+pour plusieurs milliards de nombres ? C'est impossible pour un humain,
+alors qu'un ordinateur le fera rapidement.
+
+Ce qu'il faut retenir, c'est qu'un algorithme est une suite
+d'opérations destinée à résoudre un problème donné. Nous aurons
+l'occasion d'utiliser quelques algorithmes dans ce cours, mais nous ne
+nous concentrerons pas dessus.
+
+\fbox{\begin{minipage}{0.9\textwidth}Si vous voulez en savoir plus,
+    lisez le tutoriel sur
+    \MYhref{/tutoriels/621/algorithmique-pour-lapprenti-programmeur/}{l'algorithmique
+      pour l'apprenti programmeur} en même temps que vous apprenez à
+    programmer avec celui-ci.
+  \end{minipage}}
+
+\subsection{Le pseudo-code}
+\label{le-pseudo-code}
+
+Pour représenter un algorithme indépendamment de tout langage, on
+utilise ce qu'on appelle un \textbf{pseudo-code}. Il s'agit de la
+description des étapes de l'algorithme en langage naturel (dans notre
+cas le français). Voici un exemple de pseudo-code.
+
+\begin{C}
+  Fonction max (x, y)
+    
+  Si x est supérieur à y Retourner x Sinon Retourner y
+
+  Fin fonction
+\end{C}
+
+Dans ce cours, il y aura plusieurs exercices dans lesquels un
+algorithme fourni devra être mis en œuvre, traduit en C. Si vous
+voulez vous entrainer davantage tout en suivant ce cours, nous vous
+conseillons \MYhref{http://www.france-ioi.org/}{France-IOI} qui permet
+de mettre en application divers algorithmes dans plusieurs langages,
+dont le C. Cela pourra être un excellent complément.
+
+\hrulefill
+
+Comme vous avez pu le constater, la programmation est un monde vaste,
+très vaste, et assez complexe. Comme il existe une multitude de
+langages de programmation, il faut se concentrer sur un seul d'entre
+eux à la fois. Dans notre cas, il s'agit du C. Ce langage, et
+retenez-le bien, est à la fois puissant et complexe. Rappelez-vous
+bien qu'il vous faudra faire des efforts pour l'apprendre
+correctement.
+
+Si vous vous sentez prêts, alors rendez-vous dans le chapitre suivant,
+qui vous montrera les outils utilisés par un programmeur C.

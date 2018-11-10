@@ -1,0 +1,278 @@
+\chapter{La gestion d'erreurs (1)}
+\label{la-gestion-erreurs-(1)}
+
+Dans les chapitres précédents, nous vous avons présenté des exemples simplifiés afin de
+vous familiariser avec le langage. Aussi, nous avons pris soin de ne pas
+effectuer de vérifications quant à d'éventuelles rencontres d'erreurs.
+
+Mais à présent, c'est fini ! Vous disposez désormais d'un bagage
+suffisant pour affronter la dure réalité d'un programmeur : des fois, il
+y a des trucs qui foirent et il est nécessaire de le prévoir. Nous
+allons voir comment dans ce chapitre.
+
+\section{Détection d'erreurs}
+\label{detection-derreurs}
+
+La première chose à faire pour gérer d'éventuelles erreurs lors de l'exécution, c'est avant tout de les
+détecter. Par exemple, quand vous executez une fonction et qu'une erreur
+a lieu lors de son exécution, celle-ci doit vous prévenir d'une manière
+ou d'une autre. Et elle peut le faire de deux manières différentes.
+
+\subsection{Valeurs de retour}
+\label{valeurs-de-retour}
+
+Nous l'avons vu dans les chapitres précédents : certaines fonctions,
+comme \mybox{scanf()}, retournent un nombre (souvent un entier) alors
+qu'elles ne calculent pas un résultat comme la fonction \mybox{pow()}
+par exemple. Vous savez dans le cas de \mybox{scanf()} que cette valeur
+représente le nombre de conversions réussies, cependant cela va plus
+loin que cela : cette valeur vous signifie si l'exécution de la fonction
+s'est bien déroulée.
+
+\subsubsection{Scanf}
+\label{scanf}
+
+En fait, la fonction \mybox{scanf()} retourne le nombre de conversions
+réussies ou un nombre inférieur si elles n'ont pas toutes été réalisée
+ou, enfin, \emph{un nombre négatif en cas d'erreur}.
+
+Ainsi, si nous souhaitons récupérer deux entiers et être certains que
+\mybox{scanf()} les a récupéré, nous pouvons utiliser le code suivant.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int x;
+    int y;
+
+    printf("Entrez deux nombres : ");
+
+    if (scanf("%d %d", &x, &y) == 2)
+        printf("Vous avez entre : %d et %d\n", x, y);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Entrez deux nombres : 1 2
+Vous avez entre : 1 et 2
+
+Entrez deux nombres : 1 a
+\end{C}
+
+Comme vous pouvez le constater, le programme n'exécute pas l'affichage
+des nombres dans le dernier cas, car \mybox{scanf()} n'a pas réussi à
+réaliser deux conversions.
+
+\subsubsection{Main}
+\label{main}
+
+Maintenant que vous savez cela, regarder bien votre fonction
+\mybox{main()}.
+
+\begin{C}
+int main(void)
+{
+    return 0;
+}
+\end{C}
+
+Vous ne voyez rien qui vous interpelle ? :)
+
+Oui, vous avez bien vu, elle retourne un entier qui, comme pour
+\mybox{scanf()}, sert à indiquer la présence d'erreur. En fait, il y a
+deux valeurs possibles :
+
+\begin{itemize}
+\item
+  \mybox{EXIT\_SUCCESS} (ou zéro, cela revient au même), qui indique
+  que tout s'est bien passé ; et
+\item
+  \mybox{EXIT\_FAILURE}, qui indique un échec du programme.
+\end{itemize}
+
+Ces deux constantes sont définies dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}.
+
+\subsubsection{Les autres fonctions}
+\label{les-autres-fonctions}
+
+Sachez que \mybox{scanf()}, \mybox{printf()} et \mybox{main()} ne
+sont pas les seules fonctions qui retournent des entiers, en fait
+quasiment toutes les fonctions de la bibliothèque standard le font.
+
+\begin{questionbox}
+ Ok, mais je fais comment pour savoir ce que retourne une fonction ?
+\end{questionbox}
+
+
+À l'aide de la documentation. Vous disposez de
+\MYhref{http://flash-gordon.me.uk/ansi.c.txt}{la norme} (enfin, du
+brouillon de celle-ci) qui reste la référence ultime, sinon vous pouvez
+également utiliser un moteur de recherche avec la requête
+\mybox{man\ nom\_de\_fonction} afin d'obtenir les informations dont
+vous avez besoin.
+
+\begin{infobox}
+ Si vous êtes anglophobe, une traduction française de diverses descriptions
+ est disponible à \MYhref{http://perkamon.traduc.org/}{cette adresse}, vous
+ les trouverez à la section trois.
+\end{infobox}
+
+
+\subsection{Variable globale errno}
+\label{variable-globale-errno}
+
+Le retour des fonctions est un vecteur très pratique pour signaler une
+erreur. Cependant, il n'est pas toujours utilisable. En effet, nous
+avons vu lors du second TP la fonction mathématique \mybox{pow()}. Or,
+cette dernière utilise \emph{déjà} son retour pour transmettre le
+résultat d'une opération. Comment faire dès lors pour signaler un
+problème ?
+
+Une première idée serait d'utiliser une valeur particulière, comme zéro
+par exemple. Toutefois, ce n'est pas satisfaisant puisque, dans le cas
+de la fonction \mybox{pow()}, elle peut parfaitement retourner zéro
+lors d'un fonctionnement normal. Que faire alors ?
+
+Dans une telle situation, il ne reste qu'une seule solution : utiliser
+un autre canal, en l'occurrence une variable globale. La bibliothèque
+standard fourni une variable globale nomée \mybox{errno} (elle est
+déclarée dans l'en-tête \mybox{\textless{}errno.h\textgreater{}}) qui
+permet à différentes fonctions d'indiquer une erreur en modifiant la
+valeur de celle-ci.
+
+\begin{infobox}
+Une valeur de zéro indique qu'aucune
+erreur n'est survenue.
+\end{infobox}
+ 
+
+Les fonctions mathématiques recourent abondamment à cette fonction.
+Prenons l'exemple suivant.
+
+\begin{C}
+
+#include <errno.h>
+#include <stdio.h>
+
+
+int main(void)
+{
+    double x;
+
+    errno = 0;
+    x = pow(-1, 0.5);
+
+    if (errno == 0)
+        printf("x = %f\n", x);
+
+    return 0;
+}
+\end{C}
+
+L'appel revient à demander le résultat de l'expression
+\(-1^\frac{1}{2}\), autrement dit, de cette expression : \(\sqrt{-1}\),
+ce qui est impossible dans l'essemble des réels. Aussi, la fonction
+\mybox{pow()} modifie la variable \mybox{errno} pour vous signifier
+qu'elle n'a pas pu calculer l'expression demandée.
+
+Une petite précision concernant ce code et la variable \mybox{errno} :
+celle-ci doit \emph{toujours} être mise à zéro \emph{avant} d'appeler
+une fonction qui est susceptible de la modifier, ceci afin de vous
+assurez qu'elle ne contient pas la valeur qu'une autre fonction lui a
+assignée auparavant. Imaginez que vous ayez précédemment appelé la
+fonction \mybox{pow()} et que cette dernière a échoué, si vous
+l'appelez à nouveau, la valeur de \mybox{errno} sera toujours celle
+assignée lors de l'appel précédent.
+
+\begin{infobox}
+ Notez que la bibliothèque standard ne
+prévoit en fait que deux valeurs d'erreur possibles pour \mybox{errno}
+: \mybox{EDOM} (pour le cas où le résultat d'une fonction mathématique
+est impossible) et \mybox{ERANGE} (en cas de dépassement de capacité,
+nous y reviendrons plus tard). Ces deux constantes sont définies dans
+l'en-tête \mybox{\textless{}errno.h\textgreater{}}. 
+\end{infobox}
+
+\section{Prévenir l'utilisateur}
+\label{prevenir-l-utilisateur}
+
+Savoir qu'une erreur s'est produite, c'est bien, le signaler à
+l'utilisateur, c'est mieux. Ne laisser pas votre utilisateur dans le
+vide, s'il se passe quelque chose, dites le lui.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int x;
+    int y;
+
+    printf("Entrez deux nombres : ");
+
+    if (scanf("%d %d", &x, &y) == 2)
+        printf("Vous avez entré : %d et %d\n", x, y);
+    else
+        printf("Vous devez saisir deux nombres !\n");
+
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+Entrez deux nombres : a b
+Vous devez saisir deux nombres !
+
+Entrez deux nombres : 1 2
+Vous avez entre : 1 et 2
+\end{C}
+
+Simple, mais tellement plus agréable.
+
+
+\section{Un exemple d'utilisation des valeurs de retour }
+\label{un-exemple-d-utilisation-des-valeurs-de-retour }
+
+Maintenant que vous savez tout cela, il vous est possible de modifier le code utilisant la fonction
+\emph{scanf}() pour vérifier si celle-ci a réussi et, si ce n'est pas le
+cas, préciser à l'utilisateur qu'une erreur est survenue \emph{et}
+quitter la fonction \emph{main}() en retournant la valeur EXIT\_FAILURE.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int x;
+    int y;
+
+    printf("Entrez deux nombres : ");
+
+    if (scanf("%d %d", &x, &y) != 2)
+    {
+        printf("Vous devez saisir deux nombres !\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Vous avez entré : %d et %d\n", x, y);
+    return 0;
+}
+\end{C}
+
+Ceci nous permet de réduire un peu la taille de notre code en éliminant
+directement les cas d'erreurs.
+
+\hrulefill
+
+Bien, vous voilà à présent fin prêt pour la deuxième partie du cours et
+ses \emph{vrais} exemples. Plus de pitié donc : gare à vos fesses si vous ne vérifiez pas le comportement des fonctions que vous appelez !

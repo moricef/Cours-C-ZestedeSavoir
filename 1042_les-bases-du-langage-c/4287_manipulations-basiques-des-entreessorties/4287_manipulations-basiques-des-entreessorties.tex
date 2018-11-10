@@ -1,0 +1,471 @@
+\chapter{Manipulations basiques des entrées/sorties}
+
+Durant l'exécutiond'un programme, le processeur a besoin de communiquer 
+avec le reste du matériel. Ces échanges d'informations sont les \textbf{entrées} et les
+\textbf{sorties} (ou \emph{input} et \emph{output} pour les
+anglophones), souvent abrégées E/S (ou I/O par les anglophones).
+
+Les entrées permettent de recevoir une donnée en provenance de certains
+périphériques. Les données fournies par ces entrées peuvent être une
+information envoyée par le disque dur, la carte réseau, le clavier, la
+souris, un CD, un écran tactile, bref par n'importe quel périphérique.
+Par exemple, notre clavier va transmettre des informations sur les
+touches enfoncées au processeur : notre clavier est donc une entrée.
+
+À l'inverse, les sorties vont transmettre des données vers ces
+périphériques. On pourrait citer l'exemple de l'écran : notre ordinateur
+lui envoie des informations pour qu'elles soient affichées.
+
+Dans ce chapitre, nous allons apprendre différentes fonctions fournies
+par le langage C qui vont nous permettre d'envoyer des informations vers
+nos sorties et d'en recevoir depuis nos entrées. Vous saurez ainsi
+comment demander à un utilisateur de fournir une information au clavier
+et comment afficher quelque chose sur la console.
+
+\section{Les sorties}
+
+Intéressons-nous dans un premier temps aux sorties. Afin
+d'afficher du texte, nous avons besoin d'une \textbf{fonction}.
+
+Une fonction est un morceau de code qui a un but, une \emph{fonction}
+particulière et qui peut être \textbf{appelée} à l'aide d'une référence,
+le plus souvent le nom de cette fonction (comme pour une variable,
+finalement). En l'occurrence, nous allons utiliser une fonction qui a
+pour objectif d'afficher du texte dans la console : la fonction
+\mybox{printf()}.
+
+\subsection{Première approche}
+\label{premiere-approche}
+
+Un exemple valant mieux qu'un long discours, voici un premier exemple.
+
+
+\begin{C}
+#include<stdio.h>}
+
+int main(void)
+{
+     printf("Bonjour tout le monde !\n");
+    return 0;
+}
+\end{C}
+
+
+\begin{C}
+Bonjour tout le monde !
+\end{C}
+
+Deux remarques au sujet de ce code.
+
+
+\begin{C}
+#include<stdio.h>
+\end{C}
+
+
+Il s'agit d'une \textbf{directive du préprocesseur}, facilement
+reconnaissable car elles commencent toutes par le symbole \mybox{\#}.
+Celle-ci sert à inclure un fichier (« stdio.h ») qui contient les
+références de différentes fonctions d'entrée et sortie (« \emph{stdio} »
+est une abbréviation pour « \emph{\textbf{St}andar\textbf{d i}nput
+\textbf{o}utput} », soit « Entrée-sortie standard »).
+
+Un fichier se terminant par l'extension « .h » est appelé un
+\textbf{fichier d'en-tête} (\emph{header} en anglais) et fait partie
+avec d'autre d'un ensemble plus large appelée la \textbf{bibliothèque
+standard} (« standard » car elle est prévue par la
+norme{\footnote{\footnotesize{Programming Language C, X3J11/88-090, §
+4, Library.}}.
+
+
+\begin{C}
+ printf("Bonjour tout le monde !\n");
+\end{C}
+
+
+Ici, nous \textbf{appelons} la fonction \mybox{printf()} (un appel de
+fonction est toujours suivi d'un groupe de parenthèses) avec comme
+\textbf{argument} (ce qu'il y a entre les parenthèses de l'appel) un
+texte (il s'agit plus précisément d'une \textbf{chaîne de caractères},
+qui est toujours comprise entre deux guillemets double). Le
+\mybox{\textbackslash n} est un caractère spécial qui représente un
+retour à la ligne, cela est plus commode pour l'affichage.
+
+Le reste devrait vous être familier.
+
+\subsection{Les formats}
+\label{les-formats}
+
+Bien, nous savons maintenant afficher une phrase, mais ce serait quand
+même mieux de pouvoir voir les valeurs de nos variables. Comment faire ?
+\emph{Hé} bien, pour y parvenir, la fonction \mybox{printf()} met à
+notre disposition des \textbf{formats}. Ceux-ci sont en fait des sortes
+de repères au sein d'un texte qui indique à \mybox{printf()} que la
+valeur d'une variable est attendue à cet endroit. Voici un exemple pour
+une variable de type \mybox{int}.
+
+
+\begin{C}
+#include<stdio.h>}
+
+int main(void)
+{
+    int variable = 20 ;
+
+    printf("%d\n", variable);
+    return 0 ;
+}
+\end{C}
+
+
+\begin{C}
+20
+\end{C}
+
+Nous pouvons voir que le texte de l'exemple précédent a été remplacé par
+\mybox{\%d}, seul le \mybox{\textbackslash n} a été conservé. Un
+format commence toujours par le symbole \mybox{\%} et est suivi par une
+ou plusieurs lettres qui indiquent le type de données que nous
+souhaitons voir afficher. Cette suite de lettre est appelée un
+\textbf{indicateur de conversion}. En voici une liste non
+exhaustive\footnote{\footnotesize{Pour le type \mybox{long long}
+introduit en C99, les indicateurs de conversions sont \mybox{lld} et
+\mybox{llu}. Il en va de même pour \mybox{scanf()}.}}
+
+\clearpage
+
+\begin{table}[ht!]
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Type} & \textbf{Indicateur(s) de conversion}\tabularnewline\hline
+\textbf{char} & c, d (ou i)\tabularnewline\hline
+\textbf{short} & d (ou i)\tabularnewline\hline
+\textbf{int} & d (ou i)\tabularnewline\hline
+\textbf{long} & ld (ou li)\tabularnewline\hline
+\textbf{unsigned char} & u, x (ou X) ou o\tabularnewline\hline
+\textbf{unsigned short} & u, x (ou X) ou o\tabularnewline\hline
+\textbf{unsigned int} & u, x (ou X) ou o\tabularnewline\hline
+\textbf{unsigned long} & lu, lx (ou lX) ou lo\tabularnewline\hline
+\textbf{float} & f, e (ou E) ou g (ou G)\tabularnewline\hline
+\textbf{double} & f, e (ou E) ou g (ou G)\tabularnewline\hline
+\textbf{long double} & Lf, Le (ou LE) ou Lg (ou LG)\tabularnewline\hline
+\end{tabular}
+\caption{Liste des indicateurs de conversion}
+\end{table}
+
+
+\begin{infobox}
+Notez que pour le type \mybox{char},
+l'indicateur est soit \mybox{c}, soit \mybox{d} (ou \mybox{i}). Cela
+dépend si vous l'utilisez pour contenir un caractère ou un entier.
+Également, notez que les indicateurs de conversions sont identiques pour
+les types \mybox{char} (s'il stocke un entier), \mybox{short} et
+\mybox{int} (pareil pour leurs équivalents non signés) ainsi que pour
+les types \mybox{float} et \mybox{double}.
+\end{infobox}
+
+Les indicateurs \mybox{x}, \mybox{X} et \mybox{o} permettent
+d'afficher un nombre en représentation hexadécimale ou octale
+(l'indicateur \mybox{x} affiche les lettres en minuscules alors que
+l'indicateur \mybox{X} les affiches en majuscules).
+
+Les indicateurs \mybox{f}, \mybox{e} et \mybox{g} permettent quant à
+eux d'afficher un nombre flottant. L'indicateur \mybox{f} affiche un
+nombre en notation simple avec, par défaut, six décimales ; l'indicateur
+\mybox{e} affiche un nombre flottant en notation scientifique
+(l'indicateur \mybox{e} utilise la lettre « e » avant l'exposant alors
+que l'indicateur « E » emploie la lettre « E ») et l'indicateur
+\mybox{g} choisi quant à lui entre les deux notations précédentes
+suivant le nombre fourni et supprime la partie fractionnaire si elle est
+nulle de sorte que l'écriture soit concise (la différence entre les
+indicateurs \mybox{g} et \mybox{G} est identique à celle entre les
+indicateurs \mybox{e} et \mybox{E}).
+
+Allez, un petit exemple pour reprendre tout cela et retravailler le
+chapitre précédent par la même occasion.
+
+
+\begin{C}
+#include<stdio.h>}
+
+int main(void )
+{
+    char z = 'z';
+    char a = 10;
+    unsigned} short b = 20;
+    int c = 30;
+    long d = 40;
+    float e = 50 .;
+    double f = 60.0;
+    long double g = 70.0;
+
+     printf("%c\n", z);
+     printf("%d\n", a);
+     printf("%u\n", b);
+     printf("%o\n", b);
+     printf("%x\n", b);
+     printf("%d\n", c);
+     printf("%li\n", d);
+     printf("%f\n", e);
+     printf( "%e\n", f);
+     g = 80.0;
+     printf( "%Lg\n", g);
+    return 0;
+}
+\end{C}
+
+
+\begin{C}
+z
+10
+20
+24
+14
+30
+40
+50.000000
+6.000000e+01
+80
+\end{C}
+
+\begin{infobox}
+Si vous souhaitez afficher le caractère \mybox{\%} vous devez le doubler : \mybox{\%\%}.
+\end{infobox}
+
+\subsection{Précision des nombres flottants}\label{precision-des-nombres-flottants}
+
+Vous avez peut-être remarquer que lorsqu'un flottant est affiché avec le
+format \mybox{f}, il y a un certain nombre de zéros qui suivent (par
+défaut six) et ce, peu importe qu'ils soient utiles ou non. Afin d'en
+supprimer certains, vous pouvez spécifier une \textbf{précision}.
+Celle-ci correspond au nombre de chiffre suivant la virgule qui seront
+affichés. Elle prend la forme d'un point suivi par un nombre : la
+quantité de chiffres qu'il y aura derrière la virgule.
+
+
+\begin{C}
+double x = 42.42734;
+
+printf("%.2f", x);
+\end{C}
+
+
+\begin{C}
+42.43
+\end{C}
+
+\subsection{Les caractères spéciaux}\label{les-caracteres-speciaux}
+
+Dans certains cas, nous souhaitons obtenir un résultat à l'affichage
+(saut de ligne, une tabulation, un retour chariot, etc.). Cependant, ils
+ne sont pas particulièrement pratiques à insérer dans une chaîne de
+caractères. Aussi, le C nous permet de le faire en utilisant une
+\textbf{séquence d'échappement}. Il s'agit en fait d'une suite de
+caractères commençant par le symbole \mybox{\textbackslash} et suivie
+d'une lettre. En voici une liste non exhaustive.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Séquence d'échappement} & \textbf{Signification}\tabularnewline\hline
+\rowcolor{gris-clair-tab} \mybox{\textbackslash}& Caractère d'appel\tabularnewline\hline
+\mybox{\textbackslash b} & Espacement arrière\tabularnewline\hline
+\rowcolor{gris-clair-tab} \mybox{\textbackslash f} & Saut de page\tabularnewline\hline
+\mybox{\textbackslash n} & Saut de ligne\tabularnewline\hline
+\rowcolor{gris-clair-tab} \mybox{\textbackslash r} & Retour chariot\tabularnewline\hline
+\mybox{\textbackslash t} & Tabulation horizontale\tabularnewline\hline
+\rowcolor{gris-clair-tab} \mybox{\textbackslash v} & Tabulation verticale\tabularnewline\hline
+\mybox{\textbackslash "} & Le symbole « \mybox{"} »\tabularnewline\hline
+\rowcolor{gris-clair-tab} \mybox{\textbackslash \textbackslash} & Le symbole « \mybox{\textbackslash} » lui-même\tabularnewline\hline
+\end{tabular}
+\caption{Les nombres de 1 à 16 en binaire, octal, décimal et hexadécimal.}
+\end{table}
+
+En général, vous n'utiliserez que le saut de ligne, la tabulation
+horizontale et de temps à autre le retour chariot, les autres n'ont
+quasiment plus d'intérêt. Un petit exemple pour illustrer leurs effets.
+
+
+\begin{C}
+#include<stdio.h>
+
+int main(void)
+{
+     printf( "Quelques sauts de ligne\n\n\n");
+     printf( " \tIl y a une tabulation avant moi !\n");
+     printf( "Je voulais dire que... \r ");
+     printf( "Hey ! Vous pourriez me laisser parler !\n");
+    return 0 ;
+}
+\end{C}
+
+
+\begin{C}
+Quelques sauts de ligne
+
+
+        Il y a une tabulation avant moi !
+Hey ! Vous pourriez me laisser parler !
+\end{C}
+
+\begin{infobox}
+Le retour chariot provoque un retour
+au début de la ligne courante. Ainsi, il est possible d'écrire
+par-dessus un texte affiché.
+\end{infobox}
+
+\subsection{Sur plusieurs lignes}\label{sur-plusieurs-lignes}
+
+Notez qu'il est possible d'écrire un long texte sans appeler plusieurs
+fois la fonction \mybox{printf()}. Pour ce faire, il suffit de le
+diviser en plusieurs chaînes de caractères.
+
+
+\begin{C}
+#include<stdio.h>
+
+int main(void )
+{
+     printf("Texte écrit sur plusieurs "
+	    "lignes dans le code source "
+	    "mais sur une seule dans la console.\n");
+    return 0;
+}
+\end{C}
+
+
+\begin{C}
+Texte écrit sur plusieurs lignes dans le code source mais sur une seule dans la console.
+\end{C}
+
+\section{Interagir avec l'utilisateur }
+Maintenant que nous savons déclarer, utiliser et même
+afficher des variables, nous sommes fin prêts pour interagir avec
+l'utilisateur.
+En effet, jusqu'à maintenant, nous nous sommes contentés
+d'afficher des informations. Nous allons à présent voir comment en
+récupérer grâce à la fonction \mybox{scanf()}, dont l'utilisation est
+assez semblable à \mybox{printf()}.
+
+
+\begin{C}
+#include<stdio.h>
+
+int main(void)
+{
+    int age;
+
+     printf("Quel âge avez-vous ? ");
+     scanf("%d", &age);
+     printf("Vous avez %d an(s)\n ", age);
+    return 0 ;
+}
+\end{C}
+
+
+\begin{C}
+Quel age avez-vous ? 15
+Vous avez 15 an(s).
+\end{C}
+
+Comme vous le voyez, l'appel à \mybox{scanf()} ressemble très fort à
+celui de \mybox{printf()} mise à part l'absence du caractère spécial\mybox{\textbackslash n} (qui n'a pas d'intérêt puisque nous
+récupérons des informations) et le symbole \mybox{\&}.
+
+À son sujet, souvenez-vous de la brève explication sur la mémoire au
+début du chapitre précédent. Celle-ci fonctionne comme une armoire avec
+des tiroirs (les adresses mémoires) et des objets dans ces tiroirs (nos
+variables). La fonction \mybox{scanf()} a besoin de connaitre
+l'emplacement en mémoire de nos variables afin de les modifier. Afin
+d'effectuer cette opération, nous utilisons le symbole \mybox{\&} (qui
+est en fait un opérateur que nous verrons en détail plus tard). Ce
+concept de transmission d'adresses mémoires est un petit peu difficile à
+comprendre au début, mais ne vous inquiétez pas, vous aurez l'occasion
+de bien revoir tout cela en profondeur dans le chapitre traîtant des
+pointeurs.
+
+Ici, \mybox{scanf()} attend patiemment que l'utilisateur saisisse un
+nombre au clavier afin de modifier la valeur de la variable \emph{age}.
+On dit que c'est une \textbf{fonction bloquante}, car elle suspend
+l'exécution du programme tant que l'utilisateur n'a rien entré.
+
+Pour ce qui est des indicateurs de conversions, ils sont un peu
+différents de ceux de \mybox{printf()}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{Type} & \textbf{Indicateur(s) de conversion}\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textbf{char} & c\tabularnewline\hline
+\textbf{short} & hd ou hi\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textbf{int} & d ou i\tabularnewline\hline
+\textbf{long} & ld ou li\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textbf{unsigned short} & hu, hx ou ho\tabularnewline\hline
+\textbf{unsigned int} & u, x ou o\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textbf{unsigned long} & lu, lx ou lo\tabularnewline\hline
+\textbf{float} & f\tabularnewline\hline
+\rowcolor{gris-clair-tab}\textbf{double} & lf\tabularnewline\hline
+\textbf{long double} & Lf\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+\begin{erreurbox}
+Faites bien attention aux différences ! Si
+vous utilisez le mauvais format, le résultat ne sera pas celui que vous
+attendez. Les changements concernent les types \mybox{char},
+\mybox{short} et \mybox{double}.
+\end{erreurbox}
+
+\begin{infobox}
+Notez que l'indicateur \mybox{c} ne
+peut être employé que pour récupérer un caractère et non un nombre.
+\end{infobox}
+
+\begin{infobox}
+Remarquez également qu'il n'y a plus
+qu'un seul indicateur pour récupérer un nombre hexadécimal : \mybox{x}
+(l'utilisation de lettres majuscules ou minuscules n'a pas
+d'importance).
+\end{infobox}
+
+En passant, sachez qu'il est possible de lire plusieurs entrées en même
+temps, par exemple comme ceci.
+
+
+\begin{C}
+int x, y;
+
+ scanf("%d %d" , &x, &y);
+ printf("x = %d | y = %d \n" , x, y);
+\end{C}
+
+
+L'utilisateur a deux possibilités, soit insérer un (ou plusieurs)
+espace(s) entre les valeurs, soit insérer un (ou plusieurs) retour(s) à
+la ligne entre les valeurs.
+
+\begin{C}
+14
+6
+x = 14 | y = 6
+\end{C}
+
+\begin{C}
+14 6
+x = 14 | y = 6
+\end{C}
+
+La fonction \mybox{scanf()} est en apparence simple (oui, \emph{en
+apparence}), mais son utilisation peut devenir très complexe lorsqu'il
+est nécessaire de vérifier les entrées de l'utilisateur (entre autres).
+Cependant, à votre niveau, vous ne pouvez pas encore effectuer de telles
+vérifications. Ce n'est toutefois pas très grave, nous verrons cela en
+temps voulu.;)
+
+\hrulefill
+
+Maintenant, vous êtes capable de communiquer avec l'utilisateur.
+Cependant, nos actions sont encore un peu limitées. Nous verrons dans
+les prochains chapitres comment mieux interagir avec
+l'utilisateur.

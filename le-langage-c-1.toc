@@ -1,0 +1,488 @@
+\select@language {french}
+\contentsline {chapter}{Avant-propos}{1}{section*.1}
+\contentsline {chapter}{Remerciements}{1}{section*.2}
+\contentsline {chapter}{Sommaire}{4}{section*.3}
+\contentsline {part}{I\hspace {1em}Les bases du langage C}{5}{part.1}
+\contentsline {chapter}{\numberline {1}Introduction à la programmation}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}Avant-propos}{7}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Esprit et but du tutoriel}{7}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}À qui est destiné ce cours ?}{7}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Aller plus loin}{8}{section.1.2}
+\contentsline {section}{\numberline {1.3}La programmation, qu’est-ce que c’est ?}{8}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Les programmes expliqués en long, en large et en travers}{8}{subsection.1.3.1}
+\contentsline {section}{\numberline {1.4}Le langage C}{10}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}L'histoire du C}{10}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}Pourquoi apprendre le C ?}{10}{subsection.1.4.2}
+\contentsline {section}{\numberline {1.5}La norme}{11}{section.1.5}
+\contentsline {section}{\numberline {1.6}L’algorithmique}{12}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}Le pseudo-code}{12}{subsection.1.6.1}
+\contentsline {chapter}{\numberline {2}Rencontre avec le C}{13}{chapter.2}
+\contentsline {section}{\numberline {2.1}Windows}{13}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Le compilateur}{13}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}L'éditeur de texte}{14}{section.2.2}
+\contentsline {section}{\numberline {2.3}Introduction à la ligne de commande}{14}{section.2.3}
+\contentsline {section}{\numberline {2.4}GNU/Linux, *BSD et autres Unixoïdes}{15}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1} Le compilateur}{15}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}Configuration}{15}{subsection.2.4.2}
+\contentsline {subsubsection}{bash}{16}{section*.4}
+\contentsline {subsubsection}{csh ou tcsh}{16}{section*.5}
+\contentsline {subsubsection}{ksh, zsh ou sh}{16}{section*.6}
+\contentsline {subsection}{\numberline {2.4.3}L'éditeur de texte}{16}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.4}Introduction à la ligne de commande}{16}{subsection.2.4.4}
+\contentsline {section}{\numberline {2.5}Mac OS X}{17}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Le compilateur}{17}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Configuration}{18}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}L'éditeur de texte}{18}{subsection.2.5.3}
+\contentsline {subsection}{\numberline {2.5.4}Introduction à la ligne de commande}{18}{subsection.2.5.4}
+\contentsline {section}{\numberline {2.6}Notre cible}{18}{section.2.6}
+\contentsline {section}{\numberline {2.7}Première rencontre}{19}{section.2.7}
+\contentsline {section}{\numberline {2.8}Les commentaires}{20}{section.2.8}
+\contentsline {chapter}{\numberline {3}Les variables}{21}{chapter.3}
+\contentsline {section}{\numberline {3.1}Qu’est-ce qu’une variable ?}{21}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Codage des informations}{21}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}Binaire}{22}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}La mémoire}{22}{section.3.2}
+\contentsline {subsubsection}{Bits, multiplets et octets}{23}{section*.7}
+\contentsline {subsection}{\numberline {3.2.1}Adresse mémoire}{23}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Les variables}{24}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Déclarer une variable}{25}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Les types}{25}{subsection.3.3.1}
+\contentsline {subsubsection}{Capacité d'un type}{26}{section*.8}
+\contentsline {subsubsection}{Taille d'un type}{26}{section*.9}
+\contentsline {subsection}{\numberline {3.3.2}Les identificateurs}{26}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Déclaration et initialisation}{27}{subsection.3.3.3}
+\contentsline {subsubsection}{Initialisation}{28}{section*.10}
+\contentsline {subsubsection}{Initialisation des nombres flottants}{28}{section*.11}
+\contentsline {subsection}{\numberline {3.3.4}Affectation}{29}{subsection.3.3.4}
+\contentsline {section}{\numberline {3.4}Les représentations octales et hexadécimales }{30}{section.3.4}
+\contentsline {section}{\numberline {3.5}Constantes octales et hexadécimales}{31}{section.3.5}
+\contentsline {chapter}{\numberline {4}Manipulations basiques des entrées/sorties}{33}{chapter.4}
+\contentsline {section}{\numberline {4.1}Les sorties}{33}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Première approche}{33}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Les formats}{34}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Précision des nombres flottants}{36}{subsection.4.1.3}
+\contentsline {subsection}{\numberline {4.1.4}Les caractères spéciaux}{36}{subsection.4.1.4}
+\contentsline {subsection}{\numberline {4.1.5}Sur plusieurs lignes}{37}{subsection.4.1.5}
+\contentsline {section}{\numberline {4.2}Interagir avec l'utilisateur }{37}{section.4.2}
+\contentsline {chapter}{\numberline {5}Les opérations mathématiques}{41}{chapter.5}
+\contentsline {section}{\numberline {5.1}Les opérations mathématiques de base}{41}{section.5.1}
+\contentsline {section}{\numberline {5.2}Division et modulo}{41}{section.5.2}
+\contentsline {section}{\numberline {5.3}Utilisation}{42}{section.5.3}
+\contentsline {section}{\numberline {5.4}La priorité des opérateurs}{43}{section.5.4}
+\contentsline {section}{\numberline {5.5}Les expressions}{43}{section.5.5}
+\contentsline {section}{\numberline {5.6}Type d'une expression}{44}{section.5.6}
+\contentsline {subsection}{\numberline {5.6.1}Suffixes}{44}{subsection.5.6.1}
+\contentsline {subsection}{\numberline {5.6.2}Exemple}{44}{subsection.5.6.2}
+\contentsline {section}{\numberline {5.7}Conversions de types}{45}{section.5.7}
+\contentsline {subsection}{\numberline {5.7.1}Perte d'informations}{45}{subsection.5.7.1}
+\contentsline {subsection}{\numberline {5.7.2}Deux types de conversions}{45}{subsection.5.7.2}
+\contentsline {section}{\numberline {5.8}Sucre syntaxique }{46}{section.5.8}
+\contentsline {section}{\numberline {5.9}Les opérateurs combinés}{46}{section.5.9}
+\contentsline {subsection}{\numberline {5.9.1}L'incrémentation et la décrémentation}{47}{subsection.5.9.1}
+\contentsline {section}{\numberline {5.10}Exercices}{48}{section.5.10}
+\contentsline {chapter}{\numberline {6}Tests et conditions}{49}{chapter.6}
+\contentsline {section}{\numberline {6.1}Les booléens}{49}{section.6.1}
+\contentsline {section}{\numberline {6.2}Les opérateurs de comparaison}{50}{section.6.2}
+\contentsline {subsection}{\numberline {6.2.1}Comparaisons}{50}{subsection.6.2.1}
+\contentsline {subsection}{\numberline {6.2.2}Résultat d'une comparaison}{50}{subsection.6.2.2}
+\contentsline {section}{\numberline {6.3}Les opérateurs logiques}{50}{section.6.3}
+\contentsline {subsection}{\numberline {6.3.1}Les opérateurs logiques de base}{51}{subsection.6.3.1}
+\contentsline {subsubsection}{L'opérateur « et »}{51}{section*.16}
+\contentsline {subsubsection}{L'opérateur « ou »}{51}{section*.17}
+\contentsline {subsubsection}{L'opérateur de négation}{51}{section*.18}
+\contentsline {subsection}{\numberline {6.3.2}Évaluation en court-circuit}{52}{subsection.6.3.2}
+\contentsline {subsection}{\numberline {6.3.3}Combinaisons}{52}{subsection.6.3.3}
+\contentsline {subsubsection}{Parenthèses}{52}{section*.19}
+\contentsline {chapter}{\numberline {7}Les sélections}{55}{chapter.7}
+\contentsline {section}{\numberline {7.1}La structure if}{55}{section.7.1}
+\contentsline {subsection}{\numberline {7.1.1}L'instruction if}{55}{subsection.7.1.1}
+\contentsline {subsubsection}{Exemple 1}{56}{section*.20}
+\contentsline {subsubsection}{Exemple 2}{56}{section*.21}
+\contentsline {subsection}{\numberline {7.1.2}L'instruction else}{57}{subsection.7.1.2}
+\contentsline {subsection}{\numberline {7.1.3}Exemple}{57}{subsection.7.1.3}
+\contentsline {section}{\numberline {7.2}If / else if}{58}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}Exercice}{59}{subsection.7.2.1}
+\contentsline {section}{\numberline {7.3}L'instruction switch}{60}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Exemple}{61}{subsection.7.3.1}
+\contentsline {subsection}{\numberline {7.3.2}Plusieurs entrées pour une même action}{62}{subsection.7.3.2}
+\contentsline {section}{\numberline {7.4}Plusieurs entrées sans instruction break}{63}{section.7.4}
+\contentsline {section}{\numberline {7.5}L'opérateur conditionnel}{64}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Exercice}{64}{subsection.7.5.1}
+\contentsline {chapter}{\numberline {8}TP : déterminer le jour de la semaine}{67}{chapter.8}
+\contentsline {section}{\numberline {8.1}Objectif}{67}{section.8.1}
+\contentsline {section}{\numberline {8.2}Première étape}{67}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Déterminer le jour de la semaine}{67}{subsection.8.2.1}
+\contentsline {section}{\numberline {8.3}Correction}{68}{section.8.3}
+\contentsline {section}{\numberline {8.4}Deuxième étape}{69}{section.8.4}
+\contentsline {section}{\numberline {8.5}Correction}{70}{section.8.5}
+\contentsline {section}{\numberline {8.6}Troisième et dernière étape}{71}{section.8.6}
+\contentsline {subsection}{\numberline {8.6.1}Les calendriers Julien et Grégorien}{71}{subsection.8.6.1}
+\contentsline {subsection}{\numberline {8.6.2}Mode de calcul}{72}{subsection.8.6.2}
+\contentsline {section}{\numberline {8.7}Correction}{72}{section.8.7}
+\contentsline {chapter}{\numberline {9}Les boucles}{75}{chapter.9}
+\contentsline {section}{\numberline {9.1}La boucle while}{75}{section.9.1}
+\contentsline {subsection}{\numberline {9.1.1}Syntaxe}{75}{subsection.9.1.1}
+\contentsline {subsubsection}{Exemple}{76}{section*.22}
+\contentsline {subsection}{\numberline {9.1.2}Exercice}{76}{subsection.9.1.2}
+\contentsline {subsubsection}{Indice}{76}{section*.23}
+\contentsline {subsubsection}{Correction}{76}{section*.24}
+\contentsline {section}{\numberline {9.2}La boucle do-while}{77}{section.9.2}
+\contentsline {subsection}{\numberline {9.2.1}Syntaxe}{77}{subsection.9.2.1}
+\contentsline {subsection}{\numberline {9.2.2}Exemple 1}{77}{subsection.9.2.2}
+\contentsline {subsection}{\numberline {9.2.3}Exemple 2}{78}{subsection.9.2.3}
+\contentsline {section}{\numberline {9.3}La boucle for}{78}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}Syntaxe}{78}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}Exemple}{79}{subsection.9.3.2}
+\contentsline {subsubsection}{Exercice}{79}{section*.25}
+\contentsline {subsection}{\numberline {9.3.3}Plusieurs compteurs}{80}{subsection.9.3.3}
+\contentsline {section}{\numberline {9.4}Imbrications}{80}{section.9.4}
+\contentsline {section}{\numberline {9.5}Boucles infinies}{81}{section.9.5}
+\contentsline {section}{\numberline {9.6}Exercices}{81}{section.9.6}
+\contentsline {subsection}{\numberline {9.6.1}Calcul du PGCD de deux nombres}{81}{subsection.9.6.1}
+\contentsline {subsection}{\numberline {9.6.2}Une overdose de lapins}{82}{subsection.9.6.2}
+\contentsline {subsection}{\numberline {9.6.3}Des pieds et des mains pour convertir mille miles}{83}{subsection.9.6.3}
+\contentsline {subsection}{\numberline {9.6.4}Puissances de trois}{84}{subsection.9.6.4}
+\contentsline {subsection}{\numberline {9.6.5}La disparition : le retour}{84}{subsection.9.6.5}
+\contentsline {chapter}{\numberline {10}Les sauts}{87}{chapter.10}
+\contentsline {section}{\numberline {10.1}L'instruction break}{87}{section.10.1}
+\contentsline {subsection}{\numberline {10.1.1}Exemple}{87}{subsection.10.1.1}
+\contentsline {section}{\numberline {10.2}L’instruction continue}{88}{section.10.2}
+\contentsline {section}{\numberline {10.3}L'instruction goto}{89}{section.10.3}
+\contentsline {section}{\numberline {10.4}Exemple}{89}{section.10.4}
+\contentsline {section}{\numberline {10.5}Le dessous des boucles}{89}{section.10.5}
+\contentsline {section}{\numberline {10.6}Goto Hell ?}{90}{section.10.6}
+\contentsline {chapter}{\numberline {11}Les fonctions}{91}{chapter.11}
+\contentsline {section}{\numberline {11.1}Qu'est-ce qu'une fonction ?}{91}{section.11.1}
+\contentsline {section}{\numberline {11.2}Définir et utiliser une fonction}{92}{section.11.2}
+\contentsline {subsection}{\numberline {11.2.1}Le type de retour}{93}{subsection.11.2.1}
+\contentsline {subsection}{\numberline {11.2.2}Les paramètres}{93}{subsection.11.2.2}
+\contentsline {section}{\numberline {11.3}Les arguments et les paramètres}{94}{section.11.3}
+\contentsline {section}{\numberline {11.4}Les prototypes}{95}{section.11.4}
+\contentsline {section}{\numberline {11.5}Variables globales et classes de stockage}{96}{section.11.5}
+\contentsline {subsection}{\numberline {11.5.1}Les variables globales}{96}{subsection.11.5.1}
+\contentsline {section}{\numberline {11.6}Les classes de stockage}{97}{section.11.6}
+\contentsline {subsection}{\numberline {11.6.1}Classe de stockage automatique}{97}{subsection.11.6.1}
+\contentsline {subsection}{\numberline {11.6.2}Classe de stockage statique}{97}{subsection.11.6.2}
+\contentsline {subsection}{\numberline {11.6.3}Modification de la classe de stockage}{98}{subsection.11.6.3}
+\contentsline {section}{\numberline {11.7}Exercices}{98}{section.11.7}
+\contentsline {subsection}{\numberline {11.7.1}Afficher un rectangle}{98}{subsection.11.7.1}
+\contentsline {subsection}{\numberline {11.7.2}Correction}{99}{subsection.11.7.2}
+\contentsline {section}{\numberline {11.8}Afficher un triangle}{99}{section.11.8}
+\contentsline {subsection}{\numberline {11.8.1}Correction}{100}{subsection.11.8.1}
+\contentsline {section}{\numberline {11.9}En petites coupures ?}{100}{section.11.9}
+\contentsline {subsection}{\numberline {11.9.1}Correction}{100}{subsection.11.9.1}
+\contentsline {chapter}{\numberline {12}TP : une calculatrice basique}{103}{chapter.12}
+\contentsline {section}{\numberline {12.1}Objectif}{103}{section.12.1}
+\contentsline {section}{\numberline {12.2}Préparation}{103}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}Précisions concernant scanf}{103}{subsection.12.2.1}
+\contentsline {subsection}{\numberline {12.2.2}Les puissances}{104}{subsection.12.2.2}
+\contentsline {subsection}{\numberline {12.2.3}La factorielle}{104}{subsection.12.2.3}
+\contentsline {subsection}{\numberline {12.2.4}Exemple d'utilisation}{105}{subsection.12.2.4}
+\contentsline {section}{\numberline {12.3}Derniers conseils}{105}{section.12.3}
+\contentsline {section}{\numberline {12.4}Correction}{105}{section.12.4}
+\contentsline {chapter}{\numberline {13}Découper son projet}{109}{chapter.13}
+\contentsline {section}{\numberline {13.1}Portée et masquage}{109}{section.13.1}
+\contentsline {subsection}{\numberline {13.1.1}La notion de portée}{109}{subsection.13.1.1}
+\contentsline {subsubsection}{Au niveau d'un bloc}{109}{section*.35}
+\contentsline {subsection}{\numberline {13.1.2}Au niveau d'un fichier}{109}{subsection.13.1.2}
+\contentsline {section}{\numberline {13.2}La notion de masquage}{110}{section.13.2}
+\contentsline {section}{\numberline {13.3}Diviser pour mieux régner }{111}{section.13.3}
+\contentsline {subsection}{\numberline {13.3.1}Les fonctions}{111}{subsection.13.3.1}
+\contentsline {subsection}{\numberline {13.3.2}Les variables}{112}{subsection.13.3.2}
+\contentsline {section}{\numberline {13.4}On m'aurait donc menti ?}{112}{section.13.4}
+\contentsline {section}{\numberline {13.5}Les fichiers d'en-têtes }{113}{section.13.5}
+\contentsline {chapter}{\numberline {14}La gestion d'erreurs (1)}{115}{chapter.14}
+\contentsline {section}{\numberline {14.1}Détection d'erreurs}{115}{section.14.1}
+\contentsline {subsection}{\numberline {14.1.1}Valeurs de retour}{115}{subsection.14.1.1}
+\contentsline {subsubsection}{Scanf}{115}{section*.36}
+\contentsline {subsubsection}{Main}{116}{section*.37}
+\contentsline {subsubsection}{Les autres fonctions}{116}{section*.38}
+\contentsline {subsection}{\numberline {14.1.2}Variable globale errno}{116}{subsection.14.1.2}
+\contentsline {section}{\numberline {14.2}Prévenir l'utilisateur}{117}{section.14.2}
+\contentsline {section}{\numberline {14.3}Un exemple d'utilisation des valeurs de retour }{118}{section.14.3}
+\contentsline {part}{II\hspace {1em}Agrégats, mémoire et fichiers }{119}{part.2}
+\contentsline {chapter}{\numberline {15}Les pointeurs}{121}{chapter.15}
+\contentsline {section}{\numberline {15.1}Présentation}{121}{section.15.1}
+\contentsline {subsection}{\numberline {15.1.1}Les pointeurs}{121}{subsection.15.1.1}
+\contentsline {subsection}{\numberline {15.1.2}Utilité des pointeurs}{121}{subsection.15.1.2}
+\contentsline {subsubsection}{Passage de références à des fonctions}{121}{section*.39}
+\contentsline {subsubsection}{Manipulation de données complexes}{122}{section*.40}
+\contentsline {subsection}{\numberline {15.1.3}L'allocation dynamique de mémoire}{122}{subsection.15.1.3}
+\contentsline {section}{\numberline {15.2}Déclaration et initialisation}{122}{section.15.2}
+\contentsline {subsection}{\numberline {15.2.1}Initialisation}{123}{subsection.15.2.1}
+\contentsline {subsection}{\numberline {15.2.2}Pointeur nul}{123}{subsection.15.2.2}
+\contentsline {subsubsection}{La constante NULL}{124}{section*.41}
+\contentsline {section}{\numberline {15.3}Utilisation }{124}{section.15.3}
+\contentsline {subsection}{\numberline {15.3.1}Indirection (ou déréférencement)}{124}{subsection.15.3.1}
+\contentsline {subsection}{\numberline {15.3.2}Passage comme argument}{125}{subsection.15.3.2}
+\contentsline {section}{\numberline {15.4}Retour de fonction}{125}{section.15.4}
+\contentsline {section}{\numberline {15.5}Pointeur de pointeur}{126}{section.15.5}
+\contentsline {section}{\numberline {15.6}Pointeurs génériques et affichage}{126}{section.15.6}
+\contentsline {section}{\numberline {15.7}Afficher une adresse}{127}{section.15.7}
+\contentsline {section}{\numberline {15.8}Exercice}{127}{section.15.8}
+\contentsline {section}{\numberline {15.9}Correction}{127}{section.15.9}
+\contentsline {chapter}{\numberline {16}Les structures}{129}{chapter.16}
+\contentsline {section}{\numberline {16.1}Définition, initialisation et utilisation}{129}{section.16.1}
+\contentsline {subsection}{\numberline {16.1.1}Définition d'une structure}{129}{subsection.16.1.1}
+\contentsline {subsection}{\numberline {16.1.2}Définition d'une variable de type structure}{130}{subsection.16.1.2}
+\contentsline {subsection}{\numberline {16.1.3}Initialisation}{130}{subsection.16.1.3}
+\contentsline {subsection}{\numberline {16.1.4}Accès à un membre}{130}{subsection.16.1.4}
+\contentsline {subsection}{\numberline {16.1.5}Exercice}{131}{subsection.16.1.5}
+\contentsline {subsubsection}{Correction}{131}{section*.42}
+\contentsline {section}{\numberline {16.2}Structures et pointeurs}{131}{section.16.2}
+\contentsline {subsection}{\numberline {16.2.1}Accès via un pointeur}{132}{subsection.16.2.1}
+\contentsline {subsection}{\numberline {16.2.2}Adressage}{132}{subsection.16.2.2}
+\contentsline {subsection}{\numberline {16.2.3}Pointeurs sur structures et fonctions}{132}{subsection.16.2.3}
+\contentsline {section}{\numberline {16.3}Portée et déclarations}{133}{section.16.3}
+\contentsline {subsection}{\numberline {16.3.1}Déclarations}{134}{subsection.16.3.1}
+\contentsline {subsection}{\numberline {16.3.2}Les structures interdépendantes}{134}{subsection.16.3.2}
+\contentsline {subsection}{\numberline {16.3.3}Structure qui pointe sur elle-même}{135}{subsection.16.3.3}
+\contentsline {section}{\numberline {16.4}Un peu de mémoire}{135}{section.16.4}
+\contentsline {subsection}{\numberline {16.4.1}L'opérateur sizeof}{135}{subsection.16.4.1}
+\contentsline {subsection}{\numberline {16.4.2}Alignement en mémoire}{137}{subsection.16.4.2}
+\contentsline {subsection}{\numberline {16.4.3}La macrofonction offsetof}{138}{subsection.16.4.3}
+\contentsline {chapter}{\numberline {17}Les tableaux}{141}{chapter.17}
+\contentsline {section}{\numberline {17.1}Les tableaux simples (à une dimension)}{141}{section.17.1}
+\contentsline {subsection}{\numberline {17.1.1}Définition}{141}{subsection.17.1.1}
+\contentsline {subsection}{\numberline {17.1.2}Initialisation}{142}{subsection.17.1.2}
+\contentsline {subsubsection}{Initialisation avec une longueur explicite}{142}{section*.43}
+\contentsline {subsubsection}{Initialisation avec une longueur implicite}{142}{section*.44}
+\contentsline {subsection}{\numberline {17.1.3}Accès aux éléments d'un tableau}{142}{subsection.17.1.3}
+\contentsline {subsubsection}{Le premier élément}{143}{section*.45}
+\contentsline {subsubsection}{Les autres éléments}{144}{section*.46}
+\contentsline {subsection}{\numberline {17.1.4}Parcours et débordement}{145}{subsection.17.1.4}
+\contentsline {subsection}{\numberline {17.1.5}Tableaux et fonctions}{146}{subsection.17.1.5}
+\contentsline {subsubsection}{Passage en argument}{146}{section*.47}
+\contentsline {subsubsection}{Retour de fonction}{146}{section*.48}
+\contentsline {section}{\numberline {17.2}La vérité sur les tableaux }{147}{section.17.2}
+\contentsline {subsection}{\numberline {17.2.1}Un peu d'histoire}{147}{subsection.17.2.1}
+\contentsline {subsection}{\numberline {17.2.2}Conséquences de l'absence d'un pointeur}{148}{subsection.17.2.2}
+\contentsline {section}{\numberline {17.3}Les tableaux multidimensionnels}{148}{section.17.3}
+\contentsline {subsection}{\numberline {17.3.1}Définition}{149}{subsection.17.3.1}
+\contentsline {section}{\numberline {17.4}Initialisation}{149}{section.17.4}
+\contentsline {subsection}{\numberline {17.4.1}Initialisation avec une longueur explicite}{149}{subsection.17.4.1}
+\contentsline {subsection}{\numberline {17.4.2}Initialisation avec une longueur implicite}{149}{subsection.17.4.2}
+\contentsline {subsection}{\numberline {17.4.3}Utilisation}{149}{subsection.17.4.3}
+\contentsline {subsection}{\numberline {17.4.4}Représentation en mémoire}{150}{subsection.17.4.4}
+\contentsline {subsection}{\numberline {17.4.5}Parcours}{150}{subsection.17.4.5}
+\contentsline {subsection}{\numberline {17.4.6}Tableaux multidimensionnels et fonctions}{151}{subsection.17.4.6}
+\contentsline {subsubsection}{Passage en argument}{151}{section*.49}
+\contentsline {subsubsection}{Retour de fonction}{151}{section*.50}
+\contentsline {section}{\numberline {17.5}Exercices}{152}{section.17.5}
+\contentsline {subsection}{\numberline {17.5.1}Somme des éléments}{152}{subsection.17.5.1}
+\contentsline {subsection}{\numberline {17.5.2}Maximum et minimum}{152}{subsection.17.5.2}
+\contentsline {subsection}{\numberline {17.5.3}Recherche d'un élément}{153}{subsection.17.5.3}
+\contentsline {subsection}{\numberline {17.5.4}Inverser un tableau}{153}{subsection.17.5.4}
+\contentsline {subsubsection}{Indice}{153}{section*.51}
+\contentsline {subsubsection}{Correction}{153}{section*.52}
+\contentsline {subsection}{\numberline {17.5.5}Produit des lignes}{153}{subsection.17.5.5}
+\contentsline {subsection}{\numberline {17.5.6}Triangle de Pascal}{154}{subsection.17.5.6}
+\contentsline {chapter}{\numberline {18}Les chaînes de caractères}{157}{chapter.18}
+\contentsline {section}{\numberline {18.1}Qu'est-ce qu'une chaîne de caractères ?}{157}{section.18.1}
+\contentsline {subsection}{\numberline {18.1.1}Représentation en mémoire}{157}{subsection.18.1.1}
+\contentsline {subsubsection}{Avec une taille intégrée}{157}{section*.53}
+\contentsline {subsubsection}{Avec une sentinelle}{157}{section*.54}
+\contentsline {section}{\numberline {18.2}Définition, initialisation et utilisation }{158}{section.18.2}
+\contentsline {subsection}{\numberline {18.2.1}Définition}{158}{subsection.18.2.1}
+\contentsline {subsection}{\numberline {18.2.2}Initialisation}{158}{subsection.18.2.2}
+\contentsline {subsubsection}{Avec une liste d'initialisation}{158}{section*.55}
+\contentsline {subsubsection}{Initialisation avec une longueur explicite}{158}{section*.56}
+\contentsline {subsubsection}{Initialisation avec une longueur implicite}{158}{section*.57}
+\contentsline {subsubsection}{Avec une chaîne littérale}{158}{section*.58}
+\contentsline {subsubsection}{Initialisation avec une longueur explicite}{159}{section*.59}
+\contentsline {subsubsection}{Initialisation avec une longueur implicite}{159}{section*.60}
+\contentsline {subsubsection}{Utilisation de pointeurs}{159}{section*.61}
+\contentsline {subsection}{\numberline {18.2.3}Utilisation}{160}{subsection.18.2.3}
+\contentsline {section}{\numberline {18.3}Afficher et récupérer une chaîne de caractères}{160}{section.18.3}
+\contentsline {subsection}{\numberline {18.3.1}Printf}{161}{subsection.18.3.1}
+\contentsline {subsection}{\numberline {18.3.2}Scanf}{161}{subsection.18.3.2}
+\contentsline {subsubsection}{Chaîne de caractères avec des espaces}{162}{section*.62}
+\contentsline {section}{\numberline {18.4}Lire et écrire depuis et dans une chaîne de caractères}{163}{section.18.4}
+\contentsline {subsection}{\numberline {18.4.1}La fonction sprintf}{163}{subsection.18.4.1}
+\contentsline {subsection}{\numberline {18.4.2}La fonction sscanf}{164}{subsection.18.4.2}
+\contentsline {section}{\numberline {18.5}Les classes de caractères}{164}{section.18.5}
+\contentsline {section}{\numberline {18.6}Exercices }{166}{section.18.6}
+\contentsline {subsection}{\numberline {18.6.1}Palindrome}{166}{subsection.18.6.1}
+\contentsline {subsection}{\numberline {18.6.2}Compter les parenthèses}{166}{subsection.18.6.2}
+\contentsline {chapter}{\numberline {19}TP : l'en-tête <string.h>}{169}{chapter.19}
+\contentsline {section}{\numberline {19.1}Préparation }{169}{section.19.1}
+\contentsline {subsection}{\numberline {19.1.1}strlen}{169}{subsection.19.1.1}
+\contentsline {subsection}{\numberline {19.1.2}strcpy}{169}{subsection.19.1.2}
+\contentsline {subsection}{\numberline {19.1.3}strcat}{170}{subsection.19.1.3}
+\contentsline {subsection}{\numberline {19.1.4}strcmp}{170}{subsection.19.1.4}
+\contentsline {subsection}{\numberline {19.1.5}strchr}{171}{subsection.19.1.5}
+\contentsline {subsection}{\numberline {19.1.6}strpbrk}{171}{subsection.19.1.6}
+\contentsline {subsection}{\numberline {19.1.7}strstr}{172}{subsection.19.1.7}
+\contentsline {subsection}{\numberline {19.1.8}strlen}{172}{subsection.19.1.8}
+\contentsline {subsection}{\numberline {19.1.9}strcpy}{173}{subsection.19.1.9}
+\contentsline {subsection}{\numberline {19.1.10}strcat}{173}{subsection.19.1.10}
+\contentsline {subsection}{\numberline {19.1.11}strcmp}{173}{subsection.19.1.11}
+\contentsline {subsection}{\numberline {19.1.12}strchr}{173}{subsection.19.1.12}
+\contentsline {subsection}{\numberline {19.1.13}strpbrk}{173}{subsection.19.1.13}
+\contentsline {subsection}{\numberline {19.1.14}strstr}{174}{subsection.19.1.14}
+\contentsline {section}{\numberline {19.2}Pour allez plus loin : strtok}{174}{section.19.2}
+\contentsline {subsection}{\numberline {19.2.1}Correction}{175}{subsection.19.2.1}
+\contentsline {chapter}{\numberline {20}L'allocation dynamique}{177}{chapter.20}
+\contentsline {section}{\numberline {20.1}La notion d'objet}{177}{section.20.1}
+\contentsline {section}{\numberline {20.2}Malloc et consoeurs}{178}{section.20.2}
+\contentsline {subsection}{\numberline {20.2.1}malloc}{178}{subsection.20.2.1}
+\contentsline {subsubsection}{Allocation d'un objet}{178}{section*.63}
+\contentsline {subsubsection}{Allocation d'un tableau}{179}{section*.64}
+\contentsline {subsection}{\numberline {20.2.2}free}{180}{subsection.20.2.2}
+\contentsline {subsection}{\numberline {20.2.3}calloc}{181}{subsection.20.2.3}
+\contentsline {subsection}{\numberline {20.2.4}realloc}{181}{subsection.20.2.4}
+\contentsline {section}{\numberline {20.3}Les tableaux multidimensionnels}{182}{section.20.3}
+\contentsline {subsection}{\numberline {20.3.1}Allocation en un bloc}{182}{subsection.20.3.1}
+\contentsline {subsection}{\numberline {20.3.2}Allocation de plusieurs tableaux}{183}{subsection.20.3.2}
+\contentsline {chapter}{\numberline {21}Les fichiers (1)}{185}{chapter.21}
+\contentsline {section}{\numberline {21.1}Les fichiers}{185}{section.21.1}
+\contentsline {subsection}{\numberline {21.1.1}Extension de fichier}{185}{subsection.21.1.1}
+\contentsline {subsection}{\numberline {21.1.2}Système de fichiers}{185}{subsection.21.1.2}
+\contentsline {subsubsection}{Le chemin d'accès}{185}{section*.65}
+\contentsline {subsubsection}{Métadonnées}{186}{section*.66}
+\contentsline {section}{\numberline {21.2}Les flux : un peu de théorie}{186}{section.21.2}
+\contentsline {subsection}{\numberline {21.2.1}Pourquoi utiliser des flux ?}{186}{subsection.21.2.1}
+\contentsline {subsubsection}{Disparités entre systèmes d'exploitation}{186}{section*.67}
+\contentsline {subsubsection}{Lourdeur des opérations de lecture et d'écriture}{186}{section*.68}
+\contentsline {subsection}{\numberline {21.2.2}stdin, stdout et stderr}{187}{subsection.21.2.2}
+\contentsline {section}{\numberline {21.3}Ouverture et fermeture d'un flux}{187}{section.21.3}
+\contentsline {section}{\numberline {21.4}La fonction fopen}{187}{section.21.4}
+\contentsline {subsubsection}{Le mode}{188}{section*.69}
+\contentsline {subsubsection}{Exemple}{188}{section*.70}
+\contentsline {subsection}{\numberline {21.4.1}La fonction fclose}{188}{subsection.21.4.1}
+\contentsline {section}{\numberline {21.5}Écriture vers un flux de texte }{189}{section.21.5}
+\contentsline {subsection}{\numberline {21.5.1}Écrire un caractère}{189}{subsection.21.5.1}
+\contentsline {subsection}{\numberline {21.5.2}Écrire une ligne}{190}{subsection.21.5.2}
+\contentsline {subsection}{\numberline {21.5.3}La fonction fprintf}{191}{subsection.21.5.3}
+\contentsline {section}{\numberline {21.6}Lecture depuis un flux de texte }{191}{section.21.6}
+\contentsline {subsection}{\numberline {21.6.1}Récupérer un caractère}{191}{subsection.21.6.1}
+\contentsline {subsection}{\numberline {21.6.2}Récupérer une ligne}{192}{subsection.21.6.2}
+\contentsline {subsection}{\numberline {21.6.3}La fonction fscanf}{193}{subsection.21.6.3}
+\contentsline {section}{\numberline {21.7}Écriture vers un flux binaire}{193}{section.21.7}
+\contentsline {subsection}{\numberline {21.7.1}Écrire un multiplet}{193}{subsection.21.7.1}
+\contentsline {subsection}{\numberline {21.7.2}Écrire une suite de multiplets}{193}{subsection.21.7.2}
+\contentsline {section}{\numberline {21.8}Lecture depuis un flux binaire}{194}{section.21.8}
+\contentsline {subsection}{\numberline {21.8.1}Lire un multiplet}{194}{subsection.21.8.1}
+\contentsline {subsection}{\numberline {21.8.2}Lire une suite de multiplets}{194}{subsection.21.8.2}
+\contentsline {chapter}{\numberline {22}Les fichiers (2)}{197}{chapter.22}
+\contentsline {section}{\numberline {22.1}Détection d'erreurs et fin de fichier}{197}{section.22.1}
+\contentsline {subsection}{\numberline {22.1.1}La fonction feof}{197}{subsection.22.1.1}
+\contentsline {subsection}{\numberline {22.1.2}La fonction ferror}{197}{subsection.22.1.2}
+\contentsline {subsection}{\numberline {22.1.3}Exemple}{197}{subsection.22.1.3}
+\contentsline {subsection}{\numberline {22.1.4}La fonction ftell}{198}{subsection.22.1.4}
+\contentsline {subsection}{\numberline {22.1.5}La fonction fseek}{198}{subsection.22.1.5}
+\contentsline {subsubsection}{Les flux de texte}{199}{section*.71}
+\contentsline {subsubsection}{Les flux binaires}{199}{section*.72}
+\contentsline {subsection}{\numberline {22.1.6}La fonction rewind}{199}{subsection.22.1.6}
+\contentsline {section}{\numberline {22.2}La temporisation}{199}{section.22.2}
+\contentsline {subsection}{\numberline {22.2.1}Introduction}{199}{subsection.22.2.1}
+\contentsline {subsection}{\numberline {22.2.2}Intérargir avec la temporisation}{201}{subsection.22.2.2}
+\contentsline {subsubsection}{Vider un tampon}{201}{section*.73}
+\contentsline {subsubsection}{Opération de lecture}{201}{section*.74}
+\contentsline {subsubsection}{Opération d'écriture}{202}{section*.75}
+\contentsline {subsubsection}{Modifier un tampon}{202}{section*.76}
+\contentsline {section}{\numberline {22.3}Flux ouverts en lecture et écriture}{203}{section.22.3}
+\contentsline {chapter}{\numberline {23}Le préprocesseur}{205}{chapter.23}
+\contentsline {section}{\numberline {23.1}Les inclusions}{205}{section.23.1}
+\contentsline {section}{\numberline {23.2}Les macroconstantes}{206}{section.23.2}
+\contentsline {subsection}{\numberline {23.2.1}Substitutions de constantes}{206}{subsection.23.2.1}
+\contentsline {subsection}{\numberline {23.2.2}Substitutions d'instructions}{207}{subsection.23.2.2}
+\contentsline {subsection}{\numberline {23.2.3}Macros dans d'autres macros}{208}{subsection.23.2.3}
+\contentsline {subsection}{\numberline {23.2.4}Définition sur plusieurs lignes}{209}{subsection.23.2.4}
+\contentsline {subsubsection}{Définition nulle}{210}{section*.77}
+\contentsline {subsection}{\numberline {23.2.5}Annuler une définition}{211}{subsection.23.2.5}
+\contentsline {section}{\numberline {23.3}Les macrofonctions}{211}{section.23.3}
+\contentsline {subsection}{\numberline {23.3.1}Priorité des opérations}{212}{subsection.23.3.1}
+\contentsline {subsection}{\numberline {23.3.2}Les effets de bords}{212}{subsection.23.3.2}
+\contentsline {section}{\numberline {23.4}Les directives conditionnelles}{213}{section.23.4}
+\contentsline {subsection}{\numberline {23.4.1}Les directives \#if, \#elif et \#else}{213}{subsection.23.4.1}
+\contentsline {subsubsection}{Les directives \#if et \#elif}{213}{section*.78}
+\contentsline {subsubsection}{L'opérateur defined}{213}{section*.79}
+\contentsline {subsubsection}{La directive \#else}{213}{section*.80}
+\contentsline {subsubsection}{Exemple}{214}{section*.81}
+\contentsline {subsection}{\numberline {23.4.2}Les directives \#ifdef et \#ifndef}{214}{subsection.23.4.2}
+\contentsline {subsubsection}{Protection des fichiers d'en-tête}{214}{section*.82}
+\contentsline {chapter}{\numberline {24}TP : un Puissance 4}{217}{chapter.24}
+\contentsline {section}{\numberline {24.1}Première étape : le jeu}{217}{section.24.1}
+\contentsline {section}{\numberline {24.2}Correction}{218}{section.24.2}
+\contentsline {section}{\numberline {24.3}Deuxième étape : une petite IA}{224}{section.24.3}
+\contentsline {subsection}{\numberline {24.3.1}Introduction}{224}{subsection.24.3.1}
+\contentsline {subsection}{\numberline {24.3.2}Tirage au sort}{225}{subsection.24.3.2}
+\contentsline {subsubsection}{Tirer un nombre dans un intervalle donné}{226}{section*.83}
+\contentsline {section}{\numberline {24.4}Correction}{227}{section.24.4}
+\contentsline {section}{\numberline {24.5}Troisième et dernière étape : un système de sauvegarde/restauration}{234}{section.24.5}
+\contentsline {section}{\numberline {24.6}Correction}{234}{section.24.6}
+\contentsline {chapter}{\numberline {25}La gestion d'erreur (2)}{245}{chapter.25}
+\contentsline {section}{\numberline {25.1}Gestion de ressources}{245}{section.25.1}
+\contentsline {subsection}{\numberline {25.1.1}Allocation de ressources}{245}{subsection.25.1.1}
+\contentsline {subsection}{\numberline {25.1.2}Utilisation de ressources}{247}{subsection.25.1.2}
+\contentsline {section}{\numberline {25.2}Fin d'un programme}{248}{section.25.2}
+\contentsline {subsection}{\numberline {25.2.1}Terminaison normale}{248}{subsection.25.2.1}
+\contentsline {subsection}{\numberline {25.2.2}Terminaison anormale}{249}{subsection.25.2.2}
+\contentsline {section}{\numberline {25.3}Les assertions}{249}{section.25.3}
+\contentsline {subsection}{\numberline {25.3.1}La macrofonction assert}{249}{subsection.25.3.1}
+\contentsline {subsection}{\numberline {25.3.2}Suppression des assertions}{250}{subsection.25.3.2}
+\contentsline {section}{\numberline {25.4}Les fonctions strerror et perror}{251}{section.25.4}
+\contentsline {part}{III\hspace {1em}Notions avancées}{253}{part.3}
+\contentsline {chapter}{\numberline {26}La représentation des types }{255}{chapter.26}
+\contentsline {section}{\numberline {26.1}La représentation des entiers}{255}{section.26.1}
+\contentsline {subsection}{\numberline {26.1.1}Les entiers non signés}{255}{subsection.26.1.1}
+\contentsline {subsection}{\numberline {26.1.2}Les entiers signés}{256}{subsection.26.1.2}
+\contentsline {subsubsection}{La représentation en signe et magnitude}{256}{section*.84}
+\contentsline {subsubsection}{La représentation en complément à un}{256}{section*.85}
+\contentsline {subsubsection}{La représentation en complément à deux}{257}{section*.86}
+\contentsline {subsection}{\numberline {26.1.3}Les bits de bourrages}{258}{subsection.26.1.3}
+\contentsline {section}{\numberline {26.2}La représentation des flottants}{258}{section.26.2}
+\contentsline {subsection}{\numberline {26.2.1}Première approche}{258}{subsection.26.2.1}
+\contentsline {subsubsection}{Avec des entiers}{258}{section*.87}
+\contentsline {subsubsection}{Avec des puissances de deux négatives}{259}{section*.88}
+\contentsline {subsection}{\numberline {26.2.2}Une histoire de virgule flottante}{259}{subsection.26.2.2}
+\contentsline {subsubsection}{Les approximations}{259}{section*.89}
+\contentsline {subsubsection}{Les pertes de précision}{259}{section*.90}
+\contentsline {subsection}{\numberline {26.2.3}Formalisation}{260}{subsection.26.2.3}
+\contentsline {section}{\numberline {26.3}La représentation des pointeurs}{260}{section.26.3}
+\contentsline {section}{\numberline {26.4}Ordre des multiplets et des bits}{260}{section.26.4}
+\contentsline {subsection}{\numberline {26.4.1}Ordre des multiplets}{261}{subsection.26.4.1}
+\contentsline {subsubsection}{Le gros-boutisme}{261}{section*.91}
+\contentsline {subsubsection}{Le petit-boutisme}{261}{section*.92}
+\contentsline {subsection}{\numberline {26.4.2}Ordre des bits}{261}{subsection.26.4.2}
+\contentsline {subsection}{\numberline {26.4.3}Applications}{262}{subsection.26.4.3}
+\contentsline {subsubsection}{Connaître le boutisme d'une machine}{262}{section*.93}
+\contentsline {subsubsection}{Le boutisme des constantes octales et hexadécimales}{263}{section*.94}
+\contentsline {section}{\numberline {26.5}Les fonctions memset, memcpy, memmove et memcmp}{263}{section.26.5}
+\contentsline {subsection}{\numberline {26.5.1}La fonction memset}{263}{subsection.26.5.1}
+\contentsline {subsection}{\numberline {26.5.2}Les fonctions memcpy et memmove}{264}{subsection.26.5.2}
+\contentsline {subsection}{\numberline {26.5.3}La fonction memcmp}{264}{subsection.26.5.3}
+\contentsline {subsubsection}{En résumé}{265}{section*.95}
+\contentsline {chapter}{\numberline {27}Les limites des types}{267}{chapter.27}
+\contentsline {section}{\numberline {27.1}Les limites des types}{267}{section.27.1}
+\contentsline {subsection}{\numberline {27.1.1}L'en-tête \textless {}limits.h\textgreater {}}{267}{subsection.27.1.1}
+\contentsline {subsection}{\numberline {27.1.2}L'en-tête \textless {}float.h\textgreater {}}{268}{subsection.27.1.2}
+\contentsline {section}{\numberline {27.2}Les dépassements de capacité}{269}{section.27.2}
+\contentsline {subsection}{\numberline {27.2.1}Dépassement lors d'une opération}{269}{subsection.27.2.1}
+\contentsline {subsubsection}{Les types entiers}{269}{section*.96}
+\contentsline {subsubsection}{Les types flottants}{270}{section*.97}
+\contentsline {subsection}{\numberline {27.2.2}Dépassement lors d'une conversion}{270}{subsection.27.2.2}
+\contentsline {subsubsection}{Valeur entière vers entier signé}{270}{section*.98}
+\contentsline {subsubsection}{Valeur entière vers entier non signé}{270}{section*.99}
+\contentsline {subsubsection}{Valeur flottante vers entier}{270}{section*.100}
+\contentsline {subsubsection}{Valeur entière vers flottant}{270}{section*.101}
+\contentsline {subsubsection}{Valeur flottante vers flottant}{271}{section*.102}
+\contentsline {section}{\numberline {27.3}Gérer les dépassements entiers}{271}{section.27.3}
+\contentsline {subsection}{\numberline {27.3.1}Préparation}{271}{subsection.27.3.1}
+\contentsline {subsection}{\numberline {27.3.2}L'addition}{271}{subsection.27.3.2}
+\contentsline {subsection}{\numberline {27.3.3}La soustraction}{272}{subsection.27.3.3}
+\contentsline {subsection}{\numberline {27.3.4}La négation}{273}{subsection.27.3.4}
+\contentsline {subsection}{\numberline {27.3.5}La multiplication}{273}{subsection.27.3.5}
+\contentsline {subsection}{\numberline {27.3.6}La division}{274}{subsection.27.3.6}
+\contentsline {subsection}{\numberline {27.3.7}Le modulo}{274}{subsection.27.3.7}
+\contentsline {section}{\numberline {27.4}Gérer les dépassements flottants}{275}{section.27.4}
+\contentsline {subsection}{\numberline {27.4.1}L'addition}{275}{subsection.27.4.1}
+\contentsline {subsection}{\numberline {27.4.2}La soustraction}{276}{subsection.27.4.2}
+\contentsline {subsection}{\numberline {27.4.3}La multiplication}{277}{subsection.27.4.3}
+\contentsline {subsection}{\numberline {27.4.4}La division}{278}{subsection.27.4.4}
+\contentsline {subsubsection}{En résumé}{278}{section*.103}
+\contentsline {chapter}{Index}{279}{Item.28}
+\contentsline {chapter}{Table des figures}{279}{Item.28}
+\contentsline {chapter}{Liste des tableaux}{281}{Item.28}
+\contentsline {chapter}{Table des matières}{291}{Item.28}
