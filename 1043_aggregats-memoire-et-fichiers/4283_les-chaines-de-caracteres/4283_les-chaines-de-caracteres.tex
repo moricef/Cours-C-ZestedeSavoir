@@ -1,0 +1,978 @@
+\chapter{Les chaînes de caractères}
+\label{Les chaînes de caractères}
+
+Dans ce chapitre, nous allons apprendre à manipuler du texte ou,
+en langage C, des \textbf{chaînes de caractères}
+
+\section{Qu'est-ce qu'une chaîne de caractères ?}
+\label{qu-est-ce-qu-une-chaine-de-caractères ?}
+
+Dans le chapitre sur les variables, nous avions mentionné le type \mybox{char}.
+Pour rappel, nous vous avions dit que le type \mybox{char} servait surtout
+au stockage de caractères, mais que comme ces derniers étaient stockés
+dans l'ordinateur sous forme de nombres, il était également possible
+d'utiliser ce type pour mémoriser des nombres.
+
+Le seul problème, c'est qu'une variable de type \mybox{char} ne peut
+stocker qu'une seule lettre, ce qui est insuffisant pour stocker une
+phrase ou même un mot. Si nous voulons mémoriser un texte, nous avons
+besoin d'un outil pour rassembler plusieurs lettres dans un seul objet,
+manipulable dans notre langage. Cela tombe bien, nous en avons justement
+découvert un au chapitre précédent : les tableaux.
+
+C'est ainsi que le texte est géré en C : sous forme de tableaux de
+\mybox{char} appelés \textbf{chaînes de caractères} (\emph{strings} en
+anglais).
+
+\subsection{Représentation en mémoire}
+\label{representation-en-memoire-2}
+
+Néanmoins, il y a une petite subtilité. Une chaîne de caractères est un
+plus qu'un tableau : c'est un objet à part entière qui doit être
+manipulable directement. Or, ceci n'est possible que si nous connaissons
+sa taille.
+
+\subsubsection{Avec une taille intégrée}
+\label{avec-une-taille-integree}
+
+Dans certains langages de programmation, les chaines de caractères sont
+stockées sous la forme d'un tableau de \mybox{char} auquel est adjoint
+un entier pour indiquer sa longueur. Plus précisément, lors de
+l'allocation du tableau, le compilateur réserve un élément
+supplémentaire pour conserver la taille de la chaîne. Ainsi, il est aisé
+de parcourir la chaîne et de savoir quand la fin de celle-ci est
+atteinte. De telles chaines de caractères sont souvent appelées des
+\emph{Pascal strings}, s'agissant d'une convention apparue avec le
+langage de programmation Pascal.
+
+\subsubsection{Avec une sentinelle}
+\label{avec-une-sentinelle}
+
+Toutefois, une telle technique limite la taille des chaînes de
+caractères à la capacité du type entier utilisé pour mémoriser la
+longueur de la chaine. Dans la majorité des cas, il s'agit d'un
+\mybox{unsigned\ char}, ce qui donne une limite de 255 caractères
+maximum sur la plupart des machines. Pour ne pas subir cette limitation,
+les concepteurs du langage C ont adopté une autre solution : la fin de
+la chaîne de caractères sera indiquée par un caractère spécial, en
+l'occurrence zéro (noté
+\mybox{\textquotesingle{}\textbackslash{}0\textquotesingle{}}). Les
+chaines de caractères qui fonctionnent sur ce principe sont appelées
+\emph{null terminated strings}, ou encore \emph{C strings}.
+
+Cette solution a toutefois deux inconvénients :
+
+\begin{itemize}
+\item
+  la taille de chaque chaîne doit être calculée en la parcourant
+  jusqu'au caractère nul ;
+\item
+  le programmeur doit s'assurer que chaque chaîne qu'il construit se
+  termine bien par un caractère nul.
+\end{itemize}
+
+\section{Définition, initialisation et utilisation }
+\label{definition,-initialisation-et-utilisation }
+
+\subsection{Définition}
+\label{definition-5}
+
+Définir une chaine de caractères, c'est avant tout définir un tableau de
+\mybox{char}, ce que nous avons vu au chapitre précédent. L'exemple
+ci-dessous définit un tableau de vingt-cinq \mybox{char}.
+
+\begin{C}
+char tab[25];
+\end{C}
+
+\subsection{Initialisation}
+\label{initialisation-6}
+
+Il existe deux méthodes pour initialiser une chaîne de caractères :
+
+\begin{itemize}
+\item
+  de la même manière qu'un tableau ;
+\item
+  à l'aide d'une chaîne de caractères littérale.
+\end{itemize}
+
+\subsubsection{Avec une liste d'initialisation}
+\label{avec-une-liste-dinitialisation}
+
+\subsubsection{Initialisation avec une longueur explicite}
+\label{initialisation-avec-une-longueur-explicite-3}
+
+Comme pour n'importe quel tableau, l'initialisation se réalise à l'aide
+d'une liste d'initialisation. L'exemple ci-dessous définit donc un
+tableau de vingt-cinq \mybox{char} et initialise les sept premiers avec
+la suite de lettres « Bonjour ».
+
+\begin{C}
+char chaine[25] = { 'B', 'o', 'n', 'j', 'o', 'u', 'r' };
+\end{C}
+
+Étant donné que seule une partie des éléments sont initialisés, les
+autres sont implicitement mis à zéro, ce qui nous donne une chaîne de
+caractères valides puisqu'elle est bien terminée par un caractère nul.
+Faites cependant attention à ce qu'il y ait \emph{toujours} de la place
+pour un caractère nul.
+
+\subsubsection{Initialisation avec une longueur implicite}
+\label{initialisation-avec-une-longueur-implicite-3}
+
+Dans le cas où vous ne spécifiez pas de taille lors de la définition, il
+vous faudra ajouter le caractère nul à la fin de la liste
+d'initialisation pour obtenir une chaîne valide.
+
+\begin{C}
+char chaine[] = { 'B', 'o', 'n', 'j', 'o', 'u', 'r', '\0' };
+\end{C}
+
+\subsubsection{Avec une chaîne littérale}
+\label{avec-une-chaine-litterale}
+
+Bien que tout à fait valide, cette première solution est toutefois assez
+fastidieuse. Aussi, il en existe une seconde : recourir à une
+\textbf{chaîne de caractères littérales} pour initialiser un tableau.
+Une chaîne de caractères littérales est une suite de caractères entourée
+par le symbole \mybox{"}. Nous en avons déjà utilisé auparavant comme
+argument des fonctions \mybox{printf()} et \mybox{scanf()}.
+
+Techniquement, une chaîne littérale est un tableau de \mybox{char}
+terminé par un caractère nul. Elles peuvent donc s'utiliser comme
+n'importe quel autre tableau. Si vous exécutez le code ci-dessous, vous
+remarquerez que l'opérateur \mybox{sizeof} retourne bien le nombre de
+caractères composant la chaîne littérale (n'oubliez pas de compter le
+caractère nul) et que l'opérateur \mybox{{[}{]}} peut effectivement
+leur être appliqué.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    printf("%u\n", (unsigned)sizeof "Bonjour");
+    printf("%c\n", "Bonjour"[3]);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+8
+j
+\end{C}
+
+Ces chaînes de caractères littérales peuvent également être utilisées à
+la place des listes d'initialisation. En fait, il s'agit de la troisième
+et dernière exception à la règle de conversion implicite des tableaux.
+
+\subsubsection{Initialisation avec une longueur explicite}
+\label{initialisation-avec-une-longueur-explicite-4}
+
+Dans le cas où vous spécifiez la taille de votre tableau, faites bien
+attention à ce que celui-ci dispose de suffisamment de place pour
+accueillir la chaîne entière, c'est-à-dire les caractères qui la
+composent \emph{et} le caractère nul.
+
+\begin{C}
+char chaine[25] = "Bonjour";
+\end{C}
+
+\subsubsection{Initialisation avec une longueur implicite}
+\label{initialisation-avec-une-longueur-implicite-4}
+
+L'utilisation d'une chaîne littérale pour initialiser un tableau dont la
+taille n'est pas spécifiée vous évite de vous soucier du caractère nul
+puisque celui-ci fait partie de la chaîne littérale.
+
+\begin{C}
+char chaine[] = "Bonjour";
+\end{C}
+
+\subsubsection{Utilisation de pointeurs}
+\label{utilisation-de-pointeurs}
+
+Nous vous avons dit que les chaînes littérales n'étaient rien d'autre
+que des tableaux de \mybox{char} terminés par un caractère nul. Dès
+lors, comme pour n'importe quel tableau, il vous est loisible de les
+référencer à l'aide de pointeurs.
+
+\begin{C}
+char *ptr = "Bonjour";
+\end{C}
+
+Néanmoins, les chaînes littérales sont des \emph{constantes}, il vous
+est donc impossible de les modifier. L'exemple ci-dessous est donc
+incorrect.
+
+\begin{C}
+int main(void)
+{
+    char *ptr = "bonjour";
+
+    ptr[0] = 'B'; /* Incorrect. */
+    return 0;
+}
+\end{C}
+
+\begin{attentionbox}
+  Notez bien la différence entre les
+exemples précédents qui initialisent un tableau avec le contenu d'une
+chaîne littérale (il y a donc copie de la chaîne littérale) et cet
+exemple qui initialise un pointeur avec l'adresse du premier élément
+d'une chaîne littérale.
+\end{attentionbox}
+
+
+\subsection{Utilisation}
+\label{utilisation-1}
+
+Pour le reste, une chaîne de caractères s'utilise comme n'importe quel
+autre tableau. Aussi, pour modifier son contenu, il vous faudra accéder
+à ses éléments un à un.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    char chaine[25] = "Bonjour";
+
+    printf("%s\n", chaine);
+    chaine[0] = 'A';
+    chaine[1] = 'u';
+    chaine[2] = ' ';
+    chaine[3] = 'r';
+    chaine[4] = 'e';
+    chaine[5] = 'v';
+    chaine[6] = 'o';
+    chaine[7] = 'i';
+    chaine[8] = 'r';
+    chaine[9] = '\0'; /* N'oubliez pas le caractère nul ! */
+    printf("%s\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Bonjour
+Au revoir
+\end{C}
+
+
+\section{Afficher et récupérer une chaîne de caractères}
+\label{afficher-etrecuperer-une-chaine-de-caracteres}
+
+Les chaînes littérales n'étant rien
+d'autre que des tableaux de \mybox{char}, il vous est possible
+d'utiliser des chaînes de caractères là où vous employiez des chaînes
+littérales. Ainsi, les deux exemples ci-dessous afficheront la même
+chose.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    char chaine[] = "Bonjour\n";
+
+    printf(chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    printf("Bonjour\n");
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Bonjour
+\end{C}
+
+Toutefois, les fonctions \mybox{printf()} et \mybox{scanf()} disposent
+d'un indicateur de conversion vous permettant d'afficher ou de demander
+une chaîne de caractères : \mybox{s}.
+
+\subsection{Printf}
+\label{printf}
+
+L'exemple suivant illustre l'utilisation de cet indicateur de conversion
+avec \mybox{printf()} et affiche la même chose que les deux codes
+précédents.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    char chaine[] = "Bonjour";
+
+    printf("%s\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Bonjour
+\end{C}
+
+\subsection{Scanf}
+\label{scanf-2}
+
+Le même indicateur de conversion peut être utiliser avec
+\mybox{scanf()} pour demander à l'utilisateur d'entrer une chaîne de
+caractères. Cependant, un problème se pose : étant donné que nous devons
+créer un tableau de taille finie pour accueillir la saisie de
+l'utilisateur, nous devons impérativement limiter la longueur des
+données que nous fournit l'utilisateur.
+
+Pour éviter ce problème, il est possible de spécifier une taille
+maximale à la fonction \mybox{scanf()}. Pour ce faire, il vous suffit
+de placer un nombre entre le symbole \mybox{\%} et l'indicateur de
+conversion \mybox{s}. L'exemple ci-dessous demande à l'utilisateur
+d'entrer son prénom (limité à 254 caractères) et affiche ensuite
+celui-ci.
+
+\begin{erreurbox}
+La fonction \mybox{scanf()} ne décompte
+pas le caractère nul final de la limite fournie ! Il vous est donc
+nécessaire de lui indiquer la taille de votre tableau diminuée de un.
+\end{erreurbox}
+
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char chaine[255];
+
+    printf("Quel est votre prénom ? ");
+
+    if (scanf("%254s", chaine) != 1)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Bien le bonjour %s !\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Quel est votre prénom ? Albert
+Bien le bonjour Albert !
+\end{C}
+
+\subsubsection{Chaîne de caractères avec des espaces}
+\label{chaine-de-caracteres-avec-des-espaces}
+
+Sauf qu'en fait, l'indicateur \mybox{s} signifie : « la plus longue
+suite de caractère ne comprenant \emph{pas} d'espaces » (les espaces
+étant ici entendu comme une suite d'un ou plusieurs des caractères
+suivant : \mybox{\textquotesingle{}\ \textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}f\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}n\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}r\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}t\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}v\textquotesingle{}})\ldots{}
+
+Autrement dit, si vous entrez « Bonjour tout le monde », la fonction
+\mybox{scanf()} va s'arrêter au mot « Bonjour », ce dernier étant suivi
+par un espace.
+
+\begin{questionbox}
+Comment peut-on récupérer une chaîne complète alors ?
+\end{questionbox}
+
+
+\emph{Eh} bien, il va falloir nous débrouiller avec l'indicateur
+\mybox{c} de la fonction \mybox{scanf()} et réaliser nous même une
+fonction employant ce dernier au sein d'une boucle. Ainsi, nous pouvons
+par exemple créer une fonction recevant un pointeur sur \mybox{char} et
+la taille du tableau référencé qui lit un caractère jusqu'à être arrivé
+à la fin de la ligne ou à la limite du tableau.
+
+\begin{questionbox}
+Et comment sait-on que la lecture est arrivée à la fin d'une ligne ?
+\end{questionbox}
+
+
+La fin de ligne est indiquée par le caractère
+\mybox{\textbackslash{}n}.\\
+Avec ceci, vous devriez pouvoir construire une fonction adéquate.\\
+Allez, \emph{hop}, au boulot et faites gaffe aux retours d'erreur !
+
+
+\begin{C}
+#include <stdio.h>
+
+
+int lire_ligne(char *chaine, size_t max)
+{
+    size_t i;
+    char c;
+
+    for (i = 0; i < max - 1; ++i)
+    {
+        if (scanf("%c", &c) != 1)
+            return 0;
+        else if (c == '\n')
+            break;
+
+        chaine[i] = c;
+    }
+
+    chaine[i] = '\0';
+    return 1;
+}
+
+
+int main(void)
+{
+    char chaine[255];
+
+    printf("Quel est votre prénom ? ");
+
+    if (lire_ligne(chaine, sizeof chaine))
+        printf("Bien le bonjour %s !\n", chaine);
+
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+ Quel est votre prénom ? Charles Henri
+Bien le bonjour Charles Henri !
+\end{C}
+
+\begin{infobox}
+  Gardez bien cette fonction sous le
+coude, nous allons en avoir besoin pour la suite.
+\end{infobox}
+
+\section{Lire et écrire depuis et dans une chaîne de caractères}
+\label{lire-et-ecrire-depuis-et-dans-une-chaine-de-caractères}
+
+S'il est possible d'afficher et récupérer une chaîne
+de caractères, il est également possible de lire depuis une chaîne et
+d'écrire dans une chaîne. À cette fin, deux fonctions qui devraient vous
+sembler familières existent : \mybox{sprintf()} et \mybox{sscanf()}.
+
+\subsection{La fonction sprintf}
+\label{la-fonction-sprintf}
+
+\begin{C}
+int sprintf(char *chaine, char *format, ...);
+\end{C}
+
+\begin{infobox}
+  Les trois petits points à la fin du
+prototype de la fonction signifient que celle-ci attend un nombre
+variable d'arguments. Nous verrons ce mécanisme plus en détail dans la
+troisième partie du cours.
+\end{infobox}
+
+
+La fonction \mybox{sprintf()} est identique à la fonction
+\mybox{printf()} mise à part que celle-ci écrit les données produites
+dans une chaîne de caractères au lieu de les afficher à l'écran.
+Celle-ci retourne le nombre de caractères écrit (sans compter le
+caractère nul final !) ou bien un nombre négatif en cas d'erreur.
+
+Cette fonction peut vous permettre, entre autres, d'écrire un nombre
+dans une chaîne de caractères.
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    char chaine[16];
+    int n = 64;
+
+    sprintf(chaine, "%d", n);
+    printf("%s\n", chaine);
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+64
+\end{C}
+
+\begin{attentionbox}
+ La fonction \mybox{sprintf()}
+n'effectue \emph{aucune} vérification quant à la taille de la chaîne de
+destination, vous devez donc vous assurer qu'elle dispose de
+suffisamment de place pour accueillir la chaîne finale (caractère nul
+compris !).
+\end{attentionbox}
+
+
+Comment dès lors s'assurer qu'il n'y aura aucun débordement ?
+Malheureusement, il n'est pas possible de spécifier une taille comme
+avec l'indicateur \mybox{s} de la fonction \mybox{scanf()}, aussi,
+deux solutions s'offrent à vous :
+
+\begin{itemize}
+\item
+  vérifier que le nombre en question ne dépasse pas un certain seuil ;
+\item
+  compter la quantité de chiffres composant le nombre avant d'appeler
+  \mybox{sprintf()}.
+\end{itemize}
+
+Ainsi, l'exemple ci-dessous ne pose pas de problèmes puisque nous savons
+que si le nombre est inférieur ou égal à 999 999 999, il n'excèdera pas
+neuf caractères (\emph{n'oubliez pas de compter le caractère nul final !}).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char chaine[10];
+    long n;
+
+    printf("Entrez un nombre : ");
+
+    if (scanf("%ld", &n) != 1 || n > 999999999L)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    sprintf(chaine, "%ld", n);
+    printf("%s\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Entrez un nombre : 890765456789
+Erreur lors de la saisie
+
+Entrez un nombre : 5678
+5678
+\end{C}
+
+\subsection{La fonction sscanf}
+\label{la-fonction-sscanf}
+
+\begin{C}
+int sscanf(char *chaine, char *format, ...);
+\end{C}
+
+La fonction \mybox{sscanf()} est identique à la fonction
+\mybox{scanf()} si ce n'est que celle-ci extrait les données depuis une
+chaîne de caractères plutôt qu'en provenance d'une saisie de
+l'utilisateur. Cette dernière retourne le nombre de conversions réussies
+\emph{ou} un nombre inférieur si elles n'ont pas toutes été réalisées
+\emph{ou} enfin un nombre négatif en cas d'erreur.
+
+Voici un exemple d'utilisation.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char chaine[10];
+    int n;
+
+    if (sscanf("5 abcd", "%d %9s", &n, chaine) != 2)
+    {
+        printf("Erreur lors de l'examen de la chaîne\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("%d %s\n", n, chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+5 abcd
+\end{C}
+
+\begin{infobox} 
+Notez que la fonction \mybox{sscanf()} ne souffre pas du même problème
+que \mybox{scanf()} en ce qui concerne de potentiels caractères non lus,
+nous y reviendrons un peu plus tard.
+\end{infobox}
+
+\section{Les classes de caractères}
+\label{les-classes-de-caracteres}
+
+Pour terminer cette partie théorique sur une note un
+peu plus légère, sachez que la bibliothèque standard 
+fournie unen-tête \mybox{\textless{}ctype.h\textgreater{}}
+qui permet de classifier les caractères. Onze fonctions sont
+ainsi définies
+
+\begin{C}
+int isalnum(int c);
+int isalpha(int c);
+int iscntrl(int c);
+int isdigit(int c);
+int isgraph(int c);
+int islower(int c);
+int isprint(int c);
+int ispunct(int c);
+int isspace(int c);
+int isupper(int c);
+int isxdigit(int c);
+\end{C}
+
+Chacune d'entre elles attend en argument un caractère et retourne un
+nombre positif ou zéro suivant que le caractère fourni appartienne ou
+non à la catégorie déterminée par la fonction.
+
+\begin{table}[ht!]
+\tiny
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+%\begin{tabularx}{\textwidth}{|l|l|X|X|}\hline
+\begin{tabular}{|p{1.5cm}|p{2cm}|p{3.5cm}|p{5.5cm}|}\hline
+\rowcolor{gris-tab-entete}\textbf{Fonction} & \textbf{Catégorie} & \textbf{Description} & \textbf{Par défaut}\tabularnewline\hline
+%\noindent\parbox[c]{\hsize}isupper &
+isupper &
+Majuscule & 
+Détermine si le caractère entré est une lettre majuscule &
+\mybox{\textquotesingle{}A\textquotesingle{}},
+\mybox{\textquotesingle{}B\textquotesingle{}},
+\mybox{\textquotesingle{}C\textquotesingle{}},
+\mybox{\textquotesingle{}D\textquotesingle{}},
+\mybox{\textquotesingle{}E\textquotesingle{}},
+\mybox{\textquotesingle{}F\textquotesingle{}},
+\mybox{\textquotesingle{}G\textquotesingle{}},
+\mybox{\textquotesingle{}H\textquotesingle{}},
+\mybox{\textquotesingle{}I\textquotesingle{}},
+\mybox{\textquotesingle{}J\textquotesingle{}},
+\mybox{\textquotesingle{}K\textquotesingle{}},
+\mybox{\textquotesingle{}L\textquotesingle{}},
+\mybox{\textquotesingle{}M\textquotesingle{}},
+\mybox{\textquotesingle{}N\textquotesingle{}},
+\mybox{\textquotesingle{}O\textquotesingle{}},
+\mybox{\textquotesingle{}P\textquotesingle{}},
+\mybox{\textquotesingle{}Q\textquotesingle{}},
+\mybox{\textquotesingle{}R\textquotesingle{}},
+\mybox{\textquotesingle{}S\textquotesingle{}},
+\mybox{\textquotesingle{}T\textquotesingle{}},
+\mybox{\textquotesingle{}U\textquotesingle{}},
+\mybox{\textquotesingle{}V\textquotesingle{}},
+\mybox{\textquotesingle{}W\textquotesingle{}},
+\mybox{\textquotesingle{}X\textquotesingle{}},
+\mybox{\textquotesingle{}Y\textquotesingle{}} ou
+\mybox{\textquotesingle{}Z\textquotesingle{}}\tabularnewline\hline
+islower&
+Minuscule&
+Détermine si le caractère entré est une lettre minuscule&
+\mybox{\textquotesingle{}a\textquotesingle{}},
+\mybox{\textquotesingle{}b\textquotesingle{}},
+\mybox{\textquotesingle{}c\textquotesingle{}},
+\mybox{\textquotesingle{}d\textquotesingle{}},
+\mybox{\textquotesingle{}e\textquotesingle{}},
+\mybox{\textquotesingle{}f\textquotesingle{}},
+\mybox{\textquotesingle{}g\textquotesingle{}},
+\mybox{\textquotesingle{}h\textquotesingle{}},
+\mybox{\textquotesingle{}i\textquotesingle{}},
+\mybox{\textquotesingle{}j\textquotesingle{}},
+\mybox{\textquotesingle{}k\textquotesingle{}},
+\mybox{\textquotesingle{}l\textquotesingle{}},
+\mybox{\textquotesingle{}m\textquotesingle{}},
+\mybox{\textquotesingle{}o\textquotesingle{}},
+\mybox{\textquotesingle{}n\textquotesingle{}},
+\mybox{\textquotesingle{}p\textquotesingle{}},
+\mybox{\textquotesingle{}q\textquotesingle{}},
+\mybox{\textquotesingle{}r\textquotesingle{}},
+\mybox{\textquotesingle{}s\textquotesingle{}},
+\mybox{\textquotesingle{}t\textquotesingle{}},
+\mybox{\textquotesingle{}u\textquotesingle{}},
+\mybox{\textquotesingle{}v\textquotesingle{}},
+\mybox{\textquotesingle{}w\textquotesingle{}},
+\mybox{\textquotesingle{}x\textquotesingle{}},
+\mybox{\textquotesingle{}y\textquotesingle{}} ou
+\mybox{\textquotesingle{}z\textquotesingle{}}\tabularnewline\hline
+isdigit&
+Chiffre décimal&
+Détermine si le caractère entré est un chiffre décimal&
+\mybox{\textquotesingle{}0\textquotesingle{}},
+\mybox{\textquotesingle{}1\textquotesingle{}},
+\mybox{\textquotesingle{}2\textquotesingle{}},
+\mybox{\textquotesingle{}3\textquotesingle{}},
+\mybox{\textquotesingle{}4\textquotesingle{}},
+\mybox{\textquotesingle{}5\textquotesingle{}},
+\mybox{\textquotesingle{}6\textquotesingle{}},
+\mybox{\textquotesingle{}7\textquotesingle{}},
+\mybox{\textquotesingle{}8\textquotesingle{}} ou
+\mybox{\textquotesingle{}9\textquotesingle{}}\tabularnewline\hline
+isxdigit&
+Chiffre hexadécimal&
+Détermine si le caractère entré est un chiffre hexadécimal&
+\mybox{\textquotesingle{}0\textquotesingle{}},
+\mybox{\textquotesingle{}1\textquotesingle{}},
+\mybox{\textquotesingle{}2\textquotesingle{}},
+\mybox{\textquotesingle{}3\textquotesingle{}},
+\mybox{\textquotesingle{}4\textquotesingle{}},
+\mybox{\textquotesingle{}5\textquotesingle{}},
+\mybox{\textquotesingle{}6\textquotesingle{}},
+\mybox{\textquotesingle{}7\textquotesingle{}},
+\mybox{\textquotesingle{}8\textquotesingle{}},
+\mybox{\textquotesingle{}9\textquotesingle{}},
+\mybox{\textquotesingle{}A\textquotesingle{}},
+\mybox{\textquotesingle{}B\textquotesingle{}},
+\mybox{\textquotesingle{}C\textquotesingle{}},
+\mybox{\textquotesingle{}D\textquotesingle{}},
+\mybox{\textquotesingle{}E\textquotesingle{}},
+\mybox{\textquotesingle{}F\textquotesingle{}},
+\mybox{\textquotesingle{}a\textquotesingle{}},
+\mybox{\textquotesingle{}b\textquotesingle{}},
+\mybox{\textquotesingle{}c\textquotesingle{}},
+\mybox{\textquotesingle{}d\textquotesingle{}},
+\mybox{\textquotesingle{}e\textquotesingle{}} ou
+\mybox{\textquotesingle{}f\textquotesingle{}}\tabularnewline\hline
+isspace&
+Espace&
+Détermine si le caractère entré est un espace&
+\mybox{\textquotesingle{}\ \textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}f\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}n\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}r\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}t\textquotesingle{}} ou
+\mybox{\textquotesingle{}\textbackslash{}v\textquotesingle{}}\tabularnewline\hline
+iscntrl&
+Contrôle&
+Détermine si le caractère est un caractère dit « de contrôle »&
+\mybox{\textquotesingle{}\textbackslash{}0\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}a\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}b\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}f\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}n\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}r\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}t\textquotesingle{}} ou
+\mybox{\textquotesingle{}\textbackslash{}v\textquotesingle{}}\tabularnewline\hline
+ispunct&
+Ponctuation&
+Détermine si le caractère entré est un signe de ponctuation&
+\mybox{\textquotesingle{}!\textquotesingle{}},
+\mybox{\textquotesingle{}"\textquotesingle{}},
+\mybox{\textquotesingle{}\#\textquotesingle{}},
+\mybox{\textquotesingle{}\%\textquotesingle{}},
+\mybox{\textquotesingle{}\&\textquotesingle{}},
+\mybox{\textquotesingle{}\textquotesingle{}\textquotesingle{}},
+\mybox{\textquotesingle{}(\textquotesingle{}},
+\mybox{\textquotesingle{})\textquotesingle{}},
+\mybox{\textquotesingle{}*\textquotesingle{}},
+\mybox{\textquotesingle{}+\textquotesingle{}},
+\mybox{\textquotesingle{},\textquotesingle{}},
+\mybox{\textquotesingle{}-\textquotesingle{}},
+\mybox{\textquotesingle{}.\textquotesingle{}},
+\mybox{\textquotesingle{}/\textquotesingle{}},
+\mybox{\textquotesingle{}:\textquotesingle{}},
+\mybox{\textquotesingle{};\textquotesingle{}},
+\mybox{\textquotesingle{}\textless{}\textquotesingle{}},
+\mybox{\textquotesingle{}=\textquotesingle{}},
+\mybox{\textquotesingle{}\textgreater{}\textquotesingle{}},
+\mybox{\textquotesingle{}?\textquotesingle{}},
+\mybox{\textquotesingle{}{[}\textquotesingle{}},
+\mybox{\textquotesingle{}\textbackslash{}\textquotesingle{}},
+\mybox{\textquotesingle{}{]}\textquotesingle{}},
+\mybox{\textquotesingle{}\^{}\textquotesingle{}},
+\mybox{\textquotesingle{}\_\textquotesingle{}},
+\mybox{\textquotesingle{}\{\textquotesingle{}},
+\mybox{\textquotesingle{}\textless{}barre\ droite\textgreater{}\textquotesingle{}},
+\mybox{\textquotesingle{}\}\textquotesingle{}} ou
+\mybox{\textquotesingle{}\textasciitilde{}\textquotesingle{}}\tabularnewline\hline
+isalpha&
+Alphabétique&
+Détermine si le caractère entré est une lettre alphabétique&
+Les deux ensembles de caractères de \mybox{islower()} et
+\mybox{isupper()}\tabularnewline\hline
+isalnum&
+Alphanumérique&
+Détermine si le caractère entré est une lettre alphabétique ou un
+chiffre décimal&
+Les trois ensembles de caractères de \mybox{islower()},
+\mybox{isupper()} et \mybox{isdigit()}\tabularnewline\hline
+isgraph&
+Graphique&
+Détermine si le caractère est représentable graphiquement&
+Tout sauf l'ensemble de \mybox{iscntrl()} et l'espace
+(\mybox{\textquotesingle{}\ \textquotesingle{}})\tabularnewline\hline
+isprint&
+Affichable&
+Détermine si le caractère est « affichable »&
+Tout sauf l'ensemble de \mybox{iscntrl()}\tabularnewline\hline
+%\end{tabularx}
+\end{tabular}
+\end{table}
+
+\begin{infobox}
+La suite \mybox{\textless{}barre\_droite\textgreater{}} symbolise 
+le caractère \mybox{\textbar{}}.
+\end{infobox}
+
+Le tableau ci-dessous vous présente chacune de ces onze fonctions ainsi
+que les ensembles de caractères qu'elles décrivent. La colonne « par
+défaut » vous détail leur comportement en cas d'utilisation de la
+\textbf{\emph{locale}} \mybox{C}. Nous reviendrons sur les
+\emph{locales} dans la troisième partie de ce cours ; pour l'heure,
+considérez que ces fonctions ne retournent un nombre positif que si un
+des caractères de leur ensemble « par défaut » leur est fourni en
+argument.
+
+L'exemple ci-dessous utilise la fonction \mybox{isdigit()} pour
+déterminer si l'utilisateur a bien entré une suite de chiffres.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+/* lire_ligne() */
+
+
+int main(void)
+{
+    char suite[255];
+    unsigned i;
+
+    if (!lire_ligne(suite, sizeof suite))
+    {
+        printf("Erreur lors de la saisie.\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; suite[i] != '\0'; ++i)
+        if (!isdigit(suite[i]))
+        {
+            printf("Veuillez entrer une suite de chiffres.\n");
+            return EXIT_FAILURE;
+        }
+
+    printf("C'est bien une suite de chiffres.\n");
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+122334
+C'est bien une suite de chiffres.
+
+5678a
+Veuillez entre une suite de chiffres.
+\end{C}
+
+\begin{infobox}
+Notez que cet en-tête fourni également deux fonctions : \mybox{tolower()}
+et \mybox{toupper()} retournant respectivement la version minuscule ou
+majuscule de la lettre entrée. Dans le cas où un caractère autre qu'une
+lettre est entré (ou que celle-ci est déjà en minuscule ou en majuscule),
+la fonction retourne celui-ci.
+\end{infobox}
+
+\section{Exercices }
+\label{exercices-5}
+
+\subsection{Palindrome}
+\label{palindrome}
+
+Un palindrome est un texte identique lorsqu'il est lu de gauche à droite
+et de droite à gauche. Ainsi, le mot \emph{radar} est un palindrome, de
+même que les phrases \emph{engage le jeu que je le gagne} et \emph{élu
+par cette crapule}. Normalement, il n'est pas tenu compte des accents,
+trémas, cédilles ou des espaces. Toutefois, pour cet exercice, nous nous
+contenterons de vérifier si un mot donné est un palindrome.
+
+\begin{C}
+int palindrome(char *s)
+{
+    size_t len = 0;
+    size_t i;
+
+    while (s[len] != '\0')
+        ++len;
+
+    for (i = 0; i < len; ++i)
+        if (s[i] != s[len - 1 - i])
+            return 0;
+
+    return 1;
+}
+\end{C}
+
+\subsection{Compter les parenthèses}
+\label{compter-les-parentheses}
+
+Écrivez un programme qui lit une ligne et vérifie que chaque parenthèse
+ouvrante est bien refermée par la suite.
+
+\begin{C}
+Entrez une ligne : printf("%u\n", (unsigned)sizeof(int);
+Il manque des parenthèses.
+\end{C}
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+/* lire_ligne() */
+
+
+int main(void)
+{
+    char s[255];
+    char *t;
+    long n = 0;
+
+    printf("Entrez une ligne : ");
+
+    if (!lire_ligne(s, sizeof s))
+    {
+        printf("Erreur lors de la saisie.\n");
+        return EXIT_FAILURE;
+    }
+
+    for (t = s; *t != '\0'; ++t)
+        if (*t == '(')
+            ++n;
+        else if (*t == ')')
+            --n;
+
+    if (n == 0)
+        printf("Le compte est bon.\n");
+    else
+        printf("Il manque des parenthèses.\n");
+
+    return 0;
+}
+\end{C}
+
+\hrulefill
+
+Le chapitre suivant sera l'occasion de mettre en pratique ce que nous
+avons vu dans les chapitres précédents à l'aide d'un TP.

@@ -1,0 +1,1942 @@
+\chapter{TP : un Puissance 4}
+\label{tp-:-un-puissance-4}
+
+Après ce que nous venons de découvrir, voyons comment mettre tout cela en
+musique à l'aide d'un exercice récapitulatif : réaliser un \emph{Puissance 4}.
+  
+\section{Première étape : le jeu}
+\label{premiere-etape-:-le-jeu}
+  
+Dans cette première partie, vous allez devoir
+réaliser un « Puissance 4 » pour deux joueurs \emph{humains}. Le
+programme final devra ressembler à ceci.
+
+\begin{C}
+  1   2   3   4   5   6   7  
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+  1   2   3   4   5   6   7  
+
+Joueur 1 : 1
+
+  1   2   3   4   5   6   7  
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+| O |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+  1   2   3   4   5   6   7  
+
+Joueur 2 : 7
+
+  1   2   3   4   5   6   7  
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   |   |   |   |   |
++---+---+---+---+---+---+---+
+| O |   |   |   |   |   | X |
++---+---+---+---+---+---+---+
+  1   2   3   4   5   6   7  
+
+Joueur 1 :
+\end{C}
+
+Pour ceux qui ne connaissent pas le jeu Puissance 4, ce dernier se joue
+à l'aide d'une grille verticale de sept colonnes sur six lignes. Chaque
+joueur dispose de vingt et un jetons d'une couleur (le plus souvent,
+rouge et jaune traduit dans notre exemple par les caractères « O » et «
+X ») et place ceux-ci au sein de la grille à tour de rôle.
+
+Pour gagner le jeu, un joueur doit aligner quatre jetons verticalement,
+horizontalement ou en oblique. Il s'agit donc du même principe que le
+Morpion à une différence prêt : la grille est \emph{verticale} ce qui
+signifie que les jetons tombent au fond de la colonne choisie par le
+joueur. Pour plus de détails, je vous renvoie à
+\MYhref{https://fr.wikipedia.org/wiki/Puissance_4}{l'article dédié sur
+Wikipédia}.
+
+Maintenant que vous savez cela, il est temps de passer à la réalisation
+de celui-ci.
+
+Bon travail !
+
+\section{Correction}
+\label{correction-18}
+
+Bien, l'heure de la correction est venue.
+
+\begin{C}
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define P4_COLONNES (7)
+#define P4_LIGNES (6)
+
+#define J1_JETON ('O')
+#define J2_JETON ('X')
+
+#define ACT_ERR (0)
+#define ACT_JOUER (1)
+#define ACT_NOUVELLE_SAISIE (2)
+#define ACT_QUITTER (3)
+
+#define STATUT_OK (0)
+#define STATUT_GAGNE (1)
+#define STATUT_EGALITE (2)
+
+struct position
+{
+    int colonne;
+    int ligne;
+};
+
+static void affiche_grille(void);
+static void calcule_position(int, struct position *);
+static unsigned calcule_nb_jetons_depuis_vers(struct position *, int, int, char);
+static unsigned calcule_nb_jetons_depuis(struct position *, char);
+static int coup_valide(int);
+static int demande_action(int *);
+static int grille_complete(void);
+static void initialise_grille(void);
+static int position_valide(struct position *);
+static int statut_jeu(struct position *pos, char);
+static unsigned umax(unsigned, unsigned);
+static int vider_tampon(FILE *);
+
+static char grille[P4_COLONNES][P4_LIGNES];
+
+
+static void affiche_grille(void)
+{
+    /*
+     * Affiche la grille pour le ou les joueurs.
+     */
+
+    int col;
+    int lgn;
+
+    putchar('\n');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+    putchar('+');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("---+");
+
+    putchar('\n');
+
+    for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+    {
+        putchar('|');
+
+        for (col = 0; col < P4_COLONNES; ++col)
+            if (isalpha(grille[col][lgn]))
+                printf(" %c |", grille[col][lgn]);
+            else
+                printf(" %c |", ' ');
+
+        putchar('\n');
+        putchar('+');
+
+        for (col = 1; col <= P4_COLONNES; ++col)
+            printf("---+");
+
+        putchar('\n');
+    }
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+}
+
+
+static void calcule_position(int coup, struct position *pos)
+{
+    /*
+     * Traduit le coup joué en un numéro de colonne et de ligne.
+     */
+
+    int lgn;
+
+    pos->colonne = coup;
+
+    for (lgn = P4_LIGNES - 1; lgn >= 0; --lgn)
+        if (grille[pos->colonne][lgn] == ' ')
+        {
+            pos->ligne = lgn;
+            break;
+        }
+}
+
+
+static unsigned calcule_nb_jetons_depuis_vers(struct position *pos, int dpl_hrz, int dpl_vrt, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adajcents identiques depuis une position donnée en se
+     * déplaçant de `dpl_hrz` horizontalement et `dpl_vrt` verticalement.
+     * La fonction s'arrête si un jeton différent ou une case vide est rencontrée ou si
+     * les limites de la grille sont atteintes.
+     */
+
+    struct position tmp;
+    unsigned nb = 1;
+
+    tmp.colonne = pos->colonne + dpl_hrz;
+    tmp.ligne = pos->ligne + dpl_vrt;
+
+    while (position_valide(&tmp))
+    {
+        if (grille[tmp.colonne][tmp.ligne] == jeton)
+            ++nb;
+        else
+            break;
+
+        tmp.colonne += dpl_hrz;
+        tmp.ligne += dpl_vrt;
+    }
+
+    return nb;
+}
+
+
+static unsigned calcule_nb_jetons_depuis(struct position *pos, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adjacents en vérifant la colonne courante,
+     * de la ligne courante et des deux obliques courantes.
+     * Pour ce faire, la fonction calcule_nb_jeton_depuis_vers() est appelé à
+     * plusieurs reprises afin de parcourir la grille suivant la vérification
+     * à effectuer.
+     */
+
+    unsigned max;
+
+    max = calcule_nb_jetons_depuis_vers(pos, 0, 1, jeton);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 0, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 0, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, -1, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, -1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 1, jeton) - 1);
+
+    return max;
+}
+
+
+static int coup_valide(int col)
+{
+    /*
+     * Si la colonne renseignée est inférieur ou égal à zéro
+     * ou que celle-ci est supérieure à la longueur du tableau
+     * ou que la colonne indiquée est saturée
+     * alors le coup est invalide.
+     */
+
+    if (col <= 0 || col > P4_COLONNES || grille[col - 1][0] != ' ')
+        return 0;
+
+    return 1;
+}
+
+
+static int demande_action(int *coup)
+{
+    /*
+     * Demande l'action à effectuer au joueur courant.
+     * S'il entre un chiffre, c'est qu'il souhaite jouer.
+     * S'il entre la lettre « Q » ou « q », c'est qu'il souhaite quitter.
+     * S'il entre autre chose, une nouvelle saisie sera demandée.
+     */
+
+    char c;
+    int ret = ACT_ERR;
+
+    if (scanf("%d", coup) != 1)
+    {
+        if (scanf("%c", &c) != 1)
+        {
+            fprintf(stderr, "Erreur lors de la saisie\n");
+            return ret;
+        }
+
+        switch (c)
+        {
+        case 'Q':
+        case 'q':
+            ret = ACT_QUITTER;
+            break;
+        default:
+            ret = ACT_NOUVELLE_SAISIE;
+            break;
+        }
+    }
+    else
+        ret = ACT_JOUER;
+
+    if (!vider_tampon(stdin))
+    {
+         fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+         ret = ACT_ERR;
+    }
+
+    return ret;
+}
+
+
+static int grille_complete(void)
+{
+    /*
+     * Détermine si la grille de jeu est complète.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            if (grille[col][lgn] == ' ')
+                return 0;
+
+    return 1;
+}
+
+
+static void initialise_grille(void)
+{
+    /*
+     * Initalise les caractères de la grille.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            grille[col][lgn] = ' ';
+}
+
+
+static int position_valide(struct position *pos)
+{
+    /*
+     * Vérifie que la position fournie est bien comprise dans la grille.
+     */
+
+    int ret = 1;
+
+    if (pos->colonne >= P4_COLONNES || pos->colonne < 0)
+        ret = 0;
+    else if (pos->ligne >= P4_LIGNES || pos->ligne < 0)
+        ret = 0;
+
+    return ret;
+}
+
+
+static int statut_jeu(struct position *pos, char jeton)
+{
+    /*
+     * Détermine s'il y a lieu de continuer le jeu ou s'il doit être
+     * arrêté parce qu'un joueur a gagné ou que la grille est complète.
+     */
+
+    if (grille_complete())
+        return STATUT_EGALITE;
+    else if (calcule_nb_jetons_depuis(pos, jeton) >= 4)
+        return STATUT_GAGNE;
+
+    return STATUT_OK;
+}
+
+
+static unsigned umax(unsigned a, unsigned b)
+{
+    /*
+     * Retourne le plus grand des deux arguments.
+     */
+
+    return (a > b) ? a : b;
+}
+
+
+static int vider_tampon(FILE *fp)
+{
+    /*
+     * Vide les données en attente de lecture du flux spécifié.
+     */
+
+    int c;
+
+    do
+        c = fgetc(fp);
+    while (c != '\n' && c != EOF);
+
+    return ferror(fp) ? 0 : 1;
+}
+
+
+int main(void)
+{
+    int statut;
+    char jeton = J1_JETON;
+
+    initialise_grille();
+    affiche_grille();
+
+    while (1)
+    {
+        struct position pos;
+        int action;
+        int coup;
+
+        printf("Joueur %d : ", (jeton == J1_JETON) ? 1 : 2);
+
+        action = demande_action(&coup);
+
+        if (action == ACT_ERR)
+            return EXIT_FAILURE;
+        else if (action == ACT_QUITTER)
+            return 0;
+        else if (action == ACT_NOUVELLE_SAISIE || !coup_valide(coup))
+        {
+            fprintf(stderr, "Vous ne pouvez pas jouer à cet endroit\n");
+            continue;
+        }
+
+        calcule_position(coup - 1, &pos);
+        grille[pos.colonne][pos.ligne] = jeton;
+        affiche_grille();
+        statut = statut_jeu(&pos, jeton);
+
+        if (statut != STATUT_OK)
+            break;
+
+        jeton = (jeton == J1_JETON) ? J2_JETON : J1_JETON;    
+    }
+
+    if (statut == STATUT_GAGNE)
+        printf("Le joueur %d a gagné\n", (jeton == J1_JETON) ? 1 : 2);
+    else if (statut == STATUT_EGALITE)
+        printf("Égalité\n");
+
+    return 0;
+}
+\end{C}
+
+Le programme commence par initialiser la grille (tous les caractères la
+composant sont des espaces au début, symbolisant une case vide) et
+l'afficher.
+
+Ensuite, il est demandé au premier joueur d'effectuer une action. Ceci
+est réalisé via la fonction \mybox{demande\_action()} qui attend du
+joueur soit qu'il entre un numéro de colonne, soit la lettre \mybox{Q}
+ou \mybox{q}. Si le joueur entre autre chose ou que la colonne indiquée
+est invalide, une nouvelle saisie lui est demandée.
+
+Dans le cas où le numéro de colonne est valable, la fonction\\
+\mybox{calcule\_position()} est appelée afin de calculer le numéro de
+ligne et de stocker celui-ci et le numéro de colonne dans une structure.
+Après quoi la grille est mise à jour en ajoutant un nouveau jeton et à
+nouveau affichée.
+
+La fonction \mybox{statut\_jeu()} entre alors en action et détermine si
+quatre jetons adjacents sont présents ou non ou si la grille est
+complète. Ceci est notamment réalisé à l'aide de la fonction
+\mybox{calcule\_nb\_jetons\_depuis()} qui fait elle-même appel à la
+fonction\\ \mybox{calcule\_nb\_jetons\_depuis\_vers()}. Si aucune des
+deux conditions n'est remplie, c'est reparti pour un tour sinon la
+boucle est quittée et le programme se termine.
+
+La fonction \mybox{calcule\_nb\_jetons\_depuis\_vers()} mérite que l'on
+s'attarde un peu sur elle. Celle-ci reçoit une position dans la grille
+et se déplace suivant les valeurs attribuées à \mybox{dpl\_hrz} (soit «
+déplacement horizontal ») et \mybox{dpl\_vrt} (pour « déplacement
+vertical »). Celle-ci effectue son parcours aussi longtemps que des
+jetons identiques sont rencontrés et que le déplacement a lieu dans la
+grille. Elle retourne ensuite le nombre de jetons identiques rencontrés
+(notez que nous commençons le décompte à un puisque, par définition, la
+position indiquée est celle qui vient d'être jouée par un des joueurs).
+
+La fonction \mybox{calcule\_nb\_jetons\_depuis()} appel à plusieurs
+reprises la fonction\\ \mybox{calcule\_nb\_jetons\_depuis\_vers()} afin
+d'obtenir le nombre de jetons adjacents de la colonne courante
+(déplacement de un vers le bas), de la ligne (deux déplacements : un
+vers la gauche et un vers la droite) et des deux obliques (deux
+déplacements pour chacune d'entre-elles).
+
+Notez qu'afin d'éviter de nombreux passage d'arguments, nous avons
+employé la variable globale \mybox{grille} (dont le nom est explicite).
+
+\begin{infobox} 
+ Nous insistons sur le fait que nous
+vous présentons \emph{une} solution parmi d'autres. Ce n'est pas parce
+que votre façon de procéder est différente qu'elle est incorrecte.
+\end{infobox}
+
+\section{Deuxième étape : une petite IA}
+\label{deuxieme-etape-:-une-petite-IA}
+
+\subsection{Introduction}
+\label{introduction-5}
+
+Dans cette seconde partie, votre objectif va être de construire une
+petite intelligence artificielle. Votre programme va donc devoir
+demander si un ou deux joueurs sont présents et jouer à la place du
+second joueur s'il n'y en a qu'un seul.
+
+Afin de vous aider dans la réalisation de cette tâche, nous allons vous
+présenter un algorithme simple que vous pourrez mettre en œuvre. Le
+principe est le suivant : pour chaque emplacement possible (il y en aura
+toujours au maximum sept), nous allons calculer combien de pièces
+composeraient la ligne si nous jouions à cet endroit \emph{sans tenir
+compte de notre couleur} (autrement dit, le jeton que nous jouons est
+considéré comme étant des \emph{deux} couleurs). Si une valeur est plus
+élevée que les autres, l'emplacement correspondant sera choisi. Si en
+revanche il y a plusieurs nombres égaux, une des cases sera choisie « au
+hasard » (nous y reviendrons).
+
+Cet algorithme connait toutefois une exception : s'il s'avère lors de
+l'analyse qu'un coup permet à l'ordinateur de gagner, alors le
+traitement s'arrêtera là et le mouvement est immédiatement joué.
+
+Par exemple, dans la grille ci-dessous, il est possible de jouer à sept
+endroits (indiqués à l'aide d'un point d'interrogation).
+
+\begin{C}
+  1   2   3   4   5   6   7  
++---+---+---+---+---+---+---+
+|   |   |   | ? |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | ? |   |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | X | ? |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | O | X |   |
++---+---+---+---+---+---+---+
+|   | ? | ? | X | O | O | ? |
++---+---+---+---+---+---+---+
+| ? | X | O | O | X | X | X |
++---+---+---+---+---+---+---+
+  1   2   3   4   5   6   7  
+\end{C}
+
+Si nous appliquons l'algorithme que nous venons de décrire,
+nous ob\-te\-nons les valeurs suivantes.
+
+\begin{C}
+  1   2   3   4   5   6   7  
++---+---+---+---+---+---+---+
+|   |   |   | 4 |   |   |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | 2 |   |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | X | 2 |   |
++---+---+---+---+---+---+---+
+|   |   |   | O | O | X |   |
++---+---+---+---+---+---+---+
+|   | 2 | 2 | X | O | O | 3 |
++---+---+---+---+---+---+---+
+| 2 | X | O | O | X | X | X |
++---+---+---+---+---+---+---+
+  1   2   3   4   5   6   7  
+\end{C}
+
+Le programme jouera donc dans la colonne quatre, cette dernière ayant la
+valeur la plus élevée (ce qui tombe bien puisque l'autre joueur
+gagnerait si l'ordinateur jouait ailleurs :p ).
+
+\begin{infobox}
+  Pour effectuer le calcul, vous pouvez
+vous aider des fonctions \mybox{long\_colonne()},
+\mybox{long\_ligne()} et \mybox{long\_oblique()} de la correction
+précédente.
+\end{infobox}
+
+
+\subsection{Tirage au sort}
+\label{tirage-au-sort}
+
+Nous vous avons dit que si l'ordinateur doit choisir entre des valeurs
+identiques, ce dernier devrait en choisir une « au hasard ». Cependant,
+un ordinateur est en vérité incapable d'effectuer cette tâche (c'est
+pour cela que nous employons des guillemets). Pour y remédier, il existe
+des algorithmes qui permettent de produire des suites de nombres dits
+\emph{pseudo-aléatoires}, c'est-à-dire qui s'approchent de suites
+aléatoires sur le plan statistique.
+
+La plupart de ceux-ci fonctionnent à partir d'une \emph{graine},
+c'est-à-dire un nombre de départ qui va déterminer tout le reste de la
+suite. C'est ce système qui a été choisi par la bibliothèque standard du
+C. Deux fonctions vous sont dès lors proposées : \mybox{srand()} et
+\mybox{rand()} (elles sont déclarées dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}).
+
+\begin{C}
+void srand(unsigned int seed);
+int rand(void);
+\end{C}
+
+La fonction \mybox{srand()} est utilisée pour initaliser la génération
+de nombres à l'aide de la graine fournie en argument (un entier non
+signé en l'espèce). Le plus souvent vous ne l'appellerez qu'une seule
+fois au début de votre programme sauf si vous souhaitez réinitialiser la
+génération de nombres.
+
+La fonction \mybox{rand()} retourne un nombre pseudo-aléatoire compris
+entre zéro et \mybox{RAND\_MAX} (qui est une constante également
+définie dans l'en-tête \mybox{\textless{}stdlib.h\textgreater{}})
+suivant la graine fournie à la fonction \mybox{srand()}.
+
+Toutefois, il y a un petit bémol : étant donné que l'algorithme de
+génération se base sur la graine fournie pour construire la suite de
+nombres, une même graine donnera \emph{toujours la même suite} ! Dès
+lors, comment faire pour que les nombres générés ne soient pas
+identiques entre deux exécutions du programme ? Pour que cela soit
+possible, nous devrions fournir un nombre différent à \mybox{srand()} à
+chaque fois, mais comment obtenir un tel nombre ?
+
+C'est ici que la fonction \mybox{time()} (déclarée dans l'en-tête
+\mybox{\textless{}time.h\textgreater{}}) entre en jeu.
+
+\begin{C}
+time_t time(time_t *t);
+\end{C}
+
+La fonction \mybox{time()} retourne la date actuelle sous forme d'une
+valeur de type \mybox{time\_t} (qui est un nombre entier ou flottant).
+Le plus souvent, il s'agit du nombre de secondes écoulé depuis une date
+fixée arbitrairement appelée
+\MYhref{https://fr.wikipedia.org/wiki/Epoch}{Epoch} en anglais. Cette
+valeur peut également être stockée dans une variable de type
+\mybox{time\_t} dont l'adresse lui est fournie en argument (un pointeur
+nul peut lui être envoyé si cela n'est pas nécessaire). En cas d'erreur,
+la fonction retourne la valeur \mybox{-1} convertie vers le type
+\mybox{time\_t}.
+
+Pour obtenir des nombres différents à chaque exécution, nous pouvons
+donc appeler \mybox{srand()} avec le retour de la fonction
+\mybox{time()} converti en entier non signé. L'exemple suivant génère
+donc une suite de trois nombres pseudo-aléatoires différents à chaque
+exécution (en vérité à chaque exécution espacée d'une seconde).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+int main(void)
+{
+    time_t t;
+
+    if (time(&t) == (time_t)-1)
+    {
+        fprintf(stderr, "Impossible d'obtenir la date courante\n");
+        return EXIT_FAILURE;
+    }
+
+    srand((unsigned)t);
+    printf("1 : %d\n", rand());
+    printf("2 : %d\n", rand());
+    printf("3 : %d\n", rand());
+    return 0;
+}
+\end{C}
+
+\subsubsection{Tirer un nombre dans un intervalle donné}
+\label{tirer-un-nombre-dans-un-intervalle-donne}
+
+Il est possible de générer des nombres dans un intervalle précis en
+procédant en deux temps. Tout d'abord, il nous est nécessaire d'obtenir
+un nombre compris entre zéro inclus et un exclus. Pour ce faire, nous
+pouvons diviser le nombre pseudo-aléatoire obtenu par la plus grande
+valeur qui peut être retournée par la fonction \mybox{rand()} augmentée
+de un. Celle-ci nous est fournie via la macroconstante
+\mybox{RAND\_MAX} qui est définie dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}.
+
+\begin{C}
+double nb_aleatoire(void)
+{
+    return rand() / (RAND_MAX + 1.);
+}
+\end{C}
+
+Notez que nous avons bien indiqué que la constante \mybox{1.} est un
+nombre flottant afin que le résultat de l'opération soit de type
+\mybox{double}.
+
+Ensuite, il nous suffit de multiplier le nombre obtenu par la différence
+entre le maximum et le minimum augmenté de un et d'y ajouter le minimum.
+
+\begin{C}
+int nb_aleatoire_entre(int min, int max)
+{
+    return nb_aleatoire() * (max - min + 1) + min;
+}
+\end{C}
+
+Afin d'illustrer ce qui vient d'être dit, le code suivant affiche trois
+nombres pseudo-aléatoires compris entre zéro et dix inclus.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+static double nb_aleatoire(void)
+{
+    return rand() / (RAND_MAX + 1.);
+}
+
+
+static int nb_aleatoire_entre(int min, int max)
+{
+    return nb_aleatoire() * (max - min + 1) + min;
+}
+
+
+int main(void)
+{
+    time_t t;
+
+    if (time(&t) == (time_t)-1)
+    {
+        fprintf(stderr, "Impossible d'obtenir la date courante\n");
+        return EXIT_FAILURE;
+    }
+
+    srand((unsigned)t);
+    printf("1 : %d\n", nb_aleatoire_entre(0, 10));
+    printf("2 : %d\n", nb_aleatoire_entre(0, 10));
+    printf("3 : %d\n", nb_aleatoire_entre(0, 10));
+    return 0;
+}
+\end{C}
+
+À présent, c'est à vous !
+
+\section{Correction}
+\label{correction-19}
+
+\begin{C}
+#include <ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define P4_COLONNES (7)
+#define P4_LIGNES (6)
+
+#define J1_JETON ('O')
+#define J2_JETON ('X')
+
+#define ACT_ERR (0)
+#define ACT_JOUER (1)
+#define ACT_NOUVELLE_SAISIE (2)
+#define ACT_QUITTER (3)
+
+#define STATUT_OK (0)
+#define STATUT_GAGNE (1)
+#define STATUT_EGALITE (2)
+
+struct position
+{
+    int colonne;
+    int ligne;
+};
+
+static void affiche_grille(void);
+static void calcule_position(int, struct position *);
+static unsigned calcule_nb_jetons_depuis_vers(struct position *, int, int, char);
+static unsigned calcule_nb_jetons_depuis(struct position *, char);
+static int coup_valide(int);
+static int demande_action(int *);
+static int demande_nb_joueur(void);
+static int grille_complete(void);
+static int ia(void);
+static void initialise_grille(void);
+double nb_aleatoire(void);
+int nb_aleatoire_entre(int, int);
+static int position_valide(struct position *);
+static int statut_jeu(struct position *pos, char);
+static unsigned umax(unsigned, unsigned);
+static int vider_tampon(FILE *);
+
+static char grille[P4_COLONNES][P4_LIGNES];
+
+
+static void affiche_grille(void)
+{
+    /*
+     * Affiche la grille pour le ou les joueurs.
+     */
+
+    int col;
+    int lgn;
+
+    putchar('\n');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+    putchar('+');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("---+");
+
+    putchar('\n');
+
+    for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+    {
+        putchar('|');
+
+        for (col = 0; col < P4_COLONNES; ++col)
+            if (isalpha(grille[col][lgn]))
+                printf(" %c |", grille[col][lgn]);
+            else
+                printf(" %c |", ' ');
+
+        putchar('\n');
+        putchar('+');
+
+        for (col = 1; col <= P4_COLONNES; ++col)
+            printf("---+");
+
+        putchar('\n');
+    }
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+}
+
+
+static void calcule_position(int coup, struct position *pos)
+{
+    /*
+     * Traduit le coup joué en un numéro de colonne et de ligne.
+     */
+
+    int lgn;
+
+    pos->colonne = coup;
+
+    for (lgn = P4_LIGNES - 1; lgn >= 0; --lgn)
+        if (grille[pos->colonne][lgn] == ' ')
+        {
+            pos->ligne = lgn;
+            break;
+        }
+}
+
+
+static unsigned calcule_nb_jetons_depuis_vers(struct position *pos, int dpl_hrz, int dpl_vrt, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adajcents identiques depuis une position donnée en se
+     * déplaçant de `dpl_hrz` horizontalement et `dpl_vrt` verticalement.
+     * La fonction s'arrête si un jeton différent ou une case vide est rencontrée ou si
+     * les limites de la grille sont atteintes.
+     */
+
+    struct position tmp;
+    unsigned nb = 1;
+
+    tmp.colonne = pos->colonne + dpl_hrz;
+    tmp.ligne = pos->ligne + dpl_vrt;
+
+    while (position_valide(&tmp))
+    {
+        if (grille[tmp.colonne][tmp.ligne] == jeton)
+            ++nb;
+        else
+            break;
+
+        tmp.colonne += dpl_hrz;
+        tmp.ligne += dpl_vrt;
+    }
+
+    return nb;
+}
+
+
+static unsigned calcule_nb_jetons_depuis(struct position *pos, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adjacents en vérifant la colonne courante,
+     * de la ligne courante et des deux obliques courantes.
+     * Pour ce faire, la fonction calcule_nb_jeton_depuis_vers() est appelé à
+     * plusieurs reprises afin de parcourir la grille suivant la vérification
+     * à effectuer.
+     */
+
+    unsigned max;
+
+    max = calcule_nb_jetons_depuis_vers(pos, 0, 1, jeton);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 0, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 0, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, -1, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, -1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 1, jeton) - 1);
+
+    return max;
+}
+
+
+static int coup_valide(int col)
+{
+    /*
+     * Si la colonne renseignée est inférieure ou égale à zéro
+     * ou que celle-ci est supérieure à la longueur du tableau
+     * ou que la colonne indiquée est saturée
+     * alors le coup est invalide.
+     */
+
+    if (col <= 0 || col > P4_COLONNES || grille[col - 1][0] != ' ')
+        return 0;
+
+    return 1;
+}
+
+
+static int demande_action(int *coup)
+{
+    /*
+     * Demande l'action à effectuer au joueur courant.
+     * S'il entre un chiffre, c'est qu'il souhaite jouer.
+     * S'il entre la lettre « Q » ou « q », c'est qu'il souhaite quitter.
+     * S'il entre autre chose, une nouvelle saisie sera demandée.
+     */
+
+    char c;
+    int ret = ACT_ERR;
+
+    if (scanf("%d", coup) != 1)
+    {
+        if (scanf("%c", &c) != 1)
+        {
+            fprintf(stderr, "Erreur lors de la saisie\n");
+            return ret;
+        }
+
+        switch (c)
+        {
+        case 'Q':
+        case 'q':
+            ret = ACT_QUITTER;
+            break;
+        default:
+            ret = ACT_NOUVELLE_SAISIE;
+            break;
+        }
+    }
+    else
+        ret = ACT_JOUER;
+
+    if (!vider_tampon(stdin))
+    {
+         fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+         ret = ACT_ERR;
+    }
+
+    return ret;
+}
+
+
+static int demande_nb_joueur(void)
+{
+    /*
+     * Demande et récupère le nombre de joueurs.
+     */
+
+    int njoueur = 0;
+
+    while (1)
+    {
+        printf("Combien de joueurs prennent part à cette partie ? ");
+
+        if (scanf("%d", &njoueur) != 1 && ferror(stdin))
+        {
+                fprintf(stderr, "Erreur lors de la saisie\n");
+                return 0;
+        }
+        else if (njoueur != 1 && njoueur != 2)
+            fprintf(stderr, "Plait-il ?\n");
+        else
+            break;
+
+        if (!vider_tampon(stdin))
+        {
+            fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+            return 0;
+        }
+    }
+
+    return njoueur;
+}
+
+
+static int grille_complete(void)
+{
+    /*
+     * Détermine si la grille de jeu est complète.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            if (grille[col][lgn] == ' ')
+                return 0;
+
+    return 1;
+}
+
+
+static int ia(void)
+{
+    /*
+     * Fonction mettant en œuvre l'IA présentée.
+     * Assigne une valeur pour chaque colonne libre et retourne ensuite le numéro de
+     * colonne ayant la plus haute valeur. Dans le cas où plusieurs valeurs égales sont
+     * générées, un numéro de colonne est « choisi au hasard » parmi celles-ci.
+     */
+
+    unsigned meilleurs_col[P4_COLONNES];
+    unsigned nb_meilleurs_col = 0;
+    unsigned max = 0;
+    unsigned col;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+    {
+        struct position pos;
+        unsigned longueur;
+
+        if (grille[col][0] != ' ')
+            continue;
+
+        calcule_position(col, &pos);
+        longueur = calcule_nb_jetons_depuis(&pos, J2_JETON);
+
+        if (longueur >= 4)
+            return col;
+
+        longueur = umax(longueur, calcule_nb_jetons_depuis(&pos, J1_JETON));
+
+        if (longueur >= max)
+        {
+            if (longueur > max)
+            {
+                nb_meilleurs_col = 0;
+                max = longueur;
+            }
+
+            meilleurs_col[nb_meilleurs_col++] = col;
+        }
+    }
+
+    return meilleurs_col[nb_aleatoire_entre(0, nb_meilleurs_col - 1)];
+}
+
+
+static void initialise_grille(void)
+{
+    /*
+     * Initalise les caractères de la grille.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            grille[col][lgn] = ' ';
+}
+
+
+static unsigned umax(unsigned a, unsigned b)
+{
+    /*
+     * Retourne le plus grand des deux arguments.
+     */
+
+    return (a > b) ? a : b;
+}
+
+
+double nb_aleatoire(void)
+{
+    /*
+     * Retourne un nombre pseudo-aléatoire compris entre zéro inclus et un exclus.
+     */
+
+    return rand() / ((double)RAND_MAX + 1.);
+}
+
+
+int nb_aleatoire_entre(int min, int max)
+{
+    /*
+     * Retourne un nombre pseudo-aléatoire entre `min` et `max` inclus.
+     */
+
+    return nb_aleatoire() * (max - min + 1) + min;
+}
+
+
+static int position_valide(struct position *pos)
+{
+    /*
+     * Vérifie que la position fournie est bien comprise dans la grille.
+     */
+
+    int ret = 1;
+
+    if (pos->colonne >= P4_COLONNES || pos->colonne < 0)
+        ret = 0;
+    else if (pos->ligne >= P4_LIGNES || pos->ligne < 0)
+        ret = 0;
+
+    return ret;
+}
+
+
+static int statut_jeu(struct position *pos, char jeton)
+{
+    /*
+     * Détermine s'il y a lieu de continuer le jeu ou s'il doit être
+     * arrêté parce qu'un joueur a gagné ou que la grille est complète.
+     */
+
+    if (grille_complete())
+        return STATUT_EGALITE;
+    else if (calcule_nb_jetons_depuis(pos, jeton) >= 4)
+        return STATUT_GAGNE;
+
+    return STATUT_OK;
+}
+
+
+static int vider_tampon(FILE *fp)
+{
+    /*
+     * Vide les données en attente de lecture du flux spécifié.
+     */
+
+    int c;
+
+    do
+        c = fgetc(fp);
+    while (c != '\n' && c != EOF);
+
+    return ferror(fp) ? 0 : 1;
+}
+
+
+int main(void)
+{
+    int statut;
+    char jeton = J1_JETON;
+    int njoueur;
+
+    initialise_grille();
+    affiche_grille();
+    njoueur = demande_nb_joueur();
+
+    if (!njoueur)
+        return EXIT_FAILURE;
+
+    while (1)
+    {
+        struct position pos;
+        int action;
+        int coup;
+
+        if (njoueur == 1 && jeton == J2_JETON)
+        {
+            coup = ia();
+            printf("Joueur 2 : %d\n", coup + 1);
+            calcule_position(coup, &pos);
+        }
+        else
+        {
+            printf("Joueur %d : ", (jeton == J1_JETON) ? 1 : 2);
+            action = demande_action(&coup);
+
+            if (action == ACT_ERR)
+                return EXIT_FAILURE;
+            else if (action == ACT_QUITTER)
+                return 0;
+            else if (action == ACT_NOUVELLE_SAISIE || !coup_valide(coup))
+            {
+                fprintf(stderr, "Vous ne pouvez pas jouer à cet endroit\n");
+                continue;
+            }
+
+            calcule_position(coup - 1, &pos);
+        }
+
+        grille[pos.colonne][pos.ligne] = jeton;
+        affiche_grille();
+        statut = statut_jeu(&pos, jeton);
+
+        if (statut != STATUT_OK)
+            break;
+
+        jeton = (jeton == J1_JETON) ? J2_JETON : J1_JETON;    
+    }
+
+    if (statut == STATUT_GAGNE)
+        printf("Le joueur %d a gagné\n", (jeton == J1_JETON) ? 1 : 2);
+    else if (statut == STATUT_EGALITE)
+        printf("Égalité\n");
+
+    return 0;
+}
+\end{C}
+
+Le programme demande désormais combien de joueurs sont présents. Dans le
+cas où ils sont deux, le programme se comporte de la même manière que
+précédemment. S'il n'y en a qu'un seul, la fonction \mybox{ia()} est
+appelée lors du tour du deuxième joueur. Cette fonction retourne un
+numéro de colonne après analyse de la grille. Notez également que les
+fonctions \mybox{time()} et \mybox{srand()} sont appelées au début
+afin d'initialiser la génération de nombre pseudo-aléatoires.
+
+La fonction \mybox{ia()} agit comme suit :
+
+\begin{itemize}
+\item
+  les numéros des colonnes ayant les plus grandes valeurs calculées sont
+  stockés dans le tableau \mybox{meilleurs\_col} ;
+\item
+  si la colonne est complète, celle-ci est passée ;
+\item
+  si la colonne est incomplète, la fonction
+  \mybox{calcule\_position\_depuis()} est appelée afin de déterminer
+  combien de pièces seraient adjacentes si un jeton était posé à cet
+  endroit. S'il s'avère que l'ordinateur peut gagner, la fonction
+  retourne immédiatement le numéro de la colonne courante ;
+\item
+  un des numéros de colonne présent dans le tableau
+  \mybox{meilleurs\_col} est tiré « au hasard » et est retourné.
+\end{itemize}
+
+\section{Troisième et dernière étape : un système de sauvegarde/restauration}
+\label{troisieme-et-derniere-etape-:-un-systeme-de-sauvegarde/restauration}
+
+Pour terminer, nous allons ajouter un système de sauvegarde/restauration
+à notre programme.
+
+Durant une partie, un utilisateur doit pouvoir demander à sauvegarder le
+jeu courant ou de charger une ancienne partie en lieu et place d'entrer
+un numéro de colonne.
+
+À vous de voir comment organiser les données au sein d'un fichier et
+comment les récupérés depuis votre programme.
+
+
+\section{Correction}
+\label{correction-20}
+
+\begin{C}
+#include <ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define P4_COLONNES (7)
+#define P4_LIGNES (6)
+
+#define J1_JETON ('O')
+#define J2_JETON ('X')
+
+#define ACT_ERR (0)
+#define ACT_JOUER (1)
+#define ACT_NOUVELLE_SAISIE (2)
+#define ACT_SAUVEGARDER (3)
+#define ACT_CHARGER (4)
+#define ACT_QUITTER (5)
+
+#define STATUT_OK (0)
+#define STATUT_GAGNE (1)
+#define STATUT_EGALITE (2)
+
+#define MAX_NOM (255)
+
+struct position
+{
+    int colonne;
+    int ligne;
+};
+
+static void affiche_grille(void);
+static void calcule_position(int, struct position *);
+static unsigned calcule_nb_jetons_depuis_vers(struct position *, int, int, char);
+static unsigned calcule_nb_jetons_depuis(struct position *, char);
+static int charger_jeu(char *nom, char *, int *);
+static int coup_valide(int);
+static int demande_action(int *);
+static int demande_fichier(char *, size_t);
+static int demande_nb_joueur(void);
+static int grille_complete(void);
+static int ia(void);
+static void initialise_grille(void);
+double nb_aleatoire(void);
+int nb_aleatoire_entre(int, int);
+static int position_valide(struct position *);
+static int sauvegarder_jeu(char *nom, char, int);
+static int statut_jeu(struct position *pos, char);
+static unsigned umax(unsigned, unsigned);
+static int vider_tampon(FILE *);
+
+static char grille[P4_COLONNES][P4_LIGNES];
+
+
+static void affiche_grille(void)
+{
+    /*
+     * Affiche la grille pour le ou les joueurs.
+     */
+
+    int col;
+    int lgn;
+
+    putchar('\n');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+    putchar('+');
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("---+");
+
+    putchar('\n');
+
+    for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+    {
+        putchar('|');
+
+        for (col = 0; col < P4_COLONNES; ++col)
+            if (isalpha(grille[col][lgn]))
+                printf(" %c |", grille[col][lgn]);
+            else
+                printf(" %c |", ' ');
+
+        putchar('\n');
+        putchar('+');
+
+        for (col = 1; col <= P4_COLONNES; ++col)
+            printf("---+");
+
+        putchar('\n');
+    }
+
+    for (col = 1; col <= P4_COLONNES; ++col)
+        printf("  %d ", col);
+
+    putchar('\n');
+}
+
+
+static void calcule_position(int coup, struct position *pos)
+{
+    /*
+     * Traduit le coup joué en un numéro de colonne et de ligne.
+     */
+
+    int lgn;
+
+    pos->colonne = coup;
+
+    for (lgn = P4_LIGNES - 1; lgn >= 0; --lgn)
+        if (grille[pos->colonne][lgn] == ' ')
+        {
+            pos->ligne = lgn;
+            break;
+        }
+}
+
+
+static unsigned calcule_nb_jetons_depuis_vers(struct position *pos, int dpl_hrz, int dpl_vrt, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adajcents identiques depuis une position donnée en se
+     * déplaçant de `dpl_hrz` horizontalement et `dpl_vrt` verticalement.
+     * La fonction s'arrête si un jeton différent ou une case vide est rencontrée ou si
+     * les limites de la grille sont atteintes.
+     */
+
+    struct position tmp;
+    unsigned nb = 1;
+
+    tmp.colonne = pos->colonne + dpl_hrz;
+    tmp.ligne = pos->ligne + dpl_vrt;
+
+    while (position_valide(&tmp))
+    {
+        if (grille[tmp.colonne][tmp.ligne] == jeton)
+            ++nb;
+        else
+            break;
+
+        tmp.colonne += dpl_hrz;
+        tmp.ligne += dpl_vrt;
+    }
+
+    return nb;
+}
+
+
+static unsigned calcule_nb_jetons_depuis(struct position *pos, char jeton)
+{
+    /*
+     * Calcule le nombre de jetons adjacents en vérifant la colonne courante,
+     * de la ligne courante et des deux obliques courantes.
+     * Pour ce faire, la fonction calcule_nb_jeton_depuis_vers() est appelé à
+     * plusieurs reprises afin de parcourir la grille suivant la vérification
+     * à effectuer.
+     */
+
+    unsigned max;
+
+    max = calcule_nb_jetons_depuis_vers(pos, 0, 1, jeton);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 0, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 0, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, 1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, -1, jeton) - 1);
+    max = umax(max, calcule_nb_jetons_depuis_vers(pos, 1, -1, jeton) + \
+    calcule_nb_jetons_depuis_vers(pos, -1, 1, jeton) - 1);
+
+    return max;
+}
+
+
+static int charger_jeu(char *nom, char *jeton, int *njoueur)
+{
+    /*
+     * Charge une partie existante depuis le fichier spécifié.
+     */
+
+    FILE *fp;
+    unsigned col;
+    unsigned lgn;
+
+    fp = fopen(nom, "r");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Impossible d'ouvrir le fichier %s\n", nom);
+        return 0;
+    }
+    else if (fscanf(fp, "%c%d", jeton, njoueur) != 2)
+    {
+        fprintf(stderr, "Impossible de récupérer le joueur et le nombre de joueurs\n");
+        return 0;
+    }
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+        {
+            if (fscanf(fp, "|%c", &grille[col][lgn]) != 1)
+            {
+                fprintf(stderr, "Impossible de récupérer la grille\n");
+                return 0;
+            }
+        }
+
+    if (fclose(fp) != 0)
+    {
+        fprintf(stderr, "Impossible de fermer le fichier %s\n", nom);
+        return 0;
+    }
+    
+    return 1;
+}
+
+
+static int coup_valide(int col)
+{
+    /*
+     * Si la colonne renseignée est inférieur ou égal à zéro
+     * ou que celle-ci est supérieure à la longueur du tableau
+     * ou que la colonne indiquée est saturée
+     * alors le coup est invalide.
+     */
+
+    if (col <= 0 || col > P4_COLONNES || grille[col - 1][0] != ' ')
+        return 0;
+
+    return 1;
+}
+
+
+static int demande_action(int *coup)
+{
+    /*
+     * Demande l'action à effectuer au joueur courant.
+     * S'il entre un chiffre, c'est qu'il souhaite jouer.
+     * S'il entre la lettre « Q » ou « q », c'est qu'il souhaite quitter.
+     * S'il entre autre chose, une nouvelle saisie sera demandée.
+     */
+
+    char c;
+    int ret = ACT_ERR;
+
+    if (scanf("%d", coup) != 1)
+    {
+        if (scanf("%c", &c) != 1)
+        {
+            fprintf(stderr, "Erreur lors de la saisie\n");
+            return ret;
+        }
+
+        switch (c)
+        {
+        case 'Q':
+        case 'q':
+            ret = ACT_QUITTER;
+            break;
+
+        case 'C':
+        case 'c':
+            ret = ACT_CHARGER;
+            break;
+
+        case 'S':
+        case 's':
+            ret = ACT_SAUVEGARDER;
+            break;
+
+        default:
+            ret = ACT_NOUVELLE_SAISIE;
+            break;
+        }
+    }
+    else
+        ret = ACT_JOUER;
+
+    if (!vider_tampon(stdin))
+    {
+         fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+         ret = ACT_ERR;
+    }
+
+    return ret;
+}
+
+
+static int demande_fichier(char *nom, size_t max)
+{
+    /*
+     * Demande et récupère un nom de fichier.
+     */
+
+    char *nl;
+
+    printf("Veuillez entrer un nom de fichier : ");
+
+    if (fgets(nom, max, stdin) == NULL)
+    {
+         fprintf(stderr, "Erreur lors de la saisie\n");
+         return 0;
+    }
+
+    nl = strchr(nom, '\n');
+
+    if (nl == NULL && !vider_tampon(stdin))
+    {
+       fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+       return 0;
+    }
+
+    if (nl != NULL)
+        *nl = '\0';
+
+    return 1;
+}
+
+
+static int demande_nb_joueur(void)
+{
+    /*
+     * Demande et récupère le nombre de joueurs.
+     */
+
+    int njoueur = 0;
+
+    while (1)
+    {
+        printf("Combien de joueurs prennent part à cette partie ? ");
+
+        if (scanf("%d", &njoueur) != 1 && ferror(stdin))
+        {
+                fprintf(stderr, "Erreur lors de la saisie\n");
+                return 0;
+        }
+        else if (!vider_tampon(stdin))
+        {
+            fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+            return 0;
+        }
+
+        if (njoueur != 1 && njoueur != 2)
+            fprintf(stderr, "Plait-il ?\n");
+        else
+            break;
+    }
+
+    return njoueur;
+}
+
+
+static int grille_complete(void)
+{
+    /*
+     * Détermine si la grille de jeu est complète.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            if (grille[col][lgn] == ' ')
+                return 0;
+
+    return 1;
+}
+
+
+static int ia(void)
+{
+    /*
+     * Fonction mettant en œuvre l'IA présentée.
+     * Assigne une valeur pour chaque colonne libre et retourne ensuite le numéro de
+     * colonne ayant la plus haute valeur. Dans le cas où plusieurs valeurs égales sont
+     * générées, un numéro de colonne est « choisi au hasard » parmi celles-ci.
+     */
+
+    unsigned meilleurs_col[P4_COLONNES];
+    unsigned nb_meilleurs_col = 0;
+    unsigned max = 0;
+    unsigned col;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+    {
+        struct position pos;
+        unsigned longueur;
+
+        if (grille[col][0] != ' ')
+            continue;
+
+        calcule_position(col, &pos);
+        longueur = calcule_nb_jetons_depuis(&pos, J2_JETON);
+
+        if (longueur >= 4)
+            return col;
+
+        longueur = umax(longueur, calcule_nb_jetons_depuis(&pos, J1_JETON));
+
+        if (longueur >= max)
+        {
+            if (longueur > max)
+            {
+                nb_meilleurs_col = 0;
+                max = longueur;
+            }
+
+            meilleurs_col[nb_meilleurs_col++] = col;
+        }
+    }
+
+    return meilleurs_col[nb_aleatoire_entre(0, nb_meilleurs_col - 1)];
+}
+
+
+static void initialise_grille(void)
+{
+    /*
+     * Initalise les caractères de la grille.
+     */
+
+    unsigned col;
+    unsigned lgn;
+
+    for (col = 0; col < P4_COLONNES; ++col)
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+            grille[col][lgn] = ' ';
+}
+
+
+static unsigned umax(unsigned a, unsigned b)
+{
+    /*
+     * Retourne le plus grand des deux arguments.
+     */
+
+    return (a > b) ? a : b;
+}
+
+
+double nb_aleatoire(void)
+{
+    /*
+     * Retourne un nombre pseudo-aléatoire compris entre zéro inclus et un exclus.
+     */
+
+    return rand() / ((double)RAND_MAX + 1.);
+}
+
+
+int nb_aleatoire_entre(int min, int max)
+{
+    /*
+     * Retourne un nombre pseudo-aléatoire entre `min` et `max` inclus.
+     */
+
+    return nb_aleatoire() * (max - min + 1) + min;
+}
+
+
+static int position_valide(struct position *pos)
+{
+    /*
+     * Vérifie que la position fournie est bien comprise dans la grille.
+     */
+
+    int ret = 1;
+
+    if (pos->colonne >= P4_COLONNES || pos->colonne < 0)
+        ret = 0;
+    else if (pos->ligne >= P4_LIGNES || pos->ligne < 0)
+        ret = 0;
+
+    return ret;
+}
+
+
+static int sauvegarder_jeu(char *nom, char jeton, int njoueur)
+{
+    /*
+     * Sauvegarde la partie courant dans le fichier indiqué.
+     */
+
+    FILE *fp;
+    unsigned col;
+    unsigned lgn;
+
+    fp = fopen(nom, "w");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Impossible d'ouvrir le fichier %s\n", nom);
+        return 0;
+    }
+    else if (fprintf(fp, "%c%d", jeton, njoueur) < 0)
+    {
+        fprintf(stderr, "Impossible de sauvegarder le joueur courant\n");
+        return 0;
+    }
+
+    if (fputc('|', fp) == EOF)
+    {
+        fprintf(stderr, "Impossible de sauvegarder la grille\n");
+        return 0;
+    }
+
+    for (col = 0; col < P4_COLONNES; ++col)
+    {
+        for (lgn = 0; lgn < P4_LIGNES; ++lgn)
+        {
+            if (fprintf(fp, "%c|", grille[col][lgn]) < 0)
+            {
+                fprintf(stderr, "Impossible de sauvegarder la grille\n");
+                return 0;
+            }
+        }
+    }
+
+    if (fputc('\n', fp) == EOF)
+    {
+        fprintf(stderr, "Impossible de sauvegarder la grille\n");
+        return 0;
+    }
+
+    if (fclose(fp) != 0)
+    {
+        fprintf(stderr, "Impossible de fermer le fichier %s\n", nom);
+        return 0;
+    }
+    
+    printf("La partie a bien été sauvegardée dans le fichier %s\n", nom);
+    return 1;
+}
+
+
+static int statut_jeu(struct position *pos, char jeton)
+{
+    /*
+     * Détermine s'il y a lieu de continuer le jeu ou s'il doit être
+     * arrêté parce qu'un joueur a gagné ou que la grille est complète.
+     */
+
+    if (grille_complete())
+        return STATUT_EGALITE;
+    else if (calcule_nb_jetons_depuis(pos, jeton) >= 4)
+        return STATUT_GAGNE;
+
+    return STATUT_OK;
+}
+
+
+static int vider_tampon(FILE *fp)
+{
+    /*
+     * Vide les données en attente de lecture du flux spécifié.
+     */
+
+    int c;
+
+    do
+        c = fgetc(fp);
+    while (c != '\n' && c != EOF);
+
+    return ferror(fp) ? 0 : 1;
+}
+
+
+int main(void)
+{
+    static char nom[MAX_NOM];
+    int statut;
+    char jeton = J1_JETON;
+    int njoueur;
+
+    initialise_grille();
+    affiche_grille();
+    njoueur = demande_nb_joueur();
+
+    if (!njoueur)
+        return EXIT_FAILURE;
+
+    while (1)
+    {
+        struct position pos;
+        int action;
+        int coup;
+
+        if (njoueur == 1 && jeton == J2_JETON)
+        {
+            coup = ia();
+            printf("Joueur 2 : %d\n", coup + 1);
+            calcule_position(coup, &pos);
+        }
+        else
+        {
+            printf("Joueur %d : ", (jeton == J1_JETON) ? 1 : 2);
+            action = demande_action(&coup);
+
+            if (action == ACT_ERR)
+                return EXIT_FAILURE;
+            else if (action == ACT_QUITTER)
+                return 0;
+            else if (action == ACT_SAUVEGARDER)
+            {
+                if (!demande_fichier(nom, sizeof nom) || !sauvegarder_jeu(nom, jeton, njoueur))
+                    return EXIT_FAILURE;
+                else
+                    return 0;
+            }
+            else if (action == ACT_CHARGER)
+            {
+                if (!demande_fichier(nom, sizeof nom) || !charger_jeu(nom, &jeton, &njoueur))
+                    return EXIT_FAILURE;
+                else
+                {
+                    affiche_grille();
+                    continue;
+                }
+            }
+            else if (action == ACT_NOUVELLE_SAISIE || !coup_valide(coup))
+            {
+                fprintf(stderr, "Vous ne pouvez pas jouer à cet endroit\n");
+                continue;
+            }
+
+            calcule_position(coup - 1, &pos);
+        }
+
+        grille[pos.colonne][pos.ligne] = jeton;
+        affiche_grille();
+        statut = statut_jeu(&pos, jeton);
+
+        if (statut != STATUT_OK)
+            break;
+
+        jeton = (jeton == J1_JETON) ? J2_JETON : J1_JETON; 
+    }
+
+    if (statut == STATUT_GAGNE)
+        printf("Le joueur %d a gagné\n", (jeton == J1_JETON) ? 1 : 2);
+    else if (statut == STATUT_EGALITE)
+        printf("Égalité\n");
+
+    return 0;
+}
+\end{C}
+
+À présent, durant la partie, un joueur peut entrer la lettre « s » (en
+minuscule ou en majuscule) afin d'effectuer une sauvegarde de la partie
+courante au sein d'un fichier qu'il doit spécifier. Les données sont
+sauvegardées sous forme de texte avec, dans l'ordre : le joueur courant,
+le nombre de joueurs et le contenu de la grille. Une fois la sauvegarde
+effectuée, le jeu est stoppé.
+
+Il peut également entrer la lettre « c » (de nouveau en minuscule ou en
+majuscule) pour charger une partie précédemment sauvegardée.
+
+\hrulefill
+
+Dans le chapitre suivant, nous verrons comment rendre nos programmes plus
+robustes en approfondissant la gestion d'erreur.

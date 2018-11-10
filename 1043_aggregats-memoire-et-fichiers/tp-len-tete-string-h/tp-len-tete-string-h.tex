@@ -1,0 +1,577 @@
+\chapter{TP : l'en-tête <string.h>}
+\label{tp-:-len-tete-<string.h>}
+
+Les quatre derniers cours ayant été riche en nouveautés, 
+posons nous un instant pour mettre en pratique tout cela.
+
+\section{Préparation }
+\label{preparation }
+
+Dans le chapitre précédent, nous vous avons dit qu'une chaîne de caractères
+se manipulait comme un tableau, à savoir en parcourant ses éléments un à
+un. Cependant, si cela s'arrêtait là, cela serait assez gênant. En
+effet, la moindre opération sur une chaîne nécessiterait d'accéder à ses
+différents éléments, que ce soit une modification, une copie, une
+comparaison, etc. Heureusement pour nous, la bibliothèque standard
+fourni une suite de fonction nous permettant de réaliser plusieurs
+opérations de base sur des chaînes de caractères. Ces fonctions sont
+déclarées dans l'en-tête \mybox{\textless{}string.h\textgreater{}}.
+
+L'objectif de ce TP sera de réaliser une version pour chacune des
+fonctions de cet en-tête qui vont vous êtes présentées. :)
+
+\subsection{strlen}
+\label{strlen-1}
+
+\begin{C}
+size_t strlen(char *chaine);
+\end{C}
+
+La fonction \mybox{strlen()} vous permet de connaître la taille d'une
+chaîne fournie en argument. Celle-ci retourne une valeur de type
+\mybox{size\_t}. Notez bien que la longueur retournée ne comprend
+\emph{pas} le caractère nul. L'exemple ci-dessous affiche la taille de
+la chaîne « Bonjour ».
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    printf("Longueur : %u\n", (unsigned)strlen("Bonjour"));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Longueur : 7
+\end{C}
+
+\subsection{strcpy}
+\label{strcpy-1}
+
+\begin{C}
+char *strcpy(char *destination, char *source);
+\end{C}
+
+La fonction \mybox{strcpy()} copie le contenu de la chaîne
+\mybox{source} dans la chaîne \mybox{destination}, caractère nul
+compris. La fonction retourne l'adresse de \mybox{destination}.
+L'exemple ci-dessous copie la chaîne « Au revoir » dans la chaîne
+\mybox{chaine}.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    char chaine[25] = "Bonjour\n";
+
+    strcpy(chaine, "Au revoir");
+    printf("%s\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Au revoir
+\end{C}
+
+\begin{erreurbox}
+  La fonction \mybox{strcpy()} n'effectue
+\emph{aucune} vérifications. Vous devez donc vous assurer que la chaîne
+de destination dispose de suffisamment d'espace pour accueillir la
+chaîne qui doit être copiée (caractère nul compris !).
+\end{erreurbox}
+
+
+\subsection{strcat}
+\label{strcat-1}
+
+\begin{C}
+char *strcat(char *destination, char *source);
+\end{C}
+
+La fonction \mybox{strcat()} ajoute le contenu de la chaine
+\mybox{source} à celui de la chaîne \mybox{destination}, caractère nul
+compris. La fonction retourne l'adresse de \mybox{destination}.
+L'exemple ci-dessous ajoute la chaîne « tout le monde » au contenu de la
+chaîne \mybox{chaine}.
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[25] = "Bonjour";
+
+    strcat(chaine, " tout le monde");
+    printf("%s\n", chaine);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Bonjour tout le monde
+\end{C}
+
+\begin{erreurbox}
+  Comme \mybox{strcpy()}, la fonction
+\mybox{strcat()} n'effectue \emph{aucune} vérifications. Vous devez
+donc vous assurer que la chaîne de destination dispose de suffisamment
+d'espace pour accueillir la chaîne qui doit être ajoutée (caractère nul
+compris !).
+\end{erreurbox}
+
+
+\subsection{strcmp}
+\label{strcmp-1}
+
+\begin{C}
+int strcmp(char *chaine1, char *chaine2);
+\end{C}
+
+La fonction \mybox{strcmp()} compare deux chaines de caractères. Cette
+fonction retourne :
+
+\begin{itemize}
+\item
+  une valeur positive si la première chaîne est « plus grande » que la
+  seconde ;
+\item
+  zéro si elles sont égales ;
+\item
+  une valeur négative si la seconde chaîne est « plus grande » que la
+  première.
+\end{itemize}
+
+\begin{infobox}
+  Ne vous inquiétez pas au sujet des
+valeurs positives et négatives, nous y reviendront en temps voulu
+lorsque nous aborderons les notions de jeux de caractères et d'encodages
+dans la troisième partie du cours. En attendant, effectuez simplement
+une comparaison entre les deux caractères qui diffèrent.
+\end{infobox}
+
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine1[] = "Bonjour";
+    char chaine2[] = "Au revoir";
+
+    if (strcmp(chaine1, chaine2) == 0)
+        printf("Les deux chaînes sont identiques\n");
+    else
+        printf("Les deux chaînes sont différentes\n");
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Les deux chaînes sont différentes
+\end{C}
+
+\subsection{strchr}
+\label{strchr-1}
+
+\begin{C}
+char *strchr(char *chaine, int ch);
+\end{C}
+
+La fonction \mybox{strchr()} recherche la présence du caractère
+\mybox{ch} dans la chaîne \mybox{chaine}. Si celui-ci est rencontré,
+la fonction retourne l'adresse de la première occurrence de celui-ci au
+sein de la chaîne. Dans le cas contraire, la fonction renvoie un
+pointeur nul.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[] = "Bonjour";
+    char *p;
+
+    p = strchr(chaine, 'o');
+
+    if (p != NULL)
+        printf("La chaîne `%s' contient la lettre %c\n", chaine, *p);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+La chaîne `Bonjour' contient la lettre o
+\end{C}
+
+\subsection{strpbrk}
+\label{strpbrk-1}
+
+\begin{C}
+char *strpbrk(char *chaine, char *liste);
+\end{C}
+
+La fonction \mybox{strpbrk()} recherche la présence \emph{d'un} des
+caractères de la chaîne \mybox{liste} dans la chaîne \mybox{chaine}.
+Si un de ceux-ci est rencontré, la fonction retourne l'adresse de la
+première occurrence au sein de la chaîne. Dans le cas contraire, la
+fonction renvoie un pointeur nul.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[] = "Bonjour";
+    char *p;
+
+    p = strpbrk(chaine, "aeiouy");
+
+    if (p != NULL)
+        printf("La première voyelle de la chaîne `%s' est : %c\n", chaine, *p);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+La première voyelle de la chaîne `Bonjour' est : o
+\end{C}
+
+\subsection{strstr}
+\label{strstr-1}
+
+\begin{C}
+char *strstr(char *chaine1, char *chaine2);
+\end{C}
+
+La fonction \mybox{strstr()} recherche la présence de la chaîne
+\mybox{chaine2} dans la chaîne \mybox{chaine1}. Si celle-ci est
+rencontrée, la fonction retourne l'adresse de la première occurrence de
+celle-ci au sein de la chaîne. Dans le cas contraire, la fonction
+renvoie un pointeur nul.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[] = "Bonjour";
+    char *p;
+
+    p = strstr(chaine, "jour");
+
+    if (p != NULL)
+        printf("La chaîne `%s' contient la chaîne `%s'\n", chaine, p);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+La chaîne `Bonjour' contient la chaîne `jour'
+\end{C}
+
+Ceci étant dit, à vous de jouer. ;)
+
+\begin{infobox}
+Par convention, nous commencerons le nom de nos fonctions par la 
+lettre « x » afin d'éviter des collisions avec ceux de l'en-tête 
+\mybox{\textless{}string.h\textgreater{}}.
+\end{infobox}
+
+\subsection{strlen}
+\label{strlen}
+
+\begin{C}
+size_t xstrlen(char *chaine)
+{
+    size_t i;
+
+    for (i = 0; chaine[i] != '\0'; ++i)
+        ;
+
+    return i;
+}
+\end{C}
+
+\subsection{strcpy}
+\label{strcpy}
+
+\begin{C}
+char *xstrcpy(char *destination, char *source)
+{
+    size_t i;
+
+    for (i = 0; source[i] != '\0'; ++i)
+        destination[i] = source[i];
+
+    destination[i] = '\0' /* N'oubliez pas le caractère nul final ! */
+    return destination;
+}
+\end{C}
+
+\subsection{strcat}
+\label{strcat}
+
+\begin{C}
+char *xstrcat(char *destination, char *source)
+{
+    size_t i;
+
+    while (*destination != '\0')
+        ++destination;
+
+    for (i = 0; source[i] != '\0'; ++i)
+        destination[i] = source[i];
+
+    destination[i] = '\0'; /* N'oubliez pas le caractère nul final ! */
+    return destination;
+}
+\end{C}
+
+\subsection{strcmp}
+\label{strcmp}
+
+\begin{C}
+int xstrcmp(char *chaine1, char *chaine2)
+{
+    while (*chaine1 == *chaine2)
+    {
+        if (*chaine1 == '\0')
+            return 0;
+
+        ++chaine1;
+        ++chaine2;
+    }
+
+    return (*chaine1 < *chaine2) ? -1 : 1;
+}
+\end{C}
+
+\subsection{strchr}
+\label{strchr}
+
+\begin{C}
+char *xstrchr(char *chaine, int ch)
+{
+    while (*chaine != '\0')
+        if (*chaine == ch)
+            return chaine;
+        else
+            ++chaine;
+
+    return NULL;
+}
+\end{C}
+
+\subsection{strpbrk}
+\label{strpbrk}
+
+\begin{C}
+char *xstrpbrk(char *chaine, char *liste)
+{
+    while (*chaine != '\0')
+    {
+        char *p = liste;
+
+        while (*p != '\0')
+        {
+            if (*chaine == *p)
+                return chaine;
+
+            ++p;
+        }
+
+        ++chaine;
+    }
+
+    return NULL;
+}
+\end{C}
+
+\subsection{strstr}
+\label{strstr}
+
+\begin{C}
+char *xstrstr(char *chaine1, char *chaine2)
+{
+    while (*chaine1 != '\0')
+    {
+        char *s = chaine1;
+        char *t = chaine2;
+
+        while (*s != '\0' && *t != '\0')
+        {
+            if (*s != *t)
+                break;
+      
+            ++s;
+            ++t;
+        }
+
+        if (*t == '\0')
+            return chaine1;
+
+        ++chaine1;
+    }
+
+    return NULL;
+}
+\end{C}
+
+\section{Pour allez plus loin : strtok}
+\label{pour-allez-plus-loin-:-strtok}
+
+
+Pour les plus aventureux d'entre-vous, nous vous
+proposons de réaliser en plus la mise en œuvre de la fonction
+\mybox{strtok()} qui est un peu plus complexe que ses congénères. :)
+
+\begin{C}
+char *strtok(char *chaine, char *liste);
+\end{C}
+
+La fonction \mybox{strtok()} est un peu particulière : elle divise la
+chaîne \mybox{chaine} en une suite de sous-chaînes délimitée par
+\emph{un} des caractères présent dans la chaîne \mybox{liste}. En fait,
+cette dernière remplace les caractères de la chaîne \mybox{liste} par
+des caractères nuls dans la chaîne \mybox{chaine} (elle modifie donc la
+chaîne \mybox{chaine} !) et renvoie les différentes sous-chaînes ainsi
+créées au fur et à mesure de ses appels.
+
+Lors des appels subséquents, la chaîne \mybox{chaine} doit être un
+pointeur nul afin de signaler à \mybox{strtok()} que nous souhaitons la
+sous-chaîne suivante. S'il n'y a plus de sous-chaîne ou qu'aucun
+caractère de la chaîne \mybox{liste} n'est trouvé, celle-ci retourne un
+pointeur nul.
+
+L'exemple ci-dessous tente de scinder la chaîne « un, deux, trois » en
+trois sous-chaînes.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[] = "un, deux, trois";
+    char *p;
+    unsigned i;
+
+    p = strtok(chaine, ", ");
+
+    for (i = 0; p != NULL; ++i)
+    {
+        printf("%u : %s\n", i, p);
+        p = strtok(NULL, ", ");
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+0 : un
+1 : deux
+2 : trois
+\end{C}
+
+La fonction \mybox{strtok()} étant un peu plus complexe que les autres,
+voici une petite marche à suivre pour réaliser cette fonction.
+
+\begin{itemize}
+\item
+  regarder si la chaîne fournie (ou la sous-chaîne suivante) contient,
+  \emph{à son début}, des caractères présent dans la seconde chaîne. Si
+  oui, ceux-ci doivent être passés ;
+\item
+  si la fin de la (sous-)chaîne est atteinte, retourner un pointeur nul
+  ;
+\item
+  parcourir la chaîne fournie (ou la sous-chaîne courante) jusqu'à
+  rencontrer un des caractères composant la seconde chaîne. Si un
+  caractère est rencontré, le remplacer par un caractère nul, conserver
+  la position actuelle dans la chaîne et retourner la sous-chaîne ainsi
+  créée (\emph{sans} les éventuels caractères passés au début) ;
+\item
+  si la fin de la (sous-)chaîne est atteinte, retourner la (sous-)chaîne
+  (\emph{sans} les éventuels caractères passés au début).
+\end{itemize}
+
+\begin{infobox}
+  Vous aurez besoin d'une variable de
+classe de stockage statique pour réaliser cette fonction. Également,
+l'instruction \mybox{goto} pourra vous être utile.
+\end{infobox}
+
+
+\subsection{Correction}
+\label{correction-17}
+
+\begin{C}
+char *xstrtok(char *chaine, char *liste)
+{
+    static char *dernier;
+    char *base = (chaine != NULL) ? chaine : dernier;
+    char *s;
+    char *t;
+
+    if (base == NULL)
+        return NULL;
+
+separateur_au_debut:
+    for (t = liste; *t != '\0'; ++t)
+        if (*base == *t)
+        {
+            ++base;
+            goto separateur_au_debut;
+        }
+
+    if (*base == '\0')
+    {
+        dernier = NULL;
+        return NULL;
+    }
+
+    for (s = base; *s != '\0'; ++s)
+        for (t = liste; *t != '\0'; ++t)
+            if (*s == *t)
+            {
+                *s = '\0';
+                dernier = s + 1;
+                return base;
+            }
+
+    dernier = NULL;
+    return base;
+}
+\end{C}
+
+\hrulefill
+
+le chapitre suivant, nous aborderons le mécanisme de
+l'\textbf{allocation dynamique de mémoire}.

@@ -1,0 +1,573 @@
+\chapter{La gestion d'erreur (2)}
+\label{la-gestion-d-erreur-(2)}
+
+Jusqu'à présent, nous vous avons présenté les bases de la gestion 
+d'erreurs en vous parlant des retours de fonctions et de la variable 
+globale \mybox{errno}. Dans ce chapitre, nous allons approfondir 
+cette notion afin de réaliser des programmes plus robustes.
+
+\section{Gestion de ressources}
+\label{gestion-de-ressources}
+
+\subsection{Allocation de ressources}
+\label{allocation-de-ressources}
+
+Dans cette deuxième partie, nous avons découvert l'allocation dynamique
+de mémoire et la gestion de fichiers. Ces deux sujets ont un point en
+commun : il est nécessaire de passer par une fonction d'allocation et
+par une fonction de libération lors de leur utilisation. Il s'agit d'un
+processus commun en programmation appellé la \textbf{gestion de
+ressources}. Or, celle-ci pose un problème particulier dans le cas de la
+gestion d'erreurs. En effet, regardez de plus près ce code simplifié
+permettant l'allocation dynamique d'un tableau multidimensionnel de
+trois fois trois \mybox{int}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int **p;
+    unsigned i;
+
+    p = malloc(3 * sizeof(int *));
+
+    if (p == NULL)
+    {
+        fprintf(stderr, "Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 3; ++i)
+    {
+        p[i] = malloc(3 * sizeof(int));
+
+        if (p[i] == NULL)
+        {
+            fprintf(stderr, "Échec de l'allocation\n");
+            return EXIT_FAILURE;
+        }
+    }
+
+    /* ... */
+    return 0;
+}
+\end{C}
+
+Vous ne voyez rien d'anormal dans le cas de la seconde boucle ? Celle-ci
+quitte le programme en cas d'échec de la fonction \mybox{malloc()}.
+Oui, mais nous avons \emph{déjà} fait appel à la fonction
+\mybox{malloc()} auparavant, ce qui signifie que si nous quittons le
+programme à ce stade, nous le ferons \emph{sans avoir libéré certaines
+ressources} (ici de la mémoire).
+
+Seulement voilà, comment faire cela sans rendre le programme bien plus
+compliqué et bien moins lisible ? C'est ici que l'utilisation de
+l'instruction \mybox{goto} devient pertinente et d'une aide précieuse.
+La technique consiste à placer la libération de ressources en fin de
+fonction et de se rendre au bon endroit de cette zone de libération à
+l'aide de l'instruction \mybox{goto}. Autrement dit, voici ce que cela
+donne avec le code précédent.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int **p;
+    unsigned i;
+    int status = EXIT_FAILURE;
+
+    p = malloc(3 * sizeof(int *));
+
+    if (p == NULL)
+    {
+        fprintf(stderr, "Échec de l'allocation\n");
+        goto fin;
+    }
+
+    for (i = 0; i < 3; ++i)
+    {
+        p[i] = malloc(3 * sizeof(int));
+
+        if (p[i] == NULL)
+        {
+            fprintf(stderr, "Échec de l'allocation\n");
+            goto liberer_p;
+        }
+    }
+
+    status = 0;
+
+    /* Zone de libération */
+liberer_p:
+    while (i > 0)
+    {
+        --i;
+        free(p[i]);
+    }
+
+    free(p);
+fin:
+    return status;
+}
+\end{C}
+
+Comme vous le voyez, nous avons placé deux étiquettes : une référençant
+l'instruction \mybox{return} et une autre désignant la première
+instruction de la zone de libération. Ainsi, nous quittons la fonction
+en cas d'échec de la première allocation, mais nous libérons les
+ressources auparavant dans le cas des allocations suivantes. Notez que
+nous avons ajouté une variable \mybox{status} afin de pouvoir retourner
+la bonne valeur suivant qu'une erreur est survenue ou non.
+
+\subsection{Utilisation de ressources}
+\label{utilisation-de-ressources}
+
+Si le problème se pose dans le cas de l'allocation de ressources, il se
+pose également dans le cas de leur utilisation.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("texte.txt", "w");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fputs("Au revoir !\n", fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de l'écriture d'une ligne\n");
+        return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+Dans le code ci-dessus, l'exécution du programme est stoppée en cas
+d'erreur de la fonction \mybox{fputs()}. Cependant, l'arrêt s'effectue
+alors qu'une ressource n'a pas été libérée (en l'occurrence le flux
+\mybox{fp}). Aussi, il est nécessaire d'appliquer la solution présentée
+juste avant pour rendre ce code correct.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+    int status = EXIT_FAILURE;
+
+    fp = fopen("texte.txt", "w");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert\n");
+        goto fin;
+    }
+    if (fputs("Au revoir !\n", fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de l'écriture d'une ligne\n");
+        goto fermer_flux;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        goto fin;   
+    }
+
+    status = 0;
+
+fermer_flux:
+    fclose(fp);
+fin:
+    return status;
+}
+\end{C}
+
+Nous attirons votre attention sur deux choses :
+
+\begin{itemize}
+\item
+  En cas d'échec de la fonction \mybox{fclose()}, le programme est
+  arrêté immédiatement. Étant donné que c'est la fonction
+  \mybox{fclose()} qui pose problème, il n'y a pas lieu de la rappeler
+  (notez que cela n'est toutefois pas une erreur de l'appeler une
+  seconde fois).
+\item
+  Le retour de la fonction \mybox{fclose()} n'est pas vérifié en cas
+  d'échec de la fonction \mybox{fputs()} étant donné que nous sommes
+  \emph{déjà} dans un cas d'erreur.
+\end{itemize}
+  
+\section{Fin d'un programme}
+\label{fin-d-un-programme}
+  
+Vous le savez, l'exécution de votre programme se termine lorsque celui-ci 
+quitte la fonction \mybox{main()}. Toutefois, que se passe-t-il exactement 
+lorsque celui-ci s'arrête ? En fait, un petit bout de code appelé   
+\textbf{épilogue} est exécuté afin de réaliser quelques tâches. Parmis
+celles-ci figure la vidange et la fermeture de tous les flux encore
+ouvert. Une fois celui-ci exécuté, la main est rendue au système
+d'exploitation qui, le plus souvent, se chargera de libérer toutes les
+ressources qui étaient encore allouées.
+
+\begin{questionbox} 
+ Mais ?! Vous venez de nous dire qu'il
+était nécessaire de libérer les ressources avant l'arrêt du programme.
+Du coup, pourquoi s'amuser à appeler les fonctions \mybox{fclose()} ou
+\mybox{free()} alors que l'épilogue ou le système d'exploitation s'en
+charge ?
+\end{questionbox}
+
+
+Pour quatre raisons principales :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Afin de libérer des ressources pour les autres programmes. En effet,
+  si vous ne libérerez les ressources allouées qu'à la fin de votre
+  programme alors que celui-ci n'en a plus besoin, vous gaspillez des
+  ressources qui pourraient être utilisées par d'autres programmes.
+\item
+  Pour être à même de détecter des erreurs, de prévenir l'utilisateur en
+  conséquence et d'éventuellement lui proposer des solutions.
+\item
+  En vue de rendre votre code plus facilement modifiable par après et
+  d'éviter les oublis.
+\item
+  Parce qu'il n'est pas garanti que les ressources seront effectivement
+  libérées par le système d'exploitaion.
+\end{enumerate}
+
+\begin{attentionbox}
+ Aussi, de manière générale :
+ \begin{itemize}
+  \item 
+considérez que l'objectif de l'épilogue est de fermer \emph{uniquement} 
+les flux \mybox{stdin}, \mybox{stdout} et \mybox{stderr} ; 
+  \item 
+ne comptez \emph{pas} sur votre système d'exploitation pour la libération
+de quelques ressources que ce soit (et notamment la mémoire) ;
+  \item 
+libérez vos ressources le plus tôt possible, autrement dit dès que votre 
+programme n'en a plus l'utilité.
+  \end{itemize}
+\end{attentionbox}
+
+
+\subsection{Terminaison normale}
+\label{terminaison-normale}
+
+Le passage par l'épilogue est appelée la \textbf{terminaison normale} du
+programme. Il est possible de s'y rendre directement en appelant la
+fonction \mybox{exit()} qui est déclarée dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}.
+
+\begin{C}
+void exit(int status);
+\end{C}
+
+Appeler cette fonction revient au même que de quitter la fonction
+\mybox{main()} à l'aide de l'instruction \mybox{return}. L'argument
+attendu est une expression entière identique à celle fournie comme
+opérande de l'instruction \mybox{return}. Ainsi, il vous est possible
+de mettre fin directement à l'exécution de votre programme \emph{sans}
+retourner jusqu'à la fonction \mybox{main()}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void fin(void)
+{
+    printf("C'est la fin du programme\n");
+    exit(0);
+}
+
+
+int main(void)
+{
+    fin();
+    printf("Retour à la fonction main\n");
+    return 0;
+}
+\end{C}
+
+\begin{C}
+C'est la fin du programme
+\end{C}
+
+Comme vous le voyez l'exécution du programme se termine une fois que la
+fonction \mybox{exit()} est appelée. La fin de la fonction
+\mybox{main()} n'est donc \emph{jamais} exécutée.
+
+\subsection{Terminaison anormale}
+\label{terminaison-anormale}
+
+Il est possible de terminer l'exécution d'un programme \emph{sans passer
+par l'épilogue} à l'aide de la fonction \mybox{abort()} (définie
+également dans l'en-tête \mybox{\textless{}stdlib.h\textgreater{}}).
+Dans un tel cas, il s'agit d'une \textbf{terminaison anormale} du
+programme.
+
+\begin{C}
+void abort(void);
+\end{C}
+
+Une terminaison anormale signifie qu'une condition \emph{non prévue} par
+le programmeur est survenue. Elle est donc à distinguer d'une
+terminaison normale survenue suite à une erreur qui, elle, était prévue
+(comme une erreur lors d'une saisie de l'utilisateur). De manière
+générale, la terminaison anormale est utilisée lors de la phase de
+développement d'un logiciel afin de faciliter la détection d'erreurs de
+programmation, celle-ci entraînant le plus souvent la production d'une
+\textbf{image mémoire} (\emph{core dump} en anglais) qui pourra être
+analysée à l'aide d'un \textbf{débogueur} (\emph{debugger} en anglais).
+
+\begin{infobox} 
+ Une image mémoire est en fait un
+fichier contenant l'état des registres et de la mémoire d'un pogramme
+lors de la survenance d'un problème.
+\end{infobox}  
+
+
+\section{Les assertions}  
+\label{les-assertions}
+
+\subsection{La macrofonction assert}
+\label{la-macrofonction-assert}
+
+Une des utilisation majeure de la fonction \mybox{abort()} est réalisée
+via la macrofonction \mybox{assert()} (définie dans l'en-tête
+\mybox{\textless{}assert.h\textgreater{}}). Cette dernière est utilisée
+pour placer des tests à certains points d'un programme. Dans le cas où
+un de ces tests s'avère faux, un message d'erreur est affiché (ce
+dernier comprend la condition dont l'évaluation est fausse, le nom du
+fichier et la ligne courante) après quoi la fonction \mybox{abort()}
+est appelée afin de produire une image mémoire.
+
+Cette technique est très utile pour détecter rapidement des erreurs au
+sein d'un programme lors de sa phase de développement. Généralement, les
+assertions sont placées en début de fonction afin de vérifier un
+certains nombres de conditions. Par exemple, si nous reprenons la
+fonction \mybox{long\_colonne()} du TP sur le Puissance 4.
+
+\begin{C}
+static unsigned long_colonne(unsigned joueur, unsigned col, unsigned ligne, unsigned char (*grille)[6])
+{
+    unsigned i;
+    unsigned n = 1;
+
+    for (i = ligne + 1; i < 6; ++i)
+    {
+        if (grille[col][i] == joueur)
+            ++n;
+        else
+            break;
+    }
+
+    return n;
+}
+\end{C}
+
+Nous pourrions ajouter quatre assertions vérifiant si :
+
+\begin{itemize}
+\item
+  le numéro du joueur est un ou deux ;
+\item
+  le numéro de la colonne est compris entre zéro et six inclus ;
+\item
+  le numéro de la ligne est compris entre zéro et cinq ;
+\item
+  le pointeur \mybox{grille} n'est pas nul.
+\end{itemize}
+
+Ce qui nous donne le code suivant.
+
+\begin{C}
+static unsigned long_colonne(unsigned joueur, unsigned col, unsigned ligne, unsigned char (*grille)[6])
+{
+    unsigned i;
+    unsigned n = 1;
+
+    assert(joueur == 1 || joueur == 2);
+    assert(col < 7);
+    assert(ligne < 6);
+    assert(grille != NULL);
+
+    for (i = ligne + 1; i < 6; ++i)
+    {
+        if (grille[col][i] == joueur)
+            ++n;
+        else
+            break;
+    }
+
+    return n;
+}
+\end{C}
+
+Ainsi, si nous ne respectons pas une de ces conditions pour une raison
+ou pour une autre, l'exécution du programme s'arrêtera et nous aurons
+droit à un message du type (dans le cas où la première assertion
+échoue).
+
+\begin{C}
+a.out: main.c:71: long_colonne: Assertion `joueur == 1 || joueur == 2' failed.
+Aborted
+\end{C}
+
+Comme vous le voyez, le nom du programme est indiqué, suivi du nom du
+fichier, du numéro de ligne, du nom de la fonction et de la condition
+qui a échoué. Intéressant, non ? :)
+
+\subsection{Suppression des assertions}
+\label{suppression-des-assertions}
+
+Une fois votre programme développé et dûment testé, les assertions ne
+vous sont plus vraiment utiles étant donné que celui-ci fonctionne. Les
+conserver alourdirait l'exécution de votre programme en ajoutant des
+vérifications. Toutefois, heureusement, il est possible de supprimer ces
+assertions \emph{sans modifier votre code} en ajoutant simplement
+l'option \mybox{-DNDEBUG} lors de la compilation.
+
+\begin{C}
+ $ zcc -DNDEBUG main.c
+\end{C}
+
+
+\section{Les fonctions strerror et perror}
+\label{les-fonctions-strerror-et-perror}
+
+Vous le savez, certaines (beaucoup) de fonctions standards peuvent 
+échouer. Toutefois, en plus de signaler à l'utilisateur qu'une de 
+ces fonctions a échoué, cela serait bien de lui spécifier \emph{pourquoi}. 
+C'est ici qu'entre en jeu les fonctions \mybox{sterror()} et \mybox{perror()}.
+
+\begin{C}
+char *strerror(int num);
+\end{C}
+
+La fonction \mybox{strerror()} (déclarée dans l'en-tête
+\mybox{\textless{}string.h\textgreater{}}) retourne une chaîne de
+caractères correspondant à la valeur entière fournie en argument. Cette
+valeur sera en fait \emph{toujours} celle de la variable \mybox{errno}.
+Ainsi, il vous est possible d'obtenir plus de détails quand une fonction
+standard rencontre un problème. L'exemple suivant illustre l'utilisation
+de cette fonction en faisant appel à la fonction \mybox{fopen()} afin
+d'ouvrir un fichier qui n'existe pas (ce qui provoque une erreur).
+
+\begin{C}
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("nawak.txt", "r");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "fopen: %s\n", strerror(errno));
+        return EXIT_FAILURE;
+    }
+
+    fclose(fp);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+fopen: No such file or directory
+\end{C}
+
+Comme vous le voyez, nous avons obtenu des informations supplémentaires
+: la fonction a échoué parce que le fichier « nawak.txt » n'existe pas.
+
+\begin{infobox} 
+ Notez que les messages d'erreur
+retournés par la fonction \mybox{strerror()} sont le plus souvent en
+anglais.
+\end{infobox}
+
+
+\begin{C}
+void perror(char *message);
+\end{C}
+
+La fonction \mybox{perror()} (déclarée dans l'en-tête
+\mybox{\textless{}stdio.h\textgreater{}}) écrit sur le flux d'erreur
+standard (\mybox{stderr}, donc) la chaîne de caractères fournie en
+argument, suivie du caractère \mybox{:}, d'un espace et du retour de la
+fonction \mybox{strerror()} avec comme argument la valeur de la
+variable \mybox{errno}. Autrement dit, cette fonction revient au même
+que l'appel suivant.
+
+\begin{C}
+fprintf(stderr, "message: %s\n", strerror(errno));
+\end{C}
+
+L'exemple précédent peut donc également s'écrire comme suit.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("nawak.txt", "r");
+
+    if (fp == NULL)
+    {
+        perror("fopen");
+        return EXIT_FAILURE;
+    }
+
+    fclose(fp);
+    return 0;
+
+\end{C}
+
+\begin{C}
+ fopen: No such file or directory
+\end{C}
+
+
+\hrulefill
+
+Voici qui clôture la deuxième partie de ce cours qui aura été 
+riche en nouvelles notions. N'hésitez pas à reprendre certains 
+passages avant de commencer la troisième partie qui vous fera 
+plonger sous le capot.

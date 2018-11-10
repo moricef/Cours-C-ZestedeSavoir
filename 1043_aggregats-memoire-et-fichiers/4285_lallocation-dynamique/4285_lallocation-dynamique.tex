@@ -1,0 +1,583 @@
+\chapter{L'allocation dynamique}
+\label{lallocation-dynamique}
+
+Il est à présent temps d'aborder la troisième et dernière utilisation
+majeure des pointeurs : l'allocation dynamique de mémoire.
+
+Comme nous vous l'avons dit dans le chapitre sur les pointeurs, il n'est
+pas toujours possible de savoir quelle quantité de mémoire sera utilisée
+par un programme. Par exemple, si vous demandez à l'utilisateur de vous
+fournir un tableau, vous devrez lui fixer une limite, ce qui pose deux
+problèmes :
+
+\begin{itemize}
+\item
+  la limite en elle-même, qui ne convient peut-être pas à votre
+  utilisateur ;
+\item
+  l'utilisation excessive de mémoire du fait que vous réservez un
+  tableau d'une taille fixée à l'avance.
+\end{itemize}
+
+De plus, si vous utilisez un tableau de classe de stockage statique,
+alors cette quantitée de mémoire superflue sera inutilisable jusqu'à la
+fin de votre programme.
+
+Or, un ordinateur ne dispose que d'une quantité limitée de mémoire vive,
+il est donc important de ne pas en réserver abusivement. L'allocation
+dynamique permet de réserver une partie de la mémoire vive inutilisée
+pour stocker des données et de libérer cette même partie une fois
+qu'elle n'est plus nécessaire.
+
+\section{La notion d'objet}
+\label{la-notion-dobjet}
+
+Jusqu'à présent, nous avons toujours recouru au système de types et de
+variables du langage C pour stocker nos données sans jamais vraiment
+nous soucier de ce qui se passait « en-dessous ».
+
+Il est à présent temps de lever une partie de ce voile en abordant la
+notion d'\textbf{objet}.
+
+En C, un objet est une zone mémoire pouvant contenir des données et est
+composé d'une suite contiguë d'un ou plusieurs multiplets. En fait, tous
+les types du langage C manipulent des objets. La différence entre les
+types tient simplement en la manière dont ils répartissent les données
+au sein de ces objets, ce qui est appelé leur \textbf{représentation}
+(celle-ci sera abordée dans la troisième partie du cours). Ainsi, la
+valeur 1 n'est pas représentée de la même manière dans un objet de type
+\mybox{int} que dans un objet de type \mybox{double}.
+
+Un objet étant une suite contiguë de multiplets, il est possible d'en
+examiner le contenu en lisant ses multiplets un à un. Ceci peut se
+réaliser en C à l'aide de l'adresse de l'objet et d'un pointeur sur
+\mybox{unsigned\ char}, le type \mybox{char} du C ayant
+\emph{toujours} la taille d'un multiplet. Notez qu'il est
+\emph{impératif} d'utiliser la version non signée du type \mybox{char}
+afin d'éviter des problèmes de conversions.
+
+L'exemple ci-dessous affiche les multiplets composant un objet de type
+\mybox{int} et un objet de type \mybox{double} en hexadécimal.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int n = 1;
+    double f = 1.;
+    unsigned char *byte;
+    unsigned i;
+
+    byte = (unsigned char *)&n;
+
+    for (i = 0; i < sizeof n; ++i)
+        printf("%x ", byte[i]);
+
+    printf("\n");
+    byte = (unsigned char *)&f;
+
+    for (i = 0; i < sizeof f; ++i)
+        printf("%x ", byte[i]);
+
+    printf("\n");
+    return 0;
+}
+\end{C}
+
+\begin{C}
+1 0 0 0 
+0 0 0 0 0 0 f0 3f 
+\end{C}
+
+\begin{infobox}
+Il se peut que vous n'obteniez pas le
+même résultat que nous, ce dernier dépends de votre machine.
+\end{infobox}
+
+Comme vous le voyez, la représentation de la valeur 1 n'est pas du tout
+la même entre le type \mybox{int} et le type \mybox{double}.
+
+\section{Malloc et consoeurs}
+\label{malloc-et-consoeurs}
+
+La bibliothèque standard fourni trois fonctions vous permettant d'allouer 
+de la mémoire : \mybox{malloc()}, \mybox{calloc()} et \mybox{realloc()} et 
+une vous permettant de la libérer : \mybox{free()}. Ces quatres fonctions 
+sont déclarées dans l'en-tête \mybox{\textless{}stdlib.h\textgreater{}}.
+
+\subsection{malloc}
+\label{malloc}
+
+\begin{C}
+void *malloc(size_t taille);
+\end{C}
+
+La fonction \mybox{malloc()} vous permet d'allouer un objet de la
+taille fournie en argument (qui représente un nombre de multiplets) et
+retourne l'adresse de cet objet sous la forme d'un pointeur générique.
+En cas d'échec de l'allocation, elle retourne un pointeur nul.
+
+\begin{attentionbox} 
+ Vous devez \emph{toujours} vérifier le
+retour d'une fonction d'allocation afin de vous assurer que vous
+manipulez bien un pointeur valide.
+\end{attentionbox}
+
+
+\subsubsection{Allocation d'un objet}
+\label{allocation-dun-objet}
+
+Dans l'exemple ci-dessous, nous réservons un objet de la taille d'un
+\mybox{int}, nous y stockons ensuite la valeur dix et l'affichons. Pour
+cela, nous utilisons un pointeur sur \mybox{int} qui va se voir
+affecter l'adresse de l'objet ainsi alloué et qui va nous permettre de
+le manipuler comme nous le ferions s'il référençait une variable de type
+\mybox{int}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+
+    p = malloc(sizeof(int));
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    *p = 10;
+    printf("%d\n", *p);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+10
+\end{C}
+
+\subsubsection{Allocation d'un tableau}
+\label{allocation-dun-tableau}
+
+Pour allouer un tableau, vous devez réserver un bloc mémoire de la
+taille d'un élément multiplié par le nombre d'éléments composant le
+tableau. L'exemple suivant alloue un tableau de dix \mybox{int},
+l'initialise et affiche son contenu.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+    unsigned i;
+
+    p = malloc(sizeof(int) * 10);
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 10; ++i)
+    {
+        p[i] = i * 10;
+        printf("p[%u] = %d\n", i, p[i]);
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+p[0] = 0
+p[1] = 10
+p[2] = 20
+p[3] = 30
+p[4] = 40
+p[5] = 50
+p[6] = 60
+p[7] = 70
+p[8] = 80
+p[9] = 90
+\end{C}
+
+\begin{infobox} 
+ Autrement dit et de manière plus
+générale : pour allouer dynamiquement un objet de type \textbf{T}, il
+vous faut créer un pointeur sur le type \textbf{T} qui conservera son
+adresse.
+\end{infobox}
+
+
+\begin{erreurbox} 
+ La fonction \mybox{malloc()} n'effectue
+\emph{aucune} initialisation, le contenu du bloc alloué est donc
+indéterminé.
+\end{erreurbox}
+
+
+\subsection{free}
+\label{free}
+
+\begin{C}
+void free(void *ptr);
+\end{C}
+
+La fonction \mybox{free()} libère le bloc précédemment alloué par une
+fonction d'allocation dont l'adresse est fournie en argument. Dans le
+cas où un pointeur nul lui est fourni, elle n'effectue aucune opération.
+
+\begin{attentionbox}
+Retenez bien la règle suivante : à chaque appel à une fonction d'allocation 
+doit correspondre un appel à la fonction \mybox{free()}.
+\end{attentionbox}
+
+
+Dès lors, nous pouvons compléter les exemples précédents comme suit.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+
+    p = malloc(sizeof(int));
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    *p = 10;
+    printf("%d\n", *p);
+    free(p);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+    unsigned i;
+
+    p = malloc(sizeof(int) * 10);
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 10; ++i)
+    {
+        p[i] = i * 10;
+        printf("p[%u] = %d\n", i, p[i]);
+    }
+
+    free(p);
+    return 0;
+}
+\end{C}
+
+\begin{infobox}
+Remarquez que même si le deuxième exemple alloue un tableau, il 
+n'y a bien eu qu'\emph{une seule} allocation. Un seul appel à la 
+fonction \mybox{free()} est donc nécessaire.
+\end{infobox}
+
+
+\subsection{calloc}
+\label{calloc}
+
+\begin{C}
+void *calloc(size_t nombre, size_t taille);
+\end{C}
+
+La fonction \mybox{calloc()} attends deux arguments : le nombre
+d'éléments à allouer et la taille de chacun de ces éléments.
+Techniquement, elle revient au même que d'appelé \mybox{malloc()} comme
+suit.
+
+\begin{C}
+malloc(nombre * taille);
+\end{C}
+
+à un détail près : \emph{le bloc de mémoire ainsi alloué est initialisé
+à zéro}.
+
+\begin{erreurbox}
+Faites attention : cette initialisation n'est pas similaire à celle des 
+variables de classe de stockage statique ! À l'inverse de ces dernières 
+qui seront soit initialisées à zéro, soit seront des pointeurs nuls, 
+l'initialisation réalisée par la fonction \mybox{calloc()} ne s'applique 
+qu'aux entiers ou aux chaînes de caractères (nous verrons cela plus en détails 
+dans la troisième partie du cours).
+\end{erreurbox}
+
+\subsection{realloc}
+\label{realloc}
+
+\begin{C}
+void *realloc(void *p, size_t taille);
+\end{C}
+
+La fonction \mybox{realloc()} libère un bloc de mémoire précédemment
+alloué, en réserve un nouveau de la taille demandée et copie le contenu
+de l'ancien objet dans le nouveau. Dans le cas où la taille demandée est
+inférieure à celle du bloc d'origine, le contenu de celui-ci sera copié
+à hauteur de la nouvelle taille. À l'inverse, si la nouvelle taille est
+supérieure à l'ancienne, l'excédant n'est pas initialisé.
+
+La fonction attends deux arguments : l'adresse d'un bloc précédemment
+alloué à l'aide d'une fonction d'allocation et la taille du nouveau bloc
+à allouer. Elle retourne l'adresse du nouveau bloc ou un pointeur nul en
+cas d'erreur.
+
+L'exemple ci-dessous alloue un tableau de dix \mybox{int} et utilise
+\mybox{realloc()} pour agrandir celui-ci à vingt \mybox{int}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+    int *tmp;
+    unsigned i;
+
+    p = malloc(sizeof(int) * 10);
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 10; ++i)
+        p[i] = i * 10;
+
+    tmp = realloc(p, sizeof(int) * 20);
+
+    if (tmp == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    p = tmp;
+
+    for (i = 10; i < 20; ++i)
+        p[i] = i * 10;
+
+    for (i = 0; i < 20; ++i)
+        printf("p[%u] = %d\n", i, p[i]);
+
+    free(p);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+p[0] = 0
+p[1] = 10
+p[2] = 20
+p[3] = 30
+p[4] = 40
+p[5] = 50
+p[6] = 60
+p[7] = 70
+p[8] = 80
+p[9] = 90
+p[10] = 100
+p[11] = 110
+p[12] = 120
+p[13] = 130
+p[14] = 140
+p[15] = 150
+p[16] = 160
+p[17] = 170
+p[18] = 180
+p[19] = 190
+\end{C}
+
+Remarquez que nous avons utilisé une autre variable, \mybox{tmp}, pour
+vérifier le retour de la fonction \mybox{realloc()}. En effet, si nous
+avions procéder comme ceci.
+
+\begin{C}
+p = realloc(p, sizeof(int) * 20);
+\end{C}
+
+il nous aurait été impossible de libérer le bloc mémoire référencé par
+\mybox{p} en cas d'erreur puisque celui-ci serait devenu un pointeur
+nul. Il est donc \emph{impératif} d'utiliser une seconde variable afin
+d'éviter des \MYhref{http://fr.wikipedia.org/wiki/Fuite_de_mémoire}{fuites
+de mémoire}.
+
+\section{Les tableaux multidimensionnels}
+\label{les-tableaux-multidimensionnels-2}
+
+L'allocation de tableaux multidimensionnels est un petit peu
+plus complexe que celles des autres objets. Techniquement, il existe
+deux solutions : l'allocation d'un seul bloc de mémoire (comme pour les
+tableaux simples) et l'allocation de plusieurs tableaux eux-mêmes
+référencés par les éléments d'un autre tableau.
+
+\subsection{Allocation en un bloc}
+\label{allocation-en-un-bloc}
+
+Comme pour un tableau simple, il vous est possible d'allouer un bloc de
+mémoire dont la taille correspond à la multiplication des longueurs de
+chaque dimension, elle-même multipliée par la taille d'un élément.
+Toutefois, cette solution vous contraint à effectuer une partie du
+calcul d'adresse vous-même puisque vous allouez en fait un seul tableau.
+
+L'exemple ci-dessous illustre ce qui vient d'être dit en allouant un
+tableau à deux dimensions de trois fois trois \mybox{int}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int *p;
+    unsigned i;
+    unsigned j;
+
+    p = malloc(3 * 3 * sizeof(int));
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 3; ++i)
+        for (j = 0; j < 3; ++j)
+        {
+            p[(i * 3) + j] = (i * 3) + j;
+            printf("p[%u][%u] = %d\n", i, j, p[(i * 3) + j]);
+        }
+
+    free(p);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+p[0][0] = 0
+p[0][1] = 1
+p[0][2] = 2
+p[1][0] = 3
+p[1][1] = 4
+p[1][2] = 5
+p[2][0] = 6
+p[2][1] = 7
+p[2][2] = 8
+\end{C}
+
+Comme vous le voyez, une partie du calcul d'adresse doit être effectué
+en multipliant le premièr indice par la longueur de la première
+dimension, ce qui permet d'arriver à la bonne « ligne ». Ensuite, il ne
+reste plus qu'à sélectionner le bon élément de la ligne à l'aide du
+second indice.
+
+Bien qu'un petit peu plus complexe quant à l'accès aux éléments, cette
+solution à l'avantage de n'effectuer qu'une seule allocation de mémoire.
+
+\subsection{Allocation de plusieurs tableaux}
+\label{allocation-de-plusieurs-tableaux}
+
+La seconde solution consiste à allouer plusieurs tableaux plus un autre
+qui les référencera. Dans le cas d'un tableau à deux dimensions, cela
+signifie allouer un tableau de pointeurs dont chaque élément se verra
+affecter l'adresse d'un tableau également alloué dynamiquement. Cette
+technique nous permet d'accéder aux éléments des différents tableaux de
+la même manière que pour un tableau multidimensionnel puisque nous
+utilisons cette fois plusieurs tableaux.
+
+L'exemple ci-dessous revient au même que le précédent, mais utilise le
+procédé qui vient d'être décrit. Notez que puisque nous réservons un
+tableau de pointeurs sur \mybox{int}, l'adresse de celui-ci doit être
+stockée dans un pointeur de pointeur sur \mybox{int} (rappelez-vous la
+règle générale lors de la présentation de la fonction
+\mybox{malloc()}).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int **p;
+    unsigned i;
+    unsigned j;
+
+    p = malloc(3 * sizeof(int *));
+
+    if (p == NULL)
+    {
+        printf("Échec de l'allocation\n");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < 3; ++i)
+    {
+        p[i] = malloc(3 * sizeof(int));
+
+        if (p[i] == NULL)
+        {
+            printf("Échec de l'allocation\n");
+            return EXIT_FAILURE;
+        }
+    }
+
+    for (i = 0; i < 3; ++i)
+        for (j = 0; j < 3; ++j)
+        {
+            p[i][j] = (i * 3) + j;
+            printf("p[%u][%u] = %d\n", i, j, p[i][j]);
+        }
+
+    for (i = 0; i < 3; ++i)
+        free(p[i]);
+
+    free(p);
+    return 0;
+}
+\end{C}
+
+Si cette solution permet de faciliter l'accès aux différents éléments,
+elle présente toutefois l'inconvénient de réaliser plusieurs allocations
+et donc de nécessiter plusieurs appels à la fonction \mybox{free()}.
+
+\hrulefill
+
+Ce chapitre nous aura permis de découvrir la notion d'objet ainsi que le
+mécanisme de l'allocation dynamique. Dans le chapitre suivant, nous
+verrons comment manipuler les \textbf{fichiers}.

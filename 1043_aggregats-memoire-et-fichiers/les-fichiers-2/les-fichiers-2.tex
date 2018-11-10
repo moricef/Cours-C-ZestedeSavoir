@@ -1,0 +1,582 @@
+\chapter{Les fichiers (2)}
+\label{les-fichiers-(2)}
+
+Dans ce chapitre, nous allons poursuivre notre lancée et vous présenter
+plusieurs points un peu plus avancés en rapport avec les fichiers et les
+flux.
+
+\section{Détection d'erreurs et fin de fichier}
+\label{detection-derreurs-et-fin-de-fichier}
+
+Lors de la présentation des fonctions
+\mybox{fgetc()}, \mybox{getc()} et \mybox{fgets()} vous aurez
+peut-être remarqué que ces fonctions utilisent un même retour pour
+indiqué soit la rencontre de la fin du fichier, soit la survenance d'une
+erreur. Du coup, comment faire pour distinguer l'un et l'autre cas ?
+
+Il existe deux fonctions pour clarifier une telle situation :
+\mybox{feof()} et \mybox{ferror()}.
+
+\subsection{La fonction feof}
+\label{la-fonction-feof}
+
+\begin{C}
+int feof(FILE *flux);
+\end{C}
+
+La fonction \mybox{feof()} retourne une valeur non nulle dans le cas où
+la fin du fichier associé au flux spécifié est atteinte.
+
+\subsection{La fonction ferror}
+\label{la-fonction-ferror}
+
+\begin{C}
+int ferror(FILE *flux);
+\end{C}
+
+La fonction \mybox{ferror()} retourne une valeur non nulle dans le cas
+où une erreur s'est produite lors d'une opération sur le flux visé.
+
+\subsection{Exemple}
+\label{exemple-13}
+
+L'exemple ci-dessous utilise ces deux fonctions pour déterminer le type
+de problème rencontré par la fonction \mybox{fgets()}.
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    char buf[255];
+    FILE *fp;
+
+    fp = fopen("texte.txt", "r");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fgets(buf, sizeof buf, fp) != NULL)
+        printf("%s\n", buf);
+    else if (ferror(fp))
+    {
+        fprintf(stderr, "Erreur lors de la lecture\n");
+        return EXIT_FAILURE;
+    }
+    else
+    {
+        fprintf(stderr, "Fin de fichier rencontrée\n");
+        return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+De manière imagée, un fichier peut être vu comme une longue bande
+magnétique depuis laquelle des données sont lues ou sur laquelle des
+informations sont écrites. Ainsi, au fur et à mesure que les données
+sont lues ou écrites, nous avançons le long de cette bande.
+
+Toutefois, il est parfois nécessaire de se rendre directement à un point
+précis de cette bande (par exemple à la fin) afin d'éviter des lectures
+inutiles pour parvenir à un endroit souhaité. À cet effet, la
+bibliothèque standard fournit plusieurs fonctions.
+
+\subsection{La fonction ftell}
+\label{la-fonction-ftell}
+
+\begin{C}
+long ftell(FILE *flux);
+\end{C}
+
+La fonction \mybox{ftell()} retourne la position actuelle au sein du
+fichier sous forme d'un \mybox{long}. Elle retourne un nombre négatif
+en cas d'erreur. Dans le cas des flux \emph{binaires}, cette valeur
+correspond au nombre de multiplets séparant la position actuelle du
+début du fichier.
+
+\begin{attentionbox}
+  Lors de l'ouverture d'un flux, la
+position courante correspond au début du fichier, \emph{sauf} pour les
+modes \mybox{a} et \mybox{a+} pour lesquels la position initiale est
+soit le début, soit la fin du fichier.
+\end{attentionbox}
+
+
+\subsection{La fonction fseek}
+\label{la-fonction-fseek}
+
+\begin{C}
+int fseek(FILE *flux, long distance, int repere);
+\end{C}
+
+La fonction \mybox{fseek()} permet d'effectuer un déplacement d'une
+distance fournie en argument depuis un repère donné. Elle retourne zéro
+en cas de succès et une autre valeur en cas d'échec. Il existe trois
+repères possibles :
+
+\begin{itemize}
+\item
+  \mybox{SEEK\_SET} qui correspond au début du fichier ;
+\item
+  \mybox{SEEK\_CUR} qui correspond à la position courante ;
+\item
+  \mybox{SEEK\_END} qui correspond à la fin du fichier.
+\end{itemize}
+
+Cette fonction s'utilise différemment suivant qu'elle opère sur un flux
+de texte ou sur un flux binaire.
+
+\subsubsection{Les flux de texte}
+\label{les-flux-de-texte}
+
+Dans le cas d'un flux de texte, il y a deux possibilités :
+
+\begin{itemize}
+\item
+  la distance fournie est nulle ;
+\item
+  la distance est une valeur fournie par un précédent appel à la
+  fonction \mybox{ftell()} et le repère est \mybox{SEEK\_SET}.
+\end{itemize}
+
+\subsubsection{Les flux binaires}
+\label{les-flux-binaires}
+
+Dans le cas d'un flux binaire, seuls les repères \mybox{SEEK\_SET} et
+\mybox{SEEK\_CUR} peuvent être utilisés. La distance correspond à un
+nombre de multiplets à passer depuis le repère fourni.
+
+\begin{attentionbox}
+Dans la cas des modes \mybox{a} et \mybox{a+}, un déplacement a lieu 
+à la fin du fichier \emph{avant chaque opération d'écriture} et ce, 
+\emph{qu'il y ait eu déplacement auparavant ou non}.
+\end{attentionbox}
+
+
+\subsection{La fonction rewind}
+\label{la-fonction-rewind}
+
+\begin{C}
+int fseek(FILE *flux, long distance, int repere);
+\end{C}
+
+La fonction \mybox{rewind()} vous ramène au début du fichier (autrement
+dit, elle rembobine la bande).
+
+\begin{erreurbox}
+  Si vous utilisez un flux ouvert en lecture
+\emph{et} écriture vous \emph{devez} appeler une fonction de déplacement
+entre deux opérations de nature différentes ou utiliser la fonction
+\mybox{fflush()} (présentée dans l'extrait suivant) entre une opération
+d'écriture et de lecture. Si vous ne souhaitez pas vous déplacer, vous
+pouvez utilisez l'appel \mybox{fseek(flux,\ 0,\ SEEK\_CUR)} afin de
+respecter cette condition sans réellement effectuer un déplacement.
+\end{erreurbox}
+
+\section{La temporisation}
+\label{la-temporisation}
+
+Dans le chapitre précédent, nous vous avons précisé que les flux
+étaient le plus souvent temporisés afin d'optimiser les opérations de
+lecture et d'écriture sous-jacentes. Dans cette section, nous allons
+nous pencher un peu plus sur cette notion.
+
+\subsection{Introduction}
+\label{introduction-4}
+
+Nous vous avons dit auparavant que deux types de temporisations
+existaient : la temporisation par lignes et celle par blocs. Une des
+conséquences logiques de cette temporisation est que les fonctions de
+lecture/écriture récupèrent les données et les inscrivent dans ces
+tampons. Ceci peut paraître évident, mais cela peut avoir des
+conséquences parfois surprenantes si ce fait est oublié ou inconnu.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char nom[64];
+    char prenom[64];
+
+    printf("Quel est votre nom ? ");
+
+    if (scanf("%63s", nom) != 1)
+    {
+        fprintf(stderr, "Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Quel est votre prénom ? ");
+
+    if (scanf("%63s", prenom) != 1)
+    {
+        fprintf(stderr, "Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Votre nom est %s\n", nom);
+    printf("Votre prénom est %s\n", prenom);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Quel est votre nom ? Charles Henri
+Quel est votre prénom ? Votre nom est Charles
+Votre prénom est Henri
+\end{C}
+
+Comme vous le voyez, le programme ci-dessus réalise deux saisies, mais
+si l'utilisateur entre par exemple « Charles Henri », il n'aura
+l'occasion d'entrer des données qu'une seule fois. Ceci est dû au fait
+que l'indicateur \mybox{s} récupère une suite de caractères exempte
+d'espaces (ce qui fait qu'il s'arrête à « Charles ») et que la suite «
+Henri » \emph{demeure dans le tampon du flux} \mybox{stdin}. Ainsi,
+lors de la deuxième saisie, il n'est pas nécessaire de récupérer de
+nouvelles données depuis le terminal puisqu'il y en a déjà en attente
+dans le tampon, d'où le résultat obtenu.
+
+Le même problème peut se poser si par exemple les données fournies ont
+une taille supérieure par rapport à l'objet qui doit les accueillir.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char chaine1[16];
+    char chaine2[16];
+
+    printf("Un morceau : ");
+
+    if (fgets(chaine1, sizeof chaine1, stdin) == NULL)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Un autre morceau : ");
+
+    if (fgets(chaine2, sizeof chaine2, stdin) == NULL)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("%s ; %s\n", chaine1, chaine2);
+    return 0;
+
+\end{C}
+
+\begin{C}
+Un morceau : Une chaîne de caractères, vraiment, mais alors vraiment trop longue
+Un autre morceau : Une chaîne de  ; caractères, vr
+\end{C}
+
+Ici, la chaîne entrée est trop importante pour être contenue dans
+\mybox{chaine1}, les données non lues sont alors conservées dans le
+tampon du flux \mybox{stdin} et lues lors de la seconde saisie (qui ne
+lit par l'entièreté non plus).
+
+\subsection{Intérargir avec la temporisation}
+\label{interargir-avec-la-temporisation}
+
+\subsubsection{Vider un tampon}
+\label{vider-un-tampon}
+
+Si la temporisation nous évite des coûts en terme d'opérations de
+lecture/écriture, il nous est parfois nécessaire de passer outre cette
+mécanique pour vider manuellement le tampon d'un flux.
+
+\subsubsection{Opération de lecture}
+\label{operation-de-lecture}
+
+Si le tampon contient des données qui proviennent d'une opération de
+lecture, celles-ci peuvent être abandonnées soit en appelant une
+fonction de positionnement soit en lisant les données, tout simplement.
+Il y a toutefois un bémol avec la première solution : les fonctions de
+positionnement ne fonctionnent pas dans le cas où le flux ciblé est lié
+à un périphérique « interactif », c'est-à-dire le plus souvent un
+terminal.
+
+Autrement dit, pour que l'exemple précédent recoure bien à deux saisies,
+il nous est nécessaire de vérifier que la fonction \mybox{fgets()} a
+bien lu un caractère \mybox{\textbackslash{}n} (qui signifie que la fin
+de ligne est atteinte et donc celle du tampon s'il s'agit du flux
+\mybox{stdin}). Si ce n'est pas le cas, alors il nous faut lire les
+caractères restants jusqu'au \mybox{\textbackslash{}n} final (ou la fin
+du fichier).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int vider_tampon(FILE *fp)
+{
+    int c;
+
+    do
+        c = fgetc(fp);
+    while (c != '\n' && c != EOF);
+
+    return ferror(fp) ? 0 : 1;
+}
+
+
+int main(void)
+{
+    char chaine1[16];
+    char chaine2[16];
+
+    printf("Un morceau : ");
+
+    if (fgets(chaine1, sizeof chaine1, stdin) == NULL)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+    if (strchr(chaine1, '\n') == NULL)
+        if (!vider_tampon(stdin))
+        {
+            fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+            return EXIT_FAILURE;
+        }
+
+    printf("Un autre morceau : ");
+
+    if (fgets(chaine2, sizeof chaine2, stdin) == NULL)
+    {
+        printf("Erreur lors de la saisie\n");
+        return EXIT_FAILURE;
+    }
+    if (strchr(chaine2, '\n') == NULL)
+        if (!vider_tampon(stdin))
+        {
+            fprintf(stderr, "Erreur lors de la vidange du tampon.\n");
+            return EXIT_FAILURE;
+        }
+
+    printf("%s ; %s\n", chaine1, chaine2);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Un morceau : Une chaîne de caractères vraiment, mais alors vraiment longue
+Un autre morceau : Une autre chaîne de caractères
+Une chaîne de  ; Une autre chaî
+\end{C}
+
+\subsubsection{Opération d'écriture}
+\label{operation-decriture}
+
+Si, en revanche, le tampon comprend des données en attente d'écriture,
+il est possible de forcer celle-ci soit à l'aide d'une fonction de
+positionnement, soit à l'aide de la fonction \mybox{fflush()}.
+
+\begin{C}
+int fflush(FILE *flux);
+\end{C}
+
+Celle-ci vide le tampon du flux spécifié et retourne zéro en cas de
+succès ou \mybox{EOF} en cas d'erreur.
+
+\begin{attentionbox}
+  Notez bien que cette fonction ne peut
+être employée que pour vider un tampon comprenant des données en attente
+d'\emph{écriture}.
+\end{attentionbox}
+
+
+\subsubsection{Modifier un tampon}
+\label{modifier-un-tampon}
+
+Techniquement, il ne vous est pas possible de modifier directement le
+contenu d'un tampon, ceci est réalisé par les fonctions de la
+bibliothèque standard au gré de vos opérations de lecture et/ou
+d'écriture. Il y a toutefois une exception à cette règle : la fonction
+\mybox{ungetc()}.
+
+\begin{C}
+int ungetc(int ch, FILE *flux);
+\end{C}
+
+Cette fonction est un peu particulière : elle place le caractère
+\mybox{ch} dans le tampon du flux \mybox{flux}. Ce caractère pourra
+être lu lors d'un appel ultérieur à une fonction de \emph{lecture}. Elle
+retourne le caractère ajouté en cas de succès et \mybox{EOF} en cas
+d'échec.
+
+Cette fonction est très utile dans le cas où les actions d'un programme
+dépendent du contenu d'un flux. Imaginez par exemple que votre programme
+doit déterminer si l'entrée standard contient une suite de caractères ou
+un nombre et doit ensuite afficher celui-ci. Vous pourriez utiliser
+\mybox{getchar()} pour récupérer le premier caractère et déterminer
+s'il s'agit d'un chiffre. Toutefois, le premier caractère du flux est
+alors lu et cela complique votre tâche pour la suite\ldots{} La fonction
+\mybox{ungetc()} vous permet de résoudre ce problème en replaçant ce
+caractère dans le tampon du flux \mybox{stdin}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+static void afficher_nombre(void);
+static void afficher_chaine(void);
+
+
+static void afficher_nombre(void)
+{
+    double f;
+
+    if (scanf("%lf", &f) == 1)
+        printf("Vous avez entré le nombre : %f\n", f);
+    else
+        fprintf(stderr, "Erreur lors de la saisie\n");
+}
+
+
+static void afficher_chaine(void)
+{
+    char chaine[255];
+
+    if (scanf("%254s", chaine) == 1)
+        printf("Vous avez entré la chaine : %s\n", chaine);
+    else
+        fprintf(stderr, "Erreur lors de la saisie\n");
+}
+
+
+int main(void)
+{
+    int ch;
+
+    ch = getchar();
+
+    if (ungetc(ch, stdin) == EOF)
+    {
+        fprintf(stderr, "Impossible de replacer un caractère\n");
+        return EXIT_FAILURE;
+    }
+
+    switch (ch)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+        afficher_nombre();
+        break;
+
+    default:
+        afficher_chaine();
+        break;
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{attentionbox}
+  La fonction \mybox{ungetc()} ne vous
+permet de replacer qu'\emph{un seul caractère} avant une opération de
+\emph{lecture}.
+\end{attentionbox}
+
+\section{Flux ouverts en lecture et écriture}
+\label{flux-ouverts-en-lecture-et-ecriture}
+
+Pour clore ce chapitre, un petit mot sur le cas des flux ouverts en
+lecture \emph{et} en écriture (soit à l'aide des modes \mybox{r+},
+\mybox{w+}, \mybox{a+} et leurs équivalents binaires).
+
+Si vous utilisez un tel flux, vous \emph{devez} appeler une fonction de
+déplacement entre deux opérations de nature différentes ou utiliser la
+fonction \mybox{fflush()} entre une opération d'écriture et de lecture.
+Si vous ne souhaitez pas vous déplacer, vous pouvez utiliser l'appel
+\mybox{fseek(flux,\ 0L,\ SEEK\_CUR)} afin de respecter cette condition
+sans réellement effectuer un déplacement.
+
+\begin{infobox}
+Vous l'aurez sans doute compris : cette règle impose en fait de vider le 
+tampon du flux entre deux opérations de natures différentes.
+\end{infobox}
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char chaine[255];
+    FILE *fp;
+
+    fp = fopen("texte.txt", "w+");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert.\n");
+        return EXIT_FAILURE;
+    }
+    if (fputs("Une phrase.\n", fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de l'écriture d'une ligne.\n");
+        return EXIT_FAILURE;
+    }
+
+    /* Retour au début : la condition est donc remplie. */
+
+    if (fseek(fp, 0L, SEEK_SET) != 0)
+    {
+        fprintf(stderr, "Impossible de revenir au début du fichier.\n");
+        return EXIT_FAILURE;
+    }
+    if (fgets(chaine, sizeof chaine, fp) == NULL)
+    {
+        fprintf(stderr, "Erreur lors de la lecture.\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("%s\n", chaine);
+
+    if (fclose(fp) == EOF)
+    {
+        fputs("Erreur lors de la fermeture du flux\n", stderr);
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+
+\end{C}
+
+\begin{C}
+ Une phrase.
+\end{C}
+
+\hrulefill
+
+Dans le chapitre suivant, nous ferons une petite pause
+dans notre apprentissage afin de réaliser un jeu de \emph{Puissance 4}.

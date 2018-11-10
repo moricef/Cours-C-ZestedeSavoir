@@ -1,0 +1,812 @@
+\chapter{Le préprocesseur}
+\label{le-preprocesseur}
+
+Le \textbf{préprocesseur} est un programme qui réalise
+des traitements sur le code source \emph{avant} que ce dernier ne soit
+réellement compilé. Globalement, il a trois grands rôles :
+
+\begin{itemize}
+\item
+  réaliser des \textbf{inclusions} (la fameuse directive
+  \mybox{\#include}) ;
+\item
+  définir des \textbf{macros} qui sont des substituts à des morceaux de
+  code. Après le passage du préprocesseur, tous les appels à ces macros
+  seront remplacés par le code associé ;
+\item
+  permettre la \textbf{compilation conditionnelle}, c'est-à-dire de
+  moduler le contenu d'un fichier source suivant certaines
+  conditions.
+\end{itemize}
+  
+\section{Les inclusions}
+\label{les-inclusions}
+
+Nous avons vu dès le début du cours comment inclure des fichiers d'en-tête
+avec la directive \mybox{\#include}, sans toutefois véritablement
+expliquer son rôle. Son but est très simple : inclure le contenu d'un
+fichier dans un autre. Ainsi, si nous nous retrouvons par exemple avec
+deux fichiers comme ceux-ci avant la compilation.
+
+\begin{C}
+/* Fichier d'en-tête fichier.h */
+
+#ifndef FICHIER_H
+#define FICHIER_H
+
+extern int glob_var;
+
+extern void f1(int);
+extern long f2(double, char);
+
+#endif
+\end{C}
+
+\begin{C}
+/* Fichier source fichier.c */
+
+#include "fichier.h"
+
+void f1(int arg)
+{
+    /* du code */
+}
+
+long f2(double arg, char c)
+{
+    /* du code */
+}
+\end{C}
+
+Après le passage du préprocesseur et avant la compilation à proprement
+parler, le code obtenu sera le suivant :
+
+\begin{C}
+/* Fichier source fichier.c */
+
+extern int glob_var;
+
+extern void f1(int arg);
+extern long f2(double arg, char c);
+
+void f1(int arg)
+{
+    /* du code */
+}
+
+long f2(double arg, char c)
+{
+    /* du code */
+}
+\end{C}
+
+Nous pouvons voir que les déclarations contenues dans le fichier «
+fichier.h » ont été incluses dans le fichier « fichier.c » et que toutes
+les directives du préprocesseur (les lignes commençant par le symbole
+\mybox{\#}) ont disparu.
+
+\begin{infobox}
+  Vous pouvez utiliser l'option
+\mybox{-E} lors de la compilation pour requérir uniquement
+l'utilisation du préprocesseur. Ainsi, vous pouvez voir ce que donne
+votre code \emph{après} son passage. 
+\begin{minted}
+ $ zcc -E fichier.c
+\end{C}
+\end{minted}
+\end{infobox}
+
+\section{Les macroconstantes}
+\label{les-macroconstantes}
+
+Comme nous l'avons dit dans l'introduction, le
+  préprocesseur permet la définition de macros, c'est-à-dire de
+  substituts à des morceaux de code. Une macro est constituée des
+  éléments suivants.
+  
+\begin{itemize}
+\item
+  La directive \mybox{\#define}.
+\item
+  Le nom de la macro qui, par convention, est souvent écrit en
+  majuscules. Notez que vous pouvez choisir le nom que vous voulez, à
+  condition de respecter les mêmes règles que pour les noms de variable
+  ou de fonction.
+\item
+  Une liste \emph{optionnelle} de paramètres.
+\item
+  La définition, c'est-à-dire le code par lequel la macro sera
+  remplacée.
+\end{itemize}
+
+Dans le cas particulier où la macro n'a pas de paramètre, on parle de
+\textbf{macroconstante} (ou constante de préprocesseur). Leur
+substitution donne toujours le même résultat (d'où l'adjectif «
+constante »).
+
+\subsection{Substitutions de constantes}
+\label{substitutions-de-constantes}
+
+Par exemple, pour définir une macroconstante \mybox{TAILLE} avec pour
+valeur \mybox{100}, nous utiliserons le code suivant.
+
+\begin{C}
+#define TAILLE 100
+\end{C}
+
+L'exemple qui suit utilise cette macroconstante afin de ne pas
+multiplier l'usage de constantes entières. À chaque fois que la
+macroconstante \mybox{TAILLE} est utilisée, le préprocesseur remplacera
+celle-ci par sa définition, à savoir \mybox{100}.
+
+\begin{C}
+#include <stdio.h>
+#define TAILLE 100
+
+int main(void)
+{
+    int variable = 5;
+
+    /* On multiplie par TAILLE */
+    variable *= TAILLE;
+    printf("Variable vaut : %d\n", variable);
+
+    /* On additionne TAILLE */
+    variable += TAILLE;
+    printf("Variable vaut : %d\n", variable);
+    return 0;
+}
+\end{C}
+
+Ce code sera remplacé, après le passage du préprocesseur, par celui
+ci-dessous.
+
+\begin{C}
+int main(void)
+{
+    int variable = 5;
+
+    variable *= 100;
+    printf("Variable vaut : %d\n", variable);
+    variable += 100;
+    printf("Variable vaut : %d\n", variable);
+    return 0;
+}
+\end{C}
+
+Nous n'avons pas inclus le contenu de
+\mybox{\textless{}stdio.h\textgreater{}} car celui-ci est trop long et
+trop compliqué pour le moment. Néanmoins, l'exemple permet d'illustrer
+le principe des macros et surtout de leur avantage : il suffit de
+changer la définition de la macroconstante \mybox{TAILLE} pour que le
+reste du code s'adapte.
+
+\begin{questionbox} 
+ D'accord, mais je peux aussi très bien
+utiliser une variable constante, non ?
+\end{questionbox}
+
+
+Dans certains cas (comme dans l'exemple ci-dessus), utiliser une
+variable constante donnera le même résultat. Toutefois, une variable
+nécessitera le plus souvent de réserver de la mémoire et, si celle-ci
+doit être partagée par différents fichiers, de jouer avec les
+déclarations et les définitions.
+
+De plus, les macroconstantes peuvent être employées pour définir la
+longueur d'un tableau, alors que ceci est impossible avec une variable,
+même constante.
+
+\begin{infobox}
+  Notez qu'il vous est possible de
+définir une macroconstante lors de la compilation à l'aide de l'option
+\mybox{-D}.
+\begin{C}
+ zcc -DTAILLE=100
+\end{C}
+Ceci recient à définir une macroconstante
+\mybox{TAILLE} au début de chaque fichier qui sera substituée par
+\mybox{100}.
+\end{infobox}
+
+
+\subsection{Substitutions d'instructions}
+\label{substitutions-dinstructions}
+
+Si les macroconstantes sont souvent utilisées en vue de substituer des
+constantes, il est toutefois aussi possible que leur définition
+comprenne des suites d'instructions. L'exemple ci-dessous défini une
+macroconstante \mybox{BONJOUR} qui sera remplacée par
+\mybox{puts("Bonjour\ !")}.
+
+\begin{C}
+#include <stdio.h>
+
+#define BONJOUR  puts("Bonjour !")
+
+int main(void)
+{
+    BONJOUR;
+    return 0;
+}
+\end{C}
+
+Notez que nous n'avons pas placé de point-virgule dans la définitions de
+la macroconstante, tout d'abord afin de pouvoir en placer un lors de son
+utilisation, ce qui est plus naturel et, d'autre part, pour éviter des
+doublons qui peuvent s'avérer facheux.
+
+En effet, si nous ajoutons un point virgule à la fin de la définition,
+il ne faut pas en rajouter un lors de l'appel, sous peine de risquer des
+erreurs de syntaxe.
+
+\begin{C}
+#include <stdio.h>
+
+#define BONJOUR puts("Bonjour !");
+#define AUREVOIR puts("Au revoir !");
+
+int main(void)
+{
+    if (1)
+        BONJOUR; /* erreur ! */
+    else
+        AUREVOIR;
+
+    return 0;
+}
+\end{C}
+
+Le code donnant en réalité ceci.
+
+\begin{C}
+int main(void)
+{
+    if (1)
+        puts("Bonjour !");;
+    else
+        puts("Au revoir !");;
+
+    return 0;
+}
+\end{C}
+
+Ce qui est incorrect. Pour faire simple : le corps d'une condition ne
+peut comprendre qu'une instruction, or \mybox{puts("Bonjour\ !");} en
+est une, le point-virgule seul (\mybox{;}) en est une autre. Dès lors,
+il y a une instruction entre le \mybox{if} et le \mybox{else}, ce qui
+n'est pas permis. L'exemple ci-dessous pose le même problème en étant un
+peu plus limpide.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    if (1)
+        puts("Bonjour !");
+
+    puts("Je suis une instruction mal placee !");
+
+    else
+        puts("Au revoir !");
+
+    return 0;
+}
+\end{C}
+
+\subsection{Macros dans d'autres macros}
+\label{macros-dans-dautres-macros}
+
+La définition d'une macro peut parfaitement comprendre une ou plusieurs
+autres macros (qui, à leur tour, peuvent également comprendre des macros
+dans leur définition et ainsi de suite). L'exemple suivant illustre ceci
+en définissant une macroconstante \mybox{NB\_PIXELS} correspondant à la
+multiplication entre les deux macrococonstantes \mybox{LONGUEUR} et
+\mybox{HAUTEUR}.
+
+\begin{C}
+#define LONGUEUR 1024
+#define HAUTEUR 768
+#define NB_PIXELS (LONGUEUR * LARGEUR)
+\end{C}
+
+La règle suivante permet d'éviter de répéter les opérations de
+remplacement « à l'infini » :
+
+\begin{erreurbox}
+  Une macro n'est pas substituée si elle est
+utilisée dans sa propre définition.
+\end{erreurbox}
+
+
+Ainsi, dans le code ci-dessous, \mybox{LONGUEUR} donnera
+\mybox{LONGUEUR\ *\ 2\ /\ 2} et \mybox{HAUTEUR} sera substituée par
+\mybox{HAUTEUR\ /\ 2\ *\ 2}. En effet, lors de la substitution de la
+macroconstante \mybox{LONGUEUR}, la macroconstante \mybox{HAUTEUR} est
+remplacée par sa définition : \mybox{LONGUEUR\ *\ 2}. Or, comme nous
+sommes en train de substituer la macroconstante \mybox{LONGUEUR},
+\mybox{LONGUEUR} sera laissé tel quel. Le même raisonnement peut être
+appliqué pour la macroconstante \mybox{HAUTEUR}.
+
+\begin{C}
+#define LONGUEUR (HAUTEUR / 2)
+#define HAUTEUR (LONGUEUR * 2)
+\end{C}
+
+\subsection{Définition sur plusieurs lignes}
+\label{definition-sur-plusieurs-lignes}
+
+La définition d'une macro doit normalement tenir sur une seule ligne.
+C'est-à-dire que dès que la fin de ligne est atteinte, la définition est
+considérée comme terminée. Ainsi, dans le code suivant, la définition de
+la macroconstante \mybox{BONJOUR\_AUREVOIR} ne comprend en fait que
+\mybox{puts("Bonjour");}.
+
+\begin{C}
+#define BONJOUR_AUREVOIR puts("Bonjour");
+puts("Au revoir")
+\end{C}
+
+Pour que cela fonctionne, nous sommes donc contraints de la rédiger
+comme ceci.
+
+\begin{C}
+#define BONJOUR_AUREVOIR puts("Bonjour"); puts("Au revoir")
+\end{C}
+
+Ce qui est assez peu lisible et peu pratique si notre définition doit
+comporter une multitude d'instructions ou, pire, des blocs
+d'instructions\ldots{} Heureusement, il est possible d'indiquer au
+préprocesseur que plusieurs lignes doivent être fusionnées. Cela se fait
+à l'aide du symbole \mybox{\textbackslash{}}, que nous placons en fin
+de ligne.
+
+\begin{C}
+#define BONJOUR_AUREVOIR puts("Bonjour");\
+puts("Au revoir")
+\end{C}
+
+Lorsque le préprocesseur rencontre une barre oblique inverse
+(\mybox{\textbackslash{}}) suivie d'une fin de ligne, celles-ci sont
+supprimées et la ligne qui suit est fusionnée avec la ligne courante.
+
+\begin{attentionbox}
+  Notez bien qu'\emph{aucun espace} n'est
+ajouté durant l'opération ! 
+\begin{C}
+#define BONJOUR_AUREVOIR\
+puts("Bonjour");\
+puts("Au revoir")                         
+\end{C}
+Le code ci-dessus est donc incorrect car il donne
+en vérité ceci.
+\begin{C}
+ #define BONJOUR_AUREVOIRputs("Bonjour");puts("Au revoir")
+\end{C}
+\end{attentionbox}
+
+\begin{infobox}
+  L'utilisation de la fusion ne se
+limite pas aux définitions de macros, il est possible de l'employer
+n'importe où dans le code source. Bien que cela ne soit pas obligatoire
+(une instruction pouvant être répartie sur plusieurs lignes), il est
+possible d'y recourir pour couper une ligne un peu trop longue tout en
+indiquant cette césure de manière claire. 
+\begin{C}
+ printf("Une phrase composée de plusieurs résultats à présenter : %d, %f, %f, %d, %d\n",\
+a, b, c, d, e, f);
+\end{C}
+\end{infobox}
+
+Si vous souhaitez inclure un bloc d'instructions au sein d'une
+définition, ne perdez pas de vue que celui-ci constitue une instruction
+et donc que vous retomberez sur le problème exposé plus haut.
+
+\begin{C}
+#include <stdio.h>
+
+#define BONJOUR\
+    {\
+        puts("Bonjour !");\
+    }
+#define AUREVOIR\
+    {\
+        puts("Au revoir !");\
+    }
+
+int main(void)
+{
+    if (1)
+        BONJOUR; /* erreur ! */
+    else
+        AUREVOIR;
+
+    return 0;
+}
+\end{C}
+
+Une solution fréquente à ce problème consiste à recourir à une boucle
+\mybox{do\ \{\}\ while} avec une condition nulle (de sorte qu'elle ne
+soit exécutée qu'une seule fois), celle-ci ne constituant qu'une seule
+instruction \emph{avec} le point-virgule final.
+
+\begin{C}
+#include <stdio.h>
+
+#define BONJOUR\
+    do {\
+        puts("Bonjour !");\
+    } while(0)
+#define AUREVOIR\
+    do {\
+        puts("Au revoir !");\
+    } while(0)
+
+int main(void)
+{
+    if (1)
+        BONJOUR; /* ok */
+    else
+        AUREVOIR;
+
+    return 0;
+}
+\end{C}
+
+\subsubsection{Définition nulle}
+\label{definition-nulle}
+
+Sachez que le corps d'une macro peut parfaitement être vide.
+
+\begin{C}
+#define MACRO
+\end{C}
+
+Dans un tel cas, la macro ne sera tout simplement pas substituée par
+quoi que ce soit. Bien que cela puisse paraître étrange, cette technique
+est souvent utilisée, notamment pour la compilation conditionnelle que
+nous verrons bientôt.
+
+\subsection{Annuler une définition}
+\label{annuler-une-definition}
+
+Enfin, une définition peut être annulée à l'aide de la directive
+\mybox{\#undef} en lui spécifiant le nom de la macro qui doit être
+détruite.
+
+\begin{C}
+#define TAILLE 100
+#undef TAILLE
+
+/* TAILLE n'est à présent plus utilisable. */
+\end{C}
+
+\section{Les macrofonctions}
+\label{les-macrofonctions}
+
+Pour l'instant, nous n'avons manipulé que des macroconstantes,
+c'est-à-dire des macros n'employant pas de paramètres. Comme vous vous
+en doutez, une \textbf{macrofonction} est une macro qui accepte des
+paramètres et les emploie dans sa définition.
+
+\begin{C}
+
+\end{C}
+
+Pour ce faire, le nom de la macro est suivi de parenthèses comprenant le
+nom des paramètres séparés par une virgule. Chacun d'eux peut ensuite
+être utilisé dans la définition de la macrofonction et sera remplacé par
+la suite fournie en argument lors de l'appel à la macrofonction.
+
+\begin{erreurbox} 
+ Notez bien que nous n'avons pas parlé de «
+valeur » pour les arguments. En effet, n'importe quelle suite de
+symboles peut-être passée en argument d'une macrofonction, y compris du
+code. C'est d'ailleurs ce qui fait la puissance du préprocesseur.
+\end{erreurbox}
+
+
+Illustrons ce nouveau concept avec un exemple : nous allons écrire deux
+macros : \mybox{EUR} qui convertira une somme en euro en francs
+(français) et \mybox{FRF} qui fera l'inverse. Pour rappel, un euro
+équivaut à 6,55957 francs français.
+
+\begin{C}
+#include <stdio.h>
+
+#define EUR(x) ((x) / 6.55957)
+#define FRF(x) ((x) * 6.55957)
+
+int main(void)
+{
+   printf("Dix francs français valent %f euros.\n", EUR(10));
+   printf("Dix euros valent %f francs français.\n", FRF(10));
+   return 0;
+}
+\end{C}
+
+\begin{C}
+Dix francs français valent 1.524490 euros.
+Dix euros valent 65.595700 francs français.
+\end{C}
+
+
+Appliquons encore ce concept avec un deuxième exercice : essayez de
+créer la macro \mybox{MIN} qui renvoie le minimum entre deux nombres.
+
+\begin{C}
+ #include <stdio.h>
+
+#define MIN(a, b)  ((a) < (b) ? (a) : (b))
+
+int main(void)
+{
+   printf("Le minimum entre 16 et 32 est %d.\n", MIN(16, 32));
+   printf("Le minimum entre 2+9+7 et 3*8 est %d.\n", MIN(2+9+7, 3*8));
+   return 0;
+}
+\end{C}
+
+\begin{C}
+Le minimum entre 16 et 32 est 16.
+Le minimum entre 2+9+7 et 3*8 est 18.
+\end{C}
+
+\begin{infobox}
+ Remarquez que nous avons utilisés des expressions
+composées lors de la deuxième utilisation de la macrofonction
+\mybox{MIN}.
+\end{infobox}
+
+
+\subsection{Priorité des opérations}
+\label{priorite-des-operations}
+
+Quelque chose vous a peut-être frappé dans les corrections : pourquoi
+écrire \mybox{(x)} et pas simplement \mybox{x} ?
+
+En fait, il s'agit d'une protection en vue d'éviter certaines
+ambiguïtés. En effet, si l'on n'y prend pas garde, on peut par exemple
+avoir des surprises dues à la priorité des opérateurs. Prenons l'exemple
+d'une macro \mybox{MUL} qui effectue une multiplication.
+
+\begin{C}
+#define MUL(a, b)  (a * b)
+\end{C}
+
+Tel quel, le code peut poser des problèmes. En effet, si nous appellons
+la macrofonction comme ceci.
+
+\begin{C}
+MUL(2+3, 4+5)
+\end{C}
+
+Nous obtenons comme résultat 19 (la macro sera remplacée par
+\mybox{2\ +\ 3\ *\ 4\ +\ 5}) et non 45, qui est le résultat attendu.
+Pour garantir la bonne marche de la macrofonction, nous devons rajouter
+des parenthèses.
+
+\begin{C}
+#define MUL(a, b)  ((a) * (b))
+\end{C}
+
+Dans ce cas, nous obtenons bien le résultat souhaité, c'est-à-dire 45
+(\mybox{(2\ +\ 3)\ *\ (4\ +\ 5)}).
+
+\begin{infobox}
+  Nous vous conseillons de rajouter des
+parenthèses en cas de doute pour éviter toute erreur.
+\end{infobox}
+
+
+\subsection{Les effets de bords}
+\label{les-effets-de-bords}
+
+Pour finir, une petite mise en garde : évitez d'utiliser plus d'une fois
+un paramètre dans la définition d'une macro en vue d'éviter de
+multiplier d'éventuels \textbf{effets de bord}.
+
+\begin{questionbox}
+  Des effets de quoi ?
+\end{questionbox}
+
+
+Un effet de bord est une modification du contexte d'exécution. Vous
+voilà bien avancé nous direz-vous\ldots{} En fait, vous en avez déjà
+rencontré, l'exemple le plus typique étant une affectation.
+
+\begin{C}
+a = 10;
+\end{C}
+
+Dans cet exemple, le contexte d'exécution du programme (qui comprends
+ses variables) est modifié puisque la valeur d'une variable est changée.
+Ainsi, imaginez que la macro \mybox{MUL} soit appelée comme suit.
+
+\begin{C}
+MUL(a = 10, a = 20)
+\end{C}
+
+Après remplacement, celle-ci donnerait l'expression suivante :
+\mybox{((a\ =\ 10)\ *\ (a\ =\ 20))} qui est assez problématique\ldots{}
+En effet, quelle sera la valeur de \mybox{a}, finalement ? 10 ou 20 ?
+Ceci est impossible à dire sans fixer une règle d'évaluation et\ldots{}
+la norme n'en prévoit aucune dans ce cas ci.
+
+Aussi, pour éviter ce genre de problèmes tordus, veillez à n'utiliser
+chaque paramètre qu'\emph{une seule fois}.
+
+\section{Les directives conditionnelles}
+\label{les-directives-conditionnelles}
+
+Le préprocesseur dispose de cinq directives conditionnelles :\mybox{\#if},
+\mybox{\#ifdef}, \mybox{\#ifndef}, \mybox{\#elif},et \mybox{\#else}. Ces 
+dernières permettent de conserver ou non une potion de code en fonction
+de la validité d'une condition (si la condition est vraie, le code est gardé 
+sinon il est passé). Chacune de ces directives (ou suite de directives)
+doit être terminée par une directive \mybox{\#endif}.
+
+\subsection{Les directives \#if, \#elif et \#else}
+\label{les-directives-if-elif-et-else}
+
+\subsubsection{Les directives \#if et \#elif}
+\label{les-directives-if-et-elif}
+
+Les directives \mybox{\#if} et \mybox{\#elif}, comme l'instruction
+\mybox{if}, attendent une expression conditionelle ; toutefois,
+celle-ci sont plus restreintes étant donné que nous sommes dans le cadre
+du préprocesseur. Ce dernier se contentant d'effectuer des
+substitutions, il n'a par exemple aucune connaissance des mots-clés du
+langage C ou des variables qui sont employées.
+
+Ainsi, les conditions ne peuvent comporter que des expressions
+\emph{entières} (ce qui exclut les nombres flottants et les pointeurs)
+et \emph{constantes} (ce qui exclut l'utilisation d'opérateurs à effets
+de bord comme \mybox{=}). Aussi, les mots-clés et autres
+identificateurs (hormis les macros) présent dans la définition
+\emph{sont ignorés} (plus précisément, ils sont remplacés par
+\mybox{0}).
+
+L'exemple ci-dessous explicite ceci.
+
+\begin{C}
+#if 1.89 > 1.88 /* Incorrect, ce ne sont pas des entiers */
+#if sizeof(int) == 4 /* Équivalent à 0(0) == 4, `sizeof' et `int' étant des mots-clés */
+#if (a = 20) == 20 /* Équivalent à (0 = 20) == 4, `a' étant un identificateur */
+\end{C}
+
+Techniquement, seuls les opérateurs suivant peuvent être utilisés :
+\mybox{+} (binaire ou unaire), \mybox{-} (binaire ou unaire),
+\mybox{*}, \mybox{/}, \mybox{\%}, \mybox{==}, \mybox{!=},
+\mybox{\textless{}=}, \mybox{\textless{}}, \mybox{\textgreater{}},
+\mybox{\textgreater{}=}, \mybox{!}, \mybox{\&\&},
+\mybox{\textbar{}\textbar{}}, \mybox{,}, l'opérateur ternaire et les
+opérateurs de manipulations des \emph{bits}, que nous verrons au
+chapitre suivant.
+
+\begin{infobox}
+  Bien entendu, vous pouvez également
+utiliser des parenthèses afin de régler la priorité des opérations.
+\end{infobox}
+
+
+\subsubsection{L'opérateur defined}
+\label{loperateur-defined}
+
+Le préprocesseur fourni un opérateur supplémentaire utilisable dans les
+condtions : \mybox{defined}. Celui-ci prend comme opérande un nom de
+macro et retourne 1 ou 0 suivant que ce nom correspond ou non à une
+macro définie.
+
+\begin{C}
+#if defined TAILLE
+\end{C}
+
+Celui-ci est fréquemment utilisé pour produire des programmes portables.
+En effet, chaque système et chaque compilateur définissent généralement
+une ou des macroconstantes qui lui sont propres propre. En vérifiant si
+une de ces constantes existe, nous pouvons déterminer sur quelle
+plate-forme et avec quel compilateur nous compilons et adapter le code
+en conséquence.
+
+\begin{attentionbox}
+  Notez que ces constantes sont propres à
+un système d'exploitation et/ou compilateur donné, elles ne sont donc
+pas spécifiées par la norme du langage C.
+\end{attentionbox}
+
+
+\subsubsection{La directive \#else}
+\label{la-directive-else}
+
+La directive \mybox{\#else} quant à elle, se comporte comme
+l'instruction éponyme.
+
+\subsubsection{Exemple}
+\label{exemple-14}
+
+Voici un exemple d'utilisation.
+
+\begin{C}
+#include <stdio.h>
+
+#define A 2
+
+int main(void)
+{
+#if A < 0
+    puts("A < 0");
+#elif A > 0
+    puts("A > 0");
+#else
+    puts("A == 0");
+#endif
+    return 0;
+}
+\end{C}
+
+\begin{C}
+A > 0
+\end{C}
+
+\begin{infobox} 
+ Notez que les directives
+conditionnelles peuvent être utilisées à la place des commentaires en
+vue d'empêcher la compilation d'un morceau de code. L'avantage de cette
+technique par rapport aux commentaires est qu'elle vous évite de
+produire des commentaires imbriqués.
+\begin{C}
+ #if 0
+/* On multiplie par TAILLE */
+variable *= TAILLE;
+printf("Variable vaut : %d\n", variable);
+#endif
+\end{C}
+\end{infobox}
+
+
+\subsection{Les directives \#ifdef et \#ifndef}
+\label{les-directives-ifdef-et-ifndef}
+
+Ces deux directives sont en fait la contraction, respectivement, de la
+directive \mybox{\#if\ defined} et \mybox{\#if\ !defined}. Si vous
+n'avez qu'une seule constante à tester, il est plus rapide d'utiliser
+ces deux directives à la place de leur version longue.
+
+\subsubsection{Protection des fichiers d'en-tête}
+\label{protection-des-fichiers-den-tuxeate}
+
+Ceci étant dit, vous devriez à présent être en mesure de comprendre le
+fonctionnement des directives jusqu'à présent utilisées dans les
+fichiers en-têtes.
+
+\begin{C}
+#ifndef CONSTANTE_H
+#define CONSTANTE_H
+
+/* Les déclarations */
+
+#endif
+\end{C}
+
+La première directive vérifie que la macroconstante CONSTANTE\_H n'a pas
+encore été définie. Si ce n'est pas le cas, elle est définie (ici avec
+une valeur nulle) et le bloc de la condition (comprenant le contenu du
+fichier d'en-tête) est inclus. Si elle a déjà été définie, le bloc est
+sauté et le contenu du fichier n'est ainsi pas à nouveau inclus.
+
+\begin{infobox}
+  Pour rappel, ceci est nécessaire pour
+éviter des problèmes d'inclusions multiples, par exemple lorsqu'un
+fichier A inclut un fichier B, qui lui-même inclut le fichier A.
+\end{infobox}
+
+\hrulefill
+
+Avec ce chapitre, vous devriez pouvoir utiliser le préprocesseur de manière 
+basique et éviter plusieurs de ses pièges fréquents. Toutefois, si vous 
+souhaitez aller plus loin et appronfondir son utilisation, nous vous conseillons 
+la lecture \MYhref{https://openclassrooms.com/courses/le-preprocesseur-3}
+{du cours de Pouet\_forever}.

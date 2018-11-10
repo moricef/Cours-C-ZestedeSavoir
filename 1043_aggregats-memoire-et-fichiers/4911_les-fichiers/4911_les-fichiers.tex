@@ -1,0 +1,858 @@
+\chapter{Les fichiers (1)}
+\label{les-fichiers-(1)}
+
+Jusqu'à présent, nous n'avons manipulé que des données en
+mémoire, ce qui nous empêchait de les stocker de manière permanente.
+Dans ces deux chapitres, nous allons voir comment conserver des
+informations de manière permanente à l'aide des fichiers.
+
+\section{Les fichiers}
+\label{les-fichiers}
+
+En informatique, un fichier est un ensemble d'informations stockées 
+sur un support, réuni sous un même nom et manipulé comme une unité.
+
+\subsection{Extension de fichier}
+\label{extension-de-fichier}
+
+Le contenu de chaque fichier est lui-même organisé suivant un format qui
+dépend des données qu'il contient. Il en existe une pléthore pour chaque
+type de données :
+
+\begin{itemize}
+\item
+  audio : Ogg, MP3, MP4, FLAC, Wave, etc. ;
+\item
+  vidéo : Ogg, WebM, MP4, AVI, etc. ;
+\item
+  documents : ODT, DOC et DOCX, XLS et XLSX, PDF, Postscript, etc.
+\end{itemize}
+
+Afin d'aider l'utilisateur, ces formats sont le plus souvent indiqués à
+l'aide d'une \textbf{extension} qui se traduit par un suffixe ajouter au
+nom de fichier. Toutefois, cette extension est purement
+\emph{indicative} et \emph{facultative}, elle n'influence \emph{en rien}
+le contenu du fichier. Son seul objectif est d'aider à déterminer le
+type de contenu d'un fichier.
+
+\subsection{Système de fichiers}
+\label{systeme-de-fichiers}
+
+Afin de faciliter leur localisation et leur gestion, les fichiers sont
+classés et organisés sur leur support suivant un \textbf{système de
+fichiers}. C'est lui qui permet à l'utilisateur de répartir ses fichiers
+dans une arborescence de dossiers et de localiser ces derniers à partir
+d'un chemin d'accès.
+
+\subsubsection{Le chemin d'accès}
+\label{le-chemin-dacces}
+
+Le chemin d'accès d'un fichier est une suite de caractères décrivant la
+position de celui-ci dans le système de fichiers. Un chemin d'accès se
+compose au minimum du nom du fichier visé et au maximum de la suite de
+tous les dossiers qu'il est nécessaire de traverser pour l'atteindre
+depuis le \textbf{répertoire racine}. Ces éventuels dossiers à traverser
+sont séparés par un caractère spécifique qui est \mybox{/} sous
+Unixoïde et \mybox{\textbackslash{}} sous Windows.
+
+La \textbf{racine} d'un système de fichier est le point de départ de
+l'arborescence des fichiers et dossiers. Sous Unixoïdes, il s'agit du
+répertoire \mybox{/} tandis que sous Windows, chaque lecteur est une
+racine (comme \mybox{C:} par exemple). Si un chemin d'accès commence
+par la racine, alors celui-ci est dit \textbf{absolu} car il permet
+d'atteindre le fichier depuis n'importe quelle position dans
+l'arborescence. Si le chemin d'accès ne commence pas par la racine, il
+est dit \textbf{relatif} et ne permet de parvenir au fichier que depuis
+un point précis dans la hiérarchie de fichiers.
+
+Ainsi, si nous souhaitons accéder à un fichier nommé « texte.txt » situé
+dans le dossier « documents » lui-même situé dans le dossier «
+utilisateur » qui est à la racine, alors le chemin d'accès absolu vers
+ce fichier serait \mybox{/utilisateur/documents/texte.txt} sous
+Unixoïde et
+\mybox{C:\textbackslash{}utilisateur\textbackslash{}documents\textbackslash{}texte.txt}
+sous Windows (à supposer qu'il soit sur le lecteur \mybox{C:}).
+Toutefois, si nous sommes déjà dans le dossier « utilisateur », alors
+nous pouvons y accéder à l'aide du chemin relatif
+\mybox{documents/texte.txt} ou
+\mybox{documents\textbackslash{}texte.txt}. Néanmoins, ce chemin
+relatif n'est utilisable que si nous sommes dans le dossier «
+utilisateur ».
+
+\subsubsection{Métadonnées}
+\label{metadonnees}
+
+Également, le système de fichier se charge le plus souvent de conserver
+un certain nombre de données concernant chaque fichier comme :
+
+\begin{itemize}
+\item
+  sa taille ;
+\item
+  ses droits d'accès (les utilisateurs autorisés à le manipuler) ;
+\item
+  la date de dernier accès ;
+\item
+  la date de dernière modification ;
+\item
+  etc.
+\end{itemize}
+
+\section{Les flux : un peu de théorie}
+\label{les-flux-:-un-peu-de-theorie}
+
+La bibliothèque standard vous fourni différentes fonctions pour manipuler
+les fichiers, toutes déclarées dans l'en-tête
+\mybox{\textless{}stdio.h\textgreater{}}. Toutefois, celles-ci
+manipulent non pas des fichiers, mais des \textbf{flux} de données en
+provenance ou à destination de fichiers. Ces flux peuvent être de deux
+types :
+
+\begin{itemize}
+\item
+  des flux de textes qui sont des suites de caractères terminées par un
+  caractère de fin de ligne (\mybox{\textbackslash{}n}) et formant
+  ainsi des lignes ;
+\item
+  des flux binaires qui sont des suites de multiplets.
+\end{itemize}
+
+\subsection{Pourquoi utiliser des flux ?}
+\label{pourquoi-utiliser-des-flux-?}
+
+Pourquoi recourir à des flux plutôt que de manipuler directement des
+fichiers nous demanderez-vous ? Pour deux raisons : les disparités entre
+système d'exploitation quant à la représentation des lignes et la
+lourdeur des opérations de lecture et d'écriture.
+
+\subsubsection{Disparités entre systèmes d'exploitation}
+\label{disparites-entre-systemes-dexploitation}
+
+Les différents systèmes d'exploitation ne représentent pas les lignes de
+la même manière :
+
+\begin{itemize}
+\item
+  sous Mac OS (avant Mac OS X), la fin d'une ligne était indiquée par le
+  caractère \mybox{\textbackslash{}r} ;
+\item
+  sous Windows, la fin de ligne est indiquée par la suite de caractères
+  \mybox{\textbackslash{}r\textbackslash{}n} ;
+\item
+  sous Unixoïdes (GNU/Linux, *BSD, Mac OS X, Solaris, etc.), la fin de
+  ligne est indiquée par le caractère \mybox{\textbackslash{}n}.
+\end{itemize}
+
+Aussi, si nous manipulions directement des fichiers, nous devrions
+prendre en compte ces disparités, ce qui rendrait notre code nettement
+plus pénible à rédiger. En passant par les fonctions de la bibliothèque
+standard, nous évitons ce casse-tête car celle-ci remplace le ou les
+caractères de fin de ligne par un \mybox{\textbackslash{}n} (ce que
+nous avons pu expérimenter avec les fonctions \mybox{printf()} et
+\mybox{scanf()}) et inversément.
+
+\subsubsection{Lourdeur des opérations de lecture et d'écriture}
+\label{lourdeur-des-operations-de-lecture-et-decriture}
+
+Lire depuis un fichier ou écrire dans un fichier signifie le plus
+souvent accéder au disque dur. Or, rappelez-vous, il s'agit de la
+mémoire la plus lente d'un ordinateur. Dès lors, si pour lire une ligne
+il était nécessaire de récupérer les caractères un à un depuis le disque
+dur, cela prendrait un temps fou.
+
+Pour éviter ce problème, les flux de la bibliothèque standard recourent
+à un mécanisme appelé la \textbf{temporisation} ou \textbf{mémorisation}
+(\emph{buffering} en anglais). La bibliothèque standard fournit deux
+types de temporisation :
+
+\begin{itemize}
+\item
+  la temporisation par blocs ;
+\item
+  et la temporisation par lignes.
+\end{itemize}
+
+Avec la \textbf{temporisation par blocs}, les données sont récupérées
+depuis le fichier et écrites dans le fichier sous forme de blocs d'une
+taille déterminée. L'idée est la suivante : plutôt que de lire les
+caractères un à un, nous allons demander un bloc de données d'une taille
+déterminée que nous conserverons en mémoire vive pour les accès
+suivants. Cette technique est également utilisée lors des opérations
+d'écritures : les données sont stockées en mémoire jusqu'à ce qu'elles
+atteignent la taille d'un bloc. Ainsi, le nombre d'accès au disque dur
+sera limité à la taille totale du fichier à lire (ou des données à
+écrire) divisée par la taille d'un bloc.
+
+La \textbf{temporisation par lignes}, comme son nom l'indique, se
+contente de mémoriser une ligne. Techniquement, celle-ci est utilisée
+lorsque le flux est associé à un périphérique interactif comme un
+terminal. En effet, si nous appliquions la temporisation par blocs pour
+les entrées de l'utilisateur, ce dernier devrait entrer du texte jusqu'à
+atteindre la taille d'un bloc. Pareillement, nous devrions attendre
+d'avoir écrit une quantité de données égale à la taille d'un bloc pour
+que du texte soit affiché à l'écran. Cela serait assez gênant et peu
+interactif\ldots{} À la place, c'est la temporisation par lignes qui est
+utilisée : les données sont stockées jusqu'à ce qu'un caractère de fin
+de ligne soit rencontré (\mybox{\textbackslash{}n}, donc) ou jusqu'à ce
+qu'une taille maximale soit atteinte.
+
+La bibliothèque standard vous permet également de ne pas temporiser les
+données en provenance ou à destination d'un flux.
+
+\subsection{stdin, stdout et stderr}
+\label{stdin-stdout-et-stderr}
+
+Par défaut, trois flux \emph{de texte} sont ouverts lors du démarrage
+d'un programme et sont déclarés dans l'en-tête
+\mybox{\textless{}stdio.h\textgreater{}} : \mybox{stdin},
+\mybox{stdout} et \mybox{stderr}.
+
+\begin{itemize}
+\item
+  \mybox{stdin} correspond à l'\textbf{entrée standard}, c'est-à-dire
+  le flux depuis lequel vous pouvez récupérer les informations fournies
+  par l'utilisateur.
+\item
+  \mybox{stdout} correspond à la \textbf{sortie standard}, il s'agit du
+  flux vous permettant de transmettre des informations à l'utilisateur
+  qui seront le plus souvent affichées dans le terminal.
+\item
+  \mybox{stderr} correspond à la \textbf{sortie d'erreur standard},
+  c'est ce flux que vous devez privilégier lorsque vous souhaitez
+  transmettre des messages d'erreurs ou des avertissements à l'attention
+  de l'utilisateur (nous verrons comment l'utiliser un peu plus tard
+  dans ce chapitre). Comme pour \mybox{stdout}, ces données sont le
+  plus souvent affichées dans le terminal.
+\end{itemize}
+
+Les flux \mybox{stdin} et \mybox{stdout} sont temporisés par lignes
+(sauf s'ils sont associés à des fichiers au lieu de périphériques
+interactifs, auxquels cas ils seront temporisés par blocs) tandis que le
+flux \mybox{stderr} est \emph{au plus} temporisé par lignes (ceci afin
+que les informations soient transmises le plus rapidement possible à
+l'utilisateur).
+
+\section{Ouverture et fermeture d'un flux}
+\label{ouverture-et-fermeture-flux}
+
+\section{La fonction fopen}
+\label{la-fonction-fopen}
+
+\begin{C}
+FILE *fopen(char *chemin, char *mode);
+\end{C}
+
+La fonction \mybox{fopen()} permet d'ouvrir un flux. Celle-ci attend
+deux arguments : un \textbf{chemin d'accès} vers un fichier qui sera
+associé au flux et un \textbf{mode} qui détermine le type de flux (texte
+ou binaire) et la nature des opérations qui seront réalisées sur le
+fichier via le flux (lecture, écriture ou les deux). Elle retourne un
+pointeur vers un flux en cas de succès et un pointeur nul en cas
+d'échec.
+
+\subsubsection{Le mode}
+\label{le-mode}
+
+Le mode est une chaîne de caractères composée d'une ou plusieurs lettres
+qui décrit le type du flux et la nature des opérations qu'il doit
+réaliser.
+
+Cette chaîne commence \emph{obligatoirement} par la seconde de ces
+informations. Il existe six possibilités reprises dans le tableau
+ci-dessous.
+
+\begin{table}[ht!]
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|p{5cm}|p{7cm}|}\hline
+%\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\textbf{
+Mode}&\textbf{
+Type(s) d'opération(s)}&\textbf{
+Effets}
+\tabularnewline\hline
+\mybox{r}&
+Lecture&
+Néant
+\tabularnewline\hline
+\mybox{r+}&
+Lecture et écriture&
+Néant
+\tabularnewline\hline
+\mybox{w}&
+Écriture&
+Si le fichier n'existe pas, il est créé.
+
+Si le fichier existe, son contenu est effacé.
+\tabularnewline\hline
+\mybox{w+}&
+Lecture et écriture&
+\emph{Idem}
+\tabularnewline\hline
+\mybox{a}&
+Écriture&
+Si le fichier n'existe pas, il est créé.
+
+Place les données à la fin du fichier
+\tabularnewline\hline
+\mybox{a+}&
+Lecture et écriture&
+\emph{Idem}
+\tabularnewline\hline
+\end{tabular}
+\caption{Les modes d'accès à un fichier}
+\end{table}
+
+Par défaut, les flux sont des flux de textes. Pour obtenir un flux
+binaire, il suffit d'ajouter la lettre \mybox{b} à la fin de la chaîne
+décrivant le mode.
+
+\subsubsection{Exemple}
+\label{exemple-21}
+
+Le code ci-dessous tente d'ouvrir un fichier nommé « texte.txt » en
+lecture seule dans le dossier courant. Notez que dans le cas où il
+n'existe pas, la fonction \mybox{fopen()} retournera un pointeur nul
+(seul le mode \mybox{r} permet de produire ce comportement).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("texte.txt", "r");
+
+    if (fp == NULL)
+    {
+        printf("Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Le fichier texte.txt existe\n");
+    return 0;
+}
+\end{C}
+
+\subsection{La fonction fclose}
+\label{la-fonction-fclose}
+
+\begin{C}
+int fclose(FILE *flux);
+\end{C}
+
+La fonction \mybox{fclose()} termine l'association entre un flux et un
+fichier. S'il reste des données temporisées, celles-ci sont écrites. La
+fonction retourne zéro en cas de succès et \mybox{EOF} en cas d'erreur.
+
+\begin{infobox} 
+ \mybox{EOF} est une constante
+définie dans l'en-tête \mybox{\textless{}stdio.h\textgreater{}} et est
+utilisée par les fonctions déclarées dans ce dernier pour indiquer soit
+l'arrivée à la fin d'un fichier (nous allons y venir) soit la survenance
+d'une erreur. La valeur de cette constante est \emph{toujours} un entier
+\emph{négatif}.
+\end{infobox}
+
+Nous pouvons désormais compléter l'exemple précédent comme suit.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("texte.txt", "r");
+
+    if (fp == NULL)
+    {
+        printf("Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Le fichier texte.txt existe\n");
+
+    if (fclose(fp) == EOF)
+    {
+        printf("Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{attentionbox} 
+ Veillez qu'à chaque appel à la fonction
+\mybox{fopen()} corresponde un appel à la fonction \mybox{fclose()}.
+\end{attentionbox}
+
+\section{Écriture vers un flux de texte }
+\label{ecriture-vers-un-flux-de-texte }
+
+\subsection{Écrire un caractère}
+\label{ecrire-un-caractère}
+
+\begin{C}
+int putc(int ch, FILE *flux);
+int fputc(int ch, FILE *flux);
+int putchar(int ch);
+\end{C}
+
+Les fonctions \mybox{putc()} et \mybox{fputc()} écrivent un caractère
+dans un flux. Il s'agit de l'opération d'écriture la plus basique sur
+laquelle reposent toutes les autres fonctions d'écriture. Ces deux
+fonctions retournent soit le caractère écrit, soit \mybox{EOF} si une
+erreur est rencontrée. La fonction \mybox{putchar()}, quant à elle, est
+identique aux fonctions \mybox{putc()} et \mybox{fputc()} si ce n'est
+qu'elle écrit dans le flux \mybox{stdout}.
+
+\begin{infobox} 
+ Techniquement, \mybox{putc()} et
+\mybox{fputc()} sont identiques, si ce n'est que \mybox{putc()} est en
+fait le plus souvent une macrofonction. Étant donné que nous n'avons pas
+encore vu de quoi il s'agit, préférez utiliser la fonction
+\mybox{fputc()} pour l'instant.
+\end{infobox}
+
+
+L'exemple ci-dessous écrit le caractère « C » dans le fichier «
+texte.txt ». Étant donné que nous utilisons le mode \mybox{w}, le
+fichier est soit créé s'il n'existe pas, soit vidé de son contenu s'il
+existe (revoyer le tableau des modes à la section précédente si vous
+êtes perdus).
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("texte.txt", "w");
+
+    if (fp == NULL)
+    {
+        printf("Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fputc('C', fp) == EOF)
+    {
+        printf("Erreur lors de l'écriture d'un caractère\n");
+        return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        printf("Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+
+\end{C}
+
+\subsection{Écrire une ligne}
+\label{ecrire-une-ligne}
+
+\begin{C}
+int fputs(char *ligne, FILE *flux);
+int puts(char *ligne);
+\end{C}
+
+La fonction \mybox{fputs()} écrit une ligne dans le flux \mybox{flux}.
+La fonction retourne un nombre positif ou nul en cas de succès et
+\mybox{EOF} en cas d'erreurs. La fonction \mybox{puts()} est identique
+si ce n'est qu'elle ajoute automatiquement un caractère de fin de ligne
+et qu'elle écrit sur le flux \mybox{stdout}.
+
+\begin{infobox}
+  Maintenant que nous savons comment
+écrire une ligne dans un flux précis, nous allons pouvoir diriger nos
+messages d'erreurs vers le flux \mybox{stderr} afin que ceux-ci soient
+affichés le plus rapidement possible.
+\end{infobox}
+
+
+L'exemple suivant écrit le mot « Bonjour » suivi d'un caractère de fin
+de ligne au sein du fichier « texte.txt ».
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("texte.txt", "w");
+
+    if (fp == NULL)
+    {
+        fputs("Le fichier texte.txt n'a pas pu être ouvert\n", stderr);
+        return EXIT_FAILURE;
+    }
+    if (fputs("Bonjour\n", fp) == EOF)
+    {
+        fputs("Erreur lors de l'écriture d'une ligne\n", stderr);
+        return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fputs("Erreur lors de la fermeture du flux\n", stderr);
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{attentionbox} 
+ La norme\footnote{Programming Language
+  C, X3J11/88-090, § 4.9.2, Streams, al. 4} vous garanti qu'une ligne peut
+contenir jusqu'à 254 caractères (caractère de fin de ligne inclus).
+Aussi, veillez à ne pas écrire de ligne d'une taille supérieure à cette
+limite.
+\end{attentionbox}
+
+
+\subsection{La fonction fprintf}
+\label{la-fonction-fprintf}
+
+\begin{C}
+int fprintf(FILE *flux, char *format, ...);
+\end{C}
+
+La fonction \mybox{fprintf()} est la même que la fonction
+\mybox{printf()} si ce n'est qu'il est possible de lui spécifier sur
+quel flux écrire (au lieu de \mybox{stdout} pour \mybox{printf()}).
+Elle retourne le nombre de caractères écrits ou une valeur négative en
+cas d'échec.
+
+\section{Lecture depuis un flux de texte }
+\label{lecture-depuis-un-flux-de-texte }
+
+\subsection{Récupérer un caractère}
+\label{recuperer-un-caractere}
+
+\begin{C}
+int getc(FILE *flux);
+int fgetc(FILE *flux);
+int getchar(void);
+\end{C}
+
+Les fonctions \mybox{getc()} et \mybox{fgetc()} sont les exacts
+miroirs des fonctions \mybox{putc()} et \mybox{fputc()} : elles
+récupèrent un caractère depuis le flux fourni en argument. Il s'agit de
+l'opération de lecture la plus basique sur laquelle reposent toutes les
+autres fonctions de lecture. Ces deux fonctions retournent soit le
+caractère lu, soit \mybox{EOF} si la fin de fichier est rencontrée
+\emph{ou} si une erreur est rencontrée. La fonction \mybox{getchar()},
+quant à elle, est identique à ces deux fonctions si ce n'est qu'elle
+récupère un caractère depuis le flux \mybox{stdin}.
+
+\begin{infobox}
+  Comme \mybox{putc()}, la fonction
+\mybox{getc()} est le plus souvent une macrofonction. Utilisez donc
+plutôt la fonction \mybox{fgetc()} pour le moment.
+\end{infobox}
+
+L'exemple ci-dessous lit un caractère provenant du fichier
+\mybox{texte.txt}.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    FILE *fp;
+    int ch;
+
+    fp = fopen("texte.txt", "r");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if ((ch = fgetc(fp)) != EOF)
+        printf("%c\n", ch);
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+\begin{infobox}
+  Notez que nous utilisons une
+affectation comme premier opérande de l'opérateur \mybox{!=}. Une
+affectation étant une expression en C, ce genre d'écriture est tout à
+fait valide. Vous en rencontrerez fréquemment comme expression de
+contrôle de boucles.
+\end{infobox}
+
+
+\subsection{Récupérer une ligne}
+\label{recuperer-une-ligne}
+
+\begin{C}
+char *fgets(char *tampon, int taille, FILE *flux);
+\end{C}
+
+La fonction \mybox{fgets()} lit une ligne depuis le flux \mybox{flux}
+et la stocke dans le tableau \mybox{tampon}. Cette dernière lit au plus
+un nombre de caractères égal à \mybox{taille} diminué de un afin de
+laisser la place pour le caractère nul, qui est automatiquement ajouté.
+Dans le cas où elle rencontre un caractère de fin de ligne :
+\emph{celui-ci est conservé au sein du tableau}, un caractère nul est
+ajouté et la lecture s'arrête.
+
+La fonction retourne l'adresse du tableau \mybox{tampon} en cas de
+succès et un pointeur nul si la fin du fichier est atteinte \emph{ou si
+une erreur est survenue}.
+
+L'exemple ci-dessous réalise donc la même opération que le code
+précédent, mais en utilisant la fonction \mybox{fgets()}.
+
+\begin{infobox} 
+ Étant donné que la norme nous garanti
+qu'une ligne peut contenir jusqu'à 254 caractères (caractère de fin de
+ligne inclus), nous utilisons un tableau de 255 caractères pour les
+contenir (puisqu'il est nécessaire de prévoir un espace pour le
+caractère nul).
+\end{infobox}
+
+
+\begin{C}
+#include <stdio.h>
+
+int main(void)
+{
+    char buf[255];
+    FILE *fp;
+
+    fp = fopen("texte.txt", "r");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier texte.txt n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fgets(buf, sizeof buf, fp) != NULL)
+        printf("%s\n", buf);
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+
+Toutefois, il y a un petit problème : la fonction \mybox{fgets()}
+conserve le caractère de fin de ligne qu'elle rencontre. Dès lors, nous
+affichons deux retours à la ligne : celui contenu dans la chaîne
+\mybox{buf} et celui affiché par \mybox{printf()}. Aussi, il serait
+préférable d'en supprimer un, de préférence celui de la chaîne de
+caractères. Pour ce faire, nous pouvons faire appel à une petite
+fonction (que nous appellerons \mybox{chomp()} en référence à la
+fonction éponyme du langage Perl) qui se chargera de remplacer le
+caractère de fin de ligne par un caractère nul.
+
+\begin{C}
+void chomp(char *s)
+{
+    while (*s != '\n' && *s != '\0')
+        ++s;
+
+    if (*s == '\n')
+        *s = '\0';
+}
+\end{C}
+
+\subsection{La fonction fscanf}
+\label{la-fonction-fscanf}
+
+\begin{C}
+int fscanf(FILE *flux, char *format, ...);
+\end{C}
+
+La fonction \mybox{fscanf()} est identique à la fonction
+\mybox{scanf()} si ce n'est qu'elle récupère les données depuis le flux
+fourni en argument (au leu de \mybox{stdin} pour \mybox{scanf()}).
+
+\begin{infobox} 
+ Le flux \mybox{stdin} étant le plus
+souvent mémorisé par lignes, ceci vous explique pourquoi nous lisions
+les caractères restant après un appel à \mybox{scanf()} jusqu'à
+rencontrer un caractère de fin de ligne : pour vider le tampon du flux
+\mybox{stdin}.
+\end{infobox}
+
+
+La fonction \mybox{fscanf()} retourne le nombre de conversions réussies
+(voire zéro, si aucune n'est demandée ou n'a pu être réalisée) ou
+\mybox{EOF} si une erreur survient \emph{avant} qu'une conversion n'ait
+eu lieu.
+
+\section{Écriture vers un flux binaire}
+\label{ecriture-vers-un-flux-binaire}
+
+\subsection{Écrire un multiplet}
+\label{ecrire-un-multiplet}
+
+\begin{C}
+int putc(int ch, FILE *flux);
+int fputc(int ch, FILE *flux);
+\end{C}
+
+Comme pour les flux de texte, il vous est possible de recourir aux
+fonctions \mybox{putc()} et \mybox{fputc()}. Dans le cas d'un flux
+binaire, ces fonctions écrivent un multiplet (sous la forme d'un
+\mybox{int} converti en \mybox{unsigned\ char}) dans le flux spécifié.
+
+\subsection{Écrire une suite de multiplets}
+\label{ecrire-une-suite-de-multiplets}
+
+\begin{C}
+size_t fwrite(void *ptr, size_t taille, size_t nombre, FILE *flux);
+\end{C}
+
+La fonction \mybox{fwrite()} écrit le tableau référencé par
+\mybox{ptr} composé de \mybox{nombre} éléments de \mybox{taille}
+multiplets dans le flux \mybox{flux}. Elle retourne une valeur égale à
+\mybox{nombre} en cas de succès et une valeur inférieure en cas
+d'échec.
+
+L'exemple suivant écrit le contenu du tableau \mybox{tab} dans le
+fichier \mybox{binaire.bin}. Dans le cas où un \mybox{int} fait 4
+octets, 20 octets seront donc écrits.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int tab[5] = { 1, 2, 3, 4, 5 };
+    const size_t n = sizeof tab / sizeof tab[0];
+    FILE *fp;
+
+    fp = fopen("binaire.bin", "wb");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier binaire.bin n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fwrite(&tab, sizeof tab[0], n, fp) != n)
+    {
+            fprintf(stderr, "Erreur lors de l'écriture du tableau\n");
+            return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    return 0;
+}
+\end{C}
+ 
+\section{Lecture depuis un flux binaire}
+\label{lecture-depuis-un-flux-binaire}
+  
+\subsection{Lire un multiplet}
+\label{lire-un-multiplet}
+
+\begin{C}
+int getc(FILE *flux);
+int fgetc(FILE *flux);
+\end{C}
+
+Lors de la lecture depuis un flux binaire, les fonctions
+\mybox{fgetc()} et \mybox{getc()} permettent de récupérer un multiplet
+(sous la forme d'un \mybox{unsigned\ char} converti en \mybox{int})
+depuis un flux.
+
+\subsection{Lire une suite de multiplets}
+\label{lire-une-suite-de-multiplets}
+
+\begin{C}
+size_t fread(void *ptr, size_t taille, size_t nombre, FILE *flux);
+\end{C}
+
+La fonction \mybox{fread()} est l'inverse de la fonction
+\mybox{fwrite()} : elle lit \mybox{nombre} éléments de \mybox{taille}
+multiplets depuis le flux \mybox{flux} et les stocke dans l'objet
+référencé par \mybox{ptr}. Elle retourne une valeur égale à
+\mybox{nombre} en cas de succès ou une valeur inférieure en cas
+d'échec.
+
+Dans le cas où nous disposons du fichier \mybox{binaire.bin} produit
+par l'exemple de la section précédente, nous pouvons reconstituer le
+tableau \mybox{tab}.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    int tab[5] = { 1, 2, 3, 4, 5 };
+    const size_t n = sizeof tab / sizeof tab[0];
+    FILE *fp;
+    unsigned i;
+
+    fp = fopen("binaire.bin", "rb");
+
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Le fichier binaire.bin n'a pas pu être ouvert\n");
+        return EXIT_FAILURE;
+    }
+    if (fread(&tab, sizeof tab[0], n, fp) != n)
+    {
+            fprintf(stderr, "Erreur lors de la lecture du tableau\n");
+            return EXIT_FAILURE;
+    }
+    if (fclose(fp) == EOF)
+    {
+        fprintf(stderr, "Erreur lors de la fermeture du flux\n");
+        return EXIT_FAILURE;        
+    }
+
+    for (i = 0; i < n; ++i)
+        printf("tab[%u] = %d\n", i, tab[i]);
+
+    return 0;
+}
+\end{C}
+
+\hrulefill
+
+Dans le chapitre suivant, nous continuerons notre découverte des
+fichiers en attaquant quelques notions plus avancées : la gestion
+d'erreur et de fin de fichier, le déplacement au sein d'un flux, la
+temporisation et les subtilités liées aux flux ouverts en lecture et
+écriture.
