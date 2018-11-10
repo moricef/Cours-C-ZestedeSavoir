@@ -1,0 +1,1 @@
+Jusqu'à présent, nous avons toujours employé le préprocesseur pour définir des constantes au sein de nos codes. Toutefois, une solution un peu plus commonde existe pour les constantes entières : les **énumérations**.

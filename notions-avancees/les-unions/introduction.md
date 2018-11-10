@@ -1,0 +1,1 @@
+Dans la deuxième partie de ce cours nous vous avons présenté la notion d'agrégat qui recouvrait les tableaux et les structures. Toutefois, nous avons passé sous silence un dernier agrégat plus discret moins utilisé : les **unions**.

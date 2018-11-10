@@ -1,0 +1,1 @@
+Nous avons vu dans le chapitre précédent la représentation des différents type et notamment celle des types entiers. Ce chapitre est en quelque sorte le prolongement de celui-ci puisque nous allons à présent voir comment manipuler directement les *bits* à l'aide des opérateurs de manipulation des *bits* et des champs de *bits*.

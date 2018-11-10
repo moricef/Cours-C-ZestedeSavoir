@@ -1,0 +1,3 @@
+Lorsque nous vous avons présenté les chaînes de caractères, nous vous avons précisé que celle-ci étaient des tableaux de `char` terminé par un caractère nul, en vous laissant sous-entendre qu'à chaque « caractère » (`'a'`, `';'`, `'1'`, etc.) correspondait un `char`. Toutefois, ce n'est pas tout à fait exacte ou, plus précisément, ce n'est pas toujours vrai.
+
+Dans ce chapitre, nous allons découvrir comment les chaînes de caractères sont réellement représentées et pour quelles raisons cette représentation est susceptible de varier.

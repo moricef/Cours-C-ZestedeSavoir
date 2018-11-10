@@ -1,0 +1,1021 @@
+\chapter{Manipulation des bits}
+\label{manipulation-des-bits}
+
+Nous avons vu dans le chapitre précédent la représentation des différents 
+type et notamment celle des types entiers. Ce chapitre est en quelque sorte 
+le prolongement de celui-ci puisque nous allons à présent voir comment 
+manipuler directement les \emph{bits} à l'aide des opérateurs de manipulation
+des \emph{bits} et des champs de \emph{bits}.
+
+\section{Les opérateurs de manipulation des bits}
+\label{les-operateurs-de-manipulation-des-bits}
+
+\subsection{Présentation}
+\label{presentation-6}
+
+Le langage C définit six opérateurs permettant de manipuler les
+\emph{bits} :
+
+\begin{itemize}
+\item
+  l'opérateur « et » : \mybox{\&} ;
+\item
+  l'opérateur « ou inclusif » : \mybox{\textbar{}} ;
+\item
+  l'opérateur « ou exclusif » : \mybox{\^{}} ;
+\item
+  l'opérateur de négation ou de complément : \mybox{\textasciitilde{}}
+  ;
+\item
+  l'opérateur de décalage à droite :
+  \mybox{\textgreater{}\textgreater{}} ;
+\item
+  l'opérateur de décalage à gauche : \mybox{\textless{}\textless{}}.
+\end{itemize}
+
+\begin{erreurbox}
+  Veillez à ne pas confondre les opérateurs
+de manipulations des \emph{bits} « et » (\mybox{\&}) et « ou inclusif »
+(\mybox{\textbar{}}) avec leurs homologues « et » (\mybox{\&\&}) et «
+ou » (\mybox{\textbar{}\textbar{}}) logiques. Il s'agit d'opérateurs
+totalement différent au même titre que les opérateurs d'affectation
+(\mybox{=}) et d'égalité (\mybox{==}). De même, l'opérateur de
+manipulations des \emph{bits} « et » (\mybox{\&}) n'a pas de rapport
+avec l'opérateur d'adressage (\mybox{\&}), ce dernier n'utilisant qu'un
+opérande.
+\end{erreurbox}
+
+
+\begin{attentionbox}
+  Notez que tous ces opérateurs
+travaillent uniquement sur des \emph{entiers}. \textbar{} \textbar{} Si
+néanmoins vous souhaitez modifier la représentation d'un type flottant
+(ce que nous vous déconseillons), vous pouvez accéder à ses \emph{bits}
+à l'aide d'un pointeur sur \mybox{unsigned\ char} (revoyez
+\MYhref{https://zestedesavoir.com/tutoriels/755/le-langage-c-1
+/1043_aggregats-memoire-et-fichiers/4285_lallocation-dynamique/
+\#1-14293_la-notion-dobjet}{le chapitre sur l'allocation dynamique} 
+si cela ne vous dit rien).
+\end{attentionbox}
+
+
+\subsection{Les opérateurs « et », « ou inclusif » et « ou exclusif »}
+\label{les-operateurs-et-ou-inclusif-et-ou-exclusif}
+
+Chacun de ces trois opérateurs attend deux opérandes entiers et produit
+un nouvel entier en appliquant une table de vérité à chaque paire de
+\emph{bits} formée à partir des \emph{bits} des deux nombres de départs.
+Plus précisémment :
+
+\begin{itemize}
+\item
+  L'opérateur « et » (\mybox{\&}) donnera 1 si les deux \emph{bits} de
+  la paire sont à 1 ;
+\item
+  L'opérateur « ou inclusif » (\mybox{\textbar{}}) donnera 1 si
+  \emph{au moins} un des deux \emph{bits} de la paire est à 1 ;
+\item
+  L'opérateur « ou exclusif » (\mybox{\^{}}) donnera 1 si \emph{un
+  seul} des deux \emph{bits} de la paire est à 1.
+\end{itemize}
+
+Ceci est résumé dans le tableau ci-dessous, donnant le résultat des
+trois opérateurs pour chaque paires de \emph{bits} possibles.
+
+\begin{table}
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}
+\textbf{\emph{Bit} 1}& \textbf{\emph{Bit} 2} & \textbf{Opérateur « et » } & \textbf{Opérateur « ou inclusif »} & \textbf{Opérateur « ou exclusif »}\tabularnewline\hline
+0&0&0&0&0
+\tabularnewline\hline
+1&0&0&1&1
+\tabularnewline\hline
+0&1&0&1&1
+\tabularnewline\hline
+1&1&1&1&0
+\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+L'exemple ci-dessous utilise ces trois opérateurs. Comme vous le voyez,
+les \emph{bits} des deux opérandes sont pris un à un pour former des
+paires et chacune d'elle se voit appliquer la table de vérité
+correspondante afin de produire un nouveau nombre entier.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    int a = 0x63; /* 0x63 == 99 == 0110 0011 */
+    int b = 0x2A; /* 0x2A == 42 == 0010 1010 */
+
+    /* 0110 0011 & 0010 1010 == 0010 0010 == 0x22 == 34 */
+    printf("%2X\n", a & b);
+    /* 0110 0011 | 0010 1010 == 0110 1011 == 0x6B == 107 */
+    printf("%2X\n", a | b);
+    /* 0110 0011 ^ 0010 1010 == 0100 1001 == 0x49 == 73 */
+    printf("%2X\n", a ^ b);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+22
+6B
+49
+\end{C}
+
+\subsection{L'opérateur de négation ou de complément}
+\label{loperateur-de-negation-ou-de-complement}
+
+L'opérateur de négation a un fonctionnement assez simple : il inverse
+les \emph{bits} de son opérande (les uns deviennent des zéros et les
+zéros des uns).
+
+\begin{C}
+#include <stdio.h>
+
+
+int
+main(void)
+{
+    unsigned a = 0x7F; /* 0111 1111 */
+
+    /* ~0111 1111 == 1000 0000 */
+    printf("%2X\n", ~a);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+FFFFFF80
+\end{C}
+
+\begin{attentionbox}
+  Notez que \emph{tous} les \emph{bits}
+ont été inversés, d'où le nombre élevé que nous obtenons puisque les
+\emph{bits} de poids forts ont été mis à un. Ceci nous permet par
+ailleurs de constater que, sur notre machine, il y a visiblement quatre
+octets qui sont utilisés pour représenter la valeur d'un objet de type
+\mybox{unsigned\ int}.
+\end{attentionbox}
+
+
+\begin{erreurbox}
+  N'oubliez pas que les représentations
+entières \emph{signées} ont chacune une représentation qui est
+susceptible d'être invalide. Les opérateurs de manipulation des
+\emph{bits} vous permettant de modifier directement la représentation,
+vous devez éviter d'obtenir ces dernières.
+\end{erreurbox}
+
+
+Ainsi, les exemples suivants sont susceptibles de produire des valeurs
+incorrectes (à supposer que la taille du type \mybox{int} soit de
+quatre octets sans \emph{bits} de bourrages).
+
+\begin{C}
+/* Invalide en cas de représentation en complément à deux ou signe et magnitude */
+int a = ~0x7FFFFFFF;
+/* Idem */
+int b = 0x00000000 | 0x80000000;
+/* Invalide en cas de représentation en complément à un */
+int c = ~0;
+/* Idem */
+int d = 0x11110000 ^ 0x00001111;
+\end{C}
+
+\begin{infobox}
+  Notez toutefois que les entiers
+\emph{non signés}, eux, ne subissent pas ces restrictions.
+\end{infobox}
+
+
+\subsection{Les opérateurs de décalage}
+\label{les-operateurs-de-decalage}
+
+Les opérateurs de décalage, comme leur nom l'indique, décalent la valeur
+des \emph{bits} d'un objet d'une certaine quantité, soit vers la gauche
+(c'est-à-dire vers le \emph{bit} de poids fort), soit vers la droite
+(autrement dit, vers le \emph{bit} de poids faible). Ils attendent deux
+opérandes : le nombre dont les \emph{bits} doivent être décalés et la
+grandeur du décalage.
+
+\begin{erreurbox}
+  Un décalage ne peut être négatif ni être
+supérieur \emph{ou égal} au nombre de \emph{bits} composant l'objet
+décalé. Ainsi, si le type \mybox{int} utilise 32 \emph{bits} (sans
+\emph{bits} de bourrage), le décalage ne peut être plus grand que 31.
+\end{erreurbox}
+
+
+\subsubsection{L'opérateur de décalage à gauche}
+\label{loperateur-de-decalage-a-gauche}
+
+L'opérateur de décalage à gauche translate la valeur des \emph{bits}
+vers le \emph{bit} de poids forts. Les \emph{bits} de poids faibles
+perdant leur valeur durant l'opération sont mis à zéro. Techniquement,
+l'opération de décalage à gauche revient à calculer la valeur de
+l'expression a × 2\textsuperscript{y}.
+
+\begin{C}
+#include <stdio.h>
+
+
+int
+main(void)
+{
+    /* 0000 0001 << 2 == 0000 0100 */
+    int a = 1 << 2;
+    /* 0010 1010 << 2 == 1010 1000 */
+    int b = 42 << 2;
+
+    printf("a = %d, b = %d\n", a, b);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+a = 4, b = 168
+\end{C}
+
+\begin{erreurbox}
+  La première opérande ne peut être un
+nombre négatif.
+\end{erreurbox}
+
+
+\begin{attentionbox}
+  L'opération de décalage à gauche
+revenant à effectuer une multiplication, celle-ci est soumise au risque
+de dépassement de capacité que nous verrons au chapitre suivant.
+\end{attentionbox}
+
+
+\subsubsection{L'opérateur de décalage à droite}
+\label{loperateur-de-decalage-a-droite}
+
+L'opérateur de décalage à droite translate la valeur des \emph{bits}
+vers le \emph{bit} de poids faible. Dans le cas où la première opérande
+est un entier \emph{non signé} ou un entier signé \emph{positif}, les
+\emph{bits} de poids forts perdant leur valeur durant l'opération sont
+mis à zéro. Si en revanche il s'agit d'un nombre signé \emph{négatif},
+les \emph{bits} perdant leur valeur se voient mis à zéro ou un suivant
+la machine cible. Techniquement, l'opération de décalage à droite
+revient à calculer la valeur de l'expression a / 2\textsuperscript{y}.
+
+\begin{C}
+#include <stdio.h>
+
+
+int
+main(void)
+{
+    /* 0001 0000 >> 2 == 0000 0100 */
+    int a = 16 >> 2;
+    /* 0010 1010 >> 2 == 0000 1010 */
+    int b = 42 >> 2;
+
+    printf("a = %d, b = %d\n", a, b);
+    return 0;
+}
+\end{C}
+
+Lexmark_CS317dn
+a = 4, b = 10
+\end{C}
+
+\begin{infobox} Dans le cas où une valeur est
+translatée au-delà du \emph{bit} de poids faible, elle est tout
+simplement perdue.
+
+\subsection{Opérateurs combinés}
+\label{operateurs-combines}
+
+Enfin, sachez que, comme pour les opérations arithmétiques usuelles, les
+opérateurs de manipulation des \emph{bits} disposent d'opérateurs
+combinés réalisant une affectation et une opération.
+
+\begin{table}
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|}\hline
+\rowcolor{gris-tab-entete}
+\textbf{Opérateur combiné} & \textbf{Équivalent à}\tabularnewline\hline
+variable \&= nombre & variable = variable \& nombre\tabularnewline\hline
+variable \textbar{}= nombre & variable = variable \textbar{} nombre\tabularnewline\hline
+variable \^{}=nombre & variable = variable \^{}nombre\tabularnewline\hline
+variable\textless{}\textless{}=nombre & variable=variable\textless{}\textless{}nombre\tabularnewline\hline
+variable\textgreater{}\textgreater{}=nombre & variable=variable\textgreater{}\textgreater{}nombre\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+\section{Masques et champs de bits}
+\label{masques-et-champs-de-bits}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Les masques}
+\label{les-masques}
+
+Une des utilisations fréquentes des opérateurs de manipulations des
+\emph{bits} est l'emploi de \textbf{masques}. Un masque est un ensemble
+de \emph{bits} appliqué à un second ensemble \emph{de même taille} lors
+d'une opération de manipulation des \emph{bits} (plus précisément,
+uniquement les opérations \mybox{\&}, \mybox{\textbar{}} et
+\mybox{\^{}}) en vue soit de sélectionner un sous-ensemble, soit de
+modifier un sous-ensemble.
+
+\subsubsection{Modifier la valeur d'un bit}
+\label{modifier-la-valeur-dun-bit}
+
+\textbf{Mise à zéro}
+\label{mise-a-zero}
+
+Cette définition doit probablement vous paraître quelque peu abstraite,
+aussi, prenons un exemple.
+
+\begin{C}
+unsigned short n;
+\end{C}
+
+Nous disposons d'une variable \mybox{n} de type
+\mybox{unsigned\ short} (que nous supposerons composées de deux octets
+pour nos exemples) et souhaiterions mettre le \emph{bit} de poids fort à
+zéro.
+
+Une solution consiste à appliquer les opérateurs de manipulation des
+\emph{bits} afin d'obtenir la valeur voulue. Étant donné que nous
+désirons mettre un \emph{bit} à zéro, nous pouvons déjà abandonné
+l'opérateur \mybox{\textbar{}} au vu de sa table de vérité. Également,
+l'opérateur \mybox{\^{}} ne convient pas tout à fait puisqu'il
+inverserait la valeur du \emph{bit} au lieu de la mettre à zéro. Il nous
+reste donc l'opérateur \mybox{\&}.
+
+Avec cet opérateur, il nous est possible d'utiliser une valeur qui nous
+donnera le bon résultat. Cette valeur, de même taille que celle de la
+variable \mybox{n}, est précisément un masque qui va « cacher », «
+masquer » une partie de la valeur.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    unsigned short n;
+
+    if (scanf("%hx", &n) != 1)
+    {
+        perror("scanf");
+        return EXIT_FAILURE;
+    }
+
+    printf("%X\n", n & 0x7FFF);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+8FFF
+FFF
+
+7F
+7F
+\end{C}
+
+Comme vous le voyez, l'opérateur \mybox{\&} peut être utilisé pour
+sélectionner une partie de la valeur de \mybox{n} en mettant à un les
+\emph{bits} que nous souhaitons garder (en l'occurrence tous sauf le
+\emph{bit} de poids fort) et les autres à zéro.
+
+\textbf{Mise à un}
+\label{mise-a-un}
+
+À l'inverse, les opérateurs de manipulation des \emph{bits} peuvent être
+employés pour mettre un ou plusieurs \emph{bits} à un. Dans ce cas,
+c'est l'opérateur \mybox{\&} qui ne convient pas au vu de sa table de
+vérité.
+
+Si nous reprenons notre exemple précédent et que nous souhaitons
+modifier la valeur de la variable \mybox{n} de sorte de mettre à un le
+\emph{bit} de signe, nous pouvons procéder comme suit.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    unsigned short n;
+
+    if (scanf("%hx", &n) != 1)
+    {
+        perror("scanf");
+        return EXIT_FAILURE;
+    }
+
+    printf("%X\n", n | 0x8000);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+FFF
+8FFF
+
+7F
+807F
+\end{C}
+
+Comme vous le voyez, l'opérateur \mybox{\textbar{}} peut être utilisé
+de la même manière dans ce cas ci à l'aide d'un masque dont les
+\emph{bits} qui doivent être mis à un sont\ldots{} à un.
+
+\subsection{Les champs de bits}
+\label{les-champs-de-bits}
+
+\subsubsection{Mise en situation}
+\label{mise-en-situation}
+
+Une autre utilisation des opérateurs de manipulation des \emph{bits} est
+le compactage de données entières.
+
+Imaginons que nous souhaitions stocker la date courante sous la forme de
+trois entiers : l'année, le mois et le jour. La première solution qui
+vous viendra à l'esprit sera probablement de recourir à une structure,
+par exemple comme celle ci-dessous, ce qui est un bon réflexe.
+
+\begin{C}
+struct date {
+    unsigned char jour;
+    unsigned char mois;
+    unsigned short annee;
+};
+\end{C}
+
+Toutefois, nous gaspillons finalement de la mémoire avec ce système. En
+effet, techniquement, nous aurions besoin de 12 \emph{bits} pour stocker
+l'année (afin d'avoir un peu de marge jusque l'an 4095 :p ), 4 pour le
+mois et 5 pour le jour, ce qui nous fait un total de 21 \emph{bits}
+contre 32 pour notre structure (à supposer que le type \mybox{short}
+fasse deux octets et le type \mybox{char} un octet), sans compter les
+multiplets de bourrage (revoyez le chapitre sur les structures si cela
+ne vous dit rien).
+
+Ceci n'est pas gênant dans la plupart des cas, mais cela peut le devenir
+si la mémoire disponible vient à manquer ou si cette structure est
+amenée à être créée un grand nombre de fois.
+
+Avec les opérateurs de manipulations des \emph{bits}, il nous est
+possible de stocker ces trois champs dans un tableau de trois
+\mybox{unsigned\ char} afin d'économiser de la place.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+static void modifie_jour(unsigned char *date, unsigned jour)
+{
+    /* Nous stockons le jour (cinq bits). */
+    date[0] |= jour;
+}
+
+
+static void modifie_mois(unsigned char *date, unsigned mois)
+{
+    /* Nous ajoutons les trois premiers bits du mois après ceux du jour. */
+    date[0] |= (mois & 0x07) << 5;
+    /* Puis le bit restant dans le second octet. */
+    date[1] |= (mois >> 3);
+}
+
+
+static void modifie_annee(unsigned char *date, unsigned annee)
+{
+    /* Nous ajoutons sept bits de l'année après le dernier bit du mois. */
+    date[1] |= (annee & 0x7F) << 1;
+    /* Et ensuite les cinq restants. */
+    date[2] |= (annee) >> 7;
+}
+
+
+static unsigned calcule_jour(unsigned char *date)
+{
+    return date[0] & 0x1F;
+}
+
+
+static unsigned calcule_mois(unsigned char *date)
+{
+    return (date[0] >> 5) | ((date[1] & 0x1) << 3);
+}
+
+
+static unsigned calcule_annee(unsigned char *date)
+{
+    return (date[1] >> 1) | (date[2] << 7);
+}
+
+
+int
+main(void)
+{ 
+    unsigned char date[3] = { 0 }; /* Initialisation à zéro. */
+    unsigned jour, mois, annee;
+
+    printf("Entrez une date au format jj/mm/aaaa : ");
+
+    if (scanf("%u/%u/%u", &jour, &mois, &annee) != 3) {
+        perror("fscanf");
+        return EXIT_FAILURE;
+    }
+
+    modifie_jour(date, jour);
+    modifie_mois(date, mois);
+    modifie_annee(date, annee);
+    printf("Le %u/%u/%u\n", calcule_jour(date), calcule_mois(date), calcule_annee(date));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Entrez une date au format jj/mm/aaaa : 31/12/2042
+Le 31/12/2042
+\end{C}
+
+Cet exemple amène quelques explications. Une fois les trois valeurs 
+récupérées, il nous les compacter dans le tableau 
+d'\mybox{unsigned\ char} :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Pour le jour, c'est assez simple, nous incorporons ses cinq
+  \emph{bits} à l'aide de l'opérateur \mybox{\textbar{}} (les trois
+  éléments du tableau étant à zéro au début, cela ne pose pas de
+  problème).
+\item
+  Pour le mois, seuls trois \emph{bits} étant encore disponibles, il va
+  nous falloir répartir ceux-ci sur deux éléments du tableau. Tout
+  d'abord, nous sélectionnons les trois premiers \emph{bits} à l'aide du
+  masque \mybox{0x07}, nous les décalons ensuite de cinq \emph{bits}
+  vers la gauche (afin de ne pas écraser les cinq \emph{bits} du jour)
+  et, enfin, nous les ajoutons à l'aide de l'opérateur
+  \mybox{\textbar{}}. Le dernier \emph{bit} est lui stocké dans le
+  second élément et est sélectionné à l'aide d'un décalage vers la
+  droite afin d'éliminer les trois premiers \emph{bits} (qui ont déjà
+  été traité).
+\item
+  Pour l'année, nous utilisons la même technique que pour le mois : nous
+  sélectionnons les sept premiers \emph{bits} à l'aide du masque
+  \mybox{0x7F}, les décalons d'un \emph{bit} vers la gauche en vue de
+  ne pas écraser le \emph{bit} du mois et les intégrons avec l'opérateur
+  \mybox{\textbar{}}. Les cinq \emph{bits} restants sont ensuite
+  insérer en recourant préalablement à un décalage de sept \emph{bit}
+  vers la droite.
+\end{enumerate}
+
+\subsubsection{Présentation}
+\label{presentation}
+
+Comme vous le voyez, si nous gagnons effectivement de la place en
+mémoire, nous y perdons en temps de calcul et, plus important, notre
+code est nettement plus complexe. C'est la raison pour laquelle cette
+méthode n'est employée que dans le cas de contraintes particulières.
+
+Bien entendu, nous pourrions recourir à des fonctions ou à des
+macrofonctions pour simplifier la lecture du code, toutefois, nous ne
+ferions que reporter la difficulté de compréhension sur ces dernières.
+Heureusement, en vue de simplifier ce type d'écritures, le langage C met
+à notre disposition les \textbf{champs de \emph{bits}}.
+
+Un champ de \emph{bits} est une structure \emph{composée exclusivement}
+de champs de type \mybox{int} ou \mybox{unsigned\ int} dont la taille
+en \emph{bits} de chacun est précisée. Cette taille \emph{ne peut être}
+supérieure à la taille en \emph{bits} du type \mybox{int}. L'exemple
+ci-dessous défini une structure composée de trois champs de \emph{bits},
+\mybox{a}, \mybox{b} et \mybox{c} de respectivement un, deux et trois
+\emph{bits}.
+
+\begin{C}
+struct champ_de_bits
+{
+    unsigned a : 1;
+    unsigned b : 2;
+    unsigned c : 3;
+};
+\end{C}
+
+Ainsi, notre exemple précédent peut être réécrit comme ceci.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct date {
+    unsigned jour : 5;
+    unsigned mois : 4;
+    unsigned annee : 12;
+};
+
+
+int
+main(void)
+{ 
+    struct date date;
+    unsigned jour, mois, annee;
+
+    printf("Entrez une date au format jj/mm/aaaa : ");
+
+    if (scanf("%u/%u/%u", &jour, &mois, &annee) != 3) {
+        perror("fscanf");
+        return EXIT_FAILURE;
+    }
+
+    date.jour = jour;
+    date.mois = mois;
+    date.annee = annee;
+
+    printf("Le %u/%u/%u\n", date.jour, date.mois, date.annee);
+    return 0;
+}
+\end{C}
+
+\begin{erreurbox}
+  Les champs de \emph{bits} ne disposent pas
+d'une adresse et ne peuvent en conséquence se voir appliquer l'opérateur
+d'adressage. Par ailleurs, nous vous conseillons de ne les employer que
+pour stocker des nombres non signés, le support des nombres signés
+n'étant pas garanti par la norme.
+\end{erreurbox}
+
+
+Si vous avez poussé la curiosité jusqu'à vérifier la taille de cette
+structure, il y a de forte chance pour que celle-ci équivaille à celle
+du type \mybox{int}. En fait, il s'agit de la méthode la plus courante
+pour conserver les champs de \emph{bits} : ils sont stockés dans des
+suites de \mybox{int}. Dès lors, si vous souhaitez économiser de la
+place, faites en sorte que les données à stocker coïncident le plus
+possible avec la taille d'un ou plusieurs objets de type \mybox{int}.
+
+\begin{attentionbox}
+  Gardez à l'esprit que le compactage de
+données et les champs de \emph{bits} répondent à des besoins particulier
+et complexifient votre code. Dès lors, ne les utilisez que lorsque cela
+semble réellement se justifier.
+\end{attentionbox}
+
+\section{Les drapeaux}
+\label{les-drapeaux}
+
+Une autre utilisation régulière des opérateurs
+de manipulation des \emph{bits} consiste en la gestion des
+\textbf{drapeaux}. Un drapeau correspond en fait à un \emph{bit} qui est
+soit « levé », soit « baissé » dans l'objectif d'indiquer si une
+situation est vraie ou fausse.
+
+Supposons que nous souhaitions fournir à une fonction un nombre et
+plusieurs de ses propriétés, par exemple s'il est pair, s'il s'agit
+d'une puissance de deux et s'il est premier. Nous pourrions bien entendu
+lui fournir quatre paramètres, mais cela fait finalement beaucoup pour
+simplement fournir un nombre et, foncièrement, trois \emph{bits}.
+
+À la place, il nous est possible d'employer un entier dont trois
+\emph{bits} seront utilisés pour représenter chaque condition. Par
+exemple, le premier indiquera si le nombre est pair, le second s'il
+s'agit d'une puissance de deux et le troisième s'il est premier.
+
+\begin{C}
+void traitement(int nombre, unsigned char drapeaux)
+{
+    if (drapeaux & 0x01) /* Si le nombre est pair */
+    {
+        /* ... */
+    }
+    if (drapeaux & 0x02) /* Si le nombre est une puissance de deux */
+    {
+        /*... */
+    }
+    if (drapeaux & 0x04) /* Si le nombre est premier */
+    {
+        /*... */
+    }
+}
+
+
+int main(void)
+{
+    int nombre;
+    unsigned char drapeaux;
+
+    nombre = 2;
+    drapeaux = 0x01 | 0x02; /* 0000 0011 */
+    traitement(nombre, drapeaux);
+    nombre = 17;
+    drapeaux = 0x04; /* 0000 0100 */
+    traitement(nombre, drapeaux);
+    return 0;
+}
+\end{C}
+
+Comme vous le voyez, nous utilisons l'opérateur \mybox{\textbar{}} pour
+combiner plusieurs drapeaux et l'opérateur \mybox{\&} pour déterminer
+si un drapeau est levé ou non.
+
+\begin{infobox}
+  Notez que, chaque drapeau
+représentant un \emph{bit}, ceux-ci correspondent toujours à des
+puissances de deux.
+\end{infobox}
+
+
+Voilà qui est plus efficace, mais en somme assez peu lisible\ldots{} En
+effet, il serait bon de préciser dans notre code à quoi correspond
+chaque drapeaux. Pour ce faire, nous pouvons recourir au préprocesseur
+afin de clarifier un peu tout cela.
+
+\begin{C}
+#define PAIR        (1 << 0)
+#define PUISSANCE   (1 << 1)
+#define PREMIER     (1 << 2)
+
+
+void traitement(int nombre, unsigned char drapeaux)
+{
+    if (drapeaux & PAIR) /* Si le nombre est pair */
+    {
+        /* ... */
+    }
+    if (drapeaux & PUISSANCE) /* Si le nombre est une puissance de deux */
+    {
+        /*... */
+    }
+    if (drapeaux & PREMIER) /* Si le nombre est premier */
+    {
+        /*... */
+    }
+}
+
+
+int main(void)
+{
+    int nombre;
+    unsigned char drapeaux;
+
+    nombre = 2;
+    drapeaux = PAIR | PUISSANCE; /* 0000 0011 */
+    traitement(nombre, drapeaux);
+    nombre = 17;
+    drapeaux = PREMIER; /* 0000 0100 */
+    traitement(nombre, drapeaux);
+    return 0;
+}
+\end{C}
+
+Voici qui est mieux.
+
+Pour terminer, remarquez qu'il s'agit d'un bon cas d'utilisation des
+champs de \emph{bits}, chacun d'entre eux représentant alors un drapeau.
+
+\begin{C}
+struct propriete
+{
+    unsigned pair : 1;
+    unsigned puissance : 1;
+    unsigned premier : 1;
+}
+
+
+void traitement(int nombre, struct propriete prop)
+{
+    if (prop.pair) /* Si le nombre est pair */
+    {
+        /* ... */
+    }
+    if (prop.puissance) /* Si le nombre est une puissance de deux */
+    {
+        /*... */
+    }
+    if (prop.premier) /* Si le nombre est premier */
+    {
+        /*... */
+    }
+}
+
+
+int main(void)
+{
+    int nombre;
+    struct propriete prop = { 0 }; /* Initialisation à zéro. */
+
+    nombre = 2;
+    prop.pair = 1;
+    prop.puissance = 1;
+    traitement(nombre, prop);
+    memset(&prop, 0, sizeof prop); /* Mise à zéro. */
+    nombre = 17;
+    drapeaux = PREMIER; /* 0000 0100 */
+    traitement(nombre, drapeaux);
+    return 0;
+}
+\end{C}
+
+\section{Exercices}
+\label{exercices-}
+
+\subsection{Obtenir la valeur maximale d'un type non signé}
+\label{obtenir-la-valeur-maximale-dun-type-non-signe}
+
+Maintenant que nous connaissons la représentation des nombres non signés
+ainsi que les opérateurs de manipulation des \emph{bits}, vos devriez
+pouvoir trouver comment obtenir la plus grande valeur représentable par
+le type \mybox{unsigned\ int}.
+
+\subsubsection{Indice}
+\label{indice}
+
+\begin{secretbox}
+Rappelez-vous : dans la représentation des entiers non signés, chaque 
+\emph{bit} représente une puissance de deux.
+\end{secretbox}
+
+
+\subsubsection{Solution}
+\label{solution}
+
+\begin{C}
+
+\end{C}
+\textbar{} \textbar{} \begin{attentionbox} \textbar{} Notez
+bien que nous avons utilisé le suffixe \mybox{U} afin que le type de la
+constante \mybox{0} soit \mybox{unsigned\ int} et non \mybox{int}
+(n'hésitez pas à revoir le chapitre relatif aux opérations mathématiques
+si cela ne vous dit rien). \textbar{} \textbar{} \begin{erreur{]}{]}
+\textbar{} \textbar{} Cette technique n'est valable que pour les entiers
+\emph{non signés}, la représentation où tous les \emph{bits} sont à un
+étant potentiellement invalide dans le cas des entiers signés
+(représentation en complément à un).
+
+\subsection{Afficher la représentation en base deux d'un
+entier}
+\label{afficher-la-representation-en-base-deux-dun-entier}
+
+Vous le savez, il n'existe pas de format de la fonction
+\mybox{printf()} qui permet d'afficher la représentation binaire d'un
+nombre. Pourtant, cela pourait s'avérer bien pratique dans certains cas,
+même si la représentation hexadécimale est disponible.
+
+Dans ce second exercice, votre tâche sera de réaliser une fonction
+capable d'afficher la représentation binaire d'un \mybox{unsigned\ int}
+\emph{en gros-boutiste}.
+
+\subsubsection{Indice}
+\label{indice-1}
+
+\begin{secretbox} Pour afficher la représentation
+gros-boutiste, il va vous falloir commencer par afficher le \emph{bit}
+de poids de fort suivit des autres. Pour ce faire, vous allez avoir
+besoin d'un masque dont seul ce \emph{bit} sera à un. Pour ce faire,
+vous pouvez vous aider de l'exercice précédent.
+
+\subsubsection{Solution}
+\label{solution-1}
+
+\begin{C}
+
+\end{C}
+
+L'expression En résumé
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Le C fourni six opérateurs de manipulaton des \emph{bits} ;
+\item
+  Ces derniers travaillant directement sur la représentation des
+  entiers, il est \emph{impératif} d'éviter d'obtenir des
+  représentations potentiellement invalide dans le cas des entiers
+  signés ;
+\item
+  L'utilisation de masques permet de sélectionner ou modifier une
+  portion d'un nombre entier ;
+\item
+  Les champs de \emph{bits} permettent de stocker des entiers de taille
+  arbitraire, mais doivent \emph{toujours} avoir une taille inférieure à
+  celle du type \mybox{int}. Par ailleurs, ils n'ont pas d'adresse et
+  ne supportent pas forcément le stockage d'entiers signés ;
+\item
+  Les drapeaux constituent une solution élégante pour stocker des états
+  binaires (« vrai » ou « faux »).
+\end{enumerate}
+
+\mybox{\textasciitilde{}(\textasciitilde{}0U\ \textgreater{}\textgreater{}\ 1)}
+nous permet d'obtenir un masque ou seul le \emph{bit} de poids fort est
+à un. Nous pouvons ensuite l'employer successivement en décalant le
+\emph{bit} à un de sorte d'obtenir la représentation binaire d'un entier
+\emph{non signé}. \textbar{} \textbar{} 
+
+\begin{erreurbox}
+ À nouveau, faites bien attention que ceci n'est valable que
+pour les entiers \emph{non signés}, une représentation dont tous les
+\emph{bits} sont à un ou dont seul le \emph{bit} de poids fort est à un
+étant possiblement incorrecte dans le cas des entiers signés.
+\end{erreurbox}
+
+
+\subsection{Déterminer si un nombre est une puissances de deux}
+\label{determiner-si-un-nombre-est-une-puissances-de-deux}
+
+Vous le savez : les puissances de deux ont la particularité de n'avoir
+qu'un seul bit à un, tous les autres étant à zéro. Toutefois, elles ont
+une autre propriété : si l'on soustrait un à une puissance de deux
+\(n\), tous les \emph{bits} précédent celui de la puissance seront mis à
+un (par exemple \mybox{0000\ 1000\ -\ 1\ ==\ 0000\ 0111}). En
+particulier, on remarque que \(n\) et \(n-1\) n'ont aucun bit à 1 en
+commun. Réciproquement, si \(n\) n'est pas une puissance de 2, alors le
+bit à 1 le plus fort est aussi à 1 dans \(n-1\). par exemple
+\mybox{0000\ 1010\ -\ 1\ ==\ 0000\ 1001}).
+
+Sachant cela, il nous est possible de créer une fonction très simple
+déterminant si un nombre est une puissance de 2 ou non.
+
+\begin{C}
+ #include <stdio.h>
+
+
+int puissance_de_deux(unsigned int n)
+{
+    return n != 0 && (n & (n - 1)) == 0;
+}
+
+
+int main(void)
+{
+    if (puissance_de_deux(256))
+        printf("256 est une puissance de deux\n");
+    else
+        printf("256 n'est pas une puissance de deux\n");
+
+    if (puissance_de_deux(48))
+        printf("48 est une puissance de deux\n");
+    else
+        printf("48 n'est pas une puissance de deux\n");
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+256 est une puissance de deux
+48 n'est pas une puissance de deux
+\end{C}
+
+\hrulefill
+
+En résumé
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Le C fourni six opérateurs de manipulaton des \emph{bits} ;
+\item
+  Ces derniers travaillant directement sur la représentation des
+  entiers, il est \emph{impératif} d'éviter d'obtenir des
+  représentations potentiellement invalide dans le cas des entiers
+  signés ;
+\item
+  L'utilisation de masques permet de sélectionner ou modifier une
+  portion d'un nombre entier ;
+\item
+  Les champs de \emph{bits} permettent de stocker des entiers de taille
+  arbitraire, mais doivent \emph{toujours} avoir une taille inférieure à
+  celle du type \mybox{int}. Par ailleurs, ils n'ont pas d'adresse et
+  ne supportent pas forcément le stockage d'entiers signés ;
+\item
+  Les drapeaux constituent une solution élégante pour stocker des états
+  binaires (« vrai » ou « faux »).
+\end{enumerate}

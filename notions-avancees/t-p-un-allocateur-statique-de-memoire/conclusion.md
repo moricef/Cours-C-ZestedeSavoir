@@ -1,0 +1,1 @@
+Ce chapitre clôt cette troisième partie ainsi que ce cours. N'hésitez pas à revoir l'un ou l'autre passage qui vous ont sembler difficiles ou flous avant de prendre le large vers de nouveaux horizons. ;)

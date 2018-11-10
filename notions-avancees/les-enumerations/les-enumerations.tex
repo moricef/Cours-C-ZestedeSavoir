@@ -1,0 +1,274 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\date{}
+
+\begin{document}
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\subsubsection{En résumé}\label{en-ruxe9sumuxe9}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Sauf si le nom de l'énumération n'est pas renseignée, une définition
+  d'énumération créer un type énuméré et des contantes énumérées ;
+\item
+  Sauf si une valeur leur est attribuée, la valeur de chaque constantes
+  énumérées est celle de la précédente augmentée de un et celle de la
+  première est zéro.
+\item
+  Le type entier sous-jacent à un type énuméré est indéterminé ; les
+  constantes énumérées sont de type \texttt{int}.Jusqu'à présent, nous
+  avons toujours employé le préprocesseur pour définir des constantes au
+  sein de nos codes. Toutefois, une solution un peu plus commonde existe
+  pour les constantes entières : les \textbf{énumérations}.Dans la
+  pratique, les énumérations servent essentiellement à fournir des
+  informations supplémentaires via le typage, par exemple pour les
+  retours d'erreurs. En effet, le plus souvent, les fonctions retournent
+  un entier pour préciser si leur exécution s'est bien déroulée.
+  Toutefois, indiquer un retour de type \texttt{int} ne fourni pas
+  énormément d'information. Un type énuméré prend alors tout son sens.
+\end{enumerate}
+
+La fonction \texttt{vider\_tampon()} du dernier T.P. s'y prêterait par
+exemple bien.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \NormalTok{erreur \{ E_OK, E_ERR \};}
+
+
+\DataTypeTok{static} \KeywordTok{enum} \NormalTok{erreur vider_tampon(FILE *fp)}
+\NormalTok{\{}
+    \DataTypeTok{int} \NormalTok{c;}
+
+    \ControlFlowTok{do}
+        \NormalTok{c = fgetc(fp);}
+    \ControlFlowTok{while} \NormalTok{(c != }\CharTok{'\textbackslash{}n'} \NormalTok{&& c != EOF);}
+
+    \ControlFlowTok{return} \NormalTok{ferror(fp) ? E_ERR : E_OK;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+De cette manière, il est plus clair à la lecture que la fonction
+retourne le statut de son exécution.
+
+Dans la même idée, il est possible d'utiliser un type énuméré pour la
+fonction \texttt{statut\_jeu()} (également employée dans la correction
+du dernier T.P.) afin de décrire plus amplement son type de retour.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \NormalTok{statut \{ STATUT_OK, STATUT_GAGNE, STATUT_EGALITE \};}
+
+
+\DataTypeTok{static} \KeywordTok{enum} \NormalTok{statut statut_jeu(}\KeywordTok{struct} \NormalTok{position *pos, }\DataTypeTok{char} \NormalTok{jeton)}
+\NormalTok{\{}
+    \ControlFlowTok{if} \NormalTok{(grille_complete())}
+        \ControlFlowTok{return} \NormalTok{STATUT_EGALITE;}
+    \ControlFlowTok{else} \ControlFlowTok{if} \NormalTok{(calcule_nb_jetons_depuis(pos, jeton) >= }\DecValTok{4}\NormalTok{)}
+        \ControlFlowTok{return} \NormalTok{STATUT_GAGNE;}
+
+    \ControlFlowTok{return} \NormalTok{STATUT_OK;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Dans un autre registre, un type enuméré peut être utilisé pour contenir
+des drapeaux. Par exemple, la fonction \texttt{traitement()} présentée
+dans le chapitre relatif aux opérateurs de manipulation des \emph{bits}
+peut être réecrite comme suit.
+
+```c enum drapeau \{ PAIR = 0x00, PUISSANCE = 0x01, PREMIER = 0x02 \};
+
+void traitement(int nombre, enum drapeau drapeaux) \{ if (drapeaux \&
+PAIR) /* Si le nombre est pair \emph{/ \{ /} \ldots{} \emph{/ \} if
+(drapeaux \& PUISSANCE) /} Si le nombre est une puissance de deux
+\emph{/ \{ /}\ldots{} \emph{/ \} if (drapeaux \& PREMIER) /} Si le
+nombre est premier \emph{/ \{ /}\ldots{} */ \} \}
+``\texttt{Une\ énumération\ se\ défini\ à\ l\textquotesingle{}aide\ du\ mot-clé}enum`
+suivi du nom de l'énumération et de ses membres.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \NormalTok{naturel \{ ZERO, UN, DEUX, TROIS, QUATRE, CINQ \};}
+\end{Highlighting}
+\end{Shaded}
+
+La particularité de cette définition est qu'elle crée en vérité deux
+choses : un type dit « énuméré » \texttt{enum\ naturel} et des
+constantes dites « énumérées » \texttt{ZERO}, \texttt{UN},
+\texttt{DEUX}, etc. Le type énuméré ainsi produit peut être utilisé de
+la même manière que n'importe quel autre type. Quant aux constantes
+énumérées, il s'agit de constantes entières.
+
+Certes me direz-vous, mais que valent ces constantes ? \emph{Eh} bien, à
+défaut de préciser leur valeur, chaque constante énumérée se voit
+attribuer la valeur de celle qui la précède augmentée de un, sachant que
+la première constante est mise à zéro . Dans notre cas donc, la
+constante \texttt{ZERO} vaut zéro, la constante \texttt{UN} un et ainsi
+de suite jusque cinq.
+
+L'exemple suivant illustre ce qui vient d'être dit.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<stdio.h>}
+
+\KeywordTok{enum} \NormalTok{naturel \{ ZERO, UN, DEUX, TROIS, QUATRE, CINQ \};}
+
+
+\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
+\NormalTok{\{}
+    \KeywordTok{enum} \NormalTok{naturel n = ZERO;}
+
+    \NormalTok{printf(}\StringTok{"n = %d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{int}\NormalTok{)n);}
+    \NormalTok{printf(}\StringTok{"UN = %d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, UN);}
+    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+n = 0.
+UN = 1.
+\end{verbatim}
+
+{[}{[}information{]}{]} \textbar{} Notez qu'il n'est pas obligatoire de
+préciser un nom lors de la définition d'une énumération. Dans un tel
+cas, seules les constantes énumérées sont produites. \textbar{}
+\textbar{}\texttt{c\ \textbar{}\ enum\ \{\ ZERO,\ UN,\ DEUX,\ TROIS,\ QUATRE,\ CINQ\ \};\ \textbar{}}
+
+Toutefois, il est possible de préciser la valeur de certaines constantes
+(voire de toutes les constantes) à l'aide d'une affectation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \NormalTok{naturel \{ DIX = }\DecValTok{10}\NormalTok{, ONZE, DOUZE, TREIZE, QUATORZE, QUINZE \};}
+\end{Highlighting}
+\end{Shaded}
+
+Dans un tel cas, la règle habituelle s'applique : les constantes sans
+valeur se voit attribuer celle de la constante précédente augmentée de
+un et celle dont la valeur est spécifiée sont initialisées avec
+celle-ci. Dans le cas ci-dessus, la constante \texttt{DIX} vaut donc
+dix, la constante \texttt{ONZE} onze et ainsi de suite jusque quinze.
+Notez que le code ci-dessous est parfaitement équivalent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{enum} \NormalTok{naturel \{ DIX = }\DecValTok{10}\NormalTok{, ONZE = }\DecValTok{11}\NormalTok{, DOUZE = }\DecValTok{12}\NormalTok{, TREIZE = }\DecValTok{13}\NormalTok{, QUATORZE = }\DecValTok{14}\NormalTok{, QUINZE = }\DecValTok{15} \NormalTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Types entiers
+sous-jacents}\label{types-entiers-sous-jacents}
+
+Vous aurez sans doute remarqué que, dans notre exemple, nous avons
+converti la variable \texttt{n} vers le type \texttt{int}. Cela tient au
+fait qu'un type enuméré est un type entier (ce qui est logique puisqu'il
+est censé stocker des constantes entières), mais que le type sous-jacent
+n'est pas déterminé (cela peut donc être \texttt{char}, \texttt{short},
+\texttt{int} ou \texttt{long}) et dépend entre autre des valeurs devant
+être contenues. Ainsi, une conversion s'impose afin de pouvoir utiliser
+un format d'affichage correct.
+
+Pour ce qui est des constantes énumérées, c'est plus simple : elles sont
+toujours de type \texttt{int}.
+
+\end{document}

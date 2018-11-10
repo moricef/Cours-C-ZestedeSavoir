@@ -1,0 +1,981 @@
+\chapter{Les limites des types}
+\label{les-limites-des-types-1}
+
+Nous avons abordés les limites des types à plusieurs reprises dans les
+chapitres précédents, mais nous ne nous sommes pas encore véritablement
+arrêté sur ce point. Il est a présent temps pour nous de vous présenter
+les implications de ces limites.
+
+\section{Les limites des types}
+\label{les-limites-des-types-2}
+
+Au début de ce cours, nous vous avons précisés que tous les types 
+avaient des bornes et qu'en conséquence, ils ne pouvaient stocker 
+qu'un intervalle définit de valeurs. Nous vous avons également 
+indiqué que la norme du langage imposait des minimas pour ces 
+intervalles qui, pour rappel, sont les suivants.
+
+\begin{table}
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf 
+Type & Minimum & Maximum\tabularnewline\hline
+\textbf{signed char} & -127 & 127\tabularnewline\hline
+\textbf{unsigned char} & 0 & 255\tabularnewline\hline
+\textbf{short} & -32 767 & 32 767\tabularnewline\hline
+\textbf{unsigned short} & 0 & 65 535\tabularnewline\hline
+\textbf{int} & -32 767 & 32 767\tabularnewline\hline
+\textbf{unsigned int} & 0 & 65 535\tabularnewline\hline
+\textbf{long} & -2 147 483 647 & 2 147 483 647\tabularnewline\hline
+\textbf{unsigned long} & 0 & 4 294 967 295\tabularnewline\hline
+\textbf{float} & -1 × 10\textsuperscript{37} & 1 ×
+10\textsuperscript{37}\tabularnewline\hline
+\textbf{double} & -1 × 10\textsuperscript{37} & 1 ×
+10\textsuperscript{37}\tabularnewline\hline
+\textbf{long double} & -1 × 10\textsuperscript{37} & 1 ×
+10\textsuperscript{37}\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+Toutefois, mise à part pour le type \mybox{char}, les bornes des types
+vont le plus souvent au-delà de ces minimums garantis. Cependant, pour
+pouvoir manipuler nos types dans leur limites, encore faut-il les
+connaître. Heureusement pour nous, la norme nous fourni deux en-têtes
+définissant des macroconstantes correspondant aux limites des types
+entiers et flottants : \mybox{\textless{}limits.h\textgreater{}} et
+\mybox{\textless{}float.h\textgreater{}}.
+
+\subsection{L'en-tête \textless{}limits.h\textgreater{}}
+\label{len-tete-limits.h}
+
+\begin{table}
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf 
+Type & Minimum & Maximum\tabularnewline\hline
+\textbf{signed char} & SCHAR\_MIN & SCHAR\_MAX\tabularnewline\hline
+\textbf{unsigned char} & 0 & UCHAR\_MAX\tabularnewline\hline
+\textbf{short} & SHRT\_MIN & SHRT\_MAX\tabularnewline\hline
+\textbf{unsigned short} & 0 & USHRT\_MAX\tabularnewline\hline
+\textbf{int} & INT\_MIN & INT\_MAX\tabularnewline\hline
+\textbf{unsigned int} & 0 & UINT\_MAX\tabularnewline\hline
+\textbf{long} & LONG\_MIN & LONG\_MAX\tabularnewline\hline
+\textbf{unsigned long} & 0 & ULONG\_MAX\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+\begin{infobox}
+Remarquez qu'il n'y a pas de macroconstantes pour le minimum des 
+types entiers non signés puisque celui-ci est \emph{toujours} zéro.
+\end{infobox}
+
+
+À ces macroconstantes, il faut également ajouter \mybox{CHAR\_BIT} qui
+vous indique le nombre \emph{bits} composant un multiplet. Celle-ci a
+pour valeur minimale huit, c'est-à-dire qu'en C, un multiplet ne peut
+avoir moins de huit \emph{bits}.
+
+L'exemple suivant utilise ces macroconstantes et affiche leur valeur.
+
+\begin{C}
+#include <limits.h>
+#include <stdio.h>
+
+
+int
+main(void)
+{
+    printf("Un multiplet se compose de %d bits.\n", CHAR_BIT);
+    printf("signed char : min = %d ; max = %d.\n", SCHAR_MIN, SCHAR_MAX);
+    printf("unsigned char : min = 0 ; max = %u.\n", UCHAR_MAX);
+    printf("short : min = %d ; max = %d.\n", SHRT_MIN, SHRT_MAX);
+    printf("unsigned short : min = 0 ; max = %u.\n", USHRT_MAX);
+    printf("int : min = %d ; max = %d.\n", INT_MIN, INT_MAX);
+    printf("unsigned int : min = 0 ; max = %u.\n", UINT_MAX);
+    printf("long : min = %ld ; max = %ld.\n", LONG_MIN, LONG_MAX);
+    printf("unsigned long : min = 0 ; max = %lu.\n", ULONG_MAX);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Un multiplet se compose de 8 bits.
+signed char : min = -128 ; max = 127.
+unsigned char : min = 0 ; max = 255.
+short : min = -32768 ; max = 32767.
+unsigned short : min = 0 ; max = 65535.
+int : min = -2147483648 ; max = 2147483647.
+unsigned int : min = 0 ; max = 4294967295.
+long : min = -9223372036854775808 ; max = 9223372036854775807.
+unsigned long : min = 0 ; max = 18446744073709551615.
+\end{C}
+
+\begin{infobox} 
+Bien entendu, les valeurs obtenues dépendent de votre machine, 
+celles-ci sont simplement données à titre d'illustration.
+\end{infobox}
+
+\subsection{L'en-tête \textless{}float.h\textgreater{}}
+\label{len-tete-float.h}
+
+Les types flottants amènent une subtilité supplémentaire : ceux-ci
+disposent en vérité de \emph{quatre} bornes : le plus grand nombre
+représentable, le plus petit nombre représentable (qui est l'opposé du
+précédent), la plus petite partie fractionnaire représentable (autrement
+dit, le nombre le plus proche de zéro représentable) et son opposé. Dit
+autrement, les bornes des types flottants peuvent être schématisées
+comme suit.
+
+\begin{C}
+-MAX             -MIN   0   MIN              MAX
+  +----------------+    +    +----------------+
+\end{C}
+
+Où \mybox{MAX} représente le plus grand nombre représentable et
+\mybox{MIN} le plus petit nombre représentable avant zéro. Étant donné
+que deux des bornes ne sont finalement que l'opposé des autres, deux
+macroconstantes sont suffisantes pour chaque type flottant.
+
+\begin{table}
+\centering
+\rowcolors{1}{}{gris-clair-tab}
+\begin{tabular}{|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf 
+Type & Maximum & Minimum de la partie fractionnaire\tabularnewline\hline
+\textbf{float} & FLT\_MAX & FLT\_MIN\tabularnewline\hline
+\textbf{double} & DBL\_MAX & DBL\_MIN\tabularnewline\hline
+\textbf{long double} & LDBL\_MAX & LDBL\_MIN\tabularnewline\hline
+\end{tabular}
+\end{table}
+
+\begin{C}
+#include <float.h>
+#include <stdio.h>
+
+
+int
+main(void)
+{
+    printf("float : min = %e ; max = %e.\n", FLT_MIN, FLT_MAX);
+    printf("double : min = %e ; max = %e.\n", DBL_MIN, DBL_MAX);
+    printf("long double : min = %Le ; max = %Le.\n", LDBL_MIN, LDBL_MAX);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+ float : min = 1.175494e-38 ; max = 3.402823e+38.
+double : min = 2.225074e-308 ; max = 1.797693e+308.
+long double : min = 3.362103e-4932 ; max = 1.189731e+4932.
+\end{C}
+
+\section{Les dépassements de capacité}
+\label{les-depassements-de-capacite}
+
+Nous savons à présent comment obtenir les limites des différents types
+de base, c'est bien. Toutefois, nous ignorons toujours \emph{quand} la
+limite d'un type est dépassée et ce qu'il se passe dans un tel cas.
+
+Le franchissement de la limite d'un type est appelé un
+\textbf{dépassement de capacitié} (\emph{overflow} ou \emph{underflow}
+en anglais, suivant que la limite maximale ou minimale est outrepassée).
+Un dépassement survient lorsqu'une opération produit un résultat dont la
+valeur n'est pas représentable par le type de l'expression ou lorsqu'une
+valeur est convertie vers un type qui ne peut la représenter.
+
+Ainsi, dans l'exemple ci-dessous, l'expression \mybox{INT\_MAX\ +\ 1}
+provoquent un dépassement de capacité, de même que la conversion
+(implicite) de la valeur \mybox{INT\_MAX} vers le type
+\mybox{signed\ char}.
+
+\begin{C}
+
+\end{C}
+
+\begin{attentionbox}
+  Gardez en mémoire que des conversions
+implicites ont lieu lors des opérations. Revoyez le chapitre sur les
+opérations mathématiques si cela vous paraît lointain.
+\end{attentionbox}
+
+
+\begin{questionbox}
+  D'accord, mais que se passe-t-il dans un tel cas ?
+\end{questionbox}
+
+
+C'est ici que le bât blesse : ce n'est pas précisé. :-°\\
+Ou, plus précisément, cela dépend des situations.
+
+\subsection{Dépassement lors d'une opération}
+\label{depassement-lors-dune-operation}
+
+\subsubsection{Les types entiers}
+\label{les-types-entiers}
+
+\textbf{Les entiers signés}
+\label{les-entiers-signes}
+
+Si une opération travaillant avec des entiers signés dépasse la capacité
+du type du résultat, le comportement est indéfini. Dans la pratique, il
+y a trois possibilités :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  La valeur boucle, c'est-à-dire qu'une fois une limite atteinte, la
+  valeur revient à la seconde. Cette solution est la plus fréquente et
+  s'explique par le résultat de l'arithmétique en complément à deux. En
+  effet, à supposer qu'un \mybox{int} soit représenté sur 32
+  \emph{bits} :
+
+  \begin{itemize}
+  \item
+    \mybox{INT\_MAX\ +\ 1} se traduit par\\
+    \mybox{0111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111\ +\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0001},
+    ce qui donne
+    \mybox{1000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000}, soit
+    \mybox{INT\_MIN} ; et
+  \item
+    \mybox{INT\_MIN\ -\ 1} se traduit par\\
+    \mybox{1000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ +\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111}
+    ce qui donne
+    \mybox{0111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111\ 1111}, soit
+    \mybox{INT\_MAX}.
+  \end{itemize}
+\item
+  La valeur sature, c'est-à-dire qu'une fois une limite atteinte, la
+  valeur reste bloquée à celle-ci.
+\item
+  Le processeur considère l'opération comme invalide et stoppe
+  l'exécution du programme.
+\end{enumerate}
+
+\textbf{Les entiers non signés}
+\label{les-entiers-non-signes}
+
+Si une opération travaillant avec des entiers non signés dépasse la
+capacité du type du résultat, alors il n'y a a proprement parler
+\emph{pas} de dépassement et la valeur boucle. Autremement dit,
+l'expression \mybox{UINT\_MAX\ +\ 1} donne \emph{toujours} zéro.
+
+\subsubsection{Les types flottants}
+\label{les-types-flottants}
+
+Si une opération travaillant avec des flottants dépasse la capacité du
+type du résultat, alors, comme pour les entiers signés, le comportement
+est indéfini. Toutefois, les flottants étant le plus souvent représenté
+suivant la norme IEEE 754, le résultat sera souvent le suivant :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  En cas de dépassement de la borne maximale ou minimale, le résultat
+  sera égal à l'inifini (positif ou négatif).
+\item
+  En cas de dépassement de la limite de la partie fractionnaire, le
+  résultat sera arrondi à zéro.
+\end{enumerate}
+
+Néanmoins, gardez à l'esprit que ceci \emph{n'est pas garantit} par la
+norme. Il est donc parfaitement possible que votre programme soit tout
+simplement arrêté.
+
+\subsection{Dépassement lors d'une conversion}
+\label{depassement-lors-dune-conversion}
+
+\subsubsection{Valeur entière vers entier signé}
+\label{valeur-entiere-vers-entier-signe}
+
+Si la conversion d'une valeur entière vers un type signé produit un
+dépassement, le résultat n'est pas déterminé.
+
+\subsubsection{Valeur entière vers entier non signé}
+\label{valeur-entiere-vers-entier-non-signe}
+
+Dans le cas où la conversion d'une valeur entière vers un type non
+signé, la valeur boucle, comme précisé dans le cas d'une opération
+impliquant des entiers non signés.
+
+\subsubsection{Valeur flottante vers entier}
+\label{valeur-flottante-vers-entier}
+
+Lors d'une conversion d'une valeur flottante vers un type entier (signé
+ou non signé), la partie fractionnaire est ignorée. Si la valeur
+restante n'est pas représentable, le résultat est indéfini (\emph{y
+compris} pour les types non signés, donc).
+
+\subsubsection{Valeur entière vers flottant}
+\label{valeur-entiere-vers-flottant}
+
+Si la conversion d'une valeur entière vers un type flottant implique un
+dépassement, le comportement est indéfini.
+
+\begin{infobox}
+  Notez que si le résultat n'est pas
+\emph{exactement} représentable (rappelez-vous des pertes de précision)
+la valeur sera approchée, mais cela ne constitue pas un dépassement.
+\end{infobox}
+
+
+\subsubsection{Valeur flottante vers flottant}
+\label{valeur-flottante-vers-flottant}
+
+Enfin, si la conversion d'une valeur flottante vers un autre type
+flottant produit un dépassement, le comportement est indéfini.
+
+\begin{infobox}
+ Comme pour le cas d'une conversion
+d'un type entier vers un type flottant, si le résultat n'est pas
+\emph{exactement} représentable, la valeur sera approchée.
+\end{infobox}
+
+\section{Gérer les dépassements entiers}
+\label{gerer-les-dépassements-entiers }
+
+Nous savons à présent ce qu'est un dépassement, quand ils se produisent 
+et dans quel cas ils sont problématiques (en vérité, potentiellement 
+tous, puisque même si la valeur boucle, ce n'est pas forcément ce que nous 
+souhai\-tons). Reste à présent pour nous à les gérer, c'est-à-dire les détecter 
+et les éviter. Malheureusement pour nous, la bibliothèque standard ne nous 
+fourni aucun outil à cet effet, mise à part les macroconstantes qui vous ont été
+présentées. Aussi il va nous être nécessaire de réaliser nos propres outils.
+
+\subsection{Préparation}
+\label{preparation}
+
+Avant de nous lancer dans la construction de ces fonctions, il va nous
+être nécessaire de déterminer leur forme. En effet, si, intuitivement,
+il vous vient sans doute à l'esprit de créer des fonctions prenans deux
+paramètres et fournissant un réslutat, reste le problème de la gestion
+d'erreur.
+
+\begin{C}
+int safe_add(int a, int b);
+\end{C}
+
+En effet, comment précise-t-on à l'utilisateur qu'un dépassement a été
+détecté, toutes les valeurs du type \mybox{int} pouvant être retournées
+? \emph{Eh} bien, pour résoudre ce soucis, nous allons recourir dans les
+exemples qui suivent à la variable \mybox{errno}, à laquelle nous
+affecteront la valeur \mybox{ERANGE} en cas de dépassement. Ceci
+implique qu'elle soit mise à zéro avant tout appel à ces fonctions
+(revoyez le premier chapitre sur la gestion d'erreur si cela ne vous dit
+rien).
+
+Par ailleurs, afin que ces fonctions puissent éventuellement être
+utilisées dans des suites de calculs, nous allons faire en sorte qu'elle
+retourne la borne maximale ou minimale en cas de dépassement.
+
+Ceci étant posé, passons à la réalisation de ces fonctions. :)
+
+\subsection{L'addition}
+\label{laddition-1}
+
+Afin d'empêcher un dépassement, il va nous falloir le détecter et ceci,
+bien entendu, à l'aide de condition qui ne doivent pas elle-même
+produire de dépassement. Ainsi, ce genre de condition est à proscrire :\\
+\mybox{if\ (a\ +\ b\ \textgreater{}\ INT\_MAX)}. Pour le cas d'une
+addition deux cas de figures se présentent :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  \mybox{b} est positif et il nous faut alors vérifier que la somme ne
+  dépasse pas le maximum.
+\item
+  \mybox{b} est négatif et il nous dans ce cas déterminer si la somme
+  dépasse ou non le minimum.
+\end{enumerate}
+
+Ceci peut être contrôler en vérifiant que \mybox{a} n'est pas supérieur
+ou inférieur à, respectivement, \mybox{MAX\ -\ b} et
+\mybox{MIN\ -\ b}. Ainsi, il nous est possible de rédiger une fonction
+comme suit.
+
+\begin{C}
+int safe_add(int a, int b)
+{
+    int err = 1;
+
+    if (b >= 0 && a > INT_MAX - b)
+        goto overflow;
+    else if (b < 0 && a < INT_MIN - b)
+        goto underflow;
+
+    return a + b;
+underflow:
+    err = -1;
+overflow:
+    errno = ERANGE;
+    return err > 0 ? INT_MAX : INT_MIN;
+}
+\end{C}
+
+Contrôlons à présent son fonctionnement.
+
+\begin{C}
+#include <errno.h>
+#include <limits.h>
+#include <stdio.h>
+#include <string.h>
+
+/* safe_add() */
+
+
+static void test_add(int a, int b)
+{
+    errno = 0;
+    printf("%d + %d = %d", a, b, safe_add(a, b));
+    printf(" (%s).\n", strerror(errno));
+}
+
+
+int main(void)
+{
+    test_add(INT_MAX, 1);
+    test_add(INT_MIN, -1);
+    test_add(INT_MIN, 1);
+    test_add(INT_MAX, -1);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+2147483647 + 1 = 2147483647 (Numerical result out of range).
+-2147483648 + -1 = -2147483648 (Numerical result out of range).
+-2147483648 + 1 = -2147483647 (Success).
+2147483647 + -1 = 2147483646 (Success).
+\end{C}
+
+\subsection{La soustraction}
+\label{la-soustraction-1}
+
+Pour la soustraction, le principe est le même que pour l'addition si ce
+n'est que les tests doivent être quelques peu modifiés. En guise
+d'exercice, essayez de trouver la solution par vous-même. ;)
+
+\begin{C}
+int safe_sub(int a, int b)
+{
+    int err = 1;
+
+    if (b >= 0 && a < INT_MIN + b)
+        goto underflow;
+    else if (b < 0 && a > INT_MAX + b)
+        goto overflow;
+
+    return a - b;
+underflow:
+    err = -1;
+overflow:
+    errno = ERANGE;
+    return err > 0 ? INT_MAX : INT_MIN;
+}
+\end{C}
+
+\begin{questionbox}
+  Mais ?! Pourquoi ne pas simplement faire \mybox{safe\_add(a,\ -b)} ?
+\end{questionbox}
+
+Bonne question !
+
+Cela a de quoi surprendre de prime à bord, mais l'opérateur de négation
+\mybox{-} peut produire un dépassement. En effet, souvenez-vous : la
+représentation en complément à deux ne dispose que d'une seule
+représentation pour zéro, du coup, il reste une représentation qui est
+possiblement invalide où seul le \emph{bit} de signe est à un.
+Cependant, le plus souvent, cette représentation est utilisée pour
+fournir un nombre négatif supplémentaire. Or, si c'est le cas, il y a
+une asymétrie entre la borne inférieure et supérieure et la négation de
+la limite inférieure produira un dépassement. Il nous est donc
+nécessaire de prendre ce cas en considération.
+
+\subsection{La négation}
+\label{la-negation}
+
+À ce sujet, pour réaliser cette opération, deux solutions s'offrent à
+nous :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Vérifier si l'opposé de la borne supérieure est plus grand que la
+  borne inférieur (autrement dit que
+  \mybox{-INT\_MAX\ \textgreater{}\ INT\_MIN}) et, si c'est le cas,
+  vérifier que le paramètre n'est pas la borne inférieure ; ou
+\item
+  Vérifier \mybox{sub(0,\ a)} où \mybox{a} est l'opérande qui doit
+  subir la négation.
+\end{enumerate}
+
+Notre préférence allant à la seconde solution, notre fonction sera donc
+la suivante.
+
+\begin{C}
+int safe_neg(int a)
+{
+    return safe_sub(0, a);
+}
+\end{C}
+
+\subsection{La multiplication}
+\label{la-multiplication-1}
+
+Pour la multiplication, cela se corse un peu, notamment au vu de ce qui
+a été dit précédemment au sujet de la représentation en complément à
+deux. Procédons par ordre :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Tout d'abord, si l'un des deux opérandes est postif, nous devons
+  vérifier que le minimum n'est pas atteint (puisque le résultat sera
+  négatif) et, si les deux sont positifs, que le maximum n'est pas
+  dépassé. Toutefois, vu que nous allons recourir à la division pour le
+  déterminer, nous devons en plus vérifier que le diviseur n'est pas
+  nul.
+\end{enumerate}
+
+\begin{C}
+if (b > 0)
+{
+    if (a > 0 && a > INT_MAX / b)
+        goto overflow;
+    else if (a < 0 && a < INT_MIN / b)
+        goto underflow;
+}
+\end{C}
+
+Ensuite, si l'un des deux opérandes est négatif, nous devons effectué la
+même vérification que précédemment et, si les deux sont négatifs,
+vérifier que le résultat ne dépasse pas le maximum. Toutefois, nous
+devons également faire attention à ce que les opérandes ne soient pas
+nuls ainsi qu'au cas de dépassement possible par l'expression
+\mybox{INT\_MIN\ /\ -1} (en cas de représentation en complément à
+deux).
+
+\begin{C}
+else if (b < 0)
+{
+    if (a < 0 && a < INT_MAX / b)
+        goto overflow;
+    else if ((-INT_MAX > INT_MIN && b < -1) && a > INT_MIN / b)
+        goto underflow;
+}
+\end{C}
+
+Ce qui nous donne finalement la fonction suivante.
+
+\begin{C}
+int safe_mul(int a, int b)
+{
+    int err = 1;
+
+    if (b > 0)
+    {
+        if (a > 0 && a > INT_MAX / b)
+            goto overflow;
+        else if (a < 0 && a < INT_MIN / b)
+            goto underflow;
+    }
+    else if (b < 0)
+    {
+        if (a < 0 && a < INT_MAX / b)
+            goto overflow;
+        else if ((-INT_MAX > INT_MIN && b < -1) && a > INT_MIN / b)
+            goto underflow;
+    }
+
+    return a * b;
+underflow:
+    err = -1;
+overflow:
+    errno = ERANGE;
+    return err > 0 ? INT_MAX : INT_MIN;
+}
+\end{C}
+
+\subsection{La division}
+\label{la-division-1}
+
+Rassurez-vous, la division est nettement moins pénible à vérifier.
+En fait, il y a un seul cas problématique : si les deux opérandes sont
+\mybox{INT\_MIN} et \mybox{-1} et que l'opposé du maximum est
+inférieur à la borne minimale.
+
+\begin{C}
+int safe_div(int a, int b)
+{
+    if (-INT_MAX > INT_MIN && b == -1 && a == INT_MIN)
+    {
+        errno = ERANGE;
+        return INT_MIN;
+    }
+
+    return a / b;
+}
+\end{C}
+
+\subsection{Le modulo}
+\label{le-modulo}
+
+Enfin, pour le modulo, les mêmes règles que celles de la division
+s'appliquent.
+
+\begin{C}
+int safe_mod(int a, int b)
+{
+    if (-INT_MAX > INT_MIN && b == -1 && a == INT_MIN)
+    {
+        errno = ERANGE;
+        return INT_MIN;
+    }
+
+    return a % b;
+}
+\end{C}
+
+\section{Gérer les dépassements flottants}
+\label{gerer-les-depassements-flottants}
+
+La tâche se complique un peu avec les flottants, puisqu'en plus de tester 
+les limites supérieures (cas d'\emph{overflow}), il faudra aussi 
+s'intéresser à celles de la partie fractionnaire (cas d'\emph{underflow}).
+
+\subsection{L'addition}
+\label{laddition}
+
+Comme toujours, il faut prendre garde à ce que les codes de vérification
+ne provoquent pas eux-mêmes des dépassements. Pour implémenter
+l'opération d'addition, on commence donc par se ramener au cas plus
+simple où on connaît le signe des opérandes \mybox{a} et \mybox{b}.
+
+\begin{itemize}
+\item
+  Si \mybox{a} et \mybox{b} sont de signes opposés (par exemple :
+  \mybox{a\ \textgreater{}=\ 0} et \mybox{b\ \textgreater{}=\ 0},
+  alors il ne peut pas se produire d'\emph{overflow}.
+\item
+  Si \mybox{a} et \mybox{b} sont de même signes, alors il ne peut pas
+  se produire d'\emph{underflow}.
+\end{itemize}
+
+Dans le premier cas, tester l'\emph{underflow} revient à tester si
+\mybox{a\ +\ b} est censé (dans l'arithmétique usuelle) être compris
+entre \mybox{-DBL\_MIN} et \mybox{DBL\_MIN}. Il faut cependant exclure
+0 de cet intervalle, de manière à ce que \mybox{1.0\ +\ (-1.0)}, par
+exemple, ne soit pas considéré comme un \emph{underflow}. Si par exemple
+\mybox{a\ \textgreater{}=\ 0} (et dans ce cas
+\mybox{b\ \textless{}=\ 0}), il suffit alors de tester si
+\mybox{-DBL\_MIN\ -\ a\ \textless{}\ b} et
+\mybox{a\ \textless{}\ DBL\_MIN\ -\ b}.
+
+Dans le deuxième cas, il reste à vérifier l'absence d'\emph{overflow}.
+Si par exemple \mybox{a} et \mybox{b} sont tous deux positifs, il
+s'agit de vérifier que \mybox{a\ \textless{}=\ DBL\_MAX\ -\ b}.
+
+\begin{C}
+/* Retourne a+b. */
+/* En cas d'overflow, +-DBL_MAX est retourné (suivant le signe de a+b) */
+/* En cas d'underflow, +- DBL_MIN est retourné */
+/* errno est fixé en conséquence */
+double safe_addf(double a, double b)
+{
+    int positive_result = a > -b;
+    double ret_value = positive_result ? DBL_MAX : -DBL_MAX;
+
+    if (a == -b)
+        return 0;
+    else if ((a < 0) != (b < 0))
+    {
+        /* On se ramène au cas où a <= 0 et b >= 0 */
+        if (a <= 0)
+        {
+            double t = a;
+            a = b;
+            b = t;
+        }
+        if (-DBL_MIN - a < b && a < DBL_MIN - b) 
+            goto underflow;
+    }
+    else 
+    {
+        int negative = 0;
+
+        /* On se ramène au cas où a et b sont positifs */   
+        if (a < 0)
+        {
+            a = -a;
+            b = -b;
+            negative = 1;
+        }
+
+        if (a > DBL_MAX - b)    
+            goto overflow;
+
+        if (negative)
+        {
+            a = -a;
+            b = -b;
+        }
+    }
+
+    return a + b;
+
+underflow:
+    ret_value = positive_result ? DBL_MIN : -DBL_MIN;       
+overflow:
+    errno = ERANGE;
+    return ret_value;
+}
+\end{C}
+
+Quelques tests :
+
+\begin{C}
+static void test_addf(double a, double b)
+{
+    errno = 0;
+    printf("%e + %e = %e", a, b, safe_addf(a, b)); 
+    printf(" (%s)\n", strerror(errno));
+}
+
+int main(void)
+{
+    test_addf(1, 1);
+    test_addf(5, -6);
+    test_addf(DBL_MIN, -3./2*DBL_MIN); /* underflow */
+    test_addf(DBL_MAX, 1);
+    test_addf(DBL_MAX, -DBL_MAX);
+    test_addf(DBL_MAX, DBL_MAX); /* overflow */
+    test_addf(-DBL_MAX, -1./2*DBL_MAX); /* overflow */
+    return 0;
+}
+
+`
+
+\end{C}
+
+Exemple de résultat :
+
+\begin{minted}
+1.000000e+00 + 1.000000e+00 = 2.000000e+00 (Success)
+5.000000e+00 + -6.000000e+00 = -1.000000e+00 (Success)
+2.225074e-308 + -3.337611e-308 = -2.225074e-308 (Numerical result out of range)
+1.797693e+308 + 1.000000e+00 = 1.797693e+308 (Success)
+1.797693e+308 + -1.797693e+308 = 0.000000e+00 (Success)
+1.797693e+308 + 1.797693e+308 = 1.797693e+308 (Numerical result out of range)
+-1.797693e+308 + -8.988466e+307 = -1.797693e+308 (Numerical result out of range)
+\end{minted}
+
+On peut faire deux remarques sur la fonction \mybox{safe\_addf}
+ci-dessus :
+
+\begin{itemize}
+\item
+  \mybox{addf(DBL\_MAX,\ 1)} peut ne pas être considéré comme un
+  \emph{overflow} du fait des pertes de précision.
+\item
+  à l'inverse, si un \emph{underflow} se déclare, cela ne veut pas
+  forcément dire qu'il y a une erreur irrécupérable dans l'algorithme.
+  Il est possible que les pertes de précision dans les représentations
+  des flottants les causent elles-mêmes.
+\end{itemize}
+
+\begin{infobox}
+  Pour être tout à fait rigoureux, il
+faut remarquer que des expressions telles que \mybox{-DBL\_MIN\ -\ a}
+et \mybox{DBL\_MAX\ -\ b} (avec \mybox{a\ \textgreater{}=\ 0} et
+\mybox{b\ \textgreater{}=\ 0}) peuvent théoriquement générer
+respectivement un \emph{overflow} et un \emph{underflow}. Cela ne peut
+cependant se produire que sur des implémentations marginales des
+flottants, puisque cela signifierait que la partie fractionnaire (la
+mantisse) est représentée sur plus de bits que la différence entre les
+valeurs extrémales de l'exposant. Nous avons donc omis ces vérifications
+pour des raisons de concision
+\end{infobox}
+
+\subsection{La soustraction}
+\label{la-soustraction}
+
+Pour notre plus grand bonheur, étant donné qu'il n'y a pas d'asymétrie
+entre les bornes, la soustraction revient à faire
+\mybox{safe\_addf(a,\ -b)}.
+
+\subsection{La multiplication}
+\label{la-multiplication}
+
+Heureusement, la multiplication est un peu plus simple que l'addition !
+Comme tout à l'heure, on va essayer de contrôler la valeur des arguments
+de manière à savoir dans quel cas on se situe potentiellement
+(\emph{underflow} ou \emph{overflow}).
+
+Ici, ce n'est plus le signe de \mybox{a} et de \mybox{b} qui va nous
+intéresser : au contraire, on va même le gommer en utilisant la valeur
+absolue. Cependant, la position de \mybox{a} et de \mybox{b} par
+rapport à +1 et -1 est essentielle :
+
+\begin{itemize}
+\item
+  si \mybox{fabs(b)\ \textless{}=\ 1}, \mybox{a\ *\ b} peut produire
+  un \emph{underflow} mais pas d'\emph{overflow}.
+\item
+  si \mybox{fabs(b)\ \textgreater{}=\ 1}, \mybox{a\ *\ b} peut produit
+  un \emph{overflow} mais pas d'\emph{underflow}.
+\end{itemize}
+
+\begin{infobox}
+  La fonction \mybox{fabs()} est
+définie dans l'en-tête \mybox{\textless{}math.h\textgreater{}} et,
+comme son nom l'indique, retourne la valeur absolue de son argument.
+N'oubliez pas à cet égard de préciser l'option \mybox{-lm} lors de la
+compilation.
+\end{infobox}
+
+
+Ainsi, dans le premier cas, on vérifiera si
+\mybox{fabs(a)\ \textless{}\ DBL\_MIN\ /\ fabs(b)}. L'expression
+\mybox{DBL\_MIN\ /\ fabs(b)} ne peut ni produire d'\emph{underflow}
+(puisque \mybox{fabs(b)\ \textless{}=\ 1}) ni d'\emph{overflow}
+(puisque \mybox{DBL\_MIN\ \textless{}=\ fabs(b)}). De même, dans le
+deuxième cas, la condition pourra s'écrire
+\mybox{fabs(a)\ \textgreater{}\ DBL\_MAX\ /\ fabs(b)}.
+
+\begin{C}
+double safe_mulf(double a, double b)
+{
+    int different_signs = (a < 0) != (b < 0);
+    double ret_value = different_signs ? -DBL_MAX : DBL_MAX;
+
+    if (fabs(b) < 1) 
+    {
+        if (fabs(a) < DBL_MIN / fabs(b))
+            goto underflow;
+    }
+    else
+    {
+        if (fabs(a) > DBL_MAX / fabs(b))
+            goto overflow;
+    }   
+
+    return a * b;
+
+underflow:
+    ret_value = different_signs ? -DBL_MIN : DBL_MIN;
+overflow:
+    errno = ERANGE;
+    return ret_value;
+}
+\end{C}
+
+Quelques tests :
+
+\begin{C}
+static void test_add(double a, double b)
+{
+    errno = 0;
+    printf("%e + %e = %e", a, b, safe_addf(a, b)); 
+    printf(" (%s)\n", strerror(errno));
+}
+
+int main(void)
+{
+    test_add(1, 1);
+    test_add(5, -6);
+    test_add(DBL_MIN, -3./2*DBL_MIN); /* underflow */
+    test_add(DBL_MAX, 1);
+    test_add(DBL_MAX, -DBL_MAX);
+    test_add(DBL_MAX, DBL_MAX); /* overflow */
+    test_add(-DBL_MAX, -1./2*DBL_MAX); /* overflow */
+    return 0;
+}
+\end{C}
+
+Exemple de résultat :
+
+\begin{C}
+-1.000000e+00 * -1.000000e+00 = 1.000000e+00 (Success)
+2.000000e+00 * 3.000000e+00 = 6.000000e+00 (Success)
+1.797693e+308 * 2.000000e+00 = 1.797693e+308 (Numerical result out of range)
+2.225074e-308 * 5.000000e-01 = 2.225074e-308 (Numerical result out of range)
+-3.337611e-308 * 6.666667e-01 = -2.225074e-308 (Success)
+-8.988466e+307 * 1.500000e+00 = -1.348270e+308 (Success)
+-8.988466e+307 * 3.000000e+00 = -1.797693e+308 (Numerical result out of range)
+\end{C}
+
+\subsection{La division}
+\label{la-division}
+
+La division ressemble sensiblement à la multiplication. On traite
+cependant en plus le cas où le dénominateur est nul.
+
+\begin{C}
+double safe_divf(double a, double b)
+{
+    int different_signs = (a < 0) != (b < 0);
+    double ret_value = different_signs ? -DBL_MAX : DBL_MAX;
+
+    if (b == 0)
+    {
+        errno = EDOM;
+        return ret_value;   
+    }
+    else if (fabs(b) < 1)
+    {
+        if (fabs(a) > DBL_MAX * fabs(b))
+            goto overflow;
+    }
+    else
+    {
+        if (fabs(a) < DBL_MIN * fabs(b))
+            goto underflow;
+    }
+
+    return a / b;
+
+underflow:
+    ret_value = different_signs ? -DBL_MIN : DBL_MIN;
+overflow:
+    errno = ERANGE;
+    return ret_value;
+}
+\end{C}
+
+Ce chapitre aura été fastidieux, n'hésitez pas à vous poser après sa 
+lecture et à tester les différents codes fourni afin de correctement 
+appréhender les différentes limites.
+
+\subsubsection{En résumé}
+\label{en-resume}
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Les limites des différents types sont fournies par des macroconstantes
+  définies dans les en-tête \mybox{\textless{}limits.h\textgreater{}}
+  et \mybox{\textless{}float.h\textgreater{}} ;
+\item
+  Les types flottants disposent de quatre limites et non de deux ;
+\item
+  Un dépassement de capacité se produit soit quand une opération produit
+  un résultat hors des limites du type de son expression ou lors de la
+  conversion d'une valeur vers un type qui ne peut représenter celle-ci
+  ;
+\item
+  En cas de dépassement, le comportement est indéfini \emph{sauf} pour
+  les calculs impliquant des entiers non signés et pour les conversions
+  d'un type entier vers un type entier non signé, auquel cas la valeur
+  boucle.
+\item
+  La bibliothèque standard ne fourni aucun outils permettant de détecter
+  et/ou de gérer ces dépassements.  
+\end{enumerate}

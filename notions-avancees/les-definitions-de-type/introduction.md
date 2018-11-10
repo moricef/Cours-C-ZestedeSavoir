@@ -1,0 +1,1 @@
+Ce chapitre sera relativement court et pour cause, nous allons aborder un petit point du langage C, mais qui a toute son importance : les **définitions de type**.

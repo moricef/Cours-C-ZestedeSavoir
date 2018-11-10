@@ -1,0 +1,368 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\date{}
+
+\begin{document}
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+De manière générale, il existe trois grandes méthodes pour gérer le
+nombre et le type des arguments optionnels.
+
+\section{Les chaînes de formats}\label{les-chauxeenes-de-formats}
+
+Cette méthode, vous la connaissez déjà, il s'agit de celle employée par
+les fonctions \texttt{printf()}, \texttt{scanf()} et consœurs. Elle
+consiste à décrire le nombre et le type des arguments à l'aide d'une
+chaîne de caractères comprenant des indicateurs.
+
+\section{Les suites d'arguments de même
+type}\label{les-suites-darguments-de-muxeame-type}
+
+La seconde solution ne peut être utilisée que si tous les arguments
+optionnels sont de même type. Elle consiste soit à indiquer le nombre
+d'arguments transmis, soit à utiliser un délimitateur. La fonction
+\texttt{affiche\_suite()} recourt par exemple à un paramètre pour
+déterminer le nombre de paramètres optionnels qu'elle a reçu.
+
+Un délimitateur pourrait par exemple être un pointeur nul dans le cas
+d'une fonction similaire affichant une suite de chaîne de caractères.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<stdarg.h>}
+\PreprocessorTok{#include }\ImportTok{<stddef.h>}
+\PreprocessorTok{#include }\ImportTok{<stdio.h>}
+
+
+\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche_suite(}\DataTypeTok{char} \NormalTok{*chaine, ...)}
+\NormalTok{\{}
+    \NormalTok{va_list ap;}
+
+    \NormalTok{va_start(ap, chaine);}
+
+    \ControlFlowTok{do}
+    \NormalTok{\{}
+        \NormalTok{puts(chaine);}
+        \NormalTok{chaine = va_arg(ap, }\DataTypeTok{char} \NormalTok{*);}
+    \NormalTok{\} }\ControlFlowTok{while}\NormalTok{(chaine != NULL);}
+
+    \NormalTok{va_end(ap);}
+\NormalTok{\}}
+
+
+\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
+\NormalTok{\{}
+    \NormalTok{affiche_suite(}\StringTok{"un"}\NormalTok{, }\StringTok{"deux"}\NormalTok{, }\StringTok{"trois"}\NormalTok{, (}\DataTypeTok{char} \NormalTok{*)}\DecValTok{0}\NormalTok{);}
+    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+un
+deux
+trois
+\end{verbatim}
+
+\section{Emploi d'un pivot}\label{emploi-dun-pivot}
+
+La dernière pratique consiste à recourir à un paramètre « pivot » qui
+fera varier le parcours des paramètres optionnels en fonction de sa
+valeur. Notez qu'un type énuméré se prête très bien pour ce genre de
+paramètre. Par exemple, la fonction suivante affiche un \texttt{int} ou
+un \texttt{double} suivant la valeur du paramètre \texttt{type}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<stdarg.h>}
+\PreprocessorTok{#include }\ImportTok{<stdio.h>}
+
+\KeywordTok{enum} \NormalTok{type \{ TYPE_INT, TYPE_DOUBLE \};}
+
+
+\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche(}\KeywordTok{enum} \NormalTok{type type, ...)}
+\NormalTok{\{}
+    \NormalTok{va_list ap;}
+
+    \NormalTok{va_start(ap, type);}
+
+    \ControlFlowTok{switch} \NormalTok{(type)}
+    \NormalTok{\{}
+    \ControlFlowTok{case} \NormalTok{TYPE_INT:}
+        \NormalTok{printf(}\StringTok{"Un entier : %d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, va_arg(ap, }\DataTypeTok{int}\NormalTok{));}
+        \ControlFlowTok{break}\NormalTok{;}
+
+    \ControlFlowTok{case} \NormalTok{TYPE_DOUBLE:}
+        \NormalTok{printf(}\StringTok{"Un flottant : %f.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, va_arg(ap, }\DataTypeTok{double}\NormalTok{));}
+        \ControlFlowTok{break}\NormalTok{;}
+    \NormalTok{\}}
+
+    \NormalTok{va_end(ap);}
+\NormalTok{\}}
+
+
+\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
+\NormalTok{\{}
+    \NormalTok{affiche(TYPE_INT, }\DecValTok{10}\NormalTok{);}
+    \NormalTok{affiche(TYPE_DOUBLE, }\FloatTok{3.14}\NormalTok{);}
+    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{text\ Un\ entier\ :\ 10.\ Un\ flottant\ :\ 3.140000.}Une
+fonction à nombre variable d'arguments est, comme son nom l'indique, une
+fonction capable de recevoir et de manipuler un nombre variable
+d'arguments, mais en plus, et cela son nom ne le spécifie pas,
+potentiellement de types différents.
+
+Une telle fonction se définit en employant comme \emph{dernier}
+paramètre une suite de trois points appelée une ellipse indiquant que
+des arguments supplémentaires peuvent être transmis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{void} \NormalTok{affiche_suite(}\DataTypeTok{int} \NormalTok{n, ...);}
+\end{Highlighting}
+\end{Shaded}
+
+Le prototype ci-dessus déclare une fonction recevant un \texttt{int} et,
+éventuellement, un nombre indéterminé d'autres arguments. La partie
+précédant l'ellipse décrit donc les paramètres attendus par la fonction
+et qui, comme pour n'importe quelle autre fonction, \emph{doivent} lui
+être transmis.
+
+{[}{[}erreur{]}{]} \textbar{} L'ellipse ne peut être placée qu'à la fin
+de la liste des paramètres.
+
+Une fois définie, la fonction peut être appelée en lui fournissant zéro
+ou plusieurs arguments supplémentaires.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{affiche_suite(}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{);}
+\NormalTok{affiche_suite(}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{70}\NormalTok{, }\DecValTok{80}\NormalTok{, }\DecValTok{90}\NormalTok{, }\DecValTok{100}\NormalTok{);}
+\NormalTok{affiche_suite(}\DecValTok{10}\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+{[}{[}attention{]}{]} \textbar{} Comme pour les pointeurs génériques de
+fonction, le nombre et le types des arguments est inconnu du compilateur
+(c'est d'ailleurs bien le but de la manœuvre). Dès lors, les même règles
+de promotion s'appliquent ainsi que les problèmes qui y sont inhérent,
+notamment la problématique des pointeurs nuls. N'employer donc pas la
+macroconstante \texttt{NULL} pour fournir un pointeur nul comme argument
+optionnel.Une fois le prototype de la fonction déterminé, encore faut-il
+pouvoir manipuler ces arguments supplémentaires au sein de sa
+définition.Pour ce faire, la bibliothèque standard nous fourni trois
+macrofonctions : \texttt{va\_start()}, \texttt{va\_arg()} et
+\texttt{va\_end()} définie dans l'ent-tête
+\texttt{\textless{}stdarg.h\textgreater{}}. Ces trois macrofonctions
+attendent comme premier argument une variable de type \texttt{va\_list}
+définit dans le même en-tête.
+
+Afin d'illustrer leur fonctionnement, nous vous proposons directement un
+exemple mettant en œuvre une fonction \texttt{affiche\_suite()} qui
+reçoit comme premier paramètre le nombre d'entiers qui vont lui être
+transmis et les affiche ensuite tous, un par ligne.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<stdarg.h>}
+\PreprocessorTok{#include }\ImportTok{<stdio.h>}
+
+
+\DataTypeTok{void} \NormalTok{affiche_suite(}\DataTypeTok{int} \NormalTok{nb, ...)}
+\NormalTok{\{}
+    \NormalTok{va_list ap;}
+
+    \NormalTok{va_start(ap, nb);}
+
+    \ControlFlowTok{while} \NormalTok{(nb > }\DecValTok{0}\NormalTok{)}
+    \NormalTok{\{}
+        \DataTypeTok{int} \NormalTok{n;}
+
+        \NormalTok{n = va_arg(ap, }\DataTypeTok{int}\NormalTok{);}
+        \NormalTok{printf(}\StringTok{"%d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, n);}
+        \NormalTok{--nb;}
+    \NormalTok{\}}
+
+    \NormalTok{va_end(ap);}
+\NormalTok{\}}
+
+
+\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
+\NormalTok{\{}
+    \NormalTok{affiche_suite(}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{60}\NormalTok{, }\DecValTok{70}\NormalTok{, }\DecValTok{80}\NormalTok{, }\DecValTok{90}\NormalTok{, }\DecValTok{100}\NormalTok{);}
+    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+10.
+20.
+30.
+40.
+50.
+60.
+70.
+80.
+90.
+100.
+\end{verbatim}
+
+La macrofonction \texttt{va\_start} initialise le parcours des
+paramètres optionnels. Elle attend deux arguments : une variable de type
+\texttt{va\_list} et le nom du dernier paramètre obligatoire de la
+fonction courante (dans notre cas \texttt{nb}). Il est impératif de
+l'appeler avant toute opération sur les paramètres optionnels.
+
+La marcofonction \texttt{va\_arg()} retourne le paramètre optionnel
+suivant en considérant celui-ci comme de type \texttt{type}. Elle attend
+deux arguments : une variable de type \texttt{va\_list} précédemment
+initialisée par la macrofonction \texttt{va\_start()} et le type du
+paramètre optionnel suivant.
+
+Enfin, la fonction \texttt{va\_end()} met fin au parcours des arguments
+optionnels. Elle doit \emph{toujours} être appelée après un appel à la
+macrofonction \texttt{va\_start()}.
+
+{[}{[}erreur{]}{]} \textbar{} La macrofonction \texttt{va\_arg()}
+n'effectue \emph{aucune} vérification ! Cela signifie que si vous
+renseigner un type qui ne correspond pas au paramètre optionnel suivant
+ou si vous tentez de récupérer un paramètre optionnel qui n'existe pas,
+vous allez au devant de comportements indéfinis.
+
+Étant donné cet état de fait, il est impératif de pouvoir déterminer le
+nombre d'arguments optionnels envoyé à la fonction. Dans notre cas, nous
+avons opté pour l'emploi d'un paramètre obligatoire indiquant le nombre
+d'arguments optionnels envoyés.
+
+{[}{[}question{]}{]} \textbar{} Mais ?! Et si l'utilisateur de la
+fonction se plante en ne précisant pas le bon nombre ou le bon type
+d'arguments ?
+
+\emph{Eh} bien\ldots{} C'est foutu. :-°\\
+Il s'agit là d'une lacune similaire à celle des pointeurs « génériques »
+de fonction : étant donné que le type et le nombre des arguments
+optionnels est inconnu, le compilateur ne peut effectuer aucune
+vérification ou conversion.\#\#\# En résumé
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Une fonction à nombre variable d'arguments est capable de recevoir et
+  de manipuler une suite indéterminée d'arguments optionnels de types
+  potentiellement différents.
+\item
+  L'ellipse ne peut être placée qu'à la fin de la liste des paramètres
+  et doit impérativement être précédée d'un paramètre non optionnel.
+\item
+  La macrofonction \texttt{va\_arg()} n'effectue \emph{aucune}
+  vérification, il est donc impératif de contrôler le nombre et le types
+  des arguments reçus, par exemple à l'aide d'une chaîne de formats ou
+  d'un paramètre décrivant le nombre d'arguments transmis.Dans le
+  chapitre précédent, il a été question des pointeurs de fonction et,
+  notamment, des pointeurs « génériques » de fonction. Néanmoins, ces
+  derniers ne permettent pas d'expliquer le fonctionnement des fonctions
+  \texttt{printf()} et \texttt{scanf()}. C'est ce que nous allons voir
+  dans ce chapitre en étudiant les \textbf{fonctions à nombre variable
+  d'arguments}.
+\end{enumerate}
+
+\end{document}

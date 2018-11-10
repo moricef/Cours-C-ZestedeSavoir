@@ -1,0 +1,1 @@
+Dans ce dernier chapitre, nous allons mettre en œuvre une partie des notions présentées dans cette partie afin de réaliser un allocateur statique de mémoire.

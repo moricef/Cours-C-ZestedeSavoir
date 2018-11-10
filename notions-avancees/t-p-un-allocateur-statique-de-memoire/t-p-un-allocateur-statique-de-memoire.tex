@@ -1,0 +1,447 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\date{}
+
+\begin{document}
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+{[}{[}secret{]}{]}
+\textbar{}\texttt{c\ \textbar{}\ \#include\ \textless{}assert.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stddef.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stdio.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stdlib.h\textgreater{}\ \textbar{}\ \ \textbar{}\ \#define\ MEM\_SIZE\ (1024UL\ *\ 1024UL)\ \textbar{}\ \#define\ ALIGNEMENT(type)\ (offsetof(struct\ \{\ char\ c;\ type\ t;\ \},\ t))\ \textbar{}\ \#define\ TAILLE\_EN\_TETE\ (offsetof(struct\ \{\ struct\ bloc\ b;\ union\ align\ u;\ \},\ u))\ \textbar{}\ \ \textbar{}\ union\ align\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ long\ e;\ \textbar{}\ \ \ \ \ long\ double\ f;\ \textbar{}\ \ \ \ \ void\ *p;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ union\ reserve\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ union\ align\ align;\ \textbar{}\ \ \ \ \ char\ mem{[}MEM\_SIZE{]};\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ struct\ bloc\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ size\_t\ taille;\ \textbar{}\ \ \ \ \ struct\ bloc\ *suivant;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ struct\ suite\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ struct\ bloc\ *precedent;\ \textbar{}\ \ \ \ \ struct\ bloc\ *premier;\ \textbar{}\ \ \ \ \ struct\ bloc\ *dernier;\ \textbar{}\ \ \ \ \ size\_t\ taille;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ union\ reserve\ reserve;\ \textbar{}\ static\ struct\ bloc\ *libre;\ \textbar{}\ \ \textbar{}\ static\ void\ bloc\_init(struct\ bloc\ *,\ size\_t);\ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t);\ \textbar{}\ static\ struct\ bloc\ *recherche\_bloc\_libre(size\_t);\ \textbar{}\ static\ void\ static\_free(void\ *);\ \textbar{}\ static\ void\ *static\_malloc(size\_t);\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ bloc\_init(struct\ bloc\ *b,\ size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Initialise\ les\ membres\ d\textquotesingle{}une\ structure\ `bloc`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ b-\textgreater{}taille\ =\ taille;\ \textbar{}\ \ \ \ \ b-\textgreater{}suivant\ =\ NULL;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t\ a)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Calcule\ le\ plus\ petit\ multiple\ de\ l\textquotesingle{}alignement\ maximal\ égal\ ou\ supérieur\ à\ `a`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ align\_max\ =\ ALIGNEMENT(union\ align);\ \textbar{}\ \ \ \ \ size\_t\ multiple\ =\ a\ /\ align\_max;\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ ((a\ \%\ align\_max\ ==\ 0)\ ?\ multiple\ :\ multiple\ +\ 1)\ *\ align\_max;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ struct\ bloc\ *recherche\_bloc\_libre(size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Recherche\ un\ bloc\ libre\ ou\ une\ suite\ de\ bloc\ libres\ dont\ la\ taille\ \textbar{}\ \ \ \ \ \ *\ est\ au\ moins\ égale\ à\ `taille`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ struct\ suite\ suite\ =\ \{\ 0\ \};\ \textbar{}\ \ \ \ \ struct\ bloc\ *bloc\ =\ libre;\ \textbar{}\ \ \ \ \ struct\ bloc\ *precedent\ =\ NULL;\ \textbar{}\ \ \ \ \ struct\ bloc\ *ret\ =\ NULL;\ \textbar{}\ \ \textbar{}\ \ \ \ \ while\ (bloc\ !=\ NULL)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ if\ (bloc-\textgreater{}taille\ \textgreater{}=\ taille)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (precedent\ !=\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ precedent-\textgreater{}suivant\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ libre\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ ret\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \ \ \ \ \ \ \ else\ if\ (suite.dernier\ !=\ NULL\ \&\&\ (char\ *)suite.dernier\ +\ TAILLE\_EN\_TETE\ \textbackslash{}\ \textbar{}\ \ \ \ \ \ \ \ \ +\ suite.dernier-\textgreater{}taille\ ==\ (char\ *)bloc)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.dernier\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.taille\ +=\ TAILLE\_EN\_TETE\ +\ bloc-\textgreater{}taille;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \ \ \ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.precedent\ =\ precedent;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.premier\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.dernier\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.taille\ =\ bloc-\textgreater{}taille;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ if\ (suite.taille\ \textgreater{}=\ taille)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (suite.precedent\ !=\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ suite.precedent-\textgreater{}suivant\ =\ suite.dernier-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ libre\ =\ suite.dernier-\textgreater{}suivant;\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ suite.premier-\textgreater{}taille\ =\ suite.taille;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ ret\ =\ suite.premier;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ precedent\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ ret;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ *static\_malloc(size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Alloue\ un\ bloc\ de\ mémoire\ au\ moins\ de\ taille\ `taille`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ alloue\ =\ 0UL;\ \textbar{}\ \ \ \ \ void\ *ret;\ \textbar{}\ \ \textbar{}\ \ \ \ \ assert(taille\ \textgreater{}\ 0);\ \textbar{}\ \ \ \ \ taille\ =\ calcule\_multiple\_align(taille);\ \textbar{}\ \ \ \ \ ret\ =\ recherche\_bloc\_libre(taille);\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (ret\ ==\ NULL)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ if\ (MEM\_SIZE\ -\ alloue\ \textless{}\ TAILLE\_EN\_TETE\ +\ taille)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "Il\ n\textquotesingle{}y\ a\ plus\ assez\ de\ mémoire\ disponible.\textbackslash{}n");\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ return\ NULL;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ ret\ =\ \&reserve.mem{[}alloue{]};\ \textbar{}\ \ \ \ \ \ \ \ \ alloue\ +=\ TAILLE\_EN\_TETE\ +\ taille;\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\_init(ret,\ taille);\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ (char\ *)ret\ +\ TAILLE\_EN\_TETE;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ static\_free(void\ *ptr)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Ajoute\ le\ bloc\ fourni\ à\ la\ liste\ des\ blocs\ libres.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ struct\ bloc\ *bloc\ =\ libre;\ \textbar{}\ \ \ \ \ struct\ bloc\ *precedent\ =\ NULL;\ \textbar{}\ \ \ \ \ struct\ bloc\ *nouveau;\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (ptr\ ==\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ return;\ \textbar{}\ \textbar{}\ \ \ \ \ nouveau\ =\ (struct\ bloc\ *)((char\ *)ptr\ -\ TAILLE\_EN\_TETE);\ \textbar{}\ \ \textbar{}\ \ \ \ \ while\ (bloc\ !=\ NULL)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ if\ (bloc\ \textless{}\ nouveau)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (precedent\ !=\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ precedent-\textgreater{}suivant\ =\ nouveau;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ libre\ =\ nouveau;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ nouveau-\textgreater{}suivant\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ precedent\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (bloc\ ==\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ libre\ =\ nouveau;\ \textbar{}\ \}\ \textbar{}}
+
+La fonction \texttt{static\_free()} a été aménagée afin que les adresses
+des différents blocs soient triées par ordre croissant. Si le nouveau
+bloc libéré a une adresse inférieur à un autre bloc, il est placé avant
+lui, sinon il est placé à la fin de la liste.
+
+Quant à la fonction \texttt{recherche\_bloc\_libre()}, elle emploie
+désormais une structure \texttt{suite} qui comprend un pointeur vers le
+bloc précédent le début de la suite (champ \texttt{precedent}), un
+pointeur vers le premier bloc de la suite (champ \texttt{premier}), un
+pointeur vers le dernier bloc de la suite (champ \texttt{dernier}) et la
+taille totale de la suite (champ \texttt{taille}).
+
+Dans le cas où cette structure n'a pas encore été modifiée ou que le
+dernier bloc de la suite n'est pas adjacent à celui qui le suit, le
+premier et le dernier blocs de la suite deviennent le bloc courant, la
+taille est réinitialisée à la taille du bloc courant et le bloc
+précédent la suite est\ldots{} celui qui précède le bloc courant (ou un
+pointeur nul s'il n'y en a pas).
+
+Si la suite atteint une taille suffisante, alors les blocs la composant
+sont fusionnés et le nouveau bloc ainsi construit est
+retourné.{[}{[}secret{]}{]}
+\textbar{}\texttt{c\ \textbar{}\ \#include\ \textless{}assert.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stddef.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stdio.h\textgreater{}\ \textbar{}\ \ \textbar{}\ \#define\ MEM\_SIZE\ (1024UL\ *\ 1024UL)\ \textbar{}\ \#define\ ALIGNEMENT(type)\ (offsetof(struct\ \{\ char\ c;\ type\ t;\ \},\ t))\ \textbar{}\ \ \textbar{}\ union\ align\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ long\ e;\ \textbar{}\ \ \ \ \ long\ double\ f;\ \textbar{}\ \ \ \ \ void\ *p;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ union\ reserve\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ union\ align\ align;\ \textbar{}\ \ \ \ \ char\ mem{[}MEM\_SIZE{]};\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ static\ union\ reserve\ reserve;\ \textbar{}\ \ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t);\ \textbar{}\ static\ void\ *static\_malloc(size\_t);\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t\ a)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Calcule\ le\ plus\ petit\ multiple\ de\ l\textquotesingle{}alignement\ maximal\ égal\ ou\ supérieur\ à\ `a`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ align\_max\ =\ ALIGNEMENT(union\ align);\ \textbar{}\ \ \ \ \ size\_t\ multiple\ =\ a\ /\ align\_max;\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ ((a\ \%\ align\_max\ ==\ 0)\ ?\ multiple\ :\ multiple\ +\ 1)\ *\ align\_max;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ *static\_malloc(size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Alloue\ un\ bloc\ de\ mémoire\ au\ moins\ de\ taille\ `taille`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ alloue\ =\ 0UL;\ \textbar{}\ \ \ \ \ void\ *ret;\ \textbar{}\ \ \textbar{}\ \ \ \ \ assert(taille\ \textgreater{}\ 0);\ \textbar{}\ \ \ \ \ taille\ =\ calcule\_multiple\_align(taille);\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (MEM\_SIZE\ -\ alloue\ \textless{}\ taille)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ fprintf(stderr,\ "Il\ n\textquotesingle{}y\ a\ plus\ assez\ de\ mémoire\ disponible.\textbackslash{}n");\ \textbar{}\ \ \ \ \ \ \ \ \ return\ NULL;\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ ret\ =\ \&reserve.mem{[}alloue{]};\ \textbar{}\ \ \ \ \ alloue\ +=\ taille;\ \textbar{}\ \ \ \ \ return\ ret;\ \textbar{}\ \}\ \textbar{}}
+
+La fonction \texttt{calcule\_multiple\_align()} détermine le plus petit
+multiple de l'alignement maximal égal ou supérieur à \texttt{a}.
+Celle-ci nous permet d'« arrondir » la taille demandée de sorte que les
+blocs alloués soit toujours correctement alignés.
+
+La macrofonction \texttt{ALIGNEMENT()} calcule l'alignement d'un type
+donné en recourant à la macrofonction \texttt{offsetof()} comme expliqué
+précédemment.
+
+La fonction \texttt{static\_malloc()} utilise une variable statique :
+\texttt{alloue} qui représente la quantité de mémoire déjà allouée. Dans
+le cas où la taille demandée (arrondie au multiple de l'alignement qui
+lui est égal ou supérieur) n'est pas disponible, un pointeur nul est
+retourné. Sinon, la variable \texttt{alloue} est mise à jour et un
+pointeur vers la position courante du tableau \texttt{reserve.mem} est
+retourné.
+
+Notez que nous avons utilisé une assertion afin d'éviter qu'une taille
+nulle ne soit fournie.Ce chapitre clôt cette troisième partie ainsi que
+ce cours. N'hésitez pas à revoir l'un ou l'autre passage qui vous ont
+sembler difficiles ou flous avant de prendre le large vers de nouveaux
+horizons. ;){[}{[}secret{]}{]} \textbar{}
+\texttt{c\ \textbar{}\ \#include\ \textless{}assert.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stddef.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stdio.h\textgreater{}\ \textbar{}\ \#include\ \textless{}stdlib.h\textgreater{}\ \textbar{}\ \ \textbar{}\ \#define\ MEM\_SIZE\ (1024UL\ *\ 1024UL)\ \textbar{}\ \#define\ ALIGNEMENT(type)\ (offsetof(struct\ \{\ char\ c;\ type\ t;\ \},\ t))\ \textbar{}\ \#define\ TAILLE\_EN\_TETE\ (offsetof(struct\ \{\ struct\ bloc\ b;\ union\ align\ u;\ \},\ u))\ \textbar{}\ \ \textbar{}\ union\ align\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ long\ e;\ \textbar{}\ \ \ \ \ long\ double\ f;\ \textbar{}\ \ \ \ \ void\ *p;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ union\ reserve\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ union\ align\ align;\ \textbar{}\ \ \ \ \ char\ mem{[}MEM\_SIZE{]};\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ struct\ bloc\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ size\_t\ taille;\ \textbar{}\ \ \ \ \ struct\ bloc\ *suivant;\ \textbar{}\ \};\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ union\ reserve\ reserve;\ \textbar{}\ static\ struct\ bloc\ *libre;\ \textbar{}\ \ \textbar{}\ static\ void\ bloc\_init(struct\ bloc\ *,\ size\_t);\ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t);\ \textbar{}\ static\ struct\ bloc\ *recherche\_bloc\_libre(size\_t);\ \textbar{}\ static\ void\ static\_free(void\ *);\ \textbar{}\ static\ void\ *static\_malloc(size\_t);\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ bloc\_init(struct\ bloc\ *b,\ size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Initialise\ les\ membres\ d\textquotesingle{}une\ structure\ `bloc`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ b-\textgreater{}taille\ =\ taille;\ \textbar{}\ \ \ \ \ b-\textgreater{}suivant\ =\ NULL;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ size\_t\ calcule\_multiple\_align(size\_t\ a)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Calcule\ le\ plus\ petit\ multiple\ de\ l\textquotesingle{}alignement\ maximal\ égal\ ou\ supérieur\ à\ `a`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ align\_max\ =\ ALIGNEMENT(union\ align);\ \textbar{}\ \ \ \ \ size\_t\ multiple\ =\ a\ /\ align\_max;\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ ((a\ \%\ align\_max\ ==\ 0)\ ?\ multiple\ :\ multiple\ +\ 1)\ *\ align\_max;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ struct\ bloc\ *recherche\_bloc\_libre(size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Recherche\ un\ bloc\ libre\ ou\ une\ suite\ de\ bloc\ libres\ dont\ la\ taille\ \textbar{}\ \ \ \ \ \ *\ est\ au\ moins\ égale\ à\ `taille`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ struct\ bloc\ *bloc\ =\ libre;\ \textbar{}\ \ \ \ \ struct\ bloc\ *precedent\ =\ NULL;\ \textbar{}\ \ \ \ \ struct\ bloc\ *ret\ =\ NULL;\ \textbar{}\ \ \textbar{}\ \ \ \ \ while\ (bloc\ !=\ NULL)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ if\ (bloc-\textgreater{}taille\ \textgreater{}=\ taille)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (precedent\ !=\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ precedent-\textgreater{}suivant\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ libre\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ ret\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ break;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ precedent\ =\ bloc;\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ ret;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ *static\_malloc(size\_t\ taille)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Alloue\ un\ bloc\ de\ mémoire\ au\ moins\ de\ taille\ `taille`.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ static\ size\_t\ alloue\ =\ 0UL;\ \textbar{}\ \ \ \ \ void\ *ret;\ \textbar{}\ \ \textbar{}\ \ \ \ \ assert(taille\ \textgreater{}\ 0);\ \textbar{}\ \ \ \ \ taille\ =\ calcule\_multiple\_align(taille);\ \textbar{}\ \ \ \ \ ret\ =\ recherche\_bloc\_libre(taille);\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (ret\ ==\ NULL)\ \textbar{}\ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ if\ (MEM\_SIZE\ -\ alloue\ \textless{}\ TAILLE\_EN\_TETE\ +\ taille)\ \textbar{}\ \ \ \ \ \ \ \ \ \{\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ "Il\ n\textquotesingle{}y\ a\ plus\ assez\ de\ mémoire\ disponible.\textbackslash{}n");\ \textbar{}\ \ \ \ \ \ \ \ \ \ \ \ \ return\ NULL;\ \textbar{}\ \ \ \ \ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ \ \ \ \ ret\ =\ \&reserve.mem{[}alloue{]};\ \textbar{}\ \ \ \ \ \ \ \ \ alloue\ +=\ TAILLE\_EN\_TETE\ +\ taille;\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\_init(ret,\ taille);\ \textbar{}\ \ \ \ \ \}\ \textbar{}\ \ \textbar{}\ \ \ \ \ return\ (char\ *)ret\ +\ TAILLE\_EN\_TETE;\ \textbar{}\ \}\ \textbar{}\ \ \textbar{}\ \ \textbar{}\ static\ void\ static\_free(void\ *ptr)\ \textbar{}\ \{\ \textbar{}\ \ \ \ \ /*\ \textbar{}\ \ \ \ \ \ *\ Ajoute\ le\ bloc\ fourni\ à\ la\ liste\ des\ blocs\ libres.\ \textbar{}\ \ \ \ \ \ */\ \textbar{}\ \ \textbar{}\ \ \ \ \ struct\ bloc\ *bloc\ =\ libre;\ \textbar{}\ \ \ \ \ struct\ bloc\ *nouveau;\ \textbar{}\ \textbar{}\ \ \ \ \ if\ (ptr\ ==\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ \ return;\ \textbar{}\ \ \textbar{}\ \ \ \ \ nouveau\ =\ (struct\ bloc\ *)((char\ *)ptr\ -\ TAILLE\_EN\_TETE);\ \textbar{}\ \ \textbar{}\ \ \ \ \ while\ (bloc\ !=\ NULL\ \&\&\ bloc-\textgreater{}suivant\ !=\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ bloc\ =\ bloc-\textgreater{}suivant;\ \textbar{}\ \ \textbar{}\ \ \ \ \ if\ (bloc\ ==\ NULL)\ \textbar{}\ \ \ \ \ \ \ \ \ libre\ =\ nouveau;\ \textbar{}\ \ \ \ \ else\ \textbar{}\ \ \ \ \ \ \ \ \ bloc-\textgreater{}suivant\ =\ nouveau;\ \textbar{}\ \}\ \textbar{}}
+
+Désormais, la fonction \texttt{static\_malloc()} fait d'abord appel à la
+fonction \texttt{recherche\_bloc\_libre()} \emph{avant} d'allouer de la
+mémoire de la réserve. Comme son nom l'indique, cette fonction parcours
+la liste des blocs libres à la recherche d'un bloc d'une taille égale ou
+supérieure à celle demandée. Cette liste est matérialisée par la
+variable globale \texttt{libre} qui est un pointeur sur une structure de
+type \texttt{bloc}. Cette variable correspond au premier maillon de la
+liste et est employée pour initialiser le parcours.
+
+Si aucun bloc libre n'est trouvé, alors la fonction
+\texttt{static\_malloc()} pioche dans la réserve un bloc de la taille
+demandée augmentée de la taille de l'en-tête. Ces deux tailles sont «
+arrondies » au multiple égal ou directement supérieur de l'alignement le
+plus contraignant. Étant donné que la taille de l'en-tête est fixe, nous
+avons représenté sa taille « arrondie » à l'aide de la macroconstante
+\texttt{TAILLE\_EN\_TETE} et de la macrofonction \texttt{offsetof()}.
+Une fois le tout alloué, l'en-tête est « retiré » en ajoutant la taille
+de l'en-tête au pointeur référencant la mémoire allouée et le bloc
+demandé est retourné.
+
+La fonction \texttt{static\_free()} se rend à la fin de la liste et y
+ajoute le bloc qui lui est fourni en argument. Pour ce faire, elle «
+récupère » l'en-tête en soustrayant la taille de l'en-tête au pointeur
+fourni en argument. Notez également que cette fonction n'effectue aucune
+opération dans le cas où un pointeur nul lui est fourni (tout comme la
+fonction \texttt{free()} standard), ce qui peut être intéressant pour
+simplifier la gestion d'erreur dans certains cas.Dans ce dernier
+chapitre, nous allons mettre en œuvre une partie des notions présentées
+dans cette partie afin de réaliser un allocateur statique de
+mémoire.Pouvoir allouer de la mémoire, c'est bien, mais pouvoir en
+libérer, ce serait mieux. Parce que pour le moment, dès que l'on arrive
+à la fin du tableau, que la mémoire précédemment allouée soit encore
+utilisée ou non, c'est grillé. :-°
+
+Toutefois, pour mettre en place un système de libération de la mémoire,
+il va nous falloir changer un peu de tactique.
+
+\section{Ajout d'un en-tête}\label{ajout-dun-en-tuxeate}
+
+Tout d'abord, si nous voulons libérer des blocs puis les réutiliser, il
+nous faut conserver d'une manière ou d'une autre leur taille. En effet,
+sans cette information, il nous sera impossible de les réaffecter.
+
+Pour ce faire, il nous est possible d'ajouter un en-tête lors de
+l'allocation d'un bloc, autrement dit un objet (par exemple un entier de
+type \texttt{size\_t}) qui précédera le bloc alloué et contiendra la
+taille du bloc.
+
+\begin{verbatim}
++---------+-----------------+
+| En-tête |   Bloc alloué   |
++---------+-----------------+
+\end{verbatim}
+
+Ainsi, lors de l'allocation, il nous suffit de transmettre à
+l'utilisateur le bloc alloué sans son en-tête à l'aide d'une expression
+du type \texttt{(char\ *)ptr\ +\ sizeof\ (size\_t)} et, à l'inverse,
+lorsque l'utilisateur souhaite libérer un bloc, de le récupérer à l'aide
+d'une expression comme \texttt{(char\ *)ptr\ -\ sizeof\ (size\_t)}.
+Notez que cette technique nous coûte un peu plus de mémoire puisqu'il
+est nécessaire d'allouer le bloc \emph{et} l'en-tête.
+
+\section{Les listes chaînées}\label{les-listes-chauxeenuxe9es}
+
+Mais, ce n'est pas tout. Pour pouvoir retrouver un bloc libéré, il nous
+faut également un moyen pour les conserver et en parcourir la liste.
+Afin d'atteindre cet objectif, nous allons employer une structure de
+donnée appelée une \textbf{liste chaînée}. Celle-ci consiste simplement
+en une structure comprenant des données ainsi qu'un pointeur vers une
+structure du même type.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct} \NormalTok{list}
+\NormalTok{\{}
+    \KeywordTok{struct} \NormalTok{list *suivante;}
+\NormalTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+Ainsi, il est possible de créer des \emph{chaines} de structure, chaque
+maillon de la chaîne référencant le suivant. L'idée pour notre
+allocateur va être de conserver une liste des blocs libérés, liste qu'il
+parcourera en vue de rechercher un bloc de taille suffisante
+\emph{avant} d'allouer de la mémoire provenant de la réserve. De cette
+manière, il nous sera possible de réutiliser de la mémoire précédemment
+allouée avant d'aller puiser dans la réserve.
+
+Nous aurons donc a priori besoin d'une liste comprenant une référence
+vers le bloc libéré et une référence vers le bloc suivant (il ne nous
+est pas nécessaire d'employer un membre pour la taille du bloc puisque
+l'en-tête la contient).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct} \NormalTok{bloc}
+\NormalTok{\{}
+    \DataTypeTok{void} \NormalTok{*p;}
+    \KeywordTok{struct} \NormalTok{bloc *suivant;}
+\NormalTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Le serpent qui se mange la
+queue}\label{le-serpent-qui-se-mange-la-queue}
+
+Cependant, avec une telle technique, nous risquons d'entrer dans un
+cercle vicieux. En effet, imaginons qu'un utilisateur libère un bloc de
+64 multiplets. Pour l'ajouter à la liste des blocs libérés, nous avons
+besoin d'espace pour stocker une structure \texttt{bloc}, nous allons
+donc allouer un peu de mémoire. De plus, si par la suite ce bloc est
+réutilisé, la structure \texttt{bloc} ne nous est plus utile, sauf que
+si nous la libérons, nous allons devoir allouer une autre structure
+\texttt{bloc} pour référencé\ldots{} une structure \texttt{bloc} (à
+moins que la structure ne s'autoréférence). Voilà qui n'est pas très
+optimal.
+
+À la place, il nous est possible de recourir à une autre stratégie :
+inclure la structure \texttt{bloc} dans l'en-tête ou, plus précisémment,
+son champ \texttt{suivant}, la référence vers le bloc n'étant plus
+nécessaire dans ce cas. Autrement dit, notre en-tête sera le suivant.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{struct} \NormalTok{bloc}
+\NormalTok{\{}
+    \DataTypeTok{size_t} \NormalTok{taille;}
+    \KeywordTok{struct} \NormalTok{bloc *suivant;}
+\NormalTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+Lors de la libération du bloc, il nous suffit d'employer le champ
+\texttt{suivant} de l'en-tête pour ajouter le bloc à la liste des blocs
+libres.
+
+\begin{verbatim}
+       En-tête                                          En-tête
+<------------------->                            <------------------->
++---------+---------+-----------------+          +---------+---------+-----------------+
+| Taille  | Suivant |   Bloc alloué   |          | Taille  | Suivant |   Bloc alloué   |
++---------+---------+-----------------+          +---------+---------+-----------------+
+               +                                 ^
+               |                                 |
+               +---------------------------------+
+\end{verbatim}
+
+{[}{[}attention{]}{]} \textbar{} Étant donné que l'en-tête précède le
+bloc alloué, il est impératif que sa taille soit « arrondie » de sorte
+que les données qui seront stockées dans le bloc respectent l'alignement
+le plus strict.
+
+Avec ceci, vous devriez pouvoir réaliser une fonction
+\texttt{static\_free()} et modifier la fonction
+\texttt{static\_malloc()} en conséquence. ;)Votre objectif sera de
+parvenir à réaliser un petit allocateur statique de mémoire en mettant
+en œuvre deux fonctions : \texttt{static\_malloc()} et
+\texttt{static\_free()} comparables aux fonctions \texttt{malloc()} et
+\texttt{free()} de la bibliothèque standard. Toutefois, afin d'éviter
+d'entrer dans les méandres de l'allocation dynamique de mémoire, ces
+fonctions fourniront de la mémoire préalablement allouée
+statiquement.Pour commencer, vous allez devoir construire une fonction
+\texttt{static\_malloc()} dont le prototype sera le suivant.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{void} \NormalTok{*static_malloc(}\DataTypeTok{size_t} \NormalTok{taille);}
+\end{Highlighting}
+\end{Shaded}
+
+À la lumière de la fonction \texttt{malloc()}, celle-ci reçoit une
+taille en multiplet et retourne un pointeur vers un bloc de mémoire d'au
+moins la taille demandée ou un pointeur nul s'il n'y a plus de mémoire
+disponible.
+
+\section{Mémoire statique}\label{muxe9moire-statique}
+
+Afin de réaliser ses allocations, la fonction \texttt{static\_malloc()}
+ira piocher dans un bloc de mémoire statique. Celui-ci consistera
+simplement en un tableau de \texttt{char} de classe de stockage statique
+d'une taille prédéterminée. Pour cet exercice, nous partirons avec un
+bloc de un mébimultiplets, soit 1.048.576 multiplets (1024 × 1024).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{static} \DataTypeTok{char} \NormalTok{mem[1048576UL];}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Alignement}\label{alignement}
+
+Toutefois, retourner un bloc de \texttt{char} de la taille demandée ne
+suffit pas. En effet, si nous allouons par exemple treize multiplets,
+disons pour une chaîne de caractères, puis quatre multiplets pour un
+\texttt{int}, nous allons retourner une adresse qui ne respecte
+potentiellement pas l'alignement requis par le type \texttt{int}. Étant
+donné que la fonction \texttt{static\_malloc()} ne connaît pas les
+contraintes d'alignements que doit respecter l'objet qui sera stocké
+dans le bloc qu'elle fourni, elle doit retourner un bloc respectant les
+contraintes les plus strictes. Dit autrement, la taille de chaque bloc
+devra être un multiple de l'alignement le plus rigoureux.
+
+Cet alignement peut être connu à l'aide d'une union comprenant les types
+les plus contraignants et de la macrofonction \texttt{offsetof()}, comme
+précisé dans le chapitre sur les unions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{union} \NormalTok{align}
+\NormalTok{\{}
+    \DataTypeTok{long} \NormalTok{e;}
+    \DataTypeTok{long} \DataTypeTok{double} \NormalTok{f;}
+    \DataTypeTok{void} \NormalTok{*p;}
+\NormalTok{\};}
+\end{Highlighting}
+\end{Shaded}
+
+Mais\ldots{} ce n'est pas tout ! Le tableau alloué statiquement doit lui
+aussi être aligné suivant l'alignement le plus sévère. En effet, si
+celui-ci commence à une adresse non multiple de cet alignement, notre
+stratégie précédente tombe à l'eau. Pour ce faire, il nous suffit
+d'inclure le tableau dans une union avec comme autre membre l'union
+décrite ci-dessus.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{union} \NormalTok{reserve}
+\NormalTok{\{}
+    \KeywordTok{union} \NormalTok{align align}
+    \DataTypeTok{char} \NormalTok{mem[1048576UL]}
+\NormalTok{\};}
+
+\DataTypeTok{static} \KeywordTok{union} \NormalTok{reserve reserve;}
+\end{Highlighting}
+\end{Shaded}
+
+Avec ceci, vous devriez pouvoir réaliser la fonction
+\texttt{static\_malloc()} sans encombre.\\
+\emph{Hop} \emph{hop} ! Au travail ! :)Bien, notre allocateur recycle à
+présent les blocs qu'il a précédemment alloués, c'est une bonne chose.
+Toutefois, un problème subsiste : la fragmentation de la mémoire
+allouée, autrement dit sa division en une multitude de petits blocs.
+
+S'il s'agit d'un effet partiellement voulu (nous allouons par petits
+blocs pour préserver la réserve), il peut avoir des conséquences
+fâcheuses non désirées. En effet, imaginez que nous ayons alloué toute
+la mémoire sous forme de blocs de 16, 32 et 64 multiplets, si même tous
+ces blocs sont libres, notre allocateur retournera un pointeur nul dans
+le cas d'une demande de par exemple 80 multiplets\ldots{} Voilà qui est
+plutôt gênant.
+
+Une solution consiste à défragmenter la liste des blocs libres,
+c'est-à-dire fusionner plusieurs blocs pour en reconstruire d'autre avec
+une taille plus importante. Dans notre cas, nous allons mettre en œuvre
+ce système lors de la recherche d'un bloc libre : désormais, nous allons
+regarder si un bloc est d'une taille suffisante \emph{ou} si
+\emph{plusieurs} blocs, une fois fusionnés, seront de taille suffisante.
+
+\section{Fusion de blocs}\label{fusion-de-blocs}
+
+Toutefois, une fusion de blocs n'est possible que si ceux-ci sont
+adjacents, c'est-à-dire s'ils se suivent en mémoire. Plus précisémment,
+l'adresse suivant le premier bloc à fusionner doit être celle de début
+du second (autrement dit
+\texttt{(char\ *)ptr\_bloc1\ +\ taille\_bloc1\ ==\ (char\ *)ptr\_bloc2}).
+
+Néanmoins, il ne nous est pas possible de vérifier cela facilement si
+notre liste de blocs libres n'est pas un minimum triée. En effet, sans
+tri, il nous serait nécessaire de parcourir toute la liste à la
+recherche d'éventuels blocs adjacents au premier, puis, de faire de même
+pour le deuxième et ainsi de suite, ce qui n'est pas particulièrement
+efficace.
+
+À la place, il nous est possible de trier notre liste par adresses
+croissantes (ou décroissantes, le résultat sera le même) de sorte que si
+un bloc n'est pas adjacent au suivant, la recherche peut être
+immédiatement arrêtée pour ce bloc ainsi que tous ceux qui lui étaient
+adjacents. Ce tri peut être réalisé simplement lors de l'insertion d'un
+nouveau bloc libre en placant celui-ci correctement dans la liste à
+l'aide de comparaisons : s'il a une adresse inférieure à celle d'un
+élément de la liste, il est placé avant cet élément, sinon, le parcours
+continue.
+
+En effet, deux pointeurs peuvent tout à fait être comparés du moment que
+ceux-ci référencent un même objet ou un même aggrégat (c'est notre cas
+ici puisqu'ils référenceront tous des éléments du tableau \texttt{mem}
+de l'union \texttt{reserve}) et qu'ils sont du même type (une conversion
+explicite vers le type pointeur sur \texttt{char} sera donc nécessaire
+comme explicité auparavant).
+
+{[}{[}information{]}{]} \textbar{} N'oubliez pas que si deux ou
+plusieurs blocs sont fusionnés, il n'y a plus besoin que d'un seul
+en-tête, les autres peuvent donc être comptés comme de la mémoire
+utilisable.
+
+\end{document}

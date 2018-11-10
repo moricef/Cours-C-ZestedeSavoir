@@ -1,0 +1,917 @@
+\part{Notions avancées}
+\label{notions-avancees}
+
+\chapter{La représentation des types }
+\label{la-representation-des-types }
+
+Dans le chapitre sur l'allocation
+  dynamique, nous avons effleuré la notion de représentation en parlant
+  de celle d'objet. Pour rappel, la représentation d'un type correspond
+  à la manière dont les données sont réparties en mémoire, plus
+  précisémment comment les multiplets et les \emph{bits} les composant
+  sont agencés et utilisés.
+  
+  Dans ce chapitre, nous allons plonger au coeur de ce concept et vous
+exposer la représentation des types.
+  
+\section{La représentation des entiers}
+\label{la-representation-des-entiers}
+
+\subsection{Les entiers non signés}
+\label{les-entiers-non-signes}
+
+La représentation des entiers non signés étant la plus simple, nous
+allons commencer par celle-ci. :)
+
+Dans un entier non signé, les différents \emph{bits} correspondent à une
+puissance de deux. Plus précisément, le premier correspond à
+2\textsuperscript{0}, le second à 2\textsuperscript{1}, le troisième à
+2\textsuperscript{2} et ainsi de suite jusqu'au dernier \emph{bit}
+composant le type utilisé. Pour calculer la valeur d'un entier non
+signé, il suffit donc d'additionner les puissances de deux correspondant
+aux bits à 1.
+
+Pour illustrer notre propos, voici un tableau comprenant la
+représentation de plusieurs nombres au sein d'un objet de type
+\mybox{unsigned\ char} (ici sur un octet).
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}\hline
+  \rowcolor{gris-tab-entete}\bf Nombre&\multicolumn{8}{l|}{\bf Représentation}\\
+  \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-9}
+  &2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \multirow{3}{2cm}{3} & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\
+  \cline{2-9}
+  &2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\
+  \cline{2-9}
+  &\multicolumn{8}{c|}{2\textsuperscript{0}+2\textsuperscript{1}=3}\\
+  \hline
+  \multirow{3}{2cm}{42} & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+  \cline{2-9}
+  &2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\
+  \cline{2-9}
+  &\multicolumn{8}{c|}{2\textsuperscript{1}+2\textsuperscript{3}+2\textsuperscript{5}=42}\\
+  \hline
+  \multirow{3}{2cm}{255} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+  \cline{2-9}
+  &2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\
+  \cline{2-9}
+  &\multicolumn{8}{c|}{2\textsuperscript{0}+2\textsuperscript{1}+2\textsuperscript{2}+2\textsuperscript{3}+2\textsuperscript{4}+2\textsuperscript{5}+2\textsuperscript{6}+2\textsuperscript{7}=255}\\
+  \hline
+\end{tabular}
+\end{table}
+
+\subsection{Les entiers signés}
+\label{les-entiers-signes}
+
+Les choses se compliquent un peu avec les entiers signés. En effet, il
+nous faut représenter une information supplémentaire : le signe de la
+valeur.
+
+\subsubsection{La représentation en signe et
+magnitude}
+\label{la-representation-en-signe-et-magnitude}
+
+La première solution qui vous est peut-être venue à l'esprit serait de
+réserver un \emph{bit}, par exemple le dernier, pour représenter le
+signe. Ainsi, la représentation est identique à celle des entiers non
+signés si ce n'est que le dernier \emph{bit} est réservé pour le signe
+(ce qui diminue donc en conséquence la valeur maximale représentable).
+Cette méthode est appelée \textbf{représentation en signe et magnitude}.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf Nombre & \multicolumn{8}{l|}{\bf Représentation en signe et magnitude}\\
+  \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-9}
+    &+&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-9}
+    &-&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{-2\textsuperscript{0}=-1}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+Cependant, si la représentation en signe et magnitude paraît simple,
+elle n'est en vérité pas facile à mettre en œuvre au sein d'un
+processeur car elle implique plusieurs vérifications (notamment au
+niveau du signe) qui se traduisent par des circuits supplémentaires et
+un surcoût en calcul. De plus, elle laisse deux représentations
+possibles pour le zéro (\mybox{0000\ 0000} et \mybox{1000\ 0000}), ce
+qui est gênant pour l'évaluation des conditions.
+
+\subsubsection{La représentation en complément à un}
+\label{la-representation-en-complement-a-un}
+
+Dès lors, comment pourrions nous faire pour simplifier nos calculs en
+évitant des vérifications liées au signe ? \emph{Eh} bien, sachant que
+le maximum représentable dans notre exemple est \mybox{255} (soit
+\mybox{1111\ 1111}), il nous est possible de représenter chaque nombre
+négatif comme la différence entre le maximum et sa valeur absolue. Par
+exemple \mybox{-1} sera représenté par \mybox{255\ -\ 1}, soit
+\mybox{254} (\mybox{1111\ 1110}). Cette représentation est appelée
+\textbf{représentation en complément à un}.
+
+Ainsi, si nous additionnons \mybox{1} et \mybox{-1}, nous n'avons pas
+de vérifications à faire et obtenons le maximum, \mybox{255}.
+Toutefois, ceci implique, comme pour la représentation en signe et
+magnitude, qu'il existe deux représentations pour le zéro :
+\mybox{0000\ 0000} et \mybox{1111\ 1111}.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf Nombre& \multicolumn{8}{l|}{\bf Représentation en complément à un}\\
+ \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-9}
+  &+&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \multirow{3}{2cm}{-1} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\ 
+  \cline{2-9}
+    &-/2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{-(255-2\textsuperscript{7}-2\textsuperscript{6}-2\textsuperscript{5}-2\textsuperscript{4}-2\textsuperscript{3}-2\textsuperscript{2}-2\textsuperscript{1})=-1}\\ 
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{infobox} 
+ Notez qu'en fait, cette
+représentation revient à inverser tous les \emph{bits} d'un nombre
+positif pour obtenir son équivalent négatif. Par exemple, si nous
+inversons \mybox{1} (\mybox{0000\ 0001}), nous obtenons bien
+\mybox{-1} (\mybox{1111\ 1110}) comme ci-dessus.
+\end{infobox}
+
+Par ailleurs, il subsiste un second problème : dans le cas où deux
+nombres négatifs sont additionnés, le résultat obtenu n'est pas valide.
+En effet, \mybox{-1\ +\ -1} nous donne
+\mybox{1111\ 1110\ +\ 1111\ 1110} soit \mybox{1\ 1111\ 1100} ;
+autrement dit, comme nous travaillons sur huit \emph{bits} pour nos
+exemples, \mybox{-3}\ldots{} Mince !
+
+Pour résoudre ce problème, il nous faut reporter la dernière retenue
+(soit ici le dernier \emph{bit} que nous avons ignoré) au début (ce qui
+revient à ajouté un) ce qui nous permet d'obtenir \mybox{1111\ 1101},
+soit \mybox{-2}.
+
+\subsubsection{La représentation en complément à deux}
+\label{la-representation-en-complement-a-deux}
+
+Ainsi est apparue une troisième représentation : celle en
+\textbf{complément à deux}. Celle-ci conserve les qualités de la
+représentation en complément à un, mais lui corrige certains défauts. En
+fait, elle représente les nombres négatifs de la même manière que la
+représentation en complément à un, si ce n'est que la soustraction
+s'effectue entre le maximum augmenté de un (soit \mybox{256} dans notre
+cas) et non le maximum.
+
+Ainsi, par exemple, la représentation en complément à deux de
+\mybox{-1} est \mybox{256\ -\ 1}, soit \mybox{255}
+(\mybox{1111\ 1111}).
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\bf Nombre& \multicolumn{8}{l|}{\bf Représentation en complément à deux}\\
+ \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-9}
+    &+&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+    &\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \multirow{3}{2cm}{-1} & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 \\ 
+  \cline{2-9}
+    &-/2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-9}
+    &\multicolumn{8}{c|}{-(256-2\textsuperscript{7}-2\textsuperscript{6}-2\textsuperscript{5}-2\textsuperscript{4}-2\textsuperscript{3}-2\textsuperscript{2}-2\textsuperscript{1}-2\textsuperscript{0})=-1}\\ 
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{infobox}
+  Remarquez que cette représentation
+revient finalement à inverser tous les \emph{bits} d'un nombre positif
+et à augmenter le résultat de un en vue d'obtenir son équivalent
+négatif. Par exemple, si nous inversons les \emph{bits} du nombre
+\mybox{1} nous obtenons \mybox{1111\ 1110} et si nous lui ajoutons un,
+nous avons bien \mybox{1111\ 1111}.
+\end{infobox}
+
+
+Cette fois ci, l'objectif recherché est atteint ! :)
+
+En effet, si nous additionnons \mybox{1} et \mybox{-1} (soit
+\mybox{0000\ 0001} et \mybox{1111\ 1111}) et que nous ignorons la
+retenue, nous obtenons bien zéro. De plus, il n'y a plus de cas
+particulier de retenue à déplacer comme en complément à un, puisque, par
+exemple, la somme \mybox{-1\ +\ -2}, soit
+\mybox{1111\ 1111\ +\ 1111\ 1110} donne \mybox{1\ 1111\ 1101},
+autrement dit \mybox{-3} \emph{sans la retenue}. Enfin, nous n'avons
+plus qu'une seule représentation pour le zéro.
+
+\begin{infobox}
+  \textbf{Point de norme (1)}
+  La norme\footnote{\footnotesize{la norme C89 ne précise pas les
+  représentations possibles pour les types entiers (Programming Language
+  C, X3J11/88-090, § A.6.3.4, Integers, al. 1), mais les normes
+  suivantes bien. Voyez à cet égard : ISO/IEC 9899:TC3, doc.
+  \MYhref{http://open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf}{N1256}, §
+  6.2.6.2, Integer types, p.~38 et ISO/IEC 9899:201x, doc.
+  \MYhref{http://open-std.org/JTC1/SC22/WG14/www/docs/n1570.pdf}{N1570}, §
+  6.2.6.2, Integer types, p.~45.}} du langage C ne précise pas quelle
+  représentation doit être utilisée pour les entiers signés. Elle impose
+  uniquement qu'il s'agisse d'une de ces trois. Cependant, dans les faits,
+  il s'agit presque toujours de la représentation en complément à deux.
+\end{infobox}
+
+
+\begin{erreurbox}
+  \textbf{Point de norme (2)}
+  Notez que chacune de ces représentations disposent toutefois
+d'une suite de \emph{bits} qui est susceptible de ne pas représenter une
+valeur et de produire une erreur en cas d'utilisation\footnote{\footnotesize{La norme
+  C89 est muette sur ce point, mais les normes suivantes sont plus
+  locaces : ISO/IEC 9899:TC3, doc.
+  \MYhref{http://open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf}{N1256}, §
+  6.2.6.1 , General, al. 5, pp.~37-38 et ISO/IEC 9899:201x, doc.
+  \MYhref{http://open-std.org/JTC1/SC22/WG14/www/docs/n1570.pdf}{N1570}, §
+  6.2.6.1, General, al. 5, p.~44.}}.
+  \begin{itemize}
+    \item 
+      Pour les représentations en signe et magnitude et en complément à deux, il s'agit
+      de la suite où tous les \emph{bits} sont à zéro et le \emph{bit} de
+      signe à un : \mybox{1000\ 0000} ; 
+     \item 
+	Pour la représentation en complément à un, il s'agit de la suite où tous les \emph{bits} sont à
+	un, y compris le \emph{bit} de signe : \mybox{1111\ 1111}.
+  \end{itemize}
+
+Dans le cas des représentations en signe et magnitude et en
+complément à un, il s'agit des représentations possibles pour le « zéro
+négatif ». Pour la représentation en complément à deux, cette suite est
+le plus souvent utilisée pour représenter un nombre négatif
+supplémentaire (dans le cas de \mybox{1000\ 0000}, il s'agira de
+\mybox{-128}). Toutefois, même si ces représentations peuvent être
+utilisées pour représenter une valeur valide, ce n'est pas forcément le
+cas.
+
+Néanmoins, rassurez-vous, ces valeurs ne peuvent être produites dans le cas 
+de calculs ordinaires, sauf survenance d'une condition exceptionnelle comme 
+un dépassement de capacité (nous en parlerons bientôt). Vous n'avez donc pas 
+de vérifications supplémentaires à effectuer à leur égard. Évitez
+simplement d'en produire une délibérément, par exemple en l'affectant
+directement à une variable.
+\end{erreurbox}
+
+
+\subsection{Les bits de bourrages}
+\label{les-bits-de-bourrages}
+
+Il est important de préciser que tous les \emph{bits} composant un type
+entier ne sont pas forcément utilisés pour représenter la valeur qui y
+est stockée. Nous l'avons vu avec le \emph{bit} de signe, qui ne
+correspond pas à une valeur. La norme prévoit également qu'il peut
+exister des \emph{bits} de bourrages, et ce \emph{aussi bien pour les
+entiers signés que pour les entiers non signés} à l'exception du type
+\mybox{char}. Ceux-ci peuvent par exemple être employés pour maintenir
+d'autres informations (par exemple : le type de la donnée stockée, ou
+encore un
+\MYhref{https://fr.wikipedia.org/wiki/Somme_de_contrôle\#Exemple_:_bit_de_parité}{bit
+de parité} pour vérifier l'intégrité de celle-ci).
+
+\begin{attentionbox}
+  Par conséquent, il n'y a pas forcément
+une corrélation parfaite entre le nombres de \emph{bits} composant un
+type entier et la valeur maximale qui peut y être stockée.
+\end{attentionbox}
+
+
+\begin{infobox}
+  Sachez toutefois que les \emph{bits}
+de bourrages au sein des types entiers sont assez rares, les
+architectures les plus courantes n'en emploient pas.
+\end{infobox}
+
+\section{La représentation des flottants}
+\label{la-representation-des-flottants}
+
+La représentation des types flottants amène deux difficultés 
+supplémentaires :
+
+\begin{itemize}
+\item
+  la gestion de nombres réels, c'est-à-dire potentiellement composés
+  d'une partie entière et d'une suite de décimales ;
+\item
+  la possibilité de stocker des nombres de différents ordres de
+  grandeur, entre 10\textsuperscript{-37} et 10\textsuperscript{37}.
+\end{itemize}
+
+\subsection{Première approche}
+\label{premiere-approche-2}
+
+\subsubsection{Avec des entiers}
+\label{avec-des-entiers}
+
+Une première solution consisterait à garantir une précision à
+10\textsuperscript{-37} en utilisant deux nombres entiers : un, signé,
+pour la partie entière et un, non signé, pour stocker la suite de
+décimales.
+
+Cependant, si cette approche a le mérite d'être simple, elle a le
+désavantage d'utiliser \emph{beaucoup} de mémoire. En effet, pour
+stocker un entier de l'ordre de 10\textsuperscript{37}, il serait
+nécessaire d'utiliser un peu moins de 128 \emph{bits}, soit 16 octets
+(et donc environ 32 octets pour la représentation globale). Un tel coût
+est inconcevable, même à l'époque actuelle.
+
+Une autre limite provient de la difficulté d'effectuer des calculs sur
+les nombres flottants avec une telle représentation : il faudrait tenir
+compte du passage des décimales vers la partie entière et inversement.
+
+\subsubsection{Avec des puissances de deux négatives}
+\label{avec-des-puissances-de-deux-negatives}
+
+Une autre représentation possible consiste à attribuer des puissances de
+deux \emph{négatives} à une partie des \emph{bits}. Les calculs sur les
+nombres flottants obtenus de cette manière sont similaires à ceux sur
+les nombres entiers. Le tableau ci-dessous illustre ce concept en
+divisant un octet en deux : quatre \emph{bits} pour la partie entière et
+quatre \emph{bits} pour la partie fractionnaire.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}\hline
+  \rowcolor{gris-tab-entete}\bf Nombre&\multicolumn{8}{l|}{\bf Représentation}\\
+  \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\ 
+  \cline{2-9}
+  &2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}\\ 
+  \cline{2-9}
+   &\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \multirow{3}{2cm}{1,5} & 0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+  \cline{2-9}
+  &2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}\\ 
+  \cline{2-9}
+  &\multicolumn{8}{c|}{2\textsuperscript{-1}+2\textsuperscript{0}=1,5}\\
+  \hline
+  \multirow{3}{2cm}{0,875} & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+  \cline{2-9}
+  &2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}\\ 
+  \cline{2-9}
+  &\multicolumn{8}{c|}{2\textsuperscript{-3}+2\textsuperscript{-2}+2\textsuperscript{-1}=0,875}\\
+  \hline
+\end{tabular}
+\end{table}
+
+Toutefois, notre problème de capacité persiste : il nous faudra toujours
+une grande quantité de mémoire pour pouvoir stocker des nombres d'ordre
+de grandeur aussi différents.
+
+\subsection{Une histoire de virgule flottante}
+\label{une-histoire-de-virgule-flottante}
+
+Par conséquent, la solution qui a été retenue historiquement consiste à
+réserver quelques \emph{bits} qui contiendront la valeur d'un exposant.
+Celui-ci sera ensuite utilisé pour déterminer à quelles puissances de
+deux correspondent les \emph{bits} restants. Ainsi, la virgule séparant
+la partie entière de sa suite décimales est dite « flottante », car sa
+position est ajustée par l'exposant. Toutefois, comme nous allons le
+voir, ce gain en mémoire ne se réalise pas sans sacrifice : la précision
+des calculs va en pâtir.
+
+Le tableau suivant utilise deux octets : un pour stocker un exposant sur
+sept \emph{bits} avec un \emph{bit} de signe ; un autre pour stocker la
+valeur du nombre. L'exposant est lui aussi signé et est représenté en
+signe et magnitude (par souci de facilité). Par ailleurs, cet exposant
+est attribué au premier \emph{bit} du deuxième octet ; les autres
+correspondent à une puissance de deux chaque fois inférieure d'une
+unité.
+
+\begin{table}
+\centering
+\begin{tabular}{p{1,5cm}|p{1,5cm}|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}\hline
+  \rowcolor{gris-tab-entete}\bf Nombre&\bf Signe&\multicolumn{7}{l|}{\bf Exposant}&\multicolumn{8}{l|}{\bf Bits du nombre} \\
+  \hline
+  \multirow{3}{2cm}{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\ 
+  \cline{2-17}
+    &+&+&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}&2\textsuperscript{-5}&2\textsuperscript{0-6}&2\textsuperscript{-7}\\ 
+  \cline{2-17}
+    &+&\multicolumn{7}{c|}{0}&\multicolumn{8}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  
+  \multirow{3}{2cm}{-1} & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\ 
+  \cline{2-17}
+    &-&+&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}&2\textsuperscript{-5}&2\textsuperscript{0-6}&2\textsuperscript{-7}\\ 
+  \cline{2-17}
+    &-&\multicolumn{7}{c|}{0}&\multicolumn{8}{c|}{-2\textsuperscript{0}=-1}\\ 
+  \hline
+  
+  \multirow{3}{2cm}{0,5} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\ 
+  \cline{2-17}
+     &+&+&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}&2\textsuperscript{-5}&2\textsuperscript{0-6}&2\textsuperscript{-7}\\ 
+  \cline{2-17}
+     &+&\multicolumn{7}{c|}{0}&\multicolumn{8}{c|}{2\textsuperscript{-1}=0,5}\\ 
+  \hline
+  
+  \multirow{3}{2cm}{10} & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\ 
+  \cline{2-17}
+     &+&+&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{-1}&2\textsuperscript{-2}&2\textsuperscript{-3}&2\textsuperscript{-4}\\ 
+  \cline{2-17}
+     &+&\multicolumn{7}{c|}{2\textsuperscript{1}+2\textsuperscript{0}=3}&\multicolumn{8}{c|}{2\textsuperscript{3}+2\textsuperscript{1}=10}\\ 
+  \hline
+  
+  \multirow{3}{2cm}{0,00001} & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1\\ 
+  \cline{2-17}
+    &+&-&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{-17}&2\textsuperscript{-18}&2\textsuperscript{-19}&2\textsuperscript{-20}&2\textsuperscript{-21}&2\textsuperscript{-22}&2\textsuperscript{-23}&2\textsuperscript{-24}\\ 
+  \cline{2-17}
+     &+&\multicolumn{7}{c|}{-2\textsuperscript{1}+-2\textsuperscript{4}=-17}&\multicolumn{8}{c|}{2\textsuperscript{-24}+2\textsuperscript{-23}+2\textsuperscript{-22}+2\textsuperscript{-21}+2\textsuperscript{-20}+2\textsuperscript{-19}+2\textsuperscript{-18}+2\textsuperscript{-17}=\~0,00001}\\ 
+  \hline
+  
+  \multirow{3}{2cm}{32769} & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\ 
+  \cline{2-17}
+    &+&+&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{15}&2\textsuperscript{14}&2\textsuperscript{13}&2\textsuperscript{12}&2\textsuperscript{11}&2\textsuperscript{10}&2\textsuperscript{9}&2\textsuperscript{8}\\ 
+  \cline{2-17}
+     &+&\multicolumn{7}{c|}{2\textsuperscript{0}+2\textsuperscript{1}+2\textsuperscript{2}+2\textsuperscript{3}=15}&\multicolumn{8}{c|}{2\textsuperscript{15}= 32768}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+  
+Les quatre premiers exemples n'amènent normalement pas de commentaires
+particuliers ; néanmoins, les deux derniers illustre deux problèmes
+posés par les nombres flottants.
+
+\subsubsection{Les approximations}
+\label{les-approximations}
+
+Les nombres réels mettent en évidence la difficulté (voir
+l'impossibilité) de représenter une suite de décimales à l'aide d'une
+somme de puissances de deux. En effet, le plus souvent, les valeurs ne
+peuvent être qu'approchées et obtenues suite à des arrondis. Dans le cas
+de 0,00001, la somme 2\textsuperscript{-24} + 2\textsuperscript{-23} +
+2\textsuperscript{-22} + 2\textsuperscript{-20} + 2\textsuperscript{-19}
++ 2\textsuperscript{-17} donne en vérité 0,000010907649993896484375 qui,
+une fois arrondie, donnera bien 0,00001.
+
+\subsubsection{Les pertes de précision}
+\label{les-pertes-de-precision}
+
+Dans le cas où la valeur à représenter ne peut l'être entièrement avec
+le nombre de \emph{bits} disponible (autrement dit, le nombre de
+puissances de deux disponible), la partie la moins significative sera
+abandonnée et, corrélativement, de la précision.
+
+Ainsi, dans notre exemple, si nous souhaitons représenter le nombre
+32769, nous avons besoin d'un exposant de 15 afin d'obtenir 32768.
+Toutefois, vu que nous ne possédons que de 8 \emph{bits} pour
+représenter notre nombre, il nous est impossible d'attribuer l'exposant
+0 à un des \emph{bits}. Cette information est donc perdue et seule la
+valeur la plus significative (ici 32768) est conservée.
+
+\subsection{Formalisation}
+\label{formalisation}
+
+L'exemple simplifié que nous vous avons montré illustre dans les grandes
+lignes la représentation des nombres flottants. Cependant, vous vous en
+doutez, la réalité est un peu plus complexe. De manière plus générale,
+un nombre flottant est représenté à l'aide : d'un signe, d'un exposant
+et d'une \textbf{mantisse} qui est en fait la suite de puissances qui
+sera additionnée.
+
+Par ailleurs, nous avons utilisés une suite de puissance de deux, mais
+il est parfaitement possible d'utiliser une autre base. Beaucoup de
+calculatrices utilisent par exemple des suites de puissances de dix et
+non de deux.
+
+\begin{infobox}
+  À l'heure actuelle, les nombres
+flottants sont presque toujours représentés suivant la norme
+\MYhref{https://fr.wikipedia.org/wiki/IEEE_754}{IEEE 754} qui utilise une
+représentation en base deux.
+\end{infobox}
+
+
+\section{La représentation des pointeurs}
+\label{la-representation-des-pointeurs}
+
+Cet extrait sera relativement court : le représentation des pointeurs est 
+indéterminée. Sur la plupart des architectures, il s'agit en vérité d'entiers 
+non signés, mais il n'y a absolument aucune garantie à ce sujet.
+
+\section{Ordre des multiplets et des bits}
+\label{ordre-des-multiplets-et-des-bits}
+
+Jusqu'à présent, nous vous avons montré les représentations binaires en
+ordonnant les \emph{bits} et les multiplets par puissance de deux
+croissantes. Cependant, s'il s'agit d'une représentation possible, elle
+n'est pas la seule. En vérité, l'ordre des multiplets et des \emph{bits}
+peut varier d'une machine à l'autre.
+
+\subsection{Ordre des multiplets}
+\label{ordre-des-multiplets}
+
+Dans le cas où un type est composé de plus d'un multiplet (ce qui, à
+l'exception du type \mybox{char}, est pour ainsi dire toujours le cas),
+ceux-ci peuvent être agencés de différentes manières. L'ordre des
+multiplets d'une machine est appelé son \textbf{boutisme}
+(\emph{endianness} en anglais).
+
+Il en existe principalement deux : le gros-boutisme et le
+petit-boutisme.
+
+\subsubsection{Le gros-boutisme}
+\label{le-gros-boutisme}
+
+Sur une architecture gros-boutiste, les multiplets sont ordonnés par
+\textbf{poids} décroissant.
+
+Le poids d'un \emph{bit} se détermine suivant la puissance de deux qu'il
+représente : plus elle est élevée, plus le \emph{bit} a un poids
+important. Le \emph{bit} représentant la puissance de deux la plus basse
+est appelé de \emph{bit} de \textbf{poids faible} et celui correspondant
+à la puissance la plus grande est nommé \emph{bit} de \textbf{poids
+fort}. Pour les multiplets, le raisonnement est identique : son poids
+est déterminé par celui des \emph{bits} le composant.
+
+Autrement dit, une machine gros-boutiste place les multiplets comprenant
+les puissance de deux les plus élevées en premier (nos exemple
+précédents utilisaient donc cette représentation).
+
+\subsubsection{Le petit-boutisme}
+\label{le-petit-boutisme}
+
+Une architecture petit-boutiste fonctionne de manière inverse : les
+multiplets sont ordonnés par poids croissant.
+
+Ainsi, si nous souhaitons stocker le nombre \mybox{1} dans une variable
+de type \mybox{unsigned\ short} (qui sera, pour notre exemple, d'une
+taille de deux octets), nous aurons les deux résultats suivants, selon
+le boutisme de la machine.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\footnotesize \bf Nombre& \multicolumn{16}{l|}{\footnotesize \bf Représentation gros-boutiste}\\
+ \hline
+  \multirow{4}{2cm}{1} &\multicolumn{8}{c|}{Octet de poids fort}&\multicolumn{8}{c|}{Octet de poids faible}\\
+  & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+  \cline{2-17}
+    &2\textsuperscript{15}&2\textsuperscript{14}&2\textsuperscript{13}&2\textsuperscript{12}&2\textsuperscript{11}&2\textsuperscript{10}&2\textsuperscript{9}&2\textsuperscript{8}&2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}\\ 
+  \cline{2-17}
+    &\multicolumn{16}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\footnotesize \bf Nombre& \multicolumn{16}{l|}{\footnotesize \bf Représentation petit-boutiste}\\
+ \hline
+  \rowcolor{gris-clair-tab}\multirow{4}{2cm}{1} &\multicolumn{8}{c|}{Octet de poids faible}&\multicolumn{8}{c|}{Octet de poids fort}\\
+  & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+  \cline{2-17}
+    &2\textsuperscript{7}&2\textsuperscript{6}&2\textsuperscript{5}&2\textsuperscript{4}&2\textsuperscript{3}&2\textsuperscript{2}&2\textsuperscript{1}&2\textsuperscript{0}&2\textsuperscript{15}&2\textsuperscript{14}&2\textsuperscript{13}&2\textsuperscript{12}&2\textsuperscript{11}&2\textsuperscript{10}&2\textsuperscript{9}&2\textsuperscript{8}\\ 
+  \cline{2-17}
+     \rowcolor{gris-clair-tab}&\multicolumn{16}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+\begin{infobox} 
+ Le boutisme est relativement
+transparent du point de vue du programmeur, puisqu'il s'agit d'une
+propriété de la mémoire. En pratique, de tels problèmes ne se posent que
+lorsqu'on accède à la mémoire à travers des types différents de celui de
+l'objet stocké initialement (par exemple via un pointeur sur
+\mybox{char}). En particulier, la communication entre plusieurs
+machines doit les prendre en compte.
+\end{infobox}
+
+
+\subsection{Ordre des bits}
+\label{ordre-des-bits}
+
+Cependant, ce serait trop simple si le problème en restait là\ldots{}
+:-°\\
+Malheureusement, l'ordre des \emph{bits} varie également d'une machine à
+l'autre et ce, \emph{indépendamment de l'ordre des multiplets}. Comme
+pour les multiplets, il existe différente possibilités, mais les plus
+courante sont le gros-boutisme et le petit-boutisme. Ainsi, il est par
+exemple possible que la représentation des multiplets soit
+gros-boutiste, mais que celle des \emph{bits} soit petit-boutiste (et
+inversément).
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\footnotesize \bf Nombre& \multicolumn{16}{l|}{\footnotesize \bf Représentation gros-boutiste pour les multiplets et petit-boutiste pour les \emph{bits}}\\
+ \hline
+  \multirow{4}{2cm}{1} &\multicolumn{8}{c|}{Octet de poids fort}&\multicolumn{8}{c|}{Octet de poids faible}\\
+  & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0& 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+  \cline{2-17}
+    &2\textsuperscript{8}&2\textsuperscript{9}&2\textsuperscript{10}&2\textsuperscript{11}&2\textsuperscript{12}&2\textsuperscript{13}&2\textsuperscript{14}&2\textsuperscript{15}&2\textsuperscript{0}&2\textsuperscript{1}&2\textsuperscript{2}&2\textsuperscript{3}&2\textsuperscript{4}&2\textsuperscript{5}&2\textsuperscript{6}&2\textsuperscript{7}\\ 
+  \cline{2-17}
+    &\multicolumn{16}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}\hline
+\rowcolor{gris-tab-entete}\footnotesize \bf Nombre& \multicolumn{16}{l|}{\footnotesize \bf Représentation petit-boutiste pour les multiplets et petit-boutiste pour les \emph{bits}}\\
+ \hline
+  \rowcolor{gris-clair-tab}\multirow{4}{2cm}{1} &\multicolumn{8}{c|}{Octet de poids faible}&\multicolumn{8}{c|}{Octet de poids fort}\\
+  & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0& 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+  \cline{2-17}
+    &2\textsuperscript{0}&2\textsuperscript{1}&2\textsuperscript{2}&2\textsuperscript{3}&2\textsuperscript{4}&2\textsuperscript{5}&2\textsuperscript{6}&2\textsuperscript{7}&2\textsuperscript{8}&2\textsuperscript{9}&2\textsuperscript{10}&2\textsuperscript{11}&2\textsuperscript{12}&2\textsuperscript{13}&2\textsuperscript{14}&2\textsuperscript{15}\\ 
+  \cline{2-17}
+     \rowcolor{gris-clair-tab}&\multicolumn{16}{c|}{2\textsuperscript{0}=1}\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+
+\begin{infobox}
+  Notez toutefois que, le plus souvent,
+une représentation petit-boutiste ou gros-boutiste s'applique aussi bien
+aux octets qu'aux \emph{bits}.\\
+\textbar{} Par ailleurs, sachez qu'à quelques exceptions près, l'ordre
+du stockage des \emph{bits} n'apparaît pas en C. En particulier, les
+opérateurs de manipulation de \emph{bits}, vus au chapitre suivant, n'en
+dépendent pas.
+\end{infobox}
+
+
+\subsection{Applications}
+\label{applications-1}
+
+\subsubsection{Connaître le boutisme d'une machine}
+\label{connaitre-le-boutisme-dune-machine}
+
+Le plus souvent, il est possible de connaître le boutisme employé pour
+les \emph{multiplets} à l'aide du code suivant. Ce dernier stocke la
+valeur \mybox{1} dans une variable de type \mybox{unsigned\ short}, et
+accède à son premier octet à l'aide d'un pointeur sur
+\mybox{unsigned\ char}. Si celui-ci est nul, c'est que la machine est
+gros-boutiste, sinon, c'est qu'elle est petit-boutiste.
+
+\begin{C}
+#include <stdio.h>
+
+
+int main(void)
+{
+    unsigned short n = 1;
+    unsigned char *p = (unsigned char *)&n;
+
+    if (*p != 0)
+        printf("Je suis petit-boutiste.\n");
+    else
+        printf("Je suis gros-boutiste.\n");
+
+    return 0;
+}
+\end{C}
+
+\begin{attentionbox}
+  Notez bien que cette technique n'est
+pas entièrement fiable. En effet, rappelez-vous : d'une part, les deux
+boutismes présentés, s'ils sont les plus fréquents, ne sont pas les
+seuls et, d'autre part, la présence de \emph{bits} de bourrage au sein
+du type entier, bien que rare, pourrait fausser le résultat.
+\end{attentionbox}
+
+
+\subsubsection{Le boutisme des constantes octales et hexadécimales}
+\label{le-boutisme-des-constantes-octales-et-hexadecimales}
+
+Suivant ce qui vient de vous être présenter, peut-être vous êtes vous
+posé la question suivante : si les boutismes varient d'une machine à
+l'autre, alors que vaut finalement la constante \mybox{0x01} ? En
+effet, suivant les boutismes employés, celle-ci peut valoir 1 ou 16.
+
+Heureusement, cette question est réglée par la norme\footnote{Programming
+  Language C, X3J11/88-090, § 3.1.3.2, Integer constants, al. 3Pour
+  terminer ce chapitre, il nous reste à vous présenter quatre fonctions
+  que nous avions passé sous silence lors de notre présentation de
+  l'en-tête \mybox{\textless{}string.h\textgreater{}} :
+  \mybox{memset()}, \mybox{memcpy()}, \mybox{memmove()} et
+  \mybox{memcmp()}. Bien qu'elles soient définies dans cet en-tête, ces
+  fonctions ne sont pas véritablement liées aux chaînes de caractères et
+  opèrent en vérité sur les multiplets composant les objets. De telles
+  modifications impliquant la représentation des types, nous avons
+  attendu ce chapitre pour vous en parler.} : le boutisme ne change
+\emph{rien} à l'écriture des constantes octales et hexadécimales, elle
+est toujours réalisée suivant la convention classique des chiffres de
+poids fort en premier. Ainsi, la constante \mybox{0x01} vaut 1 et la
+constante \mybox{0x8000} vaut 32768 (en non signé).
+
+De même, les indicateurs de conversion \mybox{x}, \mybox{X} et
+\mybox{o} affichent toujours leurs résultats suivant cette écriture.
+
+\begin{C}
+printf("%02x\n", 1);
+\end{C}
+
+\begin{C}
+ 01
+\end{C}
+
+\section{Les fonctions memset, memcpy, memmove et memcmp}
+\label{les-fonctions-memset,-memcpy,-memmove-et-memcmp}
+
+\subsection{La fonction memset}
+\label{la-fonction-memset}
+
+\begin{C}
+void *memset(void *obj, int val, size_t taille);
+\end{C}
+
+La fonction \mybox{memset()} initialise les \mybox{taille} premiers
+multiplets de l'objet référencé par \mybox{obj} avec la valeur
+\mybox{val} (qui est convertie vers le type \mybox{unsigned\ char}).
+Cette fonction est très utile pour (ré)initialiser les différents
+éléments d'un aggrégats sans devoir recourir à une boucle.
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    int tab[] = { 10, 20, 30, 40, 50 };
+    int i;
+
+    memset(tab, 0, sizeof tab);
+
+    for (i = 0; i < sizeof tab / sizeof tab[0]; ++i)
+        printf("%d : %d\n", i, tab[i]);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+0 : 0
+1 : 0
+2 : 0
+3 : 0
+4 : 0
+\end{C}
+
+\begin{erreurbox}
+  Faites attention ! Manipuler ainsi les
+objets \emph{byte} par \emph{byte} nécessite de connaître leur
+représentation. Dans un souci de portabilité, on ne devrait donc pas
+utiliser \mybox{memset} sur des pointeurs ou des flottants. De même,
+pour éviter d'obtenir les représentations problématiques dans le cas
+d'entiers signés, il est conseillé de n'employer cette fonction que pour
+mettre ces derniers à zéro.
+\end{erreurbox}
+
+
+\subsection{Les fonctions memcpy et memmove}
+\label{les-fonctions-memcpy-et-memmove}
+
+\begin{C}
+void *memcpy(void *destination, void *source, size_t taille);
+void *memmove(void *destination, void *source, size_t taille);
+\end{C}
+
+Les fonction \mybox{memcpy()} et \mybox{memmove()} copient toutes deux
+les \mybox{taille} premiers multiplets de l'objet pointé par
+\mybox{source} vers les premiers multiplets de l'objet référencé par
+\mybox{destination}. La différence entre ces deux fonctions est que
+\mybox{memcpy()} ne doit être utilisée qu'avec deux objets qui ne se
+chevauchent pas (autrement dit, les deux pointeurs ne doivent pas
+accéder ou modifier une même zone mémoire ou une partie d'une même zone
+mémoire) alors que \mybox{memmove()} ne souffre pas de cette
+restriction.
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    int n = 10;
+    int m;
+
+    memcpy(&m , &n, sizeof n);
+    printf("m = n = %d\n", m);
+
+    memmove(&n, ((unsigned char *)&n) + 1, sizeof n - 1);
+    printf("n = %d\n", n);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+m = n = 10
+n = 0
+\end{C}
+
+L'utilisation de \mybox{memmove()} amène quelques précisions : nous
+copions ici les trois derniers multiplets de l'objet \mybox{n} vers ses
+trois premiers multiplets. Étant donné que notre machine est
+petit-boutiste, les trois derniers multiplets sont à zéro et la variable
+\mybox{n} a donc pour valeur finale zéro.
+
+\subsection{La fonction memcmp}
+\label{la-fonction-memcmp}
+
+\begin{C}
+int memcmp(void *obj1, void *obj2, size_t taille);
+\end{C}
+
+La fonction \mybox{memcmp()} compare les \mybox{taille} premiers
+multiplets des objets référencés par \mybox{obj1} et \mybox{obj2} et
+retourne un nombre entier inférieur, égal ou supérieur à zéro suivant
+que la valeur du dernier multiplet comparé (convertie en
+\mybox{unsigned\ char}) de \mybox{obj1} est inférieure, égales ou
+supérieure à celle du dernier multiplet comparé de \mybox{obj2}.
+
+\begin{C}
+#include <stdio.h>
+#include <string.h>
+
+
+int main(void)
+{
+    int n = 10;
+    int m = 10;
+    int o = 20;
+
+    if (memcmp(&n, &m, sizeof n) == 0)
+        printf("n et m sont égaux\n");
+
+    if (memcmp(&n, &o, sizeof n) != 0)
+        printf("n et o ne sont pas égaux\n");
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+n et m sont égaux
+n et o ne sont pas égaux
+\end{C}
+
+\begin{infobox}
+  Dit autrement, la fonction
+\mybox{memcmp()} retourne zéro si les deux portions comparées ont la
+même représentation.
+\end{infobox}
+
+\hrulefill
+
+\subsubsection{En résumé}
+\label{en-resume}
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  les entiers non signés sont représentés sous forme d'une somme de
+  puissance de deux ;
+\item
+  il existe trois représentations possibles pour les entiers signés,
+  mais la plus fréquente est celle en complément à deux ;
+\item
+  les types entiers peuvent contenir des \emph{bits} de bourrage
+  \emph{sauf} le type \mybox{char} ;
+\item
+  les types flottants sont représentés sous forme d'un signe, d'un
+  exposant et d'une mantisse, mais sont susceptibles d'engendrer des
+  approximations et des pertes de précision ;
+\item
+  la représentation des pointeurs est indéterminée ;
+\item
+  le boutisme utilisé dépend de la machine cible ;
+\item
+  les constantes sont toujours écrites suivant la représentation
+  gros-boutiste.
+\end{enumerate}
