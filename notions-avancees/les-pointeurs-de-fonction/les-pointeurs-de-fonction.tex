@@ -1,113 +1,445 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
-\PassOptionsToPackage{hyphens}{url}
-%
-\documentclass[]{article}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-\fi
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
-\hypersetup{
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\newenvironment{Shaded}{}{}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
-\newcommand{\ImportTok}[1]{{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
-\newcommand{\BuiltInTok}[1]{{#1}}
-\newcommand{\ExtensionTok}[1]{{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
-\newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\NormalTok}[1]{{#1}}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
+\chapter{Les pointeurs de fonction}
+\label{les-pointeurs-de-fonction}
 
-% set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
+À ce stade, vous pensiez sans doute avoir fait le tour des
+  pointeurs, que ces derniers n'avaient plus de secrets pour vous et que
+  vous maîtrisiez enfin tous leurs aspects ainsi que leur syntaxe
+  parfois déroutante ? \emph{Eh} bien, pas encore !
+
+Il reste un dernier type de pointeur (et non des moindres) que nous
+avons tu jusqu'ici : les \textbf{pointeurs de fonction}.
+
+\section{Déclaration et initialisation}
+\label{declaration-et-initialisation-3}
+
+Jusqu’à maintenant, nous avons manipulé des pointeurs sur objet, 
+c'est-à-dire des adresses vers des zones mémoires contenant des 
+\emph{données} (des entiers, des flottants, des structures, etc.). 
+Toutefois, il est également possible de référencer des \emph{instructions} 
+et ceci est réalisé en C à l'aide des pointeurs de fonction.
+
+Un pointeur de fonction se définit à l'aide d'une syntaxe mélangeant
+celle des pointeurs sur tableau et celles des prototypes de fonction.
+Sans plus attendre, voici ci-dessous la définition d'un pointeur sur une
+fonction retournant un \mybox{int} et attendant un \mybox{int} comme
+argument.
+
+\begin{C}
+int (*pf)(int);
+\end{C}
+
+Comme vous le voyez, il est nécessaire, tout comme les pointeurs sur
+tableau, d'entourer le symbole \mybox{*} et l'identificateur de
+parenthèses, ici afin d'éviter que cette déclaration ne soit vue comme
+un prototype et non comme un pointeur de fonction. Autre particularité :
+le type de retour, le nombre d'arguments et leur type doivent également
+être spécifiés.
+
+\subsection{Initialisation}
+\label{initialisation-7}
+
+\begin{questionbox} 
+ Ok\ldots{} Et je lui affecte comment
+l'adresse d'une fonction, moi, à ce machin ? D'ailleurs, elles ont une
+adresse, les fonctions ?
+\end{questionbox}
+
+Oui et comme d'habitude, cela est réalisé à l'aide de l'opérateur
+\mybox{\&}. \^{}\^{}\\
+En fait, dans le cas des fonctions, il n'est pas obligatoire de recourir
+à cet opérateur, ainsi, les deux syntaxes suivantes sont correctes.
+
+\begin{C}
+int (*pf)(int);
+
+pf = &fonction;
+pf = fonction;
+\end{C}
+
+Ceci est dû, à l'image des tableaux, à une conversion implicite : sauf
+s'il est l'opérande de l'opérateur \mybox{\&}, un identificateur de
+fonction est converti en un pointeur sur cette fonction. L'utilisation
+de l'opérateur \mybox{\&} est donc facultative, mais elle a le mérite
+de clarifier un peu les choses. Pour cette raison, nous utiliserons
+cette syntaxe dans la suite de ce cours.
+
+\section{Utilisation}
+\label{utilisation-6}
 
 
-\date{}
+\subsection{Déréférencement}
+\label{dereferencement-1}
 
-\begin{document}
+Un pointeur de fonction s'emploie de la même manière qu'un pointeur
+classique, si ce n'est que l'opérateur \mybox{*} et l'identificateur
+doivent à nouveau être entre parenthèses. Pour le reste, la liste des
+arguments suit l'expression déréférencée, comme pour un appel de
+fonction classique.
 
+\begin{C}
+#include <stdio.h>
+
+
+static int triple(int a)
 {
-\setcounter{tocdepth}{3}
-\tableofcontents
+    return a * 3;
 }
-\subsubsection{En résumé}\label{en-ruxe9sumuxe9}
+
+
+int main(void)
+{
+    int (*pt)(int) = &triple;
+
+    printf("%d.\n", (*pt)(3));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+9.
+\end{C}
+
+Toutefois, particularité des fonctions oblige, sachez que le
+déréférencement n'\emph{est pas nécessaire}. Ceci à cause de la
+conversion implicite expliquée précédemment : un identificateur de
+fonction est, sauf s'il est l'opérande de l'opérateur \mybox{\&},
+converti en un pointeur sur cette fonction. L'appel \mybox{triple(3)}
+cache donc en fait un pointeur de fonction qui, comme vous le voyez,
+n'est \emph{pas} déréférencé.
+
+\begin{questionbox}
+  \emph{Heu}\ldots{} Mais pourquoi
+l'expression \mybox{(*pt)(3)} ne provoque-t-elle pas une erreur si
+c'est un pointeur de fonction qui est nécessaire lors d'un appel ?
+\end{questionbox}
+
+
+Parce que la conversion implicite aura lieu juste après le
+déréférencement.\\
+\emph{Eh} oui, déréférencé un pointeur de fonction, c'est un peu reculer
+pour mieux sauter : nous obtenons une expression équivalente à un
+identificateur de fonction qui sera ensuite convertie en un pointeur de
+fonction. Les deux expressions suivantes sont donc équivalentes.
+
+\begin{C}
+triple(3);
+(*pt)(3);
+\end{C}
+
+L'intérêt d'employer le déréférencement est purement syntaxique : cela
+permet de distinguer des appels effectuer via des pointeurs des appels
+de fonction classiques.
+
+\subsection{Passage en argument}
+\label{passage-en-argument-2}
+
+Comme n'importe quel pointeur, un pointeur de fonction peut être passé
+en argument d'une autre fonction (c'est d'ailleurs tout l'intérêt de
+ceux-ci, comme nous le verrons bientôt). Pour ce faire, il vous suffit
+d'employer la même syntaxe que pour une déclaration.
+
+\begin{C}
+#include <stdio.h>
+
+
+static int triple(int a)
+{
+    return a * 3;
+}
+
+
+static int quadruple(int a)
+{
+    return a * 4;
+}
+
+
+static void affiche(int a, int (*pf)(int))
+{
+    printf("%d.\n", (*pf)(a));
+}
+
+
+int main(void)
+{
+    affiche(3, &triple);
+    affiche(3, &quadruple);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+9.
+12.
+\end{C}
+
+\begin{infobox}
+  La fonction \mybox{affiche()}
+ci-dessus est ce que l'on appelle une \emph{fonction de rappel}
+(\emph{callback function} en anglais), c'est-à-dire une fonction faisant
+appel à une autre à l'aide de l'adresse qui lui est fournie en argument.
+\end{infobox}
+
+
+\subsection{Retour de fonction}
+\label{retour-de-fonction-3}
+
+Dans l'autre sens, il est possible de retourner un pointeur de fonction
+à l'aide d'une syntaxe\ldots{} un peu lourde. :-°
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+
+
+static void affiche_pair(int a)
+{
+    printf("%d est pair.\n", a);
+}
+
+
+static void affiche_impair(int a)
+{
+    printf("%d est impair.\n", a);
+}
+
+
+static void (*affiche(int a))(int)
+{
+    if (a % 2 == 0)
+        return &affiche_pair;
+    else
+        return &affiche_impair;
+}
+
+
+
+int main(void)
+{
+    void (*pf)(int);
+    int a = 2;
+
+    pf = affiche(a);
+    (*pf)(a);
+    return 0;
+}
+
+\end{C}
+
+\begin{C}
+2 est pair.
+\end{C}
+
+Comme pour une variable de type pointeur de fonction, le symbole
+\mybox{*} doit être entouré de parenthèses ainsi que l'identificateur
+qui le suit. Toutefois, lorsqu'il s'agit du type de retour d'une
+fonction, la liste des arguments doit également être placée entre ces
+parenthèses.
+
+Dans cet exemple, la fonction \mybox{affiche()} attend un \mybox{int}
+et retourne un pointeur sur une fonction ne retournant rien et utilisant
+un argument de type \mybox{int}. Suivant si \mybox{a} est pair ou
+impair, la fonction \mybox{affiche()} retourne l'adresse de la fonction
+\mybox{affichage\_pair()} ou \mybox{affichage\_impair()} qui est
+recueillie par le pointeur \mybox{pf} de la fonction
+\mybox{main()}.
+
+
+\section{Pointeurs de fonction et pointeurs génériques}
+\label{pointeurs-de-fonction-et-pointeurs-generiques}
+
+Vous le savez, le type \mybox{void} est employé en C
+pour produire un pointeur générique qui peut se voir assigner n'importe
+quel type de pointeur et être converti vers n'importe quel type de
+pointeurs. Cette définition est toutefois incomplète car il doit en fait
+être précisé que cela ne fonctionne que pour des pointeurs sur des
+\emph{objets}. Le code ci-dessous est donc incorrect.
+
+\begin{C}
+int (*pf)(int);
+void *p;
+
+pf = p; /* Faux. */
+p = pf; /* Faux également. */
+\end{C}
+
+Pareillement, une conversion explicite d'un pointeur sur un objet vers
+ou depuis un pointeur sur fonction est interdite (ou, plus précisément,
+son résultat est indéterminé). Ceci exclut donc l'utilisation de
+l'indicateur \mybox{p} de la fonction \mybox{printf()} pour afficher
+un pointeur de fonction.
+
+\begin{C}
+printf("%p.\n", (void *)pf); /* Faux. */
+\end{C}
+
+Toutefois, les pointeurs de fonction disposent de leur propre pointeur «
+générique ». Nous utilisons ici les guillemets car il ne l'est pas tout
+à fait puisqu'il peut notamment être utilisé à l'inverse d'un pointeur
+sur \mybox{void}. Un pointeur « générique » de fonction se déclare
+comme un pointeur de fonction, mais en ne spécifiant que le type de
+retour.
+
+\begin{C}
+int (*pf)();
+\end{C}
+
+Un tel pointeur peut se voir assigner n'importe quel pointeur sur
+fonction du moment que le type de retour de celui-ci est identique au
+sien. Inversement, ce pointeur « générique » peut être affecté à un
+autre pointeur sous la même condition. Dans notre cas, le type de retour
+doit donc être \mybox{int}.
+
+\begin{C}
+int (*f)(int, int);
+int (*g)(char, char, double);
+void (*h)(void);
+int (*pf)();
+
+pf = f; /* Ok. */
+pf = g; /* Ok. */
+pf = h; /* Faux car le type de retour de `h` est `void`. */
+f = pf; /* Ok. */
+\end{C}
+
+\begin{attentionbox}
+  Il existe cependant une exception
+supplémentaire : une fonction à nombre variables d'arguments ne peut pas
+être affectée à un tel pointeur, même si le type de retour est
+identique. Nous verrons bientôt de quoi il s'agit, mais pour l'heure,
+sachez que les fonctions de la famille de \mybox{printf()} et de
+\mybox{scanf()} sont concernées par cette règle.
+\end{attentionbox}
+
+
+\subsection{La promotion des arguments}
+\label{la-promotion-des-arguments}
+
+\begin{questionbox}
+  \emph{Hé} là, minute papillon ! Il se
+passe quoi si j'utilise le pointeur \mybox{pf} avec une fonction qui
+attend normalement des arguments ?
+\end{questionbox}
+
+
+Excellente question !
+
+Vous vous en doutez : les arguments peuvent toujours être envoyé à la
+fonction référencée. Cependant, il y a une subtilité. Étant donné qu'un
+pointeur « générique » de fonction ne fournit aucune information quant
+aux arguments, le compilateur ne peut pas convertir ceux-ci vers le type
+attendu par la fonction. Ainsi, si vous fournissez un \mybox{int} et
+que la fonction attend un \mybox{char}, le \mybox{int} ne sera pas
+converti vers le type \mybox{char} par le compilateur.
+
+Toutefois, dans un tel cas, plusieurs conversions implicites sont
+appliquées afin de limiter les types possibles (on parle de « promotion
+des arguments ») :
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  Un argument de type entier de rang inférieur ou égal à celui du type
+  \mybox{int} (soit \mybox{char} et \mybox{short} le plus souvent)
+  est converti vers le type \mybox{int} (ou \mybox{unsigned\ int} si
+  le type \mybox{int} ne peut pas représenter toutes les valeurs du
+  type d'origine).
+\item
+  Un argument de type \mybox{float} et converti vers le type
+  \mybox{double}.
+\end{enumerate}
+
+\begin{erreurbox}
+  Ceci signifie qu'une fonction appelée à
+l'aide d'un pointeur « générique » de fonction ne pourra \emph{jamais}
+recevoir des arguments de type \mybox{char}, \mybox{short} ou
+\mybox{float}.
+\end{erreurbox}
+
+
+Illustration.
+
+\begin{C}
+#include <stdio.h>
+
+
+static float triple(float f)
+{
+    return 3.F * f;
+}
+
+
+static short quadruple(short n)
+{
+    return 4 * n;
+}
+
+
+int main(void)
+{
+    float (*pt)() = &triple;
+    short (*pq)() = &quadruple;
+
+    printf("triple = %f.\n", (*pt)(3.F)); /* Faux. */
+    printf("quadruple = %d.\n", (*pq)(2)); /* Faux. */
+    return 0;
+}
+\end{C}
+
+\subsection{Les pointeurs nuls}
+\label{les-pointeurs-nuls}
+
+L'absence de conversions par le compilateur dans le cas où aucune
+information n'est fournie par rapport aux arguments pose un problème
+particulier dans le cas des pointeurs nuls et tout spécialement lors de
+l'usage de la macroconstante \mybox{NULL}.
+
+Rappelez-vous : un pointeur nul est construit en convertissant, soit
+explicitement, soit implicitement, zéro (entier) vers un type pointeur.
+Or, étant donné que le compilateur n'effectuera aucune conversion
+implicite dans notre cas, nous ne pouvons compter que sur les
+conversions explicites.
+
+Et c'est ici que le bât blesse : la macroconstante \mybox{NULL} a deux
+valeurs possibles : \mybox{(void\ *)0} ou \mybox{0}, le choix étant
+laissé aux différents systèmes. La première ne pose pas de problème,
+mais la seconde en pose un plutôt gênant : c'est un \mybox{int} qui
+sera passé comme argument et non un pointeur nul.
+
+Dès lors, lorsque vous employez un pointeur « générique » de fonction,
+vous \emph{devez} recourir à une conversion explicite si vous souhaitez
+produire un pointeur nul.
+
+\begin{C}
+static void affiche(char *chaine)
+{
+    if (chaine != NULL)
+        puts(chaine);
+}
+
+/* ... */
+
+void (*pf)() = &affiche;
+
+(*pf)(NULL); /* Faux. */
+(*pf)(0); /* Faux. */
+(*pf)((char*)0); /* Ok. */
+\end{C}
+
+\hrulefill
+
+\subsubsection*{\small{En résumé}}
+\label{en-resume-6}
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
 \item
   Un pointeur de fonction permet de stocker une référence vers une
   fonction ;
 \item
-  Il n'est pas nécessaire d'employer l'opérateur \texttt{\&} pour
+  Il n'est pas nécessaire d'employer l'opérateur \mybox{\&} pour
   obtenir l'adresse d'une fonction ;
 \item
   Le déréférencement n'est pas obligatoire lors de l'utilisation d'un
@@ -134,415 +466,5 @@
 \item
   Lors de l'utilisation d'un pointeur « générique » de fonction, un
   pointeur nul ne peut être fourni qu'à l'aide d'une conversion
-  explicite.À ce stade, vous pensiez sans doute avoir fait le tour des
-  pointeurs, que ces derniers n'avaient plus de secrets pour vous et que
-  vous maîtrisiez enfin tous leurs aspects ainsi que leur syntaxe
-  parfois déroutante ? \emph{Eh} bien, pas encore ! :diable:
-\end{enumerate}
-
-Il reste un dernier type de pointeur (et non des moindres) que nous
-avons tu jusqu'ici : les \textbf{pointeurs de fonction}.Jusqu'à
-maintenant, nous avons manipulé des pointeurs sur objet, c'est-à-dire
-des adresses vers des zones mémoires contenant des \emph{données} (des
-entiers, des flottants, des structures, etc.). Toutefois, il est
-également possible de référencer des \emph{instructions} et ceci est
-réalisé en C à l'aide des pointeurs de fonction.
-
-Un pointeur de fonction se définit à l'aide d'une syntaxe mélangeant
-celle des pointeurs sur tableau et celles des prototypes de fonction.
-Sans plus attendre, voici ci-dessous la définition d'un pointeur sur une
-fonction retournant un \texttt{int} et attendant un \texttt{int} comme
-argument.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{(*pf)(}\DataTypeTok{int}\NormalTok{);}
-\end{Highlighting}
-\end{Shaded}
-
-Comme vous le voyez, il est nécessaire, tout comme les pointeurs sur
-tableau, d'entourer le symbole \texttt{*} et l'identificateur de
-parenthèses, ici afin d'éviter que cette déclaration ne soit vue comme
-un prototype et non comme un pointeur de fonction. Autre particularité :
-le type de retour, le nombre d'arguments et leur type doivent également
-être spécifiés.
-
-\section{Initialisation}\label{initialisation}
-
-{[}{[}question{]}{]} \textbar{} Ok\ldots{} Et je lui affecte comment
-l'adresse d'une fonction, moi, à ce machin ? D'ailleurs, elles ont une
-adresse, les fonctions ? :euh:
-
-Oui et comme d'habitude, cela est réalisé à l'aide de l'opérateur
-\texttt{\&}. \^{}\^{}\\
-En fait, dans le cas des fonctions, il n'est pas obligatoire de recourir
-à cet opérateur, ainsi, les deux syntaxes suivantes sont correctes.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{(*pf)(}\DataTypeTok{int}\NormalTok{);}
-
-\NormalTok{pf = &fonction;}
-\NormalTok{pf = fonction;}
-\end{Highlighting}
-\end{Shaded}
-
-Ceci est dû, à l'image des tableaux, à une conversion implicite : sauf
-s'il est l'opérande de l'opérateur \texttt{\&}, un identificateur de
-fonction est converti en un pointeur sur cette fonction. L'utilisation
-de l'opérateur \texttt{\&} est donc facultative, mais elle a le mérite
-de clarifier un peu les choses. Pour cette raison, nous utiliserons
-cette syntaxe dans la suite de ce cours.\# Déréférencement
-
-Un pointeur de fonction s'emploie de la même manière qu'un pointeur
-classique, si ce n'est que l'opérateur \texttt{*} et l'identificateur
-doivent à nouveau être entre parenthèses. Pour le reste, la liste des
-arguments suit l'expression déréférencée, comme pour un appel de
-fonction classique.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-
-\DataTypeTok{static} \DataTypeTok{int} \NormalTok{triple(}\DataTypeTok{int} \NormalTok{a)}
-\NormalTok{\{}
-    \ControlFlowTok{return} \NormalTok{a * }\DecValTok{3}\NormalTok{;}
-\NormalTok{\}}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{int} \NormalTok{(*pt)(}\DataTypeTok{int}\NormalTok{) = &triple;}
-
-    \NormalTok{printf(}\StringTok{"%d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (*pt)(}\DecValTok{3}\NormalTok{));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-9.
-\end{verbatim}
-
-Toutefois, particularité des fonctions oblige, sachez que le
-déréférencement n'\emph{est pas nécessaire}. Ceci à cause de la
-conversion implicite expliquée précédemment : un identificateur de
-fonction est, sauf s'il est l'opérande de l'opérateur \texttt{\&},
-converti en un pointeur sur cette fonction. L'appel \texttt{triple(3)}
-cache donc en fait un pointeur de fonction qui, comme vous le voyez,
-n'est \emph{pas} déréférencé.
-
-{[}{[}question{]}{]} \textbar{} \emph{Heu}\ldots{} Mais pourquoi
-l'expression \texttt{(*pt)(3)} ne provoque-t-elle pas une erreur si
-c'est un pointeur de fonction qui est nécessaire lors d'un appel ?
-
-Parce que la conversion implicite aura lieu juste après le
-déréférencement. :-°\\
-\emph{Eh} oui, déréférencé un pointeur de fonction, c'est un peu reculer
-pour mieux sauter : nous obtenons une expression équivalente à un
-identificateur de fonction qui sera ensuite convertie en un pointeur de
-fonction. Les deux expressions suivantes sont donc équivalentes.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{triple(}\DecValTok{3}\NormalTok{);}
-\NormalTok{(*pt)(}\DecValTok{3}\NormalTok{);}
-\end{Highlighting}
-\end{Shaded}
-
-L'intérêt d'employer le déréférencement est purement syntaxique : cela
-permet de distinguer des appels effectuer via des pointeurs des appels
-de fonction classiques.
-
-\section{Passage en argument}\label{passage-en-argument}
-
-Comme n'importe quel pointeur, un pointeur de fonction peut être passé
-en argument d'une autre fonction (c'est d'ailleurs tout l'intérêt de
-ceux-ci, comme nous le verrons bientôt). Pour ce faire, il vous suffit
-d'employer la même syntaxe que pour une déclaration.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-
-\DataTypeTok{static} \DataTypeTok{int} \NormalTok{triple(}\DataTypeTok{int} \NormalTok{a)}
-\NormalTok{\{}
-    \ControlFlowTok{return} \NormalTok{a * }\DecValTok{3}\NormalTok{;}
-\NormalTok{\}}
-
-
-\DataTypeTok{static} \DataTypeTok{int} \NormalTok{quadruple(}\DataTypeTok{int} \NormalTok{a)}
-\NormalTok{\{}
-    \ControlFlowTok{return} \NormalTok{a * }\DecValTok{4}\NormalTok{;}
-\NormalTok{\}}
-
-
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche(}\DataTypeTok{int} \NormalTok{a, }\DataTypeTok{int} \NormalTok{(*pf)(}\DataTypeTok{int}\NormalTok{))}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"%d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (*pf)(a));}
-\NormalTok{\}}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \NormalTok{affiche(}\DecValTok{3}\NormalTok{, &triple);}
-    \NormalTok{affiche(}\DecValTok{3}\NormalTok{, &quadruple);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-9.
-12.
-\end{verbatim}
-
-{[}{[}information{]}{]} \textbar{} La fonction \texttt{affiche()}
-ci-dessus est ce que l'on appelle une \emph{fonction de rappel}
-(\emph{callback function} en anglais), c'est-à-dire une fonction faisant
-appel à une autre à l'aide de l'adresse qui lui est fournie en argument.
-
-\section{Retour de fonction}\label{retour-de-fonction}
-
-Dans l'autre sens, il est possible de retourner un pointeur de fonction
-à l'aide d'une syntaxe\ldots{} un peu lourde. :-°
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche_pair(}\DataTypeTok{int} \NormalTok{a)}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"%d est pair.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, a);}
-\NormalTok{\}}
-
-
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche_impair(}\DataTypeTok{int} \NormalTok{a)}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"%d est impair.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, a);}
-\NormalTok{\}}
-
-
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{(*affiche(}\DataTypeTok{int} \NormalTok{a))(}\DataTypeTok{int}\NormalTok{)}
-\NormalTok{\{}
-    \ControlFlowTok{if} \NormalTok{(a % }\DecValTok{2} \NormalTok{== }\DecValTok{0}\NormalTok{)}
-        \ControlFlowTok{return} \NormalTok{&affiche_pair;}
-    \ControlFlowTok{else}
-        \ControlFlowTok{return} \NormalTok{&affiche_impair;}
-\NormalTok{\}}
-    
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{void} \NormalTok{(*pf)(}\DataTypeTok{int}\NormalTok{);}
-    \DataTypeTok{int} \NormalTok{a = }\DecValTok{2}\NormalTok{;}
-
-    \NormalTok{pf = affiche(a);}
-    \NormalTok{(*pf)(a);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-2 est pair.
-\end{verbatim}
-
-Comme pour une variable de type pointeur de fonction, le symbole
-\texttt{*} doit être entouré de parenthèses ainsi que l'identificateur
-qui le suit. Toutefois, lorsqu'il s'agit du type de retour d'une
-fonction, la liste des arguments doit également être placée entre ces
-parenthèses.
-
-Dans cet exemple, la fonction \texttt{affiche()} attend un \texttt{int}
-et retourne un pointeur sur une fonction ne retournant rien et utilisant
-un argument de type \texttt{int}. Suivant si \texttt{a} est pair ou
-impair, la fonction \texttt{affiche()} retourne l'adresse de la fonction
-\texttt{affichage\_pair()} ou \texttt{affichage\_impair()} qui est
-recueillie par le pointeur \texttt{pf} de la fonction
-\texttt{main()}.Vous le savez, le type \texttt{void} est employé en C
-pour produire un pointeur générique qui peut se voir assigner n'importe
-quel type de pointeur et être converti vers n'importe quel type de
-pointeurs. Cette définition est toutefois incomplète car il doit en fait
-être précisé que cela ne fonctionne que pour des pointeurs sur des
-\emph{objets}. Le code ci-dessous est donc incorrect.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{(*pf)(}\DataTypeTok{int}\NormalTok{);}
-\DataTypeTok{void} \NormalTok{*p;}
-
-\NormalTok{pf = p; }\CommentTok{/* Faux. */}
-\NormalTok{p = pf; }\CommentTok{/* Faux également. */}
-\end{Highlighting}
-\end{Shaded}
-
-Pareillement, une conversion explicite d'un pointeur sur un objet vers
-ou depuis un pointeur sur fonction est interdite (ou, plus précisément,
-son résultat est indéterminé). Ceci exclut donc l'utilisation de
-l'indicateur \texttt{p} de la fonction \texttt{printf()} pour afficher
-un pointeur de fonction.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{printf(}\StringTok{"%p.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{void} \NormalTok{*)pf); }\CommentTok{/* Faux. */}
-\end{Highlighting}
-\end{Shaded}
-
-Toutefois, les pointeurs de fonction disposent de leur propre pointeur «
-générique ». Nous utilisons ici les guillemets car il ne l'est pas tout
-à fait puisqu'il peut notamment être utilisé à l'inverse d'un pointeur
-sur \texttt{void}. Un pointeur « générique » de fonction se déclare
-comme un pointeur de fonction, mais en ne spécifiant que le type de
-retour.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{(*pf)();}
-\end{Highlighting}
-\end{Shaded}
-
-Un tel pointeur peut se voir assigner n'importe quel pointeur sur
-fonction du moment que le type de retour de celui-ci est identique au
-sien. Inversement, ce pointeur « générique » peut être affecté à un
-autre pointeur sous la même condition. Dans notre cas, le type de retour
-doit donc être \texttt{int}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{(*f)(}\DataTypeTok{int}\NormalTok{, }\DataTypeTok{int}\NormalTok{);}
-\DataTypeTok{int} \NormalTok{(*g)(}\DataTypeTok{char}\NormalTok{, }\DataTypeTok{char}\NormalTok{, }\DataTypeTok{double}\NormalTok{);}
-\DataTypeTok{void} \NormalTok{(*h)(}\DataTypeTok{void}\NormalTok{);}
-\DataTypeTok{int} \NormalTok{(*pf)();}
-
-\NormalTok{pf = f; }\CommentTok{/* Ok. */}
-\NormalTok{pf = g; }\CommentTok{/* Ok. */}
-\NormalTok{pf = h; }\CommentTok{/* Faux car le type de retour de `h` est `void`. */}
-\NormalTok{f = pf; }\CommentTok{/* Ok. */}
-\end{Highlighting}
-\end{Shaded}
-
-{[}{[}attention{]}{]} \textbar{} Il existe cependant une exception
-supplémentaire : une fonction à nombre variables d'arguments ne peut pas
-être affectée à un tel pointeur, même si le type de retour est
-identique. Nous verrons bientôt de quoi il s'agit, mais pour l'heure,
-sachez que les fonctions de la famille de \texttt{printf()} et de
-\texttt{scanf()} sont concernées par cette règle.
-
-\section{La promotion des arguments}\label{la-promotion-des-arguments}
-
-{[}{[}question{]}{]} \textbar{} \emph{Hé} là, minute papillon ! Il se
-passe quoi si j'utilise le pointeur \texttt{pf} avec une fonction qui
-attend normalement des arguments ?
-
-Excellente question ! :)
-
-Vous vous en doutez : les arguments peuvent toujours être envoyé à la
-fonction référencée. Cependant, il y a une subtilité. Étant donné qu'un
-pointeur « générique » de fonction ne fournit aucune information quant
-aux arguments, le compilateur ne peut pas convertir ceux-ci vers le type
-attendu par la fonction. Ainsi, si vous fournissez un \texttt{int} et
-que la fonction attend un \texttt{char}, le \texttt{int} ne sera pas
-converti vers le type \texttt{char} par le compilateur.
-
-Toutefois, dans un tel cas, plusieurs conversions implicites sont
-appliquées afin de limiter les types possibles (on parle de « promotion
-des arguments ») :
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Un argument de type entier de rang inférieur ou égal à celui du type
-  \texttt{int} (soit \texttt{char} et \texttt{short} le plus souvent)
-  est converti vers le type \texttt{int} (ou \texttt{unsigned\ int} si
-  le type \texttt{int} ne peut pas représenter toutes les valeurs du
-  type d'origine).
-\item
-  Un argument de type \texttt{float} et converti vers le type
-  \texttt{double}.
-\end{enumerate}
-
-{[}{[}erreur{]}{]} \textbar{} Ceci signifie qu'une fonction appelée à
-l'aide d'un pointeur « générique » de fonction ne pourra \emph{jamais}
-recevoir des arguments de type \texttt{char}, \texttt{short} ou
-\texttt{float}.
-
-Illustration.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-
-\DataTypeTok{static} \DataTypeTok{float} \NormalTok{triple(}\DataTypeTok{float} \NormalTok{f)}
-\NormalTok{\{}
-    \ControlFlowTok{return} \FloatTok{3.F} \NormalTok{* f;}
-\NormalTok{\}}
-
-
-\DataTypeTok{static} \DataTypeTok{short} \NormalTok{quadruple(}\DataTypeTok{short} \NormalTok{n)}
-\NormalTok{\{}
-    \ControlFlowTok{return} \DecValTok{4} \NormalTok{* n;}
-\NormalTok{\}}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{float} \NormalTok{(*pt)() = &triple;}
-    \DataTypeTok{short} \NormalTok{(*pq)() = &quadruple;}
-
-    \NormalTok{printf(}\StringTok{"triple = %f.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (*pt)(}\FloatTok{3.F}\NormalTok{)); }\CommentTok{/* Faux. */}
-    \NormalTok{printf(}\StringTok{"quadruple = %d.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (*pq)(}\DecValTok{2}\NormalTok{)); }\CommentTok{/* Faux. */}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Les pointeurs nuls}\label{les-pointeurs-nuls}
-
-L'absence de conversions par le compilateur dans le cas où aucune
-information n'est fournie par rapport aux arguments pose un problème
-particulier dans le cas des pointeurs nuls et tout spécialement lors de
-l'usage de la macroconstante \texttt{NULL}.
-
-Rappelez-vous : un pointeur nul est construit en convertissant, soit
-explicitement, soit implicitement, zéro (entier) vers un type pointeur.
-Or, étant donné que le compilateur n'effectuera aucune conversion
-implicite dans notre cas, nous ne pouvons compter que sur les
-conversions explicites.
-
-Et c'est ici que le bât blesse : la macroconstante \texttt{NULL} a deux
-valeurs possibles : \texttt{(void\ *)0} ou \texttt{0}, le choix étant
-laissé aux différents systèmes. La première ne pose pas de problème,
-mais la seconde en pose un plutôt gênant : c'est un \texttt{int} qui
-sera passé comme argument et non un pointeur nul.
-
-Dès lors, lorsque vous employez un pointeur « générique » de fonction,
-vous \emph{devez} recourir à une conversion explicite si vous souhaitez
-produire un pointeur nul.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche(}\DataTypeTok{char} \NormalTok{*chaine)}
-\NormalTok{\{}
-    \ControlFlowTok{if} \NormalTok{(chaine != NULL)}
-        \NormalTok{puts(chaine);}
-\NormalTok{\}}
-
-\CommentTok{/* ... */}
-
-\DataTypeTok{void} \NormalTok{(*pf)() = &affiche;}
-
-\NormalTok{(*pf)(NULL); }\CommentTok{/* Faux. */}
-\NormalTok{(*pf)(}\DecValTok{0}\NormalTok{); }\CommentTok{/* Faux. */}
-\NormalTok{(*pf)((}\DataTypeTok{char}\NormalTok{*)}\DecValTok{0}\NormalTok{); }\CommentTok{/* Ok. */}
-\end{Highlighting}
-\end{Shaded}
-
-\end{document}
+  explicite.
+\end{enumerate} 

@@ -1,108 +1,249 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
-\PassOptionsToPackage{hyphens}{url}
-%
-\documentclass[]{article}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-\fi
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
-\hypersetup{
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\newenvironment{Shaded}{}{}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
-\newcommand{\ImportTok}[1]{{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
-\newcommand{\BuiltInTok}[1]{{#1}}
-\newcommand{\ExtensionTok}[1]{{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
-\newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\NormalTok}[1]{{#1}}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
+\chapter{Les unions }
+\label{chap:Les unions}
 
-% set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
+Dans la deuxième partie de ce cours nous vous avons présenté
+  la notion d'agrégat qui recouvrait les tableaux et les structures.
+  Toutefois, nous avons passé sous silence un dernier agrégat plus
+  discret moins utilisé : les \textbf{unions}.
 
+\section{Définition }
+\label{sec:definition-5}
 
-\date{}
+Une union est, à l'image d'une structure, un regroupement d'objet de 
+type \emph{différents}. La nuance, et elle est de taille, est qu'une 
+union est un agrégat qui ne peut contenir qu'\emph{un seul} de ses 
+membres à la fois. Autrement dit, une union peut accueillir la valeur 
+de n'importe lequel de ses membres, mais un seul à la fois.
 
-\begin{document}
+Concernant la définition, elle est identique à celle d'une structure ci
+ce n'est que le mot-clé \mybox{union} est employé en lieu et place de
+\mybox{struct}.
 
+\begin{C}
+union type
 {
-\setcounter{tocdepth}{3}
-\tableofcontents
+    int entier;
+    double flottant;
+    void *pointeur;
+    char lettre;
+};
+\end{C}
+
+Le code ci-dessus défini une union \mybox{type} pouvant contenir un
+objet de type \mybox{int} ou de type \mybox{double} ou de type
+pointeur sur \mybox{void} ou de type \mybox{char}. Cette possiblité de
+ne stocker qu'un objet à la fois est traduite par le résultat de
+l'opérateur \mybox{sizeof}.
+
+\begin{C}
+#include <stdio.h>
+
+union type
+{
+    int entier;
+    double flottant;
+    void *pointeur;
+    char lettre;
+};
+
+
+int main(void)
+{
+    printf("%u.\n", sizeof (union type));
+    return 0; 
 }
-\subsubsection{En résumé}\label{en-ruxe9sumuxe9}
+\end{C}
+
+\begin{C}
+8.
+\end{C}
+
+Dans notre cas, la taille de l'union correspond à la taille du plus
+grand type stocké à savoir les types \mybox{void\ *} et \mybox{double}
+qui font huit octets. Ceci traduit bien l'impossiblité de stocker
+plusieurs objets à la fois.
+
+\begin{infobox}
+  Notez que, comme les structures, les
+unions peuvent contenir des \emph{bits} de bourrage, mais uniquement à
+leur fin.
+\end{infobox}
+
+
+Pour le surplus, une union s'utilise de la même manière qu'une structure
+et l'accès aux membres s'effectue à l'aide des opérateurs \mybox{.} et
+\mybox{-\textgreater{}}.
+
+\section{Utilisation }
+\label{utilisation-5}
+
+Étant donné leur singularité, les unions sont rarement employées. Leur 
+principal intérêt est de réduire l'espace mémoire utilisé là où une 
+structure ne le permet pas.
+
+Par exemple, imaginez que vous souhaitiez construire une structure
+pouvant accueillir plusieurs types possibles, par exemple des entiers et
+des flottants. Vous aurez besoin de trois champs : un indiquant quel
+type est stocké dans la structure et deux permettant de stocker soit un
+entier soit un flottant.
+
+\begin{C}
+struct nombre
+{
+    unsigned entier : 1;
+    unsigned flottant : 1;
+    int e;
+    double f;
+};
+\end{C}
+
+Toutefois, vous gaspiller ici de la mémoire puisque seul un des deux
+objets sera stockés. Une union est ici la bienvenue afin d'économiser de
+la mémoire.
+
+\begin{C}
+struct nombre
+{
+    unsigned entier : 1;
+    unsigned flottant : 1;
+    union
+    {
+        int e;
+        double f;
+    } u;
+};
+\end{C}
+
+Le code suivant illustre l'utilisation de cette construction.
+
+\begin{C}
+#include <stdio.h>
+
+struct nombre
+{
+    unsigned entier : 1;
+    unsigned flottant : 1;
+    union
+    {
+        int e;
+        double f;
+    } u;
+};
+
+
+static void affiche_nombre(struct nombre n)
+{
+    if (n.entier)
+        printf("%d\n", n.u.e);
+    else if (n.flottant)
+        printf("%f\n", n.u.f);
+}
+
+
+int main(void)
+{
+    struct nombre a = { 0 };
+    struct nombre b = { 0 };
+
+    a.entier = 1;
+    a.u.e = 10;
+    b.flottant = 1;
+    b.u.f = 10.56;
+
+    affiche_nombre(a);
+    affiche_nombre(b);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+10
+10.560000
+\end{C}
+
+Une autre utilisation fréquente des unions est de permettre de modifier
+l'alignement d'un objet ou, plus précisément, d'augmenter l'alignement
+d'un objet. En fait, il s'agit d'une des conséquences de l'union : étant
+donné qu'elle doit pouvoir stocker n'importe lequel de ses membres, son
+alignement doit être le plus élevé parmi celui de ses membres.
+
+\begin{infobox}
+  Pour rappel, l'alignement d'un type
+peut être connu à l'aide de la macrofonction \mybox{offsetof()} et d'un
+type structure de la forme \mybox{struct\ \{\ char\ c;\ type\ x;\ \}}.
+\end{infobox}
+
+
+Ainsi, si nous souhaitons aligner un objet de type \mybox{int} de la
+même manière qu'un objet de type \mybox{double}, il nous suffit de
+construire une union qui comprendra les deux types. Le code suivant
+vérifie ce qui vient d'être dit.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+
+union nombre
+{
+    int e;
+    double f;
+};
+
+
+int main(void)
+{
+    printf("int : %u\n", (unsigned)offsetof(struct { char c; int n; }, n));
+    printf("union nombre : %u\n", (unsigned)offsetof(struct { char c; union nombre n; }, n));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+int : 4
+union nombre : 8
+\end{C}
+
+Dans la même veine, il est ainsi possible de connaître l'alignement le
+plus strict parmi les types natifs en construisant une union comportant
+les types les plus contraignants, à savoir : le type \mybox{long}, le
+type \mybox{long\ double} et le type \mybox{void\ *}.
+
+\begin{C}
+#include <stddef.h>
+#include <stdio.h>
+
+union align
+{
+    long e;
+    long double f;
+    void *p;
+};
+
+
+int main(void)
+{
+    printf("union align : %u\n", (unsigned)offsetof(struct { char c; union align n; }, n));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+union align : 16
+\end{C}
+
+Comme pour l'exemple précédent, cette technique peut être utilisée pour
+imposer l'alignement le plus strict à un objet ayant une contraine
+d'alignement plus faible. Gardez bien ceci en mémoire, nous y
+reviendrons lors du T.P. final.
+
+\hrulefill
+
+\subsubsection*{\small{En résumé}}
+\label{en-resume-4}
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
+\def
+\labelenumi{\arabic{enumi}.}
 \item
   Une union est un agrégat regroupant des objets de types différents,
   mais ne pouvant en stocker qu'un seul à la fois ;
@@ -111,240 +252,5 @@
   bourrage, mais uniquement à leur fin ;
 \item
   Une union acquiert l'alignement le plus strict parmi ceux de ses
-  membres.Dans la deuxième partie de ce cours nous vous avons présenté
-  la notion d'agrégat qui recouvrait les tableaux et les structures.
-  Toutefois, nous avons passé sous silence un dernier agrégat plus
-  discret moins utilisé : les \textbf{unions}.Étant donné leur
-  singularité, les unions sont rarement employées. Leur principal
-  intérêt est de réduire l'espace mémoire utilisé là où une structure ne
-  le permet pas.
+  membres.
 \end{enumerate}
-
-Par exemple, imaginez que vous souhaitiez construire une structure
-pouvant accueillir plusieurs types possibles, par exemple des entiers et
-des flottants. Vous aurez besoin de trois champs : un indiquant quel
-type est stocké dans la structure et deux permettant de stocker soit un
-entier soit un flottant.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{struct} \NormalTok{nombre}
-\NormalTok{\{}
-    \DataTypeTok{unsigned} \NormalTok{entier : }\DecValTok{1}\NormalTok{;}
-    \DataTypeTok{unsigned} \NormalTok{flottant : }\DecValTok{1}\NormalTok{;}
-    \DataTypeTok{int} \NormalTok{e;}
-    \DataTypeTok{double} \NormalTok{f;}
-\NormalTok{\};}
-\end{Highlighting}
-\end{Shaded}
-
-Toutefois, vous gaspiller ici de la mémoire puisque seul un des deux
-objets sera stockés. Une union est ici la bienvenue afin d'économiser de
-la mémoire.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{struct} \NormalTok{nombre}
-\NormalTok{\{}
-    \DataTypeTok{unsigned} \NormalTok{entier : }\DecValTok{1}\NormalTok{;}
-    \DataTypeTok{unsigned} \NormalTok{flottant : }\DecValTok{1}\NormalTok{;}
-    \KeywordTok{union}
-    \NormalTok{\{}
-        \DataTypeTok{int} \NormalTok{e;}
-        \DataTypeTok{double} \NormalTok{f;}
-    \NormalTok{\} u;}
-\NormalTok{\};}
-\end{Highlighting}
-\end{Shaded}
-
-Le code suivant illustre l'utilisation de cette construction.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-\KeywordTok{struct} \NormalTok{nombre}
-\NormalTok{\{}
-    \DataTypeTok{unsigned} \NormalTok{entier : }\DecValTok{1}\NormalTok{;}
-    \DataTypeTok{unsigned} \NormalTok{flottant : }\DecValTok{1}\NormalTok{;}
-    \KeywordTok{union}
-    \NormalTok{\{}
-        \DataTypeTok{int} \NormalTok{e;}
-        \DataTypeTok{double} \NormalTok{f;}
-    \NormalTok{\} u;}
-\NormalTok{\};}
-
-
-\DataTypeTok{static} \DataTypeTok{void} \NormalTok{affiche_nombre(}\KeywordTok{struct} \NormalTok{nombre n)}
-\NormalTok{\{}
-    \ControlFlowTok{if} \NormalTok{(n.entier)}
-        \NormalTok{printf(}\StringTok{"%d}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, n.u.e);}
-    \ControlFlowTok{else} \ControlFlowTok{if} \NormalTok{(n.flottant)}
-        \NormalTok{printf(}\StringTok{"%f}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, n.u.f);}
-\NormalTok{\}}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \KeywordTok{struct} \NormalTok{nombre a = \{ }\DecValTok{0} \NormalTok{\};}
-    \KeywordTok{struct} \NormalTok{nombre b = \{ }\DecValTok{0} \NormalTok{\};}
-
-    \NormalTok{a.entier = }\DecValTok{1}\NormalTok{;}
-    \NormalTok{a.u.e = }\DecValTok{10}\NormalTok{;}
-    \NormalTok{b.flottant = }\DecValTok{1}\NormalTok{;}
-    \NormalTok{b.u.f = }\FloatTok{10.56}\NormalTok{;}
-
-    \NormalTok{affiche_nombre(a);}
-    \NormalTok{affiche_nombre(b);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-10
-10.560000
-\end{verbatim}
-
-Une autre utilisation fréquente des unions est de permettre de modifier
-l'alignement d'un objet ou, plus précisément, d'augmenter l'alignement
-d'un objet. En fait, il s'agit d'une des conséquences de l'union : étant
-donné qu'elle doit pouvoir stocker n'importe lequel de ses membres, son
-alignement doit être le plus élevé parmi celui de ses membres.
-
-{[}{[}information{]}{]} \textbar{} Pour rappel, l'alignement d'un type
-peut être connu à l'aide de la macrofonction \texttt{offsetof()} et d'un
-type structure de la forme \texttt{struct\ \{\ char\ c;\ type\ x;\ \}}.
-
-Ainsi, si nous souhaitons aligner un objet de type \texttt{int} de la
-même manière qu'un objet de type \texttt{double}, il nous suffit de
-construire une union qui comprendra les deux types. Le code suivant
-vérifie ce qui vient d'être dit.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-\KeywordTok{union} \NormalTok{nombre}
-\NormalTok{\{}
-    \DataTypeTok{int} \NormalTok{e;}
-    \DataTypeTok{double} \NormalTok{f;}
-\NormalTok{\};}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"int : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)offsetof(}\KeywordTok{struct} \NormalTok{\{ }\DataTypeTok{char} \NormalTok{c; }\DataTypeTok{int} \NormalTok{n; \}, n));}
-    \NormalTok{printf(}\StringTok{"union nombre : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)offsetof(}\KeywordTok{struct} \NormalTok{\{ }\DataTypeTok{char} \NormalTok{c; }\KeywordTok{union} \NormalTok{nombre n; \}, n));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-int : 4
-union nombre : 8
-\end{verbatim}
-
-Dans la même veine, il est ainsi possible de connaître l'alignement le
-plus strict parmi les types natifs en construisant une union comportant
-les types les plus contraignants, à savoir : le type \texttt{long}, le
-type \texttt{long\ double} et le type \texttt{void\ *}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-\KeywordTok{union} \NormalTok{align}
-\NormalTok{\{}
-    \DataTypeTok{long} \NormalTok{e;}
-    \DataTypeTok{long} \DataTypeTok{double} \NormalTok{f;}
-    \DataTypeTok{void} \NormalTok{*p;}
-\NormalTok{\};}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"union align : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)offsetof(}\KeywordTok{struct} \NormalTok{\{ }\DataTypeTok{char} \NormalTok{c; }\KeywordTok{union} \NormalTok{align n; \}, n));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-union align : 16
-\end{verbatim}
-
-Comme pour l'exemple précédent, cette technique peut être utilisée pour
-imposer l'alignement le plus strict à un objet ayant une contraine
-d'alignement plus faible. Gardez bien ceci en mémoire, nous y
-reviendrons lors du T.P. final. ;)Une union est, à l'image d'une
-structure, un regroupement d'objet de type \emph{différents}. La nuance,
-et elle est de taille, est qu'une union est un agrégat qui ne peut
-contenir qu'\emph{un seul} de ses membres à la fois. Autrement dit, une
-union peut accueillir la valeur de n'importe lequel de ses membres, mais
-un seul à la fois.
-
-Concernant la définition, elle est identique à celle d'une structure ci
-ce n'est que le mot-clé \texttt{union} est employé en lieu et place de
-\texttt{struct}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{union} \NormalTok{type}
-\NormalTok{\{}
-    \DataTypeTok{int} \NormalTok{entier;}
-    \DataTypeTok{double} \NormalTok{flottant;}
-    \DataTypeTok{void} \NormalTok{*pointeur;}
-    \DataTypeTok{char} \NormalTok{lettre;}
-\NormalTok{\};}
-\end{Highlighting}
-\end{Shaded}
-
-Le code ci-dessus défini une union \texttt{type} pouvant contenir un
-objet de type \texttt{int} ou de type \texttt{double} ou de type
-pointeur sur \texttt{void} ou de type \texttt{char}. Cette possiblité de
-ne stocker qu'un objet à la fois est traduite par le résultat de
-l'opérateur \texttt{sizeof}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-
-\KeywordTok{union} \NormalTok{type}
-\NormalTok{\{}
-    \DataTypeTok{int} \NormalTok{entier;}
-    \DataTypeTok{double} \NormalTok{flottant;}
-    \DataTypeTok{void} \NormalTok{*pointeur;}
-    \DataTypeTok{char} \NormalTok{lettre;}
-\NormalTok{\};}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \NormalTok{printf(}\StringTok{"%u.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\KeywordTok{sizeof} \NormalTok{(}\KeywordTok{union} \NormalTok{type));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{; }
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-8.
-\end{verbatim}
-
-Dans notre cas, la taille de l'union correspond à la taille du plus
-grand type stocké à savoir les types \texttt{void\ *} et \texttt{double}
-qui font huit octets. Ceci traduit bien l'impossiblité de stocker
-plusieurs objets à la fois.
-
-{[}{[}information{]}{]} \textbar{} Notez que, comme les structures, les
-unions peuvent contenir des \emph{bits} de bourrage, mais uniquement à
-leur fin.
-
-Pour le surplus, une union s'utilise de la même manière qu'une structure
-et l'accès aux membres s'effectue à l'aide des opérateurs \texttt{.} et
-\texttt{-\textgreater{}}.
-
-\end{document}

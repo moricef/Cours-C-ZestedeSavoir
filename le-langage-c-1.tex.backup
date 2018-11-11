@@ -51,13 +51,13 @@
 \input{notions-avancees/la-representation-des-types/la-representation-des-types}
 \input{notions-avancees/les-limites-des-types/les-limites-des-types}
 \input{notions-avancees/manipulation-des-bits/manipulation-des-bits}
-\input{notions-avancees/jeux-de-caracteres-et-encodages/jeux-de-caracteres-et-encodages}
-\input{notions-avancees/les-enumerations/les-enumerations}
-\input{notions-avancees/les-unions/les-unions}
-\input{notions-avancees/les-definitions-de-type/les-definitions-de-type}
-\input{notions-avancees/les-pointeurs-de-fonction/les-pointeurs-de-fonction}
-\input{notions-avancees/les-fonctions-a-nombre-variable-darguments/les-fonctions-a-nombre-variable-darguments}
-\input{notions-avancees/t-p-un-allocateur-statique-de-memoire/t-p-un-allocateur-statique-de-memoire}
+%\input{notions-avancees/jeux-de-caracteres-et-encodages/jeux-de-caracteres-et-encodages}
+%\input{notions-avancees/les-enumerations/les-enumerations}
+%\input{notions-avancees/les-unions/les-unions}
+%\input{notions-avancees/les-definitions-de-type/les-definitions-de-type}
+%\input{notions-avancees/les-pointeurs-de-fonction/les-pointeurs-de-fonction}
+%\input{notions-avancees/les-fonctions-a-nombre-variable-darguments/les-fonctions-a-nombre-variable-darguments}
+%\input{notions-avancees/t-p-un-allocateur-statique-de-memoire/t-p-un-allocateur-statique-de-memoire}
 \cleardoublepage% le corps du document est terminé
 
 %\backmatter

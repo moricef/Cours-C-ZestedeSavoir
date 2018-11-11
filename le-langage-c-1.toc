@@ -482,7 +482,95 @@
 \contentsline {subsection}{\numberline {27.4.3}La multiplication}{277}{subsection.27.4.3}
 \contentsline {subsection}{\numberline {27.4.4}La division}{278}{subsection.27.4.4}
 \contentsline {subsubsection}{En résumé}{278}{section*.103}
-\contentsline {chapter}{Index}{279}{Item.28}
-\contentsline {chapter}{Table des figures}{279}{Item.28}
-\contentsline {chapter}{Liste des tableaux}{281}{Item.28}
-\contentsline {chapter}{Table des matières}{291}{Item.28}
+\contentsline {chapter}{\numberline {28}Manipulation des bits}{279}{chapter.28}
+\contentsline {section}{\numberline {28.1}Les opérateurs de manipulation des bits}{279}{section.28.1}
+\contentsline {subsection}{\numberline {28.1.1}Présentation}{279}{subsection.28.1.1}
+\contentsline {subsection}{\numberline {28.1.2}Les opérateurs « et », « ou inclusif » et « ou exclusif »}{279}{subsection.28.1.2}
+\contentsline {subsection}{\numberline {28.1.3}L'opérateur de négation ou de complément}{280}{subsection.28.1.3}
+\contentsline {subsection}{\numberline {28.1.4}Les opérateurs de décalage}{281}{subsection.28.1.4}
+\contentsline {subsubsection}{L'opérateur de décalage à gauche}{281}{section*.104}
+\contentsline {subsubsection}{L'opérateur de décalage à droite}{282}{section*.105}
+\contentsline {subsection}{\numberline {28.1.5}Opérateurs combinés}{282}{subsection.28.1.5}
+\contentsline {section}{\numberline {28.2}Masques et champs de bits}{282}{section.28.2}
+\contentsline {subsection}{\numberline {28.2.1}Les masques}{282}{subsection.28.2.1}
+\contentsline {subsubsection}{Modifier la valeur d'un bit}{283}{section*.106}
+\contentsline {subsection}{\numberline {28.2.2}Les champs de bits}{284}{subsection.28.2.2}
+\contentsline {subsubsection}{Mise en situation}{284}{section*.107}
+\contentsline {subsubsection}{Présentation}{286}{section*.108}
+\contentsline {section}{\numberline {28.3}Les drapeaux}{287}{section.28.3}
+\contentsline {section}{\numberline {28.4}Exercices}{289}{section.28.4}
+\contentsline {subsection}{\numberline {28.4.1}Obtenir la valeur maximale d'un type non signé}{289}{subsection.28.4.1}
+\contentsline {subsubsection}{Indice}{289}{section*.109}
+\contentsline {subsubsection}{Solution}{289}{section*.110}
+\contentsline {subsection}{\numberline {28.4.2}Afficher la représentation en base deux d'un entier}{290}{subsection.28.4.2}
+\contentsline {subsubsection}{Indice}{290}{section*.111}
+\contentsline {subsubsection}{Solution}{290}{section*.112}
+\contentsline {subsection}{\numberline {28.4.3}Déterminer si un nombre est une puissances de deux}{291}{subsection.28.4.3}
+\contentsline {chapter}{\numberline {29}Jeux de caractères et encodages}{293}{chapter.29}
+\contentsline {section}{\numberline {29.1}Les jeux de caractères et les encodages}{293}{section.29.1}
+\contentsline {subsection}{\numberline {29.1.1}Introduction}{293}{subsection.29.1.1}
+\contentsline {subsection}{\numberline {29.1.2}Ce que dit la norme}{293}{subsection.29.1.2}
+\contentsline {subsection}{\numberline {29.1.3}Caractères garantis}{294}{subsection.29.1.3}
+\contentsline {subsubsection}{Jeu de caractère source}{294}{section*.113}
+\contentsline {subsubsection}{Jeu de caractère d'exécution}{294}{section*.114}
+\contentsline {section}{\numberline {29.2}Les caractères larges}{295}{section.29.2}
+\contentsline {subsection}{\numberline {29.2.1}Mise en situation}{295}{subsection.29.2.1}
+\contentsline {subsection}{\numberline {29.2.2}Les caractères larges}{296}{subsection.29.2.2}
+\contentsline {subsubsection}{Les fonctions mbtowc et wctomb}{296}{section*.115}
+\contentsline {subsubsection}{Convertir une chaîne complète}{298}{section*.116}
+\contentsline {subsubsection}{Les fonction mbstowcs et wcstombs}{300}{section*.117}
+\contentsline {subsubsection}{La fonction mblen}{301}{section*.118}
+\contentsline {subsection}{\numberline {29.2.3}Des fonctions dans tous leurs états}{301}{subsection.29.2.3}
+\contentsline {section}{\numberline {29.3}Internationalisation et localisation}{301}{section.29.3}
+\contentsline {subsection}{\numberline {29.3.1}L'internationalisation}{302}{subsection.29.3.1}
+\contentsline {subsection}{\numberline {29.3.2}La localisation}{302}{subsection.29.3.2}
+\contentsline {subsection}{\numberline {29.3.3}La fonction setlocale}{302}{subsection.29.3.3}
+\contentsline {subsubsection}{Les catégories}{302}{section*.119}
+\contentsline {subsubsection}{Les localisations}{302}{section*.120}
+\contentsline {subsection}{\numberline {29.3.4}Exemple}{303}{subsection.29.3.4}
+\contentsline {chapter}{\numberline {30}Les énumérations}{305}{chapter.30}
+\contentsline {section}{\numberline {30.1}Définition}{305}{section.30.1}
+\contentsline {subsubsection}{Types entiers sous-jacents}{306}{section*.121}
+\contentsline {section}{\numberline {30.2}Utilisation }{306}{section.30.2}
+\contentsline {chapter}{\numberline {31}Les unions }{309}{chapter.31}
+\contentsline {section}{\numberline {31.1}Définition }{309}{section.31.1}
+\contentsline {section}{\numberline {31.2}Utilisation }{310}{section.31.2}
+\contentsline {chapter}{\numberline {32}Les définitions de type}{313}{chapter.32}
+\contentsline {section}{\numberline {32.1}Définition et utilisation }{313}{section.32.1}
+\contentsline {subsubsection}{En résumé}{314}{section*.124}
+\contentsline {chapter}{\numberline {33}Les pointeurs de fonction}{315}{chapter.33}
+\contentsline {section}{\numberline {33.1}Déclaration et initialisation}{315}{section.33.1}
+\contentsline {subsection}{\numberline {33.1.1}Initialisation}{315}{subsection.33.1.1}
+\contentsline {section}{\numberline {33.2}Utilisation}{316}{section.33.2}
+\contentsline {subsection}{\numberline {33.2.1}Déréférencement}{316}{subsection.33.2.1}
+\contentsline {subsection}{\numberline {33.2.2}Passage en argument}{316}{subsection.33.2.2}
+\contentsline {subsection}{\numberline {33.2.3}Retour de fonction}{317}{subsection.33.2.3}
+\contentsline {section}{\numberline {33.3}Pointeurs de fonction et pointeurs génériques}{318}{section.33.3}
+\contentsline {subsection}{\numberline {33.3.1}La promotion des arguments}{319}{subsection.33.3.1}
+\contentsline {subsection}{\numberline {33.3.2}Les pointeurs nuls}{320}{subsection.33.3.2}
+\contentsline {chapter}{\numberline {34}Les fonctions à nombre variable d'arguments}{321}{chapter.34}
+\contentsline {section}{\numberline {34.1}Présentation}{321}{section.34.1}
+\contentsline {section}{\numberline {34.2}L'en-tête <stdarg.h> }{322}{section.34.2}
+\contentsline {section}{\numberline {34.3}Méthodes pour déterminer le nombre et le type des arguments}{323}{section.34.3}
+\contentsline {subsection}{\numberline {34.3.1}Les chaînes de formats}{323}{subsection.34.3.1}
+\contentsline {subsection}{\numberline {34.3.2}Les suites d'arguments de même type}{323}{subsection.34.3.2}
+\contentsline {subsection}{\numberline {34.3.3}Emploi d'un pivot}{324}{subsection.34.3.3}
+\contentsline {subsubsection}{\relax \fontsize {10}{12}\selectfont \abovedisplayskip 10\p@ plus2\p@ minus5\p@ \abovedisplayshortskip \z@ plus3\p@ \belowdisplayshortskip 6\p@ plus3\p@ minus3\p@ \def \leftmargin \leftmargini \parsep 4.5\p@ plus2\p@ minus\p@ \topsep 9\p@ plus3\p@ minus5\p@ \itemsep 4.5\p@ plus2\p@ minus\p@ {\leftmargin \leftmargini \topsep 6\p@ plus2\p@ minus2\p@ \parsep 3\p@ plus2\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip {En résumé}}{324}{section*.126}
+\contentsline {chapter}{\numberline {35}T.P. : un allocateur statique de mémoire}{327}{chapter.35}
+\contentsline {section}{\numberline {35.1}Objectif}{327}{section.35.1}
+\contentsline {section}{\numberline {35.2}Première étape : allouer de la mémoire}{327}{section.35.2}
+\contentsline {subsection}{\numberline {35.2.1}Mémoire statique}{327}{subsection.35.2.1}
+\contentsline {subsubsection}{Alignement}{327}{section*.127}
+\contentsline {section}{\numberline {35.3}Correction}{328}{section.35.3}
+\contentsline {section}{\numberline {35.4}Deuxième étape : libérer de la mémoire}{329}{section.35.4}
+\contentsline {subsection}{\numberline {35.4.1}Ajout d'un en-tête}{329}{subsection.35.4.1}
+\contentsline {subsection}{\numberline {35.4.2}Les listes chaînées}{330}{subsection.35.4.2}
+\contentsline {subsubsection}{Le serpent qui se mange la queue}{330}{section*.128}
+\contentsline {section}{\numberline {35.5}Correction}{331}{section.35.5}
+\contentsline {section}{\numberline {35.6}Troisième étape : fragmentation et défragmentation}{333}{section.35.6}
+\contentsline {subsection}{\numberline {35.6.1}Fusion de blocs}{334}{subsection.35.6.1}
+\contentsline {section}{\numberline {35.7}Correction}{334}{section.35.7}
+\contentsline {chapter}{Index}{339}{section.35.7}
+\contentsline {chapter}{Table des figures}{339}{section.35.7}
+\contentsline {chapter}{Liste des tableaux}{341}{section.35.7}
+\contentsline {chapter}{Table des matières}{353}{section.35.7}

@@ -1,883 +1,45 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
-\PassOptionsToPackage{hyphens}{url}
-%
-\documentclass[]{article}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
-  \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-\fi
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
-\hypersetup{
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\newenvironment{Shaded}{}{}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
-\newcommand{\ImportTok}[1]{{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
-\newcommand{\BuiltInTok}[1]{{#1}}
-\newcommand{\ExtensionTok}[1]{{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
-\newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
-\newcommand{\NormalTok}[1]{{#1}}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
-
-
-\date{}
-
-\begin{document}
-
-{
-\setcounter{tocdepth}{3}
-\tableofcontents
-}
-\section{Mise en situation}\label{mise-en-situation}
-
-Si nous devons tâcher de respecter la norme en n'employant pas de
-caractères en dehors de ceux garantis, cela n'est pas vrai pour les
-utilisateurs de nos programmes qui, eux, ne se gêneront pas pour
-utiliser ceux supportés par leur système (c'est d'ailleurs bien là
-l'intérêt de choisir la langue de son système).
-
-Or, jusqu'à présent, nous sommes toujours partis du principe que les
-caractères entrés tenaient sur un seul \texttt{char}, ce qui n'est pas
-toujours vrai, comme vous avez pu le voir au travers du cours de Maëlan.
-
-En fait, il s'agit du comportement \emph{par défaut} des fonctions de la
-bibliothèque standard. Chaque \texttt{char} est supposé représenter un
-caractère et une chaîne de caractères est censée n'être qu'une suite de
-\texttt{char} finie par un zéro.
-
-Il est possible de s'en rendre compte à l'aide du code suivant.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-\PreprocessorTok{#include }\ImportTok{<string.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{char} \NormalTok{chaine[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{char} \NormalTok{*nl;}
-
-    \ControlFlowTok{if} \NormalTok{(fgets(chaine, }\KeywordTok{sizeof} \NormalTok{chaine, stdin) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"fgets"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{nl = strchr(chaine, }\CharTok{'\textbackslash{}n'}\NormalTok{);}
-
-    \ControlFlowTok{if} \NormalTok{(nl != NULL)}
-        \NormalTok{*nl = '\textbackslash{}}\DecValTok{0}\NormalTok{';}
-
-    \NormalTok{printf(}\StringTok{"Longueur : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)strlen(chaine));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Bonjour   
-Longueur : 7
-
-Élégament trouvé
-Longueur : 19
-\end{verbatim}
-
-Comme vous le voyez, la taille de la chaîne « Élégament trouvé » n'est
-pas celle attendue dans notre cas (notre exemple emploie l'UTF-8 comme
-encodage) car ce sont les multiplets (les \texttt{char}, donc) qui ont
-été comptés et non les caractères. La bonne réponse aurait dû être 16.
-
-\section{Les caractères larges}\label{les-caractuxe8res-larges}
-
-Afin de résoudre ce problème, la norme C89 a introduit les
-\textbf{caractères larges}. Pour ce faire, un nouveau type a été
-introduit : le type \texttt{wchar\_t} (pour \emph{\textbf{w}ide
-\textbf{c}haracter}), défini dans l'en-tête
-\texttt{\textless{}stddef.h\textgreater{}}. Celui-ci n'est rien d'autre
-qu'un type entier (signé ou non signé) capable de représenter le point
-de code le plus élevé supporté par le système.
-
-L'objectif recherché est de traduire une chaîne de caractères classique
-recourant à un encodage avec un nombre variable de multiplets (comme
-l'UTF-8 ou l'ISO-2022) vers une chaîne de caractères larges dont chacun
-représentera exactement un caractère. Dans le cas de chaînes de
-caractères en UTF-8 par exemple, celles-ci seront le plus souvent
-converties en UTF-16 ou en UTF-32.
-
-À cet effet, plusieurs fonctions de conversions sont mises à notre
-disposition et sont définies dans l'en-tête
-\texttt{\textless{}stdlib.h\textgreater{}}. Toutefois, aucune fonction
-de traitement de ces chaînes n'est fournie, c'est-à-dire que celles-ci
-doivent être manipulées « à la main » (il n'y a donc par exemple pas de
-fonction du type \texttt{strlen()} qui manipule une chaîne de
-\texttt{wchar\_t}).
-
-{[}{[}information{]}{]} \textbar{} En vérité, les normes suivantes du
-langage C (à commencer par un amendement adopté en 1994) ont ajouté des
-fonctions de traitements des chaînes de caractères larges ainsi que
-d'autres fonctions de conversions dites « réentrantes » (c'est-à-dire
-qui peuvent être appelées simultanément par plusieurs fils d'exécutions
-ou \emph{threads} en anglais). Toutefois, nous ne les aborderons pas
-dans ce cours, d'une part parce que celui-ci se fonde sur la norme C89
-et, d'autre part, parce que leur présentation mériterait plusieurs
-chapitres à elle seule.
-
-\subsection{Les fonctions mbtowc et
-wctomb}\label{les-fonctions-mbtowc-et-wctomb}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{mbtowc(}\DataTypeTok{wchar_t} \NormalTok{*destination, }\DataTypeTok{const} \DataTypeTok{char} \NormalTok{*chaine, }\DataTypeTok{size_t} \NormalTok{max);}
-\DataTypeTok{int} \NormalTok{wctomb(}\DataTypeTok{char} \NormalTok{*destination, }\DataTypeTok{wchar_t} \NormalTok{source);}
-\end{Highlighting}
-\end{Shaded}
-
-La fonction \texttt{mbtowc()} (pour \emph{\textbf{m}ulti\textbf{b}yte
-character \textbf{to} \textbf{w}ide \textbf{c}haracter}) convertit une
-suite de multiplets en un caractère large (qu'elle stocke dans l'objet
-référencé par \texttt{destination}) en lisant au plus \texttt{max}
-multiplets depuis la chaîne \texttt{source}. Elle retourne le nombre de
-multiplets utilisés pour produire le caractère large ou \texttt{-1} en
-cas d'erreur.
-
-La fonction \texttt{wctomb()} (pour \emph{\textbf{w}ide
-\textbf{c}haracter \textbf{to} \textbf{m}ulti\textbf{b}yte character})
-effectue l'opération inverse : elle convertit le caractère large
-\texttt{source} en une suite de multiplets qui sera stockée dans le
-tableau \texttt{destination}. Elle retourne le nombre de multiplets
-produits en cas de succès et \texttt{-1} en cas d'erreur.
-
-\subsubsection{La fonction mbtowc}\label{la-fonction-mbtowc}
-
-L'exemple ci-dessous lit une ligne depuis l'entrée standard et convertit
-la première suite de multiplets représentant un caractère en un
-caractère large.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-\PreprocessorTok{#include }\ImportTok{<string.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{char} \NormalTok{chaine[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{wchar_t} \NormalTok{wc;}
-    \DataTypeTok{char} \NormalTok{*nl;}
-    \DataTypeTok{int} \NormalTok{n;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_CTYPE, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-    \ControlFlowTok{if} \NormalTok{(fgets(chaine, }\KeywordTok{sizeof} \NormalTok{chaine, stdin) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"fgets"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{nl = strchr(chaine, }\CharTok{'\textbackslash{}n'}\NormalTok{);}
-
-    \ControlFlowTok{if} \NormalTok{(nl != NULL)}
-        \NormalTok{*nl = '\textbackslash{}}\DecValTok{0}\NormalTok{';}
-
-    \NormalTok{n = mbtowc(&wc, chaine, MB_CUR_MAX);}
-
-    \ControlFlowTok{if} \NormalTok{(n <= }\DecValTok{0}\NormalTok{)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"mbtowc"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-
-    \NormalTok{printf(}\StringTok{"%d multiplet(s) a(ont) été lu pour produire la valeur %u.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, \textbackslash{}}
-    \NormalTok{n, (}\DataTypeTok{unsigned}\NormalTok{)wc);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Élégamment trouvé
-2 multiplet(s) a(ont) été lu pour produire la valeur 201.
-
-ASCII
-1 multiplet(s) a(ont) été lu pour produire la valeur 65.
-\end{verbatim}
-
-{[}{[}information{]}{]} \textbar{} Les résultats obtenus dépendent bien
-entendu du jeu de caractères utilisé par votre système. Si ce dernier
-n'emploie pas l'Unicode ou n'utilise pas l'UTF-8 comme encodage, la
-sortie du programme peut être différente.
-
-Comme vous le voyez, étant donné que notre système emploie de l'UTF-8,
-deux multiplets ont été lus depuis la chaîne \texttt{chaine} pour
-construire la valeur du caractère \texttt{É}, soit 201 (qui correspond à
-son point de code dans le jeu de caractères Unicode). Le caractère
-\texttt{A} étant quant à lui représenté sur un seul multiplet en UTF-8,
-la lecture d'un seul suffit pour obtenir sa valeur, à savoir
-\texttt{65}.
-
-L'en-tête \texttt{\textless{}locale.h\textgreater{}} a été ajouté en vue
-d'utiliser la fonction \texttt{setlocale()} dont nous parlerons dans la
-prochaine section. Sachez pour l'instant qu'elle doit être appelée
-\emph{avant} d'utiliser les fonctions de conversions.
-
-\texttt{MB\_CUR\_MAX} est une macro (elle est éfinie dans l'en-tête
-\texttt{\textless{}stdlib.h\textgreater{}}) dont la valeur est
-déterminée par la \emph{locale} courante (nous y reviendrons lorsque
-nous aborderons la fonction \texttt{setlocale()}) et correspond au
-nombre maximum de multiplets nécessaires pour construire un caractère
-large \emph{dans la} locale \emph{actuelle}.
-
-\subsubsection{La fonction wctomb}\label{la-fonction-wctomb}
-
-Comme nous vous l'avons dit, la fonction \texttt{wctomb()} effectue
-l'exact inverse de la fonction \texttt{mbtowc()}. L'exemple suivant
-tente de convertir le caractère large \texttt{É} en la suite de
-multiplets correspondante.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<limits.h>}
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{char} \NormalTok{tab[MB_LEN_MAX];}
-    \DataTypeTok{int} \NormalTok{i;}
-    \DataTypeTok{int} \NormalTok{n;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_CTYPE, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{n = wctomb(tab, L'É');}
-
-    \ControlFlowTok{if} \NormalTok{(n <= }\DecValTok{0}\NormalTok{)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"wctomb"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \ControlFlowTok{for} \NormalTok{(i = }\DecValTok{0}\NormalTok{; i < n; ++i)}
-        \NormalTok{printf(}\StringTok{"%x "}\NormalTok{, (}\DataTypeTok{unsigned} \DataTypeTok{char}\NormalTok{)tab[i]);}
-
-    \NormalTok{putchar(}\CharTok{'\textbackslash{}n'}\NormalTok{);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-c3 89
-\end{verbatim}
-
-Ici, nous essayons de convertir le caractère large \texttt{É} (notez
-qu'une constante de type caractère large peut être définie en la faisant
-précédé de la lettre \texttt{l} ou \texttt{L}) en une suite de
-multiplets qui sera stockée dans le tableau \texttt{tab}.
-
-La taille du tableau \texttt{tab} a été fixée à \texttt{MB\_LEN\_MAX},
-une macroconstante définie dans l'en-tête
-\texttt{\textless{}limits.h\textgreater{}} correspondant à la plus
-grande suite de multiplets pouvant représenter un caractère sur le
-système. Notez bien la différence avec la macro \texttt{MB\_CUR\_MAX}
-qui se limite à la \emph{locale} courante. Par ailleurs, la valeur de
-\texttt{MB\_CUR\_MAX} dépendant des appels à la fonction
-\texttt{setlocale()}, elle ne peut être utilisée pour déterminer la
-taille d'un tableau lors de sa définition.
-
-Une fois la conversion effectuée, nous affichons la valeur des
-différents multiplets en hexadécimal (remarquez la conversion en
-\texttt{unsigned\ char} afin d'éviter l'affichage de nombres négatifs).
-
-{[}{[}attention{]}{]} \textbar{} Dans le cas où vous insérez une
-constante de type caractère large dans votre code source comme
-\texttt{L\textquotesingle{}É\textquotesingle{}}, les mêmes restrictions
-s'appliquent que pour les caractères simples : si le caractère en
-question ne fait pas partie du jeu de caractères source ou d'exécution,
-le résultat n'est pas déterminé par la norme. Une telle pratique est
-donc à proscrire également, pour les mêmes motifs que précédemment.
-
-\subsection{Convertir une chaîne
-complète}\label{convertir-une-chauxeene-compluxe8te}
-
-Bien entendu, ces deux fonctions peuvent être utilisées en combinaison
-avec une boucle en vue de convertir une chaîne de caractères entière
-(c'est même là tout l'intérêt de la chose).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stddef.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-\PreprocessorTok{#include }\ImportTok{<string.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{char} \NormalTok{mbs[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{wchar_t} \NormalTok{wcs[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{char} \NormalTok{*nl;}
-    \DataTypeTok{char} \NormalTok{*pc;}
-    \DataTypeTok{int} \NormalTok{n;}
-    \DataTypeTok{int} \NormalTok{i;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_CTYPE, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-    \ControlFlowTok{if} \NormalTok{(fgets(mbs, }\KeywordTok{sizeof} \NormalTok{mbs, stdin) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"fgets"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{nl = strchr(mbs, }\CharTok{'\textbackslash{}n'}\NormalTok{);}
-
-    \ControlFlowTok{if} \NormalTok{(nl != NULL)}
-        \NormalTok{*nl = '\textbackslash{}}\DecValTok{0}\NormalTok{';}
-
-    \NormalTok{pc = mbs;}
-
-    \ControlFlowTok{for} \NormalTok{(i = }\DecValTok{0}\NormalTok{; (n = mbtowc(&wcs[i], pc, MB_CUR_MAX)) > }\DecValTok{0}\NormalTok{; ++i)}
-    \NormalTok{\{}
-        \ControlFlowTok{if} \NormalTok{(*pc == '\textbackslash{}}\DecValTok{0}\NormalTok{')}
-            \ControlFlowTok{break}\NormalTok{;}
-
-        \NormalTok{pc += n;}
-    \NormalTok{\}}
-
-    \ControlFlowTok{if} \NormalTok{(*pc != '\textbackslash{}}\DecValTok{0}\NormalTok{')}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"mbtowc"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \ControlFlowTok{for} \NormalTok{(i = }\DecValTok{0}\NormalTok{; wcs[i] != L'\textbackslash{}}\DecValTok{0}\NormalTok{'; ++i)}
-        \NormalTok{printf(}\StringTok{"%u "}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)wcs[i]);}
-
-    \NormalTok{putchar(}\CharTok{'\textbackslash{}n'}\NormalTok{);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Élégament trouvé                   
-201 108 233 103 97 109 101 110 116 32 116 114 111 117 118 233 
-\end{verbatim}
-
-Comme vous le voyez, nous appelons la fonction \texttt{mbtowc()} tant
-que celle-ci ne rencontre pas une erreur ou que nous ne rencontrons pas
-le caractère de fin de chaîne (ce dernier devant également être
-converti, cette seconde condition est placée au sein de la boucle).
-Ensuite, suivant le nombre de multiplets lus par \texttt{mbtowc()}, nous
-augmentons la valeur du pointeur \texttt{pc} afin de référencer les
-prochains caractères à lire. À la sortie de la boucle, nous vérifions
-que le pointeur \texttt{pc} pointe bien vers le caractère nul sans quoi
-cela signifie que la fonction \texttt{mbtowc()} a rencontré une erreur.
-Enfin, nous parcourons la chaînes large \texttt{wcs} pour afficher les
-différents points de code des caractères la composant.
-
-{[}{[}information{]}{]} \textbar{} Notez que comme la comparaison
-\texttt{wcs{[}i{]}\ !=\ L\textquotesingle{}\textbackslash{}0\textquotesingle{}}
-porte sur le caractère large \texttt{wcs{[}i{]}}, nous avons fait du
-second opérande un caractère large également. Le caractère nul étant
-garanti de faire partie du jeu de caractères d'exécution, cela ne pose
-pas de problèmes.
-
-\subsection{Les fonction mbstowcs et
-wcstombs}\label{les-fonction-mbstowcs-et-wcstombs}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{size_t} \NormalTok{mbstowcs(}\DataTypeTok{wchar_t} \NormalTok{*destination, }\DataTypeTok{char} \NormalTok{*source, }\DataTypeTok{size_t} \NormalTok{max);}
-\DataTypeTok{size_t} \NormalTok{wcstombs(}\DataTypeTok{char} \NormalTok{*destination, }\DataTypeTok{wchar_t} \NormalTok{*source, }\DataTypeTok{size_t} \NormalTok{max);}
-\end{Highlighting}
-\end{Shaded}
-
-C'est chouette de pouvoir employer des boucles, mais cela reste assez
-fastidieux\ldots{} Heureusement pour nous, il existe des fonctions qui
-se chargent de le faire pour nous. \^{}\^{}\\
-Les fonctions \texttt{mbstowcs()} et \texttt{wcstombs()} convertissent
-une chaîne de caractères vers une chaîne de caractères larges et
-inversement. Elles stockent les \texttt{max} premiers caractères
-produits dans la chaîne \texttt{destination}.
-
-Les deux fonctions retournent le nombre de caractères convertis (hors
-caractère nul final) ou \texttt{(size\_t)-1} en cas d'erreurs.
-
-Ci-dessous, un exemple de conversion recourant à la fonction
-\texttt{mbstowcs()} qui nous permet de rendre notre programme initial
-correct. Notez que nous avons dû réaliser notre propre version de
-\texttt{strlen()} afin de calculer la longueur de la chaîne de
-caractères larges obtenues.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-
-
-\DataTypeTok{static} \DataTypeTok{size_t}
-\NormalTok{wchar_len(}\DataTypeTok{wchar_t} \NormalTok{*wcs)}
-\NormalTok{\{}
-    \DataTypeTok{size_t} \NormalTok{i = }\DecValTok{0}\NormalTok{;}
-
-    \ControlFlowTok{while} \NormalTok{(wcs[i] != L'\textbackslash{}}\DecValTok{0}\NormalTok{')}
-        \NormalTok{++i;}
-
-    \ControlFlowTok{return} \NormalTok{i;}
-\NormalTok{\}}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{wchar_t} \NormalTok{wcs[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{char} \NormalTok{mbs[}\DecValTok{255}\NormalTok{];}
-    \DataTypeTok{char} \NormalTok{*nl;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_CTYPE, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-    \ControlFlowTok{if} \NormalTok{(fgets(mbs, }\KeywordTok{sizeof} \NormalTok{mbs, stdin) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"fgets"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{nl = strchr(mbs, }\CharTok{'\textbackslash{}n'}\NormalTok{);}
-
-    \ControlFlowTok{if} \NormalTok{(nl != NULL)}
-        \NormalTok{*nl = '\textbackslash{}}\DecValTok{0}\NormalTok{';}
-
-    \ControlFlowTok{if} \NormalTok{(mbstowcs(wcs, mbs, }\KeywordTok{sizeof} \NormalTok{mbs) == (}\DataTypeTok{size_t}\NormalTok{)-}\DecValTok{1}\NormalTok{)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"mbstowcs"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{printf(}\StringTok{"Nombre de multiplets : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)strlen(mbs));}
-    \NormalTok{printf(}\StringTok{"Nombre de caractères : %u}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, (}\DataTypeTok{unsigned}\NormalTok{)wchar_len(wcs));}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Élégament trouvé
-Nombre de multiplets : 19
-Nombre de caractères : 16
-\end{verbatim}
-
-\subsection{La fonction mblen}\label{la-fonction-mblen}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{int} \NormalTok{mblen(}\DataTypeTok{char} \NormalTok{*chaine, }\DataTypeTok{size_t} \NormalTok{max);}
-\end{Highlighting}
-\end{Shaded}
-
-La fonction \texttt{mblen()} lit au plus \texttt{max} multiplets de la
-chaîne \texttt{chaine}. Si ceux-ci forment un caractère large valide,
-elle retourne le nombre de multiplets qui seront utilisés pour le
-composer. Dans le cas contraire, elle retourne soit \texttt{0} (si le
-premier caractère est le caractère nul) ou \texttt{-1} (la suite de
-multiplets ne correspond pas à un caractère large).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-
-
-\DataTypeTok{int}
-\NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{int} \NormalTok{n;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_CTYPE, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{n = mblen(}\StringTok{"Élégamment trouvé"}\NormalTok{, MB_CUR_MAX);}
-
-    \ControlFlowTok{if} \NormalTok{(n > }\DecValTok{0}\NormalTok{)}
-        \NormalTok{printf(}\StringTok{"Le prochain caractère large sera composé de %d multiplet(s).}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, n);}
-
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Le prochain caractère large sera composé de 2 multiplet(s).
-\end{verbatim}
-
-\section{Des fonctions dans tous leurs
-états}\label{des-fonctions-dans-tous-leurs-uxe9tats}
-
-Il est important de vous préciser une chose en rapport avec ces
-fonctions : elles disposent d'un \textbf{état} interne. En vérité, ceci
-est essentiellement important dans le cas où vous utilisez un jeu de
-caractères avec état comme l'ISO-2022-JP. Dans un tel cas, les fonctions
-de conversions doivent mémoriser la dernière séquence d'échappement afin
-d'effectuer correctement leur travail, ce qu'elles réalisent à l'aide de
-variables internes. Or, si une erreur est rencontrée ou si une autre
-suite de multiplets leur est donnée en cours de route, le résultat
-risque de s'en trouver compromis.
-
-Dès lors, il est nécessaire de réinitialiser cet état interne après la
-rencontre d'une erreur ou lors d'un changement de données à traiter.
-Cela se réalise très simplement en fournissant comme argument une chaîne
-nulle à l'une des fonctions \texttt{mbtowc()}, \texttt{wctomb()} ou
-\texttt{mblen()}. Dans un tel cas, l'état interne est remis à zéro et
-une valeur nulle est retournée si le jeu de caractères courant n'utilise
-pas d'état et un nombre strictement positif sinon.\#\#\# En résumé
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  La norme définit deux jeux de caractères : le jeu de caractère source,
-  utilisé en interne par le compilateur, vers lequel vos fichiers
-  sources sont convertis et le jeu de caractère d'exécution, utilisé par
-  votre système, vers lequel la conversion finale aura lieu.
-\item
-  Mise à part les caractères garantis par la norme, les caractères
-  supportés par les jeux de caractères source et d'exécution sont
-  indéterminés.
-\item
-  Le type \texttt{wchar\_t} et les fonctions de conversion associées
-  permettent de construire des chaînes de caractères larges à partir de
-  chaîne simple, ce qui est particulièrement utile lorsque le jeu
-  employé par le système encode les caractères sur un nombre variable de
-  multiplets (comme l'ISO-2022 ou l'UTF-8).
-\item
-  Ces fonctions de conversions disposent d'un était interne qui doit
-  être réinitialisé après une erreur ou avant chaque changement de
-  données à traiter.
-\item
-  La fonction \texttt{setlocale()} permet de modifier la localisation de
-  certaines fonctions de la bibliothèque standard.Lorsque nous vous
-  avons présenté les chaînes de caractères, nous vous avons précisé que
-  celle-ci étaient des tableaux de \texttt{char} terminé par un
-  caractère nul, en vous laissant sous-entendre qu'à chaque « caractère
-  » (\texttt{\textquotesingle{}a\textquotesingle{}},
-  \texttt{\textquotesingle{};\textquotesingle{}},
-  \texttt{\textquotesingle{}1\textquotesingle{}}, etc.) correspondait un
-  \texttt{char}. Toutefois, ce n'est pas tout à fait exacte ou, plus
+\chapter{Jeux de caractères et encodages}
+\label{jeux-de-caracteres-et-encodages}
+
+  Lorsque nous vous   avons présenté les chaînes de caractères, nous vous 
+  avons précisé que celle-ci étaient des tableaux de \mybox{char} terminé 
+  par un caractère nul, en vous laissant sous-entendre qu'à chaque 
+  « caractère » (\mybox{\textquotesingle{}a\textquotesingle{}},
+  \mybox{\textquotesingle{};\textquotesingle{}},
+  \mybox{\textquotesingle{}1\textquotesingle{}}, etc.) correspondait un
+  \mybox{char}. Toutefois, ce n'est pas tout à fait exacte ou, plus
   précisément, ce n'est pas toujours vrai.
-\end{enumerate}
-
-Dans ce chapitre, nous allons découvrir comment les chaînes de
+  
+  Dans ce chapitre, nous allons découvrir comment les chaînes de
 caractères sont réellement représentées et pour quelles raisons cette
-représentation est susceptible de varier.Cela est resté finalement assez
-discret jusqu'à ce chapitre, mais en y regardant de plus près, les
-programmes que nous avons réalisés sont en fait destinés à un
-environnement anglophone. En effet, prenez par exemple les entrées : si
-nous souhaitons fournir un nombre flottant à notre programme, nous
-devons utiliser le point comme séparateur entre la partie entière et
-décimale. Or, dans certains pays, on pourrait vouloir utiliser la
-virgule à la place. Cela nous paraît moins étrange étant donné que les
-constantes flottantes sont écrites de cette manière en C, mais il n'en
-va pas de même pour nos utilisateurs.
+représentation est susceptible de varier.
 
-Ce qu'il faudrait finalement, c'est que nos programmes puissent
-s'adapter aux usages, coutumes et langues de notre utilisateur, ce que
-nous avons entrevu dans la section précédente.
+\section{Les jeux de caractères et les encodages}
+\label{les-jeux-de-caracteres-et-les-encodages}
 
-\section{L'internationalisation}\label{linternationalisation}
+\subsection{Introduction}
+\label{introduction-}
 
-L'\textbf{internationalisation} (parfois abrégée « i18n ») est un
-procédé par lequel un programme est rendu capable de s'adapter aux
-préférences linguistiques et régionales d'un utilisateur.
-
-\section{La localisation}\label{la-localisation}
-
-La \textbf{localisation} (parfois abrégée « l10n ») est une opération
-par laquelle un programme internationalisé se voit fournir les
-informations nécessaires pour s'adapter aux préférences linguistiques et
-régionales d'un utilisateur.
-
-\section{La fonction setlocale}\label{la-fonction-setlocale}
-
-De manière générale, les programmes que nous avons conçus jusqu'ici
-étaient déjà partiellement internationalisés, car la bibliothèque
-standard du langage C l'est dans une certaine mesure. Toutefois, nous
-n'avons jamais recouru à un processus de localisation pour que ceux-ci
-s'adaptent à nos usages. Nous vous le donnons en mille : la localisation
-en C s'effectue à l'aide de\ldots{} la fonction \texttt{setlocale()}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\DataTypeTok{char} \NormalTok{*setlocale(}\DataTypeTok{int} \NormalTok{categorie, }\DataTypeTok{char} \NormalTok{*localisation);}
-\end{Highlighting}
-\end{Shaded}
-
-Cette fonction attends deux arguments : une catégorie et la localisation
-qui doit être employée pour cette catégorie.
-
-\subsection{Les catégories}\label{les-catuxe9gories}
-
-La bibliothèque standard du C divise la localisation en plusieurs
-catégories, plus précisément cinq :
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  La catégorie \texttt{LC\_COLLATE} qui modifie le comportement des
-  fonctions \texttt{strcoll()} et \texttt{strxfrm()} ;
-\item
-  La catégorie \texttt{LC\_CTYPE} qui adapte le comportement des
-  fonctions de conversions que nous venons de voir, ainsi que les
-  fonctions de l'en-tête \texttt{\textless{}ctype.h\textgreater{}} ;
-\item
-  La catégorie \texttt{LC\_MONETARY} qui influence le comportement de la
-  fonction \texttt{localeconv()} ;
-\item
-  La catégorie \texttt{LC\_NUMERIC} qui altère le comportement des
-  fonctions \texttt{*printf()} et \texttt{*scanf()} ainsi que des
-  fonctions de conversions des chaînes de caractères (\texttt{atof()},
-  \texttt{strtod()}, etc.) en ce qui concerne les nombres flottants ;
-\item
-  La catégorie \texttt{LC\_TIME} qui change le comportement de la
-  fonction \texttt{strftime()}.
-\end{enumerate}
-
-Enfin, la catégorie \texttt{LC\_ALL} (qui n'en est pas vraiment une)
-représente toutes les catégories en même temps. Nous ne attarderons
-toutefois que sur \texttt{LC\_CTYPE} et \texttt{LC\_NUMERIC} dans cette
-section, les fonctions affectées par les autres catégories n'ayant pas
-été présentées à ce stade.
-
-\subsection{Les localisations}\label{les-localisations}
-
-La bibliothèque standard prévoit deux localisations possibles :
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  La localisation \texttt{"C"} qui correspond à celle par défaut.
-  Celle-ci utilise les usages anglophones et part du principe que les
-  caractères employés se limitent à ceux garantis par la norme et qu'ils
-  sont tous représentés sur un multiplet ;
-\item
-  La localisation \texttt{""} (une chaîne vide) qui correspond à celle
-  utilisée par votre système.
-\end{enumerate}
-
-Il est également possible de fournir un pointeur nul comme localisation,
-auquel cas la localisation actuelle est retournée.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{char} \NormalTok{*s;}
-
-    \NormalTok{s = setlocale(LC_ALL, NULL);}
-    \NormalTok{puts(s);}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_ALL, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{s = setlocale(LC_ALL, NULL);}
-    \NormalTok{puts(s);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-C
-fr_BE.UTF-8
-\end{verbatim}
-
-Comme vous le voyez, la localisation de départ est bien \texttt{C}.
-
-{[}{[}information{]}{]} \textbar{} La forme que prend la localisation
-dépend de votre système. Sous unixoïdes et dans notre exemple, elle
-prend la forme de la langue en minuscule (au format
-\href{https://fr.wikipedia.org/wiki/ISO_639}{ISO 639}) suivie d'un tiret
-bas et du pays en majuscule (au format
-\href{https://fr.wikipedia.org/wiki/ISO_3166}{ISO 3166-1}) et,
-éventuellement, terminée par un point et par l'encodage utilisé.
-
-\section{Exemple}\label{exemple}
-
-Nous avons déjà eu l'occasion d'expérimenter la modification de la
-localisation de la catégorie \texttt{LC\_CTYPE}. Ainsi, nous avons pu
-préciser aux fonctions de conversion que la traduction devait s'opérer
-depuis et vers le jeu de caractères d'exécution complet et non
-uniquement le sous-ensemble défini par la norme.
-
-L'exemple ci-dessous modifie la localisation de la catégorie
-\texttt{LC\_NUMERIC} pour que les fonctions \texttt{scanf()} et
-\texttt{printf()} adaptent leur gestion et affichage des nombres
-flottants.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\PreprocessorTok{#include }\ImportTok{<locale.h>}
-\PreprocessorTok{#include }\ImportTok{<stdio.h>}
-\PreprocessorTok{#include }\ImportTok{<stdlib.h>}
-
-
-\DataTypeTok{int} \NormalTok{main(}\DataTypeTok{void}\NormalTok{)}
-\NormalTok{\{}
-    \DataTypeTok{double} \NormalTok{f;}
-
-    \ControlFlowTok{if} \NormalTok{(setlocale(LC_NUMERIC, }\StringTok{""}\NormalTok{) == NULL)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"setlocale"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{printf(}\StringTok{"Veuillez entrer un nombre flottant : "}\NormalTok{);}
-
-    \ControlFlowTok{if} \NormalTok{(scanf(}\StringTok{"%lf"}\NormalTok{, &f) != }\DecValTok{1}\NormalTok{)}
-    \NormalTok{\{}
-        \NormalTok{perror(}\StringTok{"scanf"}\NormalTok{);}
-        \ControlFlowTok{return} \NormalTok{EXIT_FAILURE;}
-    \NormalTok{\}}
-
-    \NormalTok{printf(}\StringTok{"Vous avez entré : %f.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, f);}
-    \ControlFlowTok{return} \DecValTok{0}\NormalTok{;}
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Veuillez entrer un nombre flottant : 45,5
-Vous avez entré : 45,500000.
-
-Veuillez entrer un nombre flottant : 45.5
-Vous avez entré : 45,000000.
-\end{verbatim}
-
-Comme vous le voyez, après l'appel à \texttt{setlocale()}, seule la
-virgule est considérée comme séparateur de la partie entière et de la
-partie décimale.\# Introduction
-
-{[}{[}information{]}{]} \textbar{} Avant de poursuivre ce chapitre, nous
+\begin{infobox}
+  Avant de poursuivre ce chapitre, nous
 vous invitons à lire au moins les deux premiers chapitres du
-\href{https://zestedesavoir.com/tutoriels/1114/comprendre-les-encodages/}{cours
+\MYhref{https://zestedesavoir.com/tutoriels/1114/comprendre-les-encodages/}{cours
 de Maëlan sur les encodages}. Ceux-ci constitueront une base solide sur
 laquelle nous nous appuierons dans la suite.
+\end{infobox}
 
-\section{Ce que dit la norme}\label{ce-que-dit-la-norme}
+
+\subsection{Ce que dit la norme}
+\label{ce-que-dit-la-norme}
 
 Maintenant que les notions de jeux de caractères et d'encodages vous
 sont connues, voyons comment celles-ci s'agencent en C. La norme définit
-deux jeux de caractères\footnote{Programming Language C, X3J11/88-090, §
-  2.2.1, Character sets} :
+deux jeux de caractères\footnote{\footnotesize{Programming Language C, X3J11/88-090, §
+  2.2.1, Character sets}} :
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
+\def
+\labelenumi{\arabic{enumi}.}
 \item
   Le jeu de caractères source qui, comme son nom ne l'indique pas,
   correspond au jeu de caractères vers lequel votre fichier source va
@@ -892,18 +54,22 @@ deux jeux de caractères\footnote{Programming Language C, X3J11/88-090, §
   chapitre).
 \end{enumerate}
 
-{[}{[}information{]}{]} \textbar{} Autrement dit, il y a possiblement
+\begin{infobox}
+  Autrement dit, il y a possiblement
 deux conversions lors de la compilation : une qui a lieu du jeu de
 caractères de vos fichiers sources vers le jeu employé en interne par le
 compilateur et une depuis le jeu de caractères du compilateur vers celui
 du système.
+\end{infobox}
 
-\section{Caractères garantis}\label{caractuxe8res-garantis}
+
+\subsection{Caractères garantis}
+\label{caracteres-garantis}
 
 La norme précise que ces deux jeux comprennent au minimum les caractères
 suivants.
 
-\begin{verbatim}
+\begin{C}
 A  B  C  D  E  F  G  H  I  J  K  L  M
 N  O  P  Q  R  S  T  U  V  W  X  Y  Z
 a  b  c  d  e  f  g  h  i  j  k  l  m
@@ -911,39 +77,43 @@ n  o  p  q  r  s  t  u  v  w  x  y  z
 0  1  2  3  4  5  6  7  8  9
 !  "  #  %  &  '  (  )  *  +  ,  -  .  /  :
 ;  <  =  >  ?  [  \  ]  ^  _  {  |  }  ~
-\end{verbatim}
+\end{C}
 
 À ceux-ci s'ajoutent l'espace, les tabulations horizontales et
 verticales et le saut de page.
 
 Il est également précisé que les points de codes des dix chiffres
-(\texttt{\textquotesingle{}0\textquotesingle{}},
-\texttt{\textquotesingle{}1\textquotesingle{}},
-\texttt{\textquotesingle{}2\textquotesingle{}},
-\texttt{\textquotesingle{}3\textquotesingle{}},
-\texttt{\textquotesingle{}4\textquotesingle{}},
-\texttt{\textquotesingle{}5\textquotesingle{}},
-\texttt{\textquotesingle{}6\textquotesingle{}},
-\texttt{\textquotesingle{}7\textquotesingle{}},
-\texttt{\textquotesingle{}8\textquotesingle{}} et
-\texttt{\textquotesingle{}9\textquotesingle{}}) doivent se suivre de
+(\mybox{\textquotesingle{}0\textquotesingle{}},
+\mybox{\textquotesingle{}1\textquotesingle{}},
+\mybox{\textquotesingle{}2\textquotesingle{}},
+\mybox{\textquotesingle{}3\textquotesingle{}},
+\mybox{\textquotesingle{}4\textquotesingle{}},
+\mybox{\textquotesingle{}5\textquotesingle{}},
+\mybox{\textquotesingle{}6\textquotesingle{}},
+\mybox{\textquotesingle{}7\textquotesingle{}},
+\mybox{\textquotesingle{}8\textquotesingle{}} et
+\mybox{\textquotesingle{}9\textquotesingle{}}) doivent se suivre de
 manière croissante.
 
-\subsection{Jeu de caractère source}\label{jeu-de-caractuxe8re-source}
+\subsubsection{Jeu de caractère source}
+\label{jeu-de-caractere-source}
 
 De plus, le jeu de caractères source doit comprendre un ou plusieurs
 caractères permettant d'indiquer la fin d'une ligne de texte.
 
-\subsection{Jeu de caractère
-d'exécution}\label{jeu-de-caractuxe8re-dexuxe9cution}
+\subsubsection{Jeu de caractère d'exécution}
+\label{jeu-de-caractere-dexecution}
 
 Enfin, le jeu de caractères d'exécution doit comprendre le caractère
 nul, le caractère d'appel, l'espacement arrière, le retour chariot et le
 saut de ligne.
 
-{[}{[}question{]}{]} \textbar{} Certes, mais encore ?\\
-\textbar{} C'est super cette description détaillée, mais ça m'apporte
+\begin{questionbox}
+   Certes, mais encore ?\\
+C'est super cette description détaillée, mais ça m'apporte
 quoi de savoir ça ? J'en fais quoi, moi, de vos deux jeux ?
+\end{questionbox}
+
 
 Pour résumer, la norme nous décrit ici les caractères qui peuvent être
 employés dans vos fichiers sources et les caractères que votre système
@@ -952,8 +122,8 @@ doit supporter au minimum.
 Ceci est impératif pour assurer d'une part la compilation de vos
 programmes et la bonne exécution de ceux-ci. En effet, imaginer par
 exemple que le compilateur utilise en interne un jeu de caractères ne
-comprenant pas le caractère \texttt{p}, vous serez bien ennuyer ensuite
-pour faire appel à \texttt{printf()}\ldots{} De même, il serait fort
+comprenant pas le caractère \mybox{p}, vous serez bien ennuyer ensuite
+pour faire appel à \mybox{printf()}\ldots{} De même, il serait fort
 gênant que votre console ne sache pas afficher les retours à la ligne.
 
 Toutefois, cela a également une seconde conséquence : si vous utilisez
@@ -968,23 +138,795 @@ plus souvent par un affichage chaotique).
 Aussi, dans un soucis de portabilité, il est nécessaire de se contenter
 le plus souvent de ces derniers, ce qui exclut donc l'emploi (ou à tout
 le moins l'emploi correct) de la plupart des langues du monde à
-l'exception de l'anglais et du latin. :-°
+l'exception de l'anglais et du latin.
 
-{[}{[}information{]}{]} \textbar{} 1. Cette restriction doit toutefois
-être relativisée puisque la plupart des compilateurs utilisent l'UTF-8
-en interne, de même que les systèmes d'exploitations modernes. De plus,
-cette restriction n'a pas d'objet pour les commentaires puisque ceux-ci
-sont ignorés lors de la compilation. \textbar{} 2. Par ailleurs, sachez
-qu'il existe pas mal de solutions permettant de contourner cette
-limitation. À ce sujet, si cela vous intéresse, nous vous recommendons
-\href{https://www.gnu.org/software/gettext/manual/html_node/index.html}{GNU
-gettext} qui est une solution libre et gratuite très utilisée sous
-GNU/Linux et *BSD.
+\begin{infobox}
+  \begin{enumerate}  
+    \item
+    Cette restriction doit toutefois être relativisée puisque la plupart 
+    des compilateurs utilisent l'UTF-8 en interne, de même que les systèmes 
+    d'exploitations modernes. De plus, cette restriction n'a pas d'objet pour 
+    les commentaires puisque ceux-ci sont ignorés lors de la compilation.
+    \item
+    Par ailleurs, sachez
+    qu'il existe pas mal de solutions permettant de contourner cette
+    limitation. À ce sujet, si cela vous intéresse, nous vous recommendons
+    \MYhref{https://www.gnu.org/software/gettext/manual/html_node/index.html}{GNU
+    gettext} qui est une solution libre et gratuite très utilisée sous
+    GNU/Linux et *BSD. 
+  \end{enumerate}
+\end{infobox}
 
-{[}{[}attention{]}{]} \textbar{} Les plus attentifs (ou fourbes, c'est
-selon :p ) d'entre-vous se rappelerons sans doute que plusieurs des
+
+\begin{attentionbox}
+ Les plus attentifs (ou fourbes, c'est
+selon) d'entre-vous se rappelerons sans doute que plusieurs des
 codes présentés dans ce cours comportent des caractères accentués
 et\ldots{} oui, nous n'avons pas respecté la norme sur ce point. Mais
-bon, un exemple n'est-il pas plus agréable avec ? :ange:
+bon, un exemple n'est-il pas plus agréable avec ?
+\end{attentionbox}
 
-\end{document}
+\section{Les caractères larges}
+\label{les-caractères-larges}
+
+\subsection{Mise en situation}
+\label{mise-en-situation-2}
+
+Si nous devons tâcher de respecter la norme en n'employant pas de
+caractères en dehors de ceux garantis, cela n'est pas vrai pour les
+utilisateurs de nos programmes qui, eux, ne se gêneront pas pour
+utiliser ceux supportés par leur système (c'est d'ailleurs bien là
+l'intérêt de choisir la langue de son système).
+
+Or, jusqu'à présent, nous sommes toujours partis du principe que les
+caractères entrés tenaient sur un seul \mybox{char}, ce qui n'est pas
+toujours vrai, comme vous avez pu le voir au travers du cours de Maëlan.
+
+En fait, il s'agit du comportement \emph{par défaut} des fonctions de la
+bibliothèque standard. Chaque \mybox{char} est supposé représenter un
+caractère et une chaîne de caractères est censée n'être qu'une suite de
+\mybox{char} finie par un zéro.
+
+Il est possible de s'en rendre compte à l'aide du code suivant.
+
+\begin{C}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[255];
+    char *nl;
+
+    if (fgets(chaine, sizeof chaine, stdin) == NULL)
+    {
+        perror("fgets");
+        return EXIT_FAILURE;
+    }
+
+    nl = strchr(chaine, '\n');
+
+    if (nl != NULL)
+        *nl = '\0';
+
+    printf("Longueur : %u\n", (unsigned)strlen(chaine));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Bonjour   
+Longueur : 7
+
+Élégament trouvé
+Longueur : 19
+\end{C}
+
+Comme vous le voyez, la taille de la chaîne « Élégament trouvé » n'est
+pas celle attendue dans notre cas (notre exemple emploie l'UTF-8 comme
+encodage) car ce sont les multiplets (les \mybox{char}, donc) qui ont
+été comptés et non les caractères. La bonne réponse aurait dû être 16.
+
+\subsection{Les caractères larges}
+\label{les-caracteres-larges}
+
+Afin de résoudre ce problème, la norme C89 a introduit les
+\textbf{caractères larges}. Pour ce faire, un nouveau type a été
+introduit : le type \mybox{wchar\_t} (pour \emph{\textbf{w}ide
+\textbf{c}haracter}), défini dans l'en-tête
+\mybox{\textless{}stddef.h\textgreater{}}. Celui-ci n'est rien d'autre
+qu'un type entier (signé ou non signé) capable de représenter le point
+de code le plus élevé supporté par le système.
+
+L'objectif recherché est de traduire une chaîne de caractères classique
+recourant à un encodage avec un nombre variable de multiplets (comme
+l'UTF-8 ou l'ISO-2022) vers une chaîne de caractères larges dont chacun
+représentera exactement un caractère. Dans le cas de chaînes de
+caractères en UTF-8 par exemple, celles-ci seront le plus souvent
+converties en UTF-16 ou en UTF-32.
+
+À cet effet, plusieurs fonctions de conversions sont mises à notre
+disposition et sont définies dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}. Toutefois, aucune fonction
+de traitement de ces chaînes n'est fournie, c'est-à-dire que celles-ci
+doivent être manipulées « à la main » (il n'y a donc par exemple pas de
+fonction du type \mybox{strlen()} qui manipule une chaîne de
+\mybox{wchar\_t}).
+
+\begin{infobox}
+  En vérité, les normes suivantes du
+langage C (à commencer par un amendement adopté en 1994) ont ajouté des
+fonctions de traitements des chaînes de caractères larges ainsi que
+d'autres fonctions de conversions dites « réentrantes » (c'est-à-dire
+qui peuvent être appelées simultanément par plusieurs fils d'exécutions
+ou \emph{threads} en anglais). Toutefois, nous ne les aborderons pas
+dans ce cours, d'une part parce que celui-ci se fonde sur la norme C89
+et, d'autre part, parce que leur présentation mériterait plusieurs
+chapitres à elle seule.
+\end{infobox}
+
+
+\subsubsection{Les fonctions mbtowc et wctomb}
+\label{les-fonctions-mbtowc-et-wctomb}
+
+\begin{C}
+int mbtowc(wchar_t *destination, const char *chaine, size_t max);
+int wctomb(char *destination, wchar_t source);
+\end{C}
+
+La fonction \mybox{mbtowc()} (pour \emph{\textbf{m}ulti\textbf{b}yte
+character \textbf{to} \textbf{w}ide \textbf{c}haracter}) convertit une
+suite de multiplets en un caractère large (qu'elle stocke dans l'objet
+référencé par \mybox{destination}) en lisant au plus \mybox{max}
+multiplets depuis la chaîne \mybox{source}. Elle retourne le nombre de
+multiplets utilisés pour produire le caractère large ou \mybox{-1} en
+cas d'erreur.
+
+La fonction \mybox{wctomb()} (pour \emph{\textbf{w}ide
+\textbf{c}haracter \textbf{to} \textbf{m}ulti\textbf{b}yte character})
+effectue l'opération inverse : elle convertit le caractère large
+\mybox{source} en une suite de multiplets qui sera stockée dans le
+tableau \mybox{destination}. Elle retourne le nombre de multiplets
+produits en cas de succès et \mybox{-1} en cas d'erreur.
+
+\textbf{La fonction mbtowc}
+\label{la-fonction-mbtowc}
+
+L'exemple ci-dessous lit une ligne depuis l'entrée standard et convertit
+la première suite de multiplets représentant un caractère en un
+caractère large.
+
+\begin{C}
+#include <locale.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char chaine[255];
+    wchar_t wc;
+    char *nl;
+    int n;
+
+    if (setlocale(LC_CTYPE, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+    if (fgets(chaine, sizeof chaine, stdin) == NULL)
+    {
+        perror("fgets");
+        return EXIT_FAILURE;
+    }
+
+    nl = strchr(chaine, '\n');
+
+    if (nl != NULL)
+        *nl = '\0';
+
+    n = mbtowc(&wc, chaine, MB_CUR_MAX);
+
+    if (n <= 0)
+    {
+        perror("mbtowc");
+        return EXIT_FAILURE;
+    }
+
+
+    printf("%d multiplet(s) a(ont) été lu pour produire la valeur %u.\n", \
+    n, (unsigned)wc);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Élégamment trouvé
+2 multiplet(s) a(ont) été lu pour produire la valeur 201.
+
+ASCII
+1 multiplet(s) a(ont) été lu pour produire la valeur 65.
+\end{C}
+
+\begin{infobox}
+  Les résultats obtenus dépendent bien
+entendu du jeu de caractères utilisé par votre système. Si ce dernier
+n'emploie pas l'Unicode ou n'utilise pas l'UTF-8 comme encodage, la
+sortie du programme peut être différente.
+\end{infobox}
+
+
+Comme vous le voyez, étant donné que notre système emploie de l'UTF-8,
+deux multiplets ont été lus depuis la chaîne \mybox{chaine} pour
+construire la valeur du caractère \mybox{É}, soit 201 (qui correspond à
+son point de code dans le jeu de caractères Unicode). Le caractère
+\mybox{A} étant quant à lui représenté sur un seul multiplet en UTF-8,
+la lecture d'un seul suffit pour obtenir sa valeur, à savoir
+\mybox{65}.
+
+L'en-tête \mybox{\textless{}locale.h\textgreater{}} a été ajouté en vue
+d'utiliser la fonction \mybox{setlocale()} dont nous parlerons dans la
+prochaine section. Sachez pour l'instant qu'elle doit être appelée
+\emph{avant} d'utiliser les fonctions de conversions.
+
+\mybox{MB\_CUR\_MAX} est une macro (elle est éfinie dans l'en-tête
+\mybox{\textless{}stdlib.h\textgreater{}}) dont la valeur est
+déterminée par la \emph{locale} courante (nous y reviendrons lorsque
+nous aborderons la fonction \mybox{setlocale()}) et correspond au
+nombre maximum de multiplets nécessaires pour construire un caractère
+large \emph{dans la} locale \emph{actuelle}.
+
+\textbf{La fonction wctomb}
+\label{la-fonction-wctomb}
+
+Comme nous vous l'avons dit, la fonction \mybox{wctomb()} effectue
+l'exact inverse de la fonction \mybox{mbtowc()}. L'exemple suivant
+tente de convertir le caractère large \mybox{É} en la suite de
+multiplets correspondante.
+
+\begin{C}
+#include <limits.h>
+#include <locale.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char tab[MB_LEN_MAX];
+    int i;
+    int n;
+
+    if (setlocale(LC_CTYPE, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+
+    n = wctomb(tab, L'É');
+
+    if (n <= 0)
+    {
+        perror("wctomb");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; i < n; ++i)
+        printf("%x ", (unsigned char)tab[i]);
+
+    putchar('\n');
+    return 0;
+}
+\end{C}
+
+\begin{C}
+c3 89
+\end{C}
+
+Ici, nous essayons de convertir le caractère large \mybox{É} (notez
+qu'une constante de type caractère large peut être définie en la faisant
+précédé de la lettre \mybox{l} ou \mybox{L}) en une suite de
+multiplets qui sera stockée dans le tableau \mybox{tab}.
+
+La taille du tableau \mybox{tab} a été fixée à \mybox{MB\_LEN\_MAX},
+une macroconstante définie dans l'en-tête
+\mybox{\textless{}limits.h\textgreater{}} correspondant à la plus
+grande suite de multiplets pouvant représenter un caractère sur le
+système. Notez bien la différence avec la macro \mybox{MB\_CUR\_MAX}
+qui se limite à la \emph{locale} courante. Par ailleurs, la valeur de
+\mybox{MB\_CUR\_MAX} dépendant des appels à la fonction
+\mybox{setlocale()}, elle ne peut être utilisée pour déterminer la
+taille d'un tableau lors de sa définition.
+
+Une fois la conversion effectuée, nous affichons la valeur des
+différents multiplets en hexadécimal (remarquez la conversion en
+\mybox{unsigned\ char} afin d'éviter l'affichage de nombres négatifs).
+
+\begin{attentionbox}
+  Dans le cas où vous insérez une
+constante de type caractère large dans votre code source comme
+\mybox{L\textquotesingle{}É\textquotesingle{}}, les mêmes restrictions
+s'appliquent que pour les caractères simples : si le caractère en
+question ne fait pas partie du jeu de caractères source ou d'exécution,
+le résultat n'est pas déterminé par la norme. Une telle pratique est
+donc à proscrire également, pour les mêmes motifs que précédemment.
+\end{attentionbox}
+
+
+\subsubsection{Convertir une chaîne complète}
+\label{convertir-une-chaine-complete}
+
+Bien entendu, ces deux fonctions peuvent être utilisées en combinaison
+avec une boucle en vue de convertir une chaîne de caractères entière
+(c'est même là tout l'intérêt de la chose).
+
+\begin{C}
+#include <locale.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+int main(void)
+{
+    char mbs[255];
+    wchar_t wcs[255];
+    char *nl;
+    char *pc;
+    int n;
+    int i;
+
+    if (setlocale(LC_CTYPE, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+    if (fgets(mbs, sizeof mbs, stdin) == NULL)
+    {
+        perror("fgets");
+        return EXIT_FAILURE;
+    }
+
+    nl = strchr(mbs, '\n');
+
+    if (nl != NULL)
+        *nl = '\0';
+
+    pc = mbs;
+
+    for (i = 0; (n = mbtowc(&wcs[i], pc, MB_CUR_MAX)) > 0; ++i)
+    {
+        if (*pc == '\0')
+            break;
+
+        pc += n;
+    }
+
+    if (*pc != '\0')
+    {
+        perror("mbtowc");
+        return EXIT_FAILURE;
+    }
+
+    for (i = 0; wcs[i] != L'\0'; ++i)
+        printf("%u ", (unsigned)wcs[i]);
+
+    putchar('\n');
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Élégament trouvé                   
+201 108 233 103 97 109 101 110 116 32 116 114 111 117 118 233 
+\end{C}
+
+Comme vous le voyez, nous appelons la fonction \mybox{mbtowc()} tant
+que celle-ci ne rencontre pas une erreur ou que nous ne rencontrons pas
+le caractère de fin de chaîne (ce dernier devant également être
+converti, cette seconde condition est placée au sein de la boucle).
+Ensuite, suivant le nombre de multiplets lus par \mybox{mbtowc()}, nous
+augmentons la valeur du pointeur \mybox{pc} afin de référencer les
+prochains caractères à lire. À la sortie de la boucle, nous vérifions
+que le pointeur \mybox{pc} pointe bien vers le caractère nul sans quoi
+cela signifie que la fonction \mybox{mbtowc()} a rencontré une erreur.
+Enfin, nous parcourons la chaînes large \mybox{wcs} pour afficher les
+différents points de code des caractères la composant.
+
+\begin{infobox}
+  Notez que comme la comparaison
+\mybox{wcs{[}i{]}\ !=\ L\textquotesingle{}\textbackslash{}0\textquotesingle{}}
+porte sur le caractère large \mybox{wcs{[}i{]}}, nous avons fait du
+second opérande un caractère large également. Le caractère nul étant
+garanti de faire partie du jeu de caractères d'exécution, cela ne pose
+pas de problèmes
+\end{infobox}
+.
+
+\subsubsection{Les fonction mbstowcs et wcstombs}
+\label{les-fonction-mbstowcs-et-wcstombs}
+
+\begin{C}
+size_t mbstowcs(wchar_t *destination, char *source, size_t max);
+size_t wcstombs(char *destination, wchar_t *source, size_t max);
+\end{C}
+
+C'est chouette de pouvoir employer des boucles, mais cela reste assez
+fastidieux\ldots{} Heureusement pour nous, il existe des fonctions qui
+se chargent de le faire pour nous. \^{}\^{}\\
+Les fonctions \mybox{mbstowcs()} et \mybox{wcstombs()} convertissent
+une chaîne de caractères vers une chaîne de caractères larges et
+inversement. Elles stockent les \mybox{max} premiers caractères
+produits dans la chaîne \mybox{destination}.
+
+Les deux fonctions retournent le nombre de caractères convertis (hors
+caractère nul final) ou \mybox{(size\_t)-1} en cas d'erreurs.
+
+Ci-dessous, un exemple de conversion recourant à la fonction
+\mybox{mbstowcs()} qui nous permet de rendre notre programme initial
+correct. Notez que nous avons dû réaliser notre propre version de
+\mybox{strlen()} afin de calculer la longueur de la chaîne de
+caractères larges obtenues.
+
+\begin{C}
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+static size_t
+wchar_len(wchar_t *wcs)
+{
+    size_t i = 0;
+
+    while (wcs[i] != L'\0')
+        ++i;
+
+    return i;
+}
+
+
+int main(void)
+{
+    wchar_t wcs[255];
+    char mbs[255];
+    char *nl;
+
+    if (setlocale(LC_CTYPE, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+    if (fgets(mbs, sizeof mbs, stdin) == NULL)
+    {
+        perror("fgets");
+        return EXIT_FAILURE;
+    }
+
+    nl = strchr(mbs, '\n');
+
+    if (nl != NULL)
+        *nl = '\0';
+
+    if (mbstowcs(wcs, mbs, sizeof mbs) == (size_t)-1)
+    {
+        perror("mbstowcs");
+        return EXIT_FAILURE;
+    }
+
+    printf("Nombre de multiplets : %u\n", (unsigned)strlen(mbs));
+    printf("Nombre de caractères : %u\n", (unsigned)wchar_len(wcs));
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Élégament trouvé
+Nombre de multiplets : 19
+Nombre de caractères : 16
+\end{C}
+
+\subsubsection{La fonction mblen}
+\label{la-fonction-mblen}
+
+\begin{C}
+int mblen(char *chaine, size_t max);
+\end{C}
+
+La fonction \mybox{mblen()} lit au plus \mybox{max} multiplets de la
+chaîne \mybox{chaine}. Si ceux-ci forment un caractère large valide,
+elle retourne le nombre de multiplets qui seront utilisés pour le
+composer. Dans le cas contraire, elle retourne soit \mybox{0} (si le
+premier caractère est le caractère nul) ou \mybox{-1} (la suite de
+multiplets ne correspond pas à un caractère large).
+
+\begin{C}
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int
+main(void)
+{
+    int n;
+
+    if (setlocale(LC_CTYPE, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+
+    n = mblen("Élégamment trouvé", MB_CUR_MAX);
+
+    if (n > 0)
+        printf("Le prochain caractère large sera composé de %d multiplet(s).\n", n);
+
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Le prochain caractère large sera composé de 2 multiplet(s).
+\end{C}
+
+\subsection{Des fonctions dans tous leurs états}
+\label{des-fonctions-dans-tous-leurs-etats}
+
+Il est important de vous préciser une chose en rapport avec ces
+fonctions : elles disposent d'un \textbf{état} interne. En vérité, ceci
+est essentiellement important dans le cas où vous utilisez un jeu de
+caractères avec état comme l'ISO-2022-JP. Dans un tel cas, les fonctions
+de conversions doivent mémoriser la dernière séquence d'échappement afin
+d'effectuer correctement leur travail, ce qu'elles réalisent à l'aide de
+variables internes. Or, si une erreur est rencontrée ou si une autre
+suite de multiplets leur est donnée en cours de route, le résultat
+risque de s'en trouver compromis.
+
+Dès lors, il est nécessaire de réinitialiser cet état interne après la
+rencontre d'une erreur ou lors d'un changement de données à traiter.
+Cela se réalise très simplement en fournissant comme argument une chaîne
+nulle à l'une des fonctions \mybox{mbtowc()}, \mybox{wctomb()} ou
+\mybox{mblen()}. Dans un tel cas, l'état interne est remis à zéro et
+une valeur nulle est retournée si le jeu de caractères courant n'utilise
+pas d'état et un nombre strictement positif sinon.\#\#\# 
+
+\section{Internationalisation et localisation}
+\label{internationalisation-et-localisation}
+
+Cela est resté finalement assez discret jusqu'à ce chapitre, mais en 
+y regardant de plus près, les programmes que nous avons réalisés sont 
+en fait destinés à un environnement anglophone. En effet, prenez par 
+exemple les entrées : si nous souhaitons fournir un nombre flottant 
+à notre programme, nous devons utiliser le point comme séparateur 
+entre la partie entière et décimale. Or, dans certains pays, on pourrait 
+vouloir utiliser la virgule à la place. Cela nous paraît moins étrange 
+étant donné que les constantes flottantes sont écrites de cette manière 
+en C, mais il n'en va pas de même pour nos utilisateurs.
+
+Ce qu'il faudrait finalement, c'est que nos programmes puissent
+s'adapter aux usages, coutumes et langues de notre utilisateur, ce que
+nous avons entrevu dans la section précédente.
+
+\subsection{L'internationalisation}
+\label{linternationalisation}
+
+L'\textbf{internationalisation} (parfois abrégée « i18n ») est un
+procédé par lequel un programme est rendu capable de s'adapter aux
+préférences linguistiques et régionales d'un utilisateur.
+
+\subsection{La localisation}
+\label{la-localisation}
+
+La \textbf{localisation} (parfois abrégée « l10n ») est une opération
+par laquelle un programme internationalisé se voit fournir les
+informations nécessaires pour s'adapter aux préférences linguistiques et
+régionales d'un utilisateur.
+
+\subsection{La fonction setlocale}
+\label{la-fonction-setlocale}
+
+De manière générale, les programmes que nous avons conçus jusqu'ici
+étaient déjà partiellement internationalisés, car la bibliothèque
+standard du langage C l'est dans une certaine mesure. Toutefois, nous
+n'avons jamais recouru à un processus de localisation pour que ceux-ci
+s'adaptent à nos usages. Nous vous le donnons en mille : la localisation
+en C s'effectue à l'aide de\ldots{} la fonction \mybox{setlocale()}.
+
+\begin{C}
+ char *setlocale(int categorie, char *localisation);
+\end{C}
+
+Cette fonction attends deux arguments : une catégorie et la localisation
+qui doit être employée pour cette catégorie.
+
+\subsubsection{Les catégories}
+\label{les-categories}
+
+La bibliothèque standard du C divise la localisation en plusieurs
+catégories, plus précisément cinq :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  La catégorie \mybox{LC\_COLLATE} qui modifie le comportement des
+  fonctions \mybox{strcoll()} et \mybox{strxfrm()} ;
+\item
+  La catégorie \mybox{LC\_CTYPE} qui adapte le comportement des
+  fonctions de conversions que nous venons de voir, ainsi que les
+  fonctions de l'en-tête \mybox{\textless{}ctype.h\textgreater{}} ;
+\item
+  La catégorie \mybox{LC\_MONETARY} qui influence le comportement de la
+  fonction \mybox{localeconv()} ;
+\item
+  La catégorie \mybox{LC\_NUMERIC} qui altère le comportement des
+  fonctions \mybox{*printf()} et \mybox{*scanf()} ainsi que des
+  fonctions de conversions des chaînes de caractères (\mybox{atof()},
+  \mybox{strtod()}, etc.) en ce qui concerne les nombres flottants ;
+\item
+  La catégorie \mybox{LC\_TIME} qui change le comportement de la
+  fonction \mybox{strftime()}.
+\end{enumerate}
+
+Enfin, la catégorie \mybox{LC\_ALL} (qui n'en est pas vraiment une)
+représente toutes les catégories en même temps. Nous ne attarderons
+toutefois que sur \mybox{LC\_CTYPE} et \mybox{LC\_NUMERIC} dans cette
+section, les fonctions affectées par les autres catégories n'ayant pas
+été présentées à ce stade.
+
+\subsubsection{Les localisations}
+\label{les-localisations}
+
+La bibliothèque standard prévoit deux localisations possibles :
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  La localisation \mybox{"C"} qui correspond à celle par défaut.
+  Celle-ci utilise les usages anglophones et part du principe que les
+  caractères employés se limitent à ceux garantis par la norme et qu'ils
+  sont tous représentés sur un multiplet ;
+\item
+  La localisation \mybox{""} (une chaîne vide) qui correspond à celle
+  utilisée par votre système.
+\end{enumerate}
+
+Il est également possible de fournir un pointeur nul comme localisation,
+auquel cas la localisation actuelle est retournée.
+
+\begin{C}
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    char *s;
+
+    s = setlocale(LC_ALL, NULL);
+    puts(s);
+
+    if (setlocale(LC_ALL, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+
+    s = setlocale(LC_ALL, NULL);
+    puts(s);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+C
+fr_BE.UTF-8
+\end{C}
+
+Comme vous le voyez, la localisation de départ est bien \mybox{C}.
+
+\begin{infobox}
+  La forme que prend la localisation
+dépend de votre système. Sous unixoïdes et dans notre exemple, elle
+prend la forme de la langue en minuscule (au format
+\MYhref{https://fr.wikipedia.org/wiki/ISO_639}{ISO 639}) suivie d'un tiret
+bas et du pays en majuscule (au format
+\MYhref{https://fr.wikipedia.org/wiki/ISO_3166}{ISO 3166-1}) et,
+éventuellement, terminée par un point et par l'encodage utilisé.
+\end{infobox}
+
+
+\subsection{Exemple}
+\label{exemple-15}
+
+Nous avons déjà eu l'occasion d'expérimenter la modification de la
+localisation de la catégorie \mybox{LC\_CTYPE}. Ainsi, nous avons pu
+préciser aux fonctions de conversion que la traduction devait s'opérer
+depuis et vers le jeu de caractères d'exécution complet et non
+uniquement le sous-ensemble défini par la norme.
+
+L'exemple ci-dessous modifie la localisation de la catégorie
+\mybox{LC\_NUMERIC} pour que les fonctions \mybox{scanf()} et
+\mybox{printf()} adaptent leur gestion et affichage des nombres
+flottants.
+
+\begin{C}
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int main(void)
+{
+    double f;
+
+    if (setlocale(LC_NUMERIC, "") == NULL)
+    {
+        perror("setlocale");
+        return EXIT_FAILURE;
+    }
+
+    printf("Veuillez entrer un nombre flottant : ");
+
+    if (scanf("%lf", &f) != 1)
+    {
+        perror("scanf");
+        return EXIT_FAILURE;
+    }
+
+    printf("Vous avez entré : %f.\n", f);
+    return 0;
+}
+\end{C}
+
+\begin{C}
+Veuillez entrer un nombre flottant : 45,5
+Vous avez entré : 45,500000.
+
+Veuillez entrer un nombre flottant : 45.5
+Vous avez entré : 45,000000.
+\end{C}
+
+Comme vous le voyez, après l'appel à \mybox{setlocale()}, seule la
+virgule est considérée comme séparateur de la partie entière et de la
+partie décimale.
+
+\hrulefill
+
+\textbf{En résumé}
+
+\begin{enumerate}
+\def
+\labelenumi{\arabic{enumi}.}
+\item
+  La norme définit deux jeux de caractères : le jeu de caractère source,
+  utilisé en interne par le compilateur, vers lequel vos fichiers
+  sources sont convertis et le jeu de caractère d'exécution, utilisé par
+  votre système, vers lequel la conversion finale aura lieu.
+\item
+  Mise à part les caractères garantis par la norme, les caractères
+  supportés par les jeux de caractères source et d'exécution sont
+  indéterminés.
+\item
+  Le type \mybox{wchar\_t} et les fonctions de conversion associées
+  permettent de construire des chaînes de caractères larges à partir de
+  chaîne simple, ce qui est particulièrement utile lorsque le jeu
+  employé par le système encode les caractères sur un nombre variable de
+  multiplets (comme l'ISO-2022 ou l'UTF-8).
+\item
+  Ces fonctions de conversions disposent d'un était interne qui doit
+  être réinitialisé après une erreur ou avant chaque changement de
+  données à traiter.
+\item
+  La fonction \mybox{setlocale()} permet de modifier la localisation de
+  certaines fonctions de la bibliothèque standard.
+\end{enumerate}

@@ -394,7 +394,73 @@
 \BOOKMARK [2][-]{subsection.27.4.2}{La soustraction}{section.27.4}% 394
 \BOOKMARK [2][-]{subsection.27.4.3}{La multiplication}{section.27.4}% 395
 \BOOKMARK [2][-]{subsection.27.4.4}{La division}{section.27.4}% 396
-\BOOKMARK [0][-]{Item.28}{Index}{part.3}% 397
-\BOOKMARK [0][-]{Item.28}{Table des figures}{part.3}% 398
-\BOOKMARK [0][-]{Item.28}{Liste des tableaux}{part.3}% 399
-\BOOKMARK [0][-]{Item.28}{Table des matières}{part.3}% 400
+\BOOKMARK [0][-]{chapter.28}{Manipulation des bits}{part.3}% 397
+\BOOKMARK [1][-]{section.28.1}{Les opérateurs de manipulation des bits}{chapter.28}% 398
+\BOOKMARK [2][-]{subsection.28.1.1}{Présentation}{section.28.1}% 399
+\BOOKMARK [2][-]{subsection.28.1.2}{Les opérateurs « et », « ou inclusif » et « ou exclusif »}{section.28.1}% 400
+\BOOKMARK [2][-]{subsection.28.1.3}{L'opérateur de négation ou de complément}{section.28.1}% 401
+\BOOKMARK [2][-]{subsection.28.1.4}{Les opérateurs de décalage}{section.28.1}% 402
+\BOOKMARK [2][-]{subsection.28.1.5}{Opérateurs combinés}{section.28.1}% 403
+\BOOKMARK [1][-]{section.28.2}{Masques et champs de bits}{chapter.28}% 404
+\BOOKMARK [2][-]{subsection.28.2.1}{Les masques}{section.28.2}% 405
+\BOOKMARK [2][-]{subsection.28.2.2}{Les champs de bits}{section.28.2}% 406
+\BOOKMARK [1][-]{section.28.3}{Les drapeaux}{chapter.28}% 407
+\BOOKMARK [1][-]{section.28.4}{Exercices}{chapter.28}% 408
+\BOOKMARK [2][-]{subsection.28.4.1}{Obtenir la valeur maximale d'un type non signé}{section.28.4}% 409
+\BOOKMARK [2][-]{subsection.28.4.2}{Afficher la représentation en base deux d'un entier}{section.28.4}% 410
+\BOOKMARK [2][-]{subsection.28.4.3}{Déterminer si un nombre est une puissances de deux}{section.28.4}% 411
+\BOOKMARK [0][-]{chapter.29}{Jeux de caractères et encodages}{part.3}% 412
+\BOOKMARK [1][-]{section.29.1}{Les jeux de caractères et les encodages}{chapter.29}% 413
+\BOOKMARK [2][-]{subsection.29.1.1}{Introduction}{section.29.1}% 414
+\BOOKMARK [2][-]{subsection.29.1.2}{Ce que dit la norme}{section.29.1}% 415
+\BOOKMARK [2][-]{subsection.29.1.3}{Caractères garantis}{section.29.1}% 416
+\BOOKMARK [1][-]{section.29.2}{Les caractères larges}{chapter.29}% 417
+\BOOKMARK [2][-]{subsection.29.2.1}{Mise en situation}{section.29.2}% 418
+\BOOKMARK [2][-]{subsection.29.2.2}{Les caractères larges}{section.29.2}% 419
+\BOOKMARK [2][-]{subsection.29.2.3}{Des fonctions dans tous leurs états}{section.29.2}% 420
+\BOOKMARK [1][-]{section.29.3}{Internationalisation et localisation}{chapter.29}% 421
+\BOOKMARK [2][-]{subsection.29.3.1}{L'internationalisation}{section.29.3}% 422
+\BOOKMARK [2][-]{subsection.29.3.2}{La localisation}{section.29.3}% 423
+\BOOKMARK [2][-]{subsection.29.3.3}{La fonction setlocale}{section.29.3}% 424
+\BOOKMARK [2][-]{subsection.29.3.4}{Exemple}{section.29.3}% 425
+\BOOKMARK [0][-]{chapter.30}{Les énumérations}{part.3}% 426
+\BOOKMARK [1][-]{section.30.1}{Définition}{chapter.30}% 427
+\BOOKMARK [1][-]{section.30.2}{Utilisation }{chapter.30}% 428
+\BOOKMARK [0][-]{chapter.31}{Les unions }{part.3}% 429
+\BOOKMARK [1][-]{section.31.1}{Définition }{chapter.31}% 430
+\BOOKMARK [1][-]{section.31.2}{Utilisation }{chapter.31}% 431
+\BOOKMARK [0][-]{chapter.32}{Les définitions de type}{part.3}% 432
+\BOOKMARK [1][-]{section.32.1}{Définition et utilisation }{chapter.32}% 433
+\BOOKMARK [0][-]{chapter.33}{Les pointeurs de fonction}{part.3}% 434
+\BOOKMARK [1][-]{section.33.1}{Déclaration et initialisation}{chapter.33}% 435
+\BOOKMARK [2][-]{subsection.33.1.1}{Initialisation}{section.33.1}% 436
+\BOOKMARK [1][-]{section.33.2}{Utilisation}{chapter.33}% 437
+\BOOKMARK [2][-]{subsection.33.2.1}{Déréférencement}{section.33.2}% 438
+\BOOKMARK [2][-]{subsection.33.2.2}{Passage en argument}{section.33.2}% 439
+\BOOKMARK [2][-]{subsection.33.2.3}{Retour de fonction}{section.33.2}% 440
+\BOOKMARK [1][-]{section.33.3}{Pointeurs de fonction et pointeurs génériques}{chapter.33}% 441
+\BOOKMARK [2][-]{subsection.33.3.1}{La promotion des arguments}{section.33.3}% 442
+\BOOKMARK [2][-]{subsection.33.3.2}{Les pointeurs nuls}{section.33.3}% 443
+\BOOKMARK [0][-]{chapter.34}{Les fonctions à nombre variable d'arguments}{part.3}% 444
+\BOOKMARK [1][-]{section.34.1}{Présentation}{chapter.34}% 445
+\BOOKMARK [1][-]{section.34.2}{L'en-tête <stdarg.h> }{chapter.34}% 446
+\BOOKMARK [1][-]{section.34.3}{Méthodes pour déterminer le nombre et le type des arguments}{chapter.34}% 447
+\BOOKMARK [2][-]{subsection.34.3.1}{Les chaînes de formats}{section.34.3}% 448
+\BOOKMARK [2][-]{subsection.34.3.2}{Les suites d'arguments de même type}{section.34.3}% 449
+\BOOKMARK [2][-]{subsection.34.3.3}{Emploi d'un pivot}{section.34.3}% 450
+\BOOKMARK [0][-]{chapter.35}{T.P. : un allocateur statique de mémoire}{part.3}% 451
+\BOOKMARK [1][-]{section.35.1}{Objectif}{chapter.35}% 452
+\BOOKMARK [1][-]{section.35.2}{Première étape : allouer de la mémoire}{chapter.35}% 453
+\BOOKMARK [2][-]{subsection.35.2.1}{Mémoire statique}{section.35.2}% 454
+\BOOKMARK [1][-]{section.35.3}{Correction}{chapter.35}% 455
+\BOOKMARK [1][-]{section.35.4}{Deuxième étape : libérer de la mémoire}{chapter.35}% 456
+\BOOKMARK [2][-]{subsection.35.4.1}{Ajout d'un en-tête}{section.35.4}% 457
+\BOOKMARK [2][-]{subsection.35.4.2}{Les listes chaînées}{section.35.4}% 458
+\BOOKMARK [1][-]{section.35.5}{Correction}{chapter.35}% 459
+\BOOKMARK [1][-]{section.35.6}{Troisième étape : fragmentation et défragmentation}{chapter.35}% 460
+\BOOKMARK [2][-]{subsection.35.6.1}{Fusion de blocs}{section.35.6}% 461
+\BOOKMARK [1][-]{section.35.7}{Correction}{chapter.35}% 462
+\BOOKMARK [0][-]{section.35.7}{Index}{part.3}% 463
+\BOOKMARK [0][-]{section.35.7}{Table des figures}{part.3}% 464
+\BOOKMARK [0][-]{section.35.7}{Liste des tableaux}{part.3}% 465
+\BOOKMARK [0][-]{section.35.7}{Table des matières}{part.3}% 466
